@@ -106,7 +106,7 @@ const tabs = [
           through retrieval, not just completion.
         </p>
         <Accordion label="Illustration">
-          <div className="accordion-images">
+          <div className="accordion-images" style={{ maxWidth: '340px', margin: '0 auto' }}>
             <ZoomableImage src="/images/owllocate/4. Repetition.png" alt="Repetition" />
           </div>
         </Accordion>

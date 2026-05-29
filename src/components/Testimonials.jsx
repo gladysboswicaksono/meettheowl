@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const testimonials = [
   {
@@ -40,12 +40,12 @@ const testimonials = [
     ],
   },
   {
-    name: "Daan van Eenbergen, Former L&D Manager at NHL Stenden Hospitality Group",
+    name: 'La Verne York, Former Human Capital Manager at NHL Stenden Hospitality Group',
     tenure: 'My tenure: 2018 - 2022',
-    highlight: 'Gladys has the rare ability to translate complex learning needs into clear, actionable solutions.',
+    highlight: 'I have no doubt that her contributions will continue to elevate our educational initiatives in the future.',
     body: [
-      "Working with Gladys was always a productive and enjoyable experience. She brought creativity and rigor to every project, and her ability to work independently while keeping stakeholders informed made her an invaluable part of our L&D team.",
-      "I would recommend Gladys without hesitation to any organization looking for a skilled and dependable learning professional.",
+      "I wholeheartedly recommend Gladys for her outstanding skills, creativity, and dedication to delivering high-quality learning experiences. She is an invaluable asset to our team, and I have no doubt that her contributions will continue to elevate our educational initiatives in the future.",
+      "In addition to her technical proficiency and collaborative mindset, her reasoning ability stands out. She has a knack to grasp and turn complex concepts into digestible information that resonate well with our trainees, the team, and the stakeholders she works with.",
     ],
   },
 ];
@@ -58,10 +58,23 @@ function renderWithHighlight(text, highlight) {
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const total = testimonials.length;
   const t = testimonials[current];
 
-  const go = (i) => setCurrent((i + total) % total);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 600px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  const go = (i) => { setCurrent((i + total) % total); setExpanded(false); };
+
+  const paraStyle = { fontFamily: 'var(--font-body)', color: 'var(--gray)', fontSize: '1.0625rem', lineHeight: 1.75, marginBottom: '1rem' };
+  const readMoreStyle = { fontFamily: 'var(--font-body)', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.5rem 1.25rem', fontSize: '0.9375rem', cursor: 'pointer', marginTop: '0.5rem' };
 
   return (
     <section style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
@@ -92,11 +105,29 @@ export default function Testimonials() {
               {t.tenure}
             </p>
             <div style={{ width: '5rem', height: '1px', backgroundColor: 'var(--gold)', margin: '0 auto 1.5rem' }} />
-            {t.body.map((para, i) => (
-              <p key={i} style={{ fontFamily: 'var(--font-body)', color: 'var(--gray)', fontSize: '1.0625rem', lineHeight: 1.75, marginBottom: '1rem' }}>
-                {renderWithHighlight(para, t.highlight)}
-              </p>
-            ))}
+            {isMobile && !expanded ? (
+              <>
+                <p style={{ ...paraStyle, color: 'var(--gold)', fontWeight: 600 }}>
+                  {t.highlight}
+                </p>
+                <button onClick={() => setExpanded(true)} style={readMoreStyle}>
+                  Read more ↓
+                </button>
+              </>
+            ) : (
+              <>
+                {t.body.map((para, i) => (
+                  <p key={i} style={paraStyle}>
+                    {renderWithHighlight(para, t.highlight)}
+                  </p>
+                ))}
+                {isMobile && (
+                  <button onClick={() => setExpanded(false)} style={readMoreStyle}>
+                    Read less ↑
+                  </button>
+                )}
+              </>
+            )}
           </div>
 
           {/* Next */}
