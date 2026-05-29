@@ -5,7 +5,7 @@ export default function Nav() {
       position: 'sticky',
       top: 0,
       zIndex: 50,
-      height: '4rem',
+      height: '100px',
     }}>
       <div style={{
         maxWidth: '100%',
@@ -15,13 +15,15 @@ export default function Nav() {
         alignItems: 'center',
       }}>
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-          <img src="/images/logo-navigation.png" alt="MeetTheOwl" style={{ height: '2.5rem', width: 'auto' }} />
+          <img src="/images/logo-navigation.png" alt="MeetTheOwl" style={{ height: '75px', width: 'auto' }} />
           <span style={{
             fontFamily: 'var(--font-display)',
-            color: 'var(--gold)',
-            fontSize: '0.65625rem',
-            letterSpacing: '0.18em',
+            color: 'var(--gray)',
+            fontSize: '15px',
+            fontWeight: '1000',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
+            padding: '0 15px'
           }}>
             Gladys Bos-Wicaksono&nbsp;&nbsp;|&nbsp;&nbsp;meettheowl.com
           </span>

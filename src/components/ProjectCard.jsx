@@ -27,7 +27,7 @@ export default function ProjectCard({ image, imageAlt, category, title, descript
         </p>
 
         {/* CTA */}
-        <a href={href} className="btn-secondary">
+        <a href={href} className="btn-secondary" style={{ color: 'var(--gray)'}}>
           Learn More
         </a>
       </div>

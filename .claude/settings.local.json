@@ -10,7 +10,16 @@
       "Bash(gh --version)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "mcp__Claude_in_Chrome__list_connected_browsers",
+      "mcp__Claude_in_Chrome__select_browser",
+      "WebFetch(domain:dns.google)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

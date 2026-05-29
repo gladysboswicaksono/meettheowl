@@ -15,7 +15,7 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 
 ## Stack
 - React + Vite, plain CSS, no Tailwind, no Astro
-- Dev server: `npm run dev -- --port 4322` from `E:\Portfolio\site`
+- Dev server: `npm run dev` from `E:\Portfolio\site` — runs on `http://localhost:5173`
 - Launch config: `E:\Portfolio\Wix assets\.claude\launch.json`
 
 ## File Structure
