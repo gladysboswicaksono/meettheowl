@@ -20,7 +20,7 @@ body {
   font-size: 17px;
   line-height: 1.75;
   background-color: var(--white);
-  color: var(--blue);
+  color: #363838;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -258,10 +258,10 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 /* ── Project Pages ────────────────────────────────────────────── */
 .project-hero {
   background-color: var(--gray);
-  padding: 60px 80px;
+  padding: 30px 250px 0px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 60px;
+  column-gap: 10px;
   row-gap: 24px;
   align-items: center;
 }
@@ -274,7 +274,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 
 .project-hero__image {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .project-hero__image img {
@@ -303,7 +303,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 /* About This Work */
 .about-section {
   background-color: var(--gray);
-  padding: 10px 80px;
+  padding: 10px 250px;
 }
 
 .about-section h2 {
@@ -375,9 +375,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 
 .tab-content {
   border-left: 3px solid var(--gold);
-  padding-left: 28px;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  padding: 25px 30px;
   background-color: var(--blue-card);
 }
 
@@ -533,7 +531,8 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 /* CTA cross-link section */
 .cta-section {
   background: linear-gradient(180deg, #6B0808 0%, #3D0202 100%);
-  padding: 60px 80px;
+  padding: 60px 250px;
+
 }
 
 .cta-section h3 {
@@ -547,19 +546,21 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   color: var(--white);
   font-family: var(--font-body);
   margin-bottom: 28px;
-  max-width: 680px;
 }
 
 /* Responsive */
 @media (max-width: 900px) {
-  .project-hero { grid-template-columns: 1fr; padding: 40px; gap: 32px; }
-  .about-section { padding: 40px; }
+  .project-hero { grid-template-columns: 1fr; padding: 40px; column-gap: 0; row-gap: 28px; }
+  .project-hero__image { justify-content: center; }
+  .project-hero__image img { width: 100%; height: auto; max-width: 560px; }
+  .about-section { padding: 32px 40px; }
   .deep-section { padding: 40px; }
   .cta-section { padding: 40px; }
 }
 
 @media (max-width: 600px) {
-  .project-hero { padding: 24px; gap: 24px; }
+  .project-hero { padding: 24px; row-gap: 20px; }
+  .project-hero__image img { max-width: 100%; }
   .about-section { padding: 24px; }
   .deep-section { padding: 24px; }
   .cta-section { padding: 24px; }
