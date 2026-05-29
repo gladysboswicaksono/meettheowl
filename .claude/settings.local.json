@@ -21,7 +21,10 @@
       "WebFetch(domain:github.com)",
       "mcp__Claude_Preview__preview_start",
       "Bash(npm install *)",
-      "WebFetch(domain:gladys1998crb.wixstudio.com)"
+      "WebFetch(domain:gladys1998crb.wixstudio.com)",
+      "mcp__Claude_in_Chrome__tabs_create_mcp",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__Claude_in_Chrome__read_page"
     ]
   }
 }

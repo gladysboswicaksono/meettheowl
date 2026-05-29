@@ -155,14 +155,30 @@ const tabs = [
           <strong style={{ color: 'var(--gold)', textDecoration: 'underline' }}>QoQ drop of ~14.1%</strong>{' '}
           in support tickets among trained users.
         </p>
+        <p>
+          Just as practice structure needs intentional design, so does feedback timing. Immediate
+          feedback works well for clear mistakes, but sometimes it's a matter of efficiency. Some
+          tasks can be done in multiple paths and some paths are more efficient than the other. My
+          simulations follow their chosen path either way and deliver feedback at the end to
+          preserve flow while building toward a reflective conclusion.
+        </p>
       </>
     ),
   },
 ];
 
 export default function OwllocatePage() {
-  const [activeTab, setActiveTab] = useState('immersive');
+  const getInitialTab = () => {
+    const hash = window.location.hash.replace('#', '');
+    return tabs.find(t => t.id === hash) ? hash : 'immersive';
+  };
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const current = tabs.find(t => t.id === activeTab);
+
+  const switchTab = (id) => {
+    setActiveTab(id);
+    window.location.hash = id;
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -171,11 +187,11 @@ export default function OwllocatePage() {
 
         {/* PROJECT HERO */}
         <section className="project-hero">
+          <h2>Getting Started with Owllocate</h2>
           <div className="project-hero__image">
             <img src="/images/card-owllocate.png" alt="Owllocate app on desktop and mobile" />
           </div>
           <div className="project-hero__text">
-            <h2>Getting Started with Owllocate</h2>
             <p>When work takes over, self-care and wellbeing slip through the cracks.</p>
             <p>
               This course explores how Owllocate bridges personal wellbeing and financial
@@ -252,7 +268,7 @@ export default function OwllocatePage() {
                 <button
                   key={t.id}
                   className={`tab-btn${activeTab === t.id ? ' active' : ''}`}
-                  onClick={() => setActiveTab(t.id)}
+                  onClick={() => switchTab(t.id)}
                 >
                   {t.label}
                 </button>
