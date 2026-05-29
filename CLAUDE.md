@@ -3,6 +3,16 @@
 ## Goal
 This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfolio (https://gladys1998crb.wixstudio.com/theowl). The aim is to recreate it as a custom-coded site with full design fidelity to the original.
 
+## GitHub & Deployment
+- Repo: https://github.com/gladysboswicaksono/meettheowl
+- Domain: meettheowl.com (purchased on GoDaddy)
+- Hosting: GitHub Pages
+- Deploy: **manual only** — go to Actions → Deploy to GitHub Pages → Run workflow
+- Pushing to `main` does NOT auto-deploy — it only saves code to GitHub
+- Deploy workflow: `.github/workflows/deploy.yml` (trigger: `workflow_dispatch`)
+- DNS: 4 A records on GoDaddy pointing to GitHub's IPs (185.199.108-111.153)
+- `www` subdomain is NOT configured (GoDaddy has a locked conflicting record)
+
 ## Stack
 - React + Vite, plain CSS, no Tailwind, no Astro
 - Dev server: `npm run dev -- --port 4322` from `E:\Portfolio\site`
