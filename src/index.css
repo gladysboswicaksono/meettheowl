@@ -396,6 +396,16 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   border: 1px solid rgba(246,199,133,0.2);
   margin: 20px 0;
   cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.accordion:hover {
+  border: 2px solid var(--gold);
+  background: var(--blue-card);
+}
+
+.accordion.open {
+  border: 2px solid var(--gold);
 }
 
 .accordion__header {

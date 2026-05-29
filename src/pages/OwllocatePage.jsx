@@ -27,7 +27,7 @@ function ZoomableImage({ src, alt }) {
 function Accordion({ label, children }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="accordion">
+    <div className={`accordion${open ? ' open' : ''}`}>
       <button className="accordion__header" onClick={() => setOpen(o => !o)}>
         <span className="accordion__label">📸 {label}</span>
         <span className={`accordion__chevron${open ? ' open' : ''}`}>▾</span>
