@@ -24,7 +24,7 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - `src/components/Nav.jsx` — sticky red nav, logo + name only, no links
 - `src/components/Footer.jsx` — charcoal bg, gold tagline, work links, owl watermark
 - `src/components/ProjectCard.jsx` — reusable card: image, category tag, title, description, Learn More
-- `src/components/Testimonials.jsx` — carousel with dots, 5 testimonials
+- `src/components/Testimonials.jsx` — carousel with dots, 3 testimonials
 - `public/images/` — hero-portrait.png, logo-navigation.png, owl-outline.png, card-owllocate.png, card-needs-analysis.png, card-onboarding.png
 
 ## Design Tokens (index.css)
@@ -219,3 +219,136 @@ Throughout all pages, certain phrases are styled with **bold + underline + dark 
 **Tagline:** *Rooted in truth, driven by possibility, adaptable in motion.*
 **Work links:** GETTING TO KNOW OWLLOCATE · MEASURING TRAINING IMPACT · NEEDS ANALYSIS · MAKING REMOTE ONBOARDING WORK
 **Bottom:** GLADYS BOS-WICAKSONO • MEETTHEOWL.COM • [LinkedIn] GET IN TOUCH
+
+---
+
+## Exact Copy — Project Pages
+
+### Getting Started with Owllocate (`/owllocate-get-started`)
+
+**Page title (H2):** Getting Started with Owllocate
+**CTA button:** TRY ME (links to course demo)
+**Tools:** Articulate Storyline, Parta, Google Apps Script, Adobe Illustrator, Adobe Photoshop
+
+**Hero description:**
+When work takes over, self-care and wellbeing slip through the cracks. This course explores how Owllocate bridges personal wellbeing and financial responsibility through habit formation.
+
+**Note (callout/disclaimer box):** This work cannot be shared directly due to employer ownership — the methodology was recreated using the personal Owllocate app.
+
+**Key stats (inline emphasis):**
+- Trained users submitted **~27% fewer support cases** than untrained users
+- Ongoing refinements drove **~14% quarterly reductions** (QoQ)
+
+**Deep-dive section heading:** ⚙️ DESIGN PRINCIPLES
+
+**Tab 1 — IMMERSIVE SIMULATION:**
+Uses character-driven scenarios mirroring real user challenges. Users maintain control with step-by-step or independent modes. Hints provide optional high-level direction. Outcome: "the shift from knowing where to click to shaping understanding that maximizes product readiness."
+
+**Tab 2 — PROGRESSIVE COMPLEXITY:** (content to be confirmed from live site)
+
+**Tab 3 — ADAPTIVE FEEDBACK:** (content to be confirmed from live site)
+
+---
+
+### Measuring Training Impact (`/training-impact`)
+
+**Page title (H2):** Measuring Training Impact
+**CTA button:** VIEW REPORT (links to Power BI dashboard)
+**Tools:** Power BI, SQL, Claude API (Anthropic)
+
+**Hero description:**
+"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer confidently. This is the framework I built so that question always has a data-backed answer and a clear direction forward.
+
+**Summary section — 3 columns:**
+
+| Column | Heading | Body |
+|---|---|---|
+| 1 | THE GAP | Training occurred but results remained unclear. The definition of "trained user" lacked connection to actual business outcomes. Tracked metrics (completion rates, CSAT) showed no reliable connection to what the business cared about. |
+| 2 | THE WORK | Created a measurement framework with flexible definitions of trained users based on intended business outcomes, with Power BI reporting. Retrieves warehouse data and analyzes how users at different training stages performed. |
+| 3 | THE SHIFT | Trained user rate entered departmental OKRs, making training a business-accountable metric for the first time. Functions now report using stakeholder language rather than internal metrics. |
+
+**Key concept (pull quote):**
+"If we could show trained users consistently outperform untrained ones on different metrics, measured through multiple methods, with different user populations and different time windows, at some point the pattern itself becomes the proof."
+
+**Three measurement methods:**
+1. Overview page with dynamic summaries
+2. Same-tenure comparison analysis
+3. Difference-in-differences (DiD) analysis with customizable windows (1–6 months, defaulting to 3)
+
+**Trained user definition:** Someone who completed at least 50% of the Product Training catalog. The most significant performance jump happens at the Mid progress bucket (50–74%).
+
+**Technical details:**
+- Data source: data warehouse (not direct LMS) for modeling flexibility
+- SQL components: user segmentation queries, performance comparison queries, trained flag (AI-generated), validation queries
+- Power BI: flexible trained-user measure (two modes), time-aware DAX, period-over-period tracking (WoW, MoM, QoQ), metric-type switching
+- "Ask the Owl" bot: Claude API integration for on-demand report interpretation for stakeholders
+
+**Cross-link CTA targets:** DATA & AI FOR NEEDS ANALYSIS, OWLLOCATE: GET STARTED, MAKING REMOTE ONBOARDING WORK
+
+---
+
+### Data & AI for Needs Analysis (`/needs-analysis`)
+
+**Page title (H2):** Data and AI for Analysis & Evaluation
+**CTA button:** (to be confirmed — likely "VIEW REPORT" or similar)
+**Tools:** (to be confirmed from live site)
+
+**Hero description:**
+AI analyzes data fast and presents findings so credibly that we forget it pattern-matches toward plausibility, not truth. That's why I treat it as a probabilistic assistant under audit, not a magic eight ball.
+
+**Core message:** Demonstrates a methodology for using AI to analyze large qualitative datasets (support tickets) while maintaining accuracy and preventing fabrication.
+
+**Six-step methodology (deep-dive section):**
+1. **Ground the AI in Facts** — Verify AI can access/read data before analysis; request record count as initial validation
+2. **Test Capability at Small Scale** — Have AI analyze five records with reasoning; verify analytical approach before scaling
+3. **Run Full Analysis with Guardrails** — Analyze complete dataset with processing limit instructions; require batching/sampling transparency
+4. **Validate the Output** — Manually verify ticket IDs and quotes against source system; confirm quotes exist exactly as cited
+5. **Segment by Population** — Analyze different user groups (trained vs. untrained, regions, tenure); reveal whether solutions work across all populations
+6. **Triangulate with Other Data Sources** — Cross-reference findings with simulations, documentation, recordings; build confidence through multiple data validation
+
+**Context:** Analysis focuses on identifying knowledge gaps causing user dependency on support resources, using thousands of support ticket records.
+
+---
+
+### Making Remote Onboarding Work (`/virtual-onboarding`)
+
+**Page title (H2):** Making Remote Onboarding Work
+**CTA button:** (to be confirmed — likely "VIEW PROJECT" or similar)
+**Tools:** Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P
+
+**Hero description:**
+A Purchasing department held a two-day, in-person orientation that was crucial for transferring essential knowledge to new trainees. However, COVID-19 social distancing restrictions made continuing this traditional format impossible.
+
+**Summary section — 3 columns:**
+
+| Column | Heading | Body |
+|---|---|---|
+| 1 | GOAL | Redesign training orientation and onboarding for COVID restrictions while keeping trainees job-ready and confident. |
+| 2 | SOLUTION | Virtual kickoffs via Teams, complemented by self-paced learning path featuring interactive videos, 360° facility tour, micro-learning, and system simulations. |
+| 3 | OUTCOME | Increased engagement with daily responsibilities while achieving the same, if not higher, competency levels compared to those from traditional onboarding setup. |
+
+**About This Work:**
+Role: instructional design, video production, and eLearning development. Audience: Purchasing trainees in Real-World Learning program (hospitality industry).
+
+**Project Goals (4 numbered):**
+1. Understanding organizational fit and importance
+2. Build core competence for task performance
+3. Provide interactive question channels beyond one-way delivery
+4. Maintain performance metrics and trainee confidence
+
+**Analysis & Scoping:**
+Gathered feedback from past sessions, identified critical activities (inventory management, supplier tracking, goods receipt, departmental distribution), consulted two Subject Matter Experts on FAQs and mixed experience levels.
+
+**Solution details:**
+Blended approach: Teams virtual introductions + self-paced learning including interactive video, 360° virtual tour with embedded scenario prompts, micro-learning modules, and system simulations for inventory workflows (requisitions, order placement, stock counts).
+
+**GIF demonstrations (3 total):**
+1. 360° tour with embedded scenario prompts for knowledge testing
+2. Abbreviated recaps between units for reinforcement and preview
+3. (Third GIF — to be confirmed from live site)
+
+**Key stats (inline emphasis):**
+- **Over 75%** completed the full learning path
+- **~30 completions** over a six-month period
+- Approximately **8 trainees every 5 weeks**
+- Department retained program post-COVID

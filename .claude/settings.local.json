@@ -19,7 +19,9 @@
       "WebFetch(domain:dns.google)",
       "WebSearch",
       "WebFetch(domain:github.com)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm install *)",
+      "WebFetch(domain:gladys1998crb.wixstudio.com)"
     ]
   }
 }

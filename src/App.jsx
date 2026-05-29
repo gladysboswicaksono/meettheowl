@@ -10,7 +10,7 @@ const projects = [
     category: 'Customer Education',
     title: 'Getting to Know Owllocate',
     description: 'When work takes over, self-care and wellbeing slip through the cracks.\n\nThis course explores how Owllocate bridges personal wellbeing and financial responsibility, transforming habit formation into a rewarding that pays (literally!)',
-    href: '/work/owllocate',
+    href: '/owllocate-get-started',
   },
   {
     image: '/images/card-needs-analysis.png',
@@ -82,7 +82,7 @@ export default function App() {
         </section>
 
         {/* ARTIFACTS */}
-        <section id="artifacts" style={{ background: 'linear-gradient(180deg, #6B0808 0%, #1C253C 100%)', padding: '5rem 2rem' }}>
+        <section id="artifacts" style={{ background: 'linear-gradient(180deg, #6B0808 0%, #1C253C 100%)', padding: '12px 12px' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
             <h2 style={{ color: 'var(--gold)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.10em', marginBottom: '3rem' }}>
               The Artifacts
