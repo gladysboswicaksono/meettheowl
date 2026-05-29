@@ -336,7 +336,6 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 36px;
-  font-size: 22px;
 }
 
 /* Tabs */
@@ -396,16 +395,14 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   border: 1px solid rgba(246,199,133,0.2);
   margin: 20px 0;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
 }
 
-.accordion:hover {
-  border: 2px solid var(--gold);
-  background: var(--blue-card);
+.accordion:hover .accordion__header {
+  background: rgba(26,26,46,1);
+  border-bottom: 2px solid var(--gold);
 }
-
-.accordion.open {
-  border: 2px solid var(--gold);
+.accordion.open .accordion__header {
+  border-bottom: 2px solid var(--gold);
 }
 
 .accordion__header {
@@ -423,7 +420,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 .accordion__label {
   font-family: var(--font-display);
   font-size: 13px;
-  color: var(--gold);
+  color: var(--gray);
   letter-spacing: 0.08em;
   text-transform: capitalize;
 }
@@ -471,17 +468,22 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.6);
   color: #fff;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.15s;
   pointer-events: none;
+}
+
+.zoom-icon svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .zoomable-img:hover .zoom-icon {

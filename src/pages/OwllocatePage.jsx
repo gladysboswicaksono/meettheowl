@@ -9,9 +9,11 @@ function ZoomableImage({ src, alt }) {
       <div className="zoomable-img" onClick={() => setZoomed(true)}>
         <img src={src} alt={alt} />
         <span className="zoom-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="7" cy="7" r="5"/>
+            <line x1="11" y1="11" x2="14.5" y2="14.5"/>
+            <line x1="7" y1="5" x2="7" y2="9"/>
+            <line x1="5" y1="7" x2="9" y2="7"/>
           </svg>
         </span>
       </div>
@@ -53,7 +55,7 @@ const tabs = [
           To keep the experience grounded in real work, I design simulations around a character navigating
           the same challenges and tasks users (will) have in their day-to-day.
         </p>
-        <Accordion label="Character-Driven Scenario">
+        <Accordion label="Illustration">
           <div className="accordion-images">
             <ZoomableImage src="/images/owllocate/1. Character driven 1.png" alt="Character driven simulation 1" />
             <ZoomableImage src="/images/owllocate/1. Characterdriven 2.png" alt="Character driven simulation 2" />
@@ -65,7 +67,7 @@ const tabs = [
           provide optional, high-level direction — just enough support to keep moving forward without
           taking away agency.
         </p>
-        <Accordion label="User Autonomy">
+        <Accordion label="Illustration">
           <div className="accordion-images">
             <ZoomableImage src="/images/owllocate/2. User autonomy 1.png" alt="User autonomy 1" />
             <ZoomableImage src="/images/owllocate/2. User autonomy 2.png" alt="User autonomy 2" />
@@ -86,19 +88,35 @@ const tabs = [
     content: (
       <>
         <p>
-          Learning doesn't happen in a single exposure. I structure simulations so that each module
-          builds on the last — starting with guided, low-stakes tasks and gradually introducing
-          complexity, ambiguity, and time pressure.
-        </p>
-        <p>
-          This mirrors how proficiency actually develops: not from reading instructions, but from
-          repeated problem-solving in increasingly realistic conditions. Progressive complexity ensures
-          that by the end, learners aren't just familiar with the interface — they're confident in the
-          judgment calls the job requires.
+          I believe every small win builds confidence for more complex challenges. And I build this
+          momentum through sequenced activities, each gradually increasing in complexity, leading to
+          a final challenge where users execute a complete workflow.
         </p>
         <Accordion label="Illustration">
-          <p>Illustration placeholder — complexity progression diagram.</p>
+          <div className="accordion-images" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            <ZoomableImage src="/images/owllocate/3. Progression 1.png" alt="Progression 1" />
+            <ZoomableImage src="/images/owllocate/3. Progression 2.png" alt="Progression 2" />
+            <ZoomableImage src="/images/owllocate/3. Progression 3.png" alt="Progression 3" />
+          </div>
         </Accordion>
+        <p>
+          Where applicable, users complete two variations of the same task for better retention;
+          same steps, different parameters. If users choose guided support on the second attempt,
+          the simulation encourages them to try independently first, because the goal is retention
+          through retrieval, not just completion.
+        </p>
+        <Accordion label="Illustration">
+          <div className="accordion-images">
+            <ZoomableImage src="/images/owllocate/4. Repetition.png" alt="Repetition" />
+          </div>
+        </Accordion>
+        <p>
+          The data confirms my belief; confidence is a product of success and not its prerequisite.
+          As users accumulate small, successful experiences, they{' '}
+          <strong style={{ color: 'var(--gold)', textDecoration: 'underline' }}>naturally transition from guided to independent</strong>{' '}
+          practice. Each success and repetition reinforces both confidence and accuracy, creating
+          the compounding effect that lies at the heart of this approach.
+        </p>
       </>
     ),
   },
@@ -108,18 +126,35 @@ const tabs = [
     content: (
       <>
         <p>
-          Generic feedback breaks learning flow. Every decision point in the simulation triggers
-          contextual feedback — not just "correct" or "incorrect," but an explanation of why, grounded
-          in real-world consequences.
+          Strong feedback earns its value by guiding the next decision the receiver makes. So how
+          do you make feedback that specific at scale?
         </p>
         <p>
-          When a learner takes a suboptimal path, feedback reframes the experience: not as failure,
-          but as a signal pointing toward better understanding. This approach directly supports the
-          shift from "How do I use Feature X?" to "How do I achieve [Goal] with Feature X?"
+          Building custom feedback for every possible click is impractical with today's technology,
+          so I use data to guide where precision matters most. When I notice patterns where users
+          consistently get stuck, I implement targeted tracking to understand what might cause the
+          confusion. From there, I create feedback that speaks directly to the actual problem.
         </p>
         <Accordion label="Illustration">
-          <p>Illustration placeholder — adaptive feedback examples.</p>
+          <div className="accordion-images">
+            <ZoomableImage src="/images/owllocate/General feedback.png" alt="General feedback" />
+            <ZoomableImage src="/images/owllocate/Targeted feedback.png" alt="Targeted feedback" />
+          </div>
         </Accordion>
+        <p>
+          And the data continues working. When certain workflows trip people up repeatedly, it
+          shows me what to address differently in the next iteration, whether it's putting more
+          emphasis on certain concepts, breaking the task into smaller steps, or restructuring
+          the practice approach entirely.
+        </p>
+        <p>
+          I've applied this in my current role: after spotting persistent struggles in one workflow,
+          I introduced a simple "Watch, Guide, Test" option that let users choose the level of
+          support they needed. It's one small example, but these data-driven tweaks continue to
+          pay off, contributing to an ongoing{' '}
+          <strong style={{ color: 'var(--gold)', textDecoration: 'underline' }}>QoQ drop of ~14.1%</strong>{' '}
+          in support tickets among trained users.
+        </p>
       </>
     ),
   },
@@ -208,7 +243,7 @@ export default function OwllocatePage() {
 
         {/* LEARNING DESIGN & TECHNICAL IMPLEMENTATION */}
         <section className="deep-section deep-section--navy">
-          <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2>⚙️ Learning Design &amp; Technical Implementation</h2>
 
             {/* Tabs */}
