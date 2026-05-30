@@ -77,25 +77,25 @@ function Carousel({ slides, placeholderLabel = 'Image coming soon' }) {
   const go = (i) => setCurrent((i + total) % total);
 
   return (
-    <div className="ti-carousel">
-      <div className="ti-carousel__head">
-        {s.title && <h3 className="ti-carousel__title">{s.title}</h3>}
-        {s.caption && <p className="ti-carousel__caption">{s.caption}</p>}
+    <div className="carousel">
+      <div className="carousel-head">
+        {s.title && <h3>{s.title}</h3>}
+        {s.caption && <p>{s.caption}</p>}
       </div>
 
-      <div className="ti-carousel__stage">
-        <button className="ti-carousel__arrow ti-carousel__arrow--prev" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
+      <div className="carousel-box">
+        <button className="carousel-arrow carousel-arrow--prev" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
         {s.img
           ? <ZoomableImage src={s.img} alt={s.alt || s.title || 'slide'} />
           : <div className="ti-carousel__placeholder">{placeholderLabel}</div>}
-        <button className="ti-carousel__arrow ti-carousel__arrow--next" onClick={() => go(current + 1)} aria-label="Next">›</button>
+        <button className="carousel-arrow carousel-arrow--next" onClick={() => go(current + 1)} aria-label="Next">›</button>
       </div>
 
-      <div className="ti-carousel__dots">
+      <div className='carousel-dots'>
         {slides.map((_, i) => (
           <button
             key={i}
-            className={`ti-carousel__dot${i === current ? ' active' : ''}`}
+            className={`carousel-dot${i === current ? ' active' : ''}`}
             onClick={() => go(i)}
             aria-label={`Slide ${i + 1}`}
           />
@@ -175,41 +175,44 @@ export default function TrainingImpactPage() {
 
         {/* SUMMARY */}
         <section style={{ backgroundColor: 'var(--blue-bg)'}}>
-          <h2 className='gold-title'>Summary</h2>
             <div className='summary-section'>
-              <div className="summary-grid">
-                  <h3 style={{ paddingBottom: '20px' }}>The Gap</h3>
-                  <p>
-                    Training happened, but the results were unclear. The definition of a trained user didn't
-                    say much about what they were actually supposed to be trained for. The metrics tracked,
-                    like completion rates and CSAT, had no reliable connection to what the business cared
-                    about. As an IC, that left me wondering how my work actually contribute to customer
-                    success and business outcomes.
-                  </p>
+              <h2>Summary</h2>
+              <div className='summary-grid'>
+                <div className='summary-column'>
+                  <h3>The Gap</h3>
+                    <p>
+                      Training happened, but the results were unclear. The definition of a trained user didn't
+                      say much about what they were actually supposed to be trained for. The metrics tracked,
+                      like completion rates and CSAT, had no reliable connection to what the business cared
+                      about. As an IC, that left me wondering how my work actually contribute to customer
+                      success and business outcomes.
+                    </p>
                   </div>
 
-                  <div className='summary-grid'>
-                  <h3 style={{ paddingBottom: '20px' }}>The Work</h3>
-                  <p>
-                    A measurement framework with flexible definitions of trained users based on intended
-                    business outcomes, with in-depth reporting in Power BI. To get there, I retrieved relevant
-                    business data in the data warehouse and analyzed how users at different stages of training
-                    actually performed on the platform. I wanted the definition of trained to be grounded in
-                    where training visibly starts moving the needle.
-                  </p>
+                <div className='summary-column'>
+                  <h3>The Work</h3>
+                    <p>
+                      A measurement framework with flexible definitions of trained users based on intended
+                      business outcomes, with in-depth reporting in Power BI. To get there, I retrieved relevant
+                      business data in the data warehouse and analyzed how users at different stages of training
+                      actually performed on the platform. I wanted the definition of trained to be grounded in
+                      where training visibly starts moving the needle.
+                    </p>
                   </div>
 
-                  <div className='summary-grid'>
-                  <h3 style={{ paddingBottom: '20px' }}>The Shift</h3>
-                  <p>
+                <div className='summary-column'>
+                  <h3>The Shift</h3>
+                    <p>
                     Trained user rate entered departmental OKRs, making training a business-accountable metric
                     for the first time. Every design decision now has a baseline to build on and a way to test
                     whether it actually worked. The function no longer reports on its own language, but rather
                     setting goals in the same terms that our crossfunctional stakeholders use to measure
                     success.
-                  </p>
+                    </p>
                   </div>
-                </div>
+
+              </div>
+          </div>
         </section>
 
         {/* ABOUT THIS WORK */}
@@ -259,209 +262,210 @@ export default function TrainingImpactPage() {
 
         {/* THE FRAMEWORK */}
         <section className="deep-section deep-section--navy">
-          <div className="deep-content">
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2>📐 The Framework</h2>
+              <div className='tab-content'>
+              <h3>Making Sense of What Exists</h3>
+              <p>
+                Not all courses in the LMS are relevant for measuring the particular goals we were setting.
+                I focused specifically on those categorized as Product Training, which are designed to drive
+                key behaviors like increasing engagement on core product features.
+              </p>
+              <p>
+                Once the relevant content is defined, I digged into the historical completion to understand
+                where the users actually stood and how the engagement is distributed. I.e., how many have not
+                started, partially completed, reached around halfway, or completed (almost) the full catalog.
+              </p>
+              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                <ZoomableImage src="/images/training-impact/framework-catalog.png" alt="Sample catalog scope" />
+              </div>
+              <ImgCaption>Sample catalog scope</ImgCaption>
+              <p>
+                To enable this level of analysis, I sourced the data from the data warehouse instead of
+                directly from the LMS reporting, so I had more flexibility in modeling and segmenting the
+                users.
+              </p>
+              <CodeRef>User segmentation query</CodeRef>
+              </div>
 
-            <h3>Making Sense of What Exists</h3>
-            <p>
-              Not all courses in the LMS are relevant for measuring the particular goals we were setting.
-              I focused specifically on those categorized as Product Training, which are designed to drive
-              key behaviors like increasing engagement on core product features.
-            </p>
-            <p>
-              Once the relevant content is defined, I digged into the historical completion to understand
-              where the users actually stood and how the engagement is distributed. I.e., how many have not
-              started, partially completed, reached around halfway, or completed (almost) the full catalog.
-            </p>
-            <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <ZoomableImage src="/images/training-impact/framework-catalog.png" alt="Sample catalog scope" />
-            </div>
-            <ImgCaption>Sample catalog scope</ImgCaption>
-            <p>
-              To enable this level of analysis, I sourced the data from the data warehouse instead of
-              directly from the LMS reporting, so I had more flexibility in modeling and segmenting the
-              users.
-            </p>
-            <CodeRef>User segmentation query</CodeRef>
+              <h3>Performance of Existing User Segments</h3>
+              <p>
+                Looking at engaged users, the largest group sat in the Early progress bucket with less than
+                25% catalog completion. But that alone doesn't tell us where to draw the line for trained.
+              </p>
+              <p>
+                So I went deeper and analyzed how the users in each bucket actually perform on on the
+                platform, because I wanted the threshold to be defined by where training starts translating
+                into results.
+              </p>
+              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                <ZoomableImage src="/images/training-impact/framework-completion.png" alt="Distribution - output from user segmentation query" />
+              </div>
+              <ImgCaption>Distribution - output from user segmentation query</ImgCaption>
+              <p>
+                One of the primary goals of product training is to drive feature adoption and engagements, so
+                thats the metric that I started with. I ran a query calculating how each segment engages with
+                core features with one important restriction: segmented completions only count if they
+                happened before the measured event. If Jackie was at 30% completion, their average feature
+                interactions belongs in the Low progress bucket. If Jackie progressed with their training and
+                is now at 60% completion, their average will move to the Mid progress bucket.
+              </p>
+              <CodeRef>Performance comparison query</CodeRef>
 
-            <h3>Performance of Existing User Segments</h3>
-            <p>
-              Looking at engaged users, the largest group sat in the Early progress bucket with less than
-              25% catalog completion. But that alone doesn't tell us where to draw the line for trained.
-            </p>
-            <p>
-              So I went deeper and analyzed how the users in each bucket actually perform on on the
-              platform, because I wanted the threshold to be defined by where training starts translating
-              into results.
-            </p>
-            <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <ZoomableImage src="/images/training-impact/framework-completion.png" alt="Distribution - output from user segmentation query" />
-            </div>
-            <ImgCaption>Distribution - output from user segmentation query</ImgCaption>
-            <p>
-              One of the primary goals of product training is to drive feature adoption and engagements, so
-              thats the metric that I started with. I ran a query calculating how each segment engages with
-              core features with one important restriction: segmented completions only count if they
-              happened before the measured event. If Jackie was at 30% completion, their average feature
-              interactions belongs in the Low progress bucket. If Jackie progressed with their training and
-              is now at 60% completion, their average will move to the Mid progress bucket.
-            </p>
-            <CodeRef>Performance comparison query</CodeRef>
+              <h3>Setting a General Baseline</h3>
+              <p>
+                The data generally shows gradual performance improvement with each completion segment, but
+                the most significant jump happens in the Mid progress bucket (50-74%). And that's where I set
+                the threshold; defining a trained user as someone who has completed at least 50% of the
+                Product Training catalog. This serves as a consistent baseline for measuring trained user
+                rates and setting targets.
+              </p>
+              <p>
+                While the specific threshold differs from what I use in my work, the logic I applied is the
+                same. And the trained user rate has been adopted into departmental OKRs since, shifting the
+                focus away from completion-based metrics toward measures that can be tied more closely to
+                business results.
+              </p>
+              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                <ZoomableImage src="/images/training-impact/framework-performance.png" alt="Output from performance comparison query" />
+              </div>
+              <ImgCaption>Output from performance comparison query</ImgCaption>
 
-            <h3>Setting a General Baseline</h3>
-            <p>
-              The data generally shows gradual performance improvement with each completion segment, but
-              the most significant jump happens in the Mid progress bucket (50-74%). And that's where I set
-              the threshold; defining a trained user as someone who has completed at least 50% of the
-              Product Training catalog. This serves as a consistent baseline for measuring trained user
-              rates and setting targets.
-            </p>
-            <p>
-              While the specific threshold differs from what I use in my work, the logic I applied is the
-              same. And the trained user rate has been adopted into departmental OKRs since, shifting the
-              focus away from completion-based metrics toward measures that can be tied more closely to
-              business results.
-            </p>
-            <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <ZoomableImage src="/images/training-impact/framework-performance.png" alt="Output from performance comparison query" />
+              <h3>Bringing It to Power BI</h3>
+              <p>
+                The first step was creating a view in the data warehouse, that is sourced from tables that
+                hold the LMS data with live update. This view does two things:
+              </p>
+              <ol className="about-list">
+                <li>Flags whether a user is trained.</li>
+                <li>
+                  Records the date they first crossed the 50% threshold, effectively when they became
+                  trained.
+                </li>
+              </ol>
+              <p>
+                Thanks to Claude, I could implement logic that evaluates training status relative to the
+                total number of available courses at each point in time. This ensures that once a user is
+                classified as trained, they remain so, even as the catalog expands.
+              </p>
+              <p>
+                I have included the supporting validation below to show how the output is derived and
+                verified against the underlying data.
+              </p>
+              <CodeRef>General trained flag query (AI-generated)</CodeRef>
+              <CodeRef>Validation query</CodeRef>
+              <div className="accordion-images">
+                <ZoomableImage src="/images/training-impact/framework-validation-1.png" alt="How I validated 1" />
+                <ZoomableImage src="/images/training-impact/framework-validation-2.png" alt="How I validated 2" />
+              </div>
+              <ImgCaption>📷 How I validated</ImgCaption>
+              <p>
+                From there, I brought the view into Power BI alongside the other metric tables and built
+                calculated columns that classify each event as trained or untrained based on whether they had
+                crossed the threshold by the time that specific event happened.
+              </p>
+              <CodeRef icon="🖧">Time-aware trained event DAX</CodeRef>
             </div>
-            <ImgCaption>Output from performance comparison query</ImgCaption>
+          </section>
 
-            <h3>Bringing It to Power BI</h3>
-            <p>
-              The first step was creating a view in the data warehouse, that is sourced from tables that
-              hold the LMS data with live update. This view does two things:
-            </p>
-            <ol className="about-list">
-              <li>Flags whether a user is trained.</li>
-              <li>
-                Records the date they first crossed the 50% threshold, effectively when they became
-                trained.
-              </li>
-            </ol>
-            <p>
-              Thanks to Claude, I could implement logic that evaluates training status relative to the
-              total number of available courses at each point in time. This ensures that once a user is
-              classified as trained, they remain so, even as the catalog expands.
-            </p>
-            <p>
-              I have included the supporting validation below to show how the output is derived and
-              verified against the underlying data.
-            </p>
-            <CodeRef>General trained flag query (AI-generated)</CodeRef>
-            <CodeRef>Validation query</CodeRef>
-            <div className="accordion-images">
-              <ZoomableImage src="/images/training-impact/framework-validation-1.png" alt="How I validated 1" />
-              <ZoomableImage src="/images/training-impact/framework-validation-2.png" alt="How I validated 2" />
+          {/* ONE MEASURE, TWO MODES */}
+          <section className="deep-section deep-section--red">
+            <div className="deep-content">
+              <h2>One Measure, Two Modes</h2>
+              <p>
+                There's a difference between knowing the program is moving in the right direction and knowing
+                which resource is driving it. My flexible Power BI measure handles the two; in its default
+                state, it uses the general 50% baseline to classify users as trained or untrained.
+              </p>
+              <p>
+                When a specific content is selected, it drops that baseline entirely and looks at whether the
+                user completed that content before the measured event happened. Filtering down to a specific
+                measure narrows the measured event too. Instead of overall feature adoption, the logic is
+                scoped to that feature alone.
+              </p>
+              <div className="gif-standalone">
+                <GifPlayImage
+                  poster="/images/training-impact/one-measure-two-methods.png"
+                  gif="/images/training-impact/one-measure-two-methods.gif"
+                  alt="One measure operating in two modes"
+                />
+              </div>
+              <p>
+                This means the same report serves two different needs: consistent high-level tracking for
+                program-level targets, and granular analysis for the individual contributors who own specific
+                content.
+              </p>
+              <p>
+                Designers are always told to anchor new resources to a business outcome before building
+                anything. What that advice skips is the how. This framework is the closest I've gotten to
+                answering that: before building, we can look at how an existing resource (if any) is already
+                performing against its intended outcome and set a target. Once the updated or new resource is
+                live, we have a way to find out whether it actually did anything.
+              </p>
+              <CodeRef icon="🖧">Flexible trained user DAX measure</CodeRef>
             </div>
-            <ImgCaption>📷 How I validated</ImgCaption>
-            <p>
-              From there, I brought the view into Power BI alongside the other metric tables and built
-              calculated columns that classify each event as trained or untrained based on whether they had
-              crossed the threshold by the time that specific event happened.
-            </p>
-            <CodeRef icon="🖧">Time-aware trained event DAX</CodeRef>
-          </div>
-        </section>
+          </section>
 
-        {/* ONE MEASURE, TWO MODES */}
-        <section className="deep-section deep-section--red">
-          <div className="deep-content">
-            <h2>One Measure, Two Modes</h2>
-            <p>
-              There's a difference between knowing the program is moving in the right direction and knowing
-              which resource is driving it. My flexible Power BI measure handles the two; in its default
-              state, it uses the general 50% baseline to classify users as trained or untrained.
-            </p>
-            <p>
-              When a specific content is selected, it drops that baseline entirely and looks at whether the
-              user completed that content before the measured event happened. Filtering down to a specific
-              measure narrows the measured event too. Instead of overall feature adoption, the logic is
-              scoped to that feature alone.
-            </p>
-            <div className="gif-standalone">
-              <GifPlayImage
-                poster="/images/training-impact/one-measure-two-methods.png"
-                gif="/images/training-impact/one-measure-two-methods.gif"
-                alt="One measure operating in two modes"
-              />
-            </div>
-            <p>
-              This means the same report serves two different needs: consistent high-level tracking for
-              program-level targets, and granular analysis for the individual contributors who own specific
-              content.
-            </p>
-            <p>
-              Designers are always told to anchor new resources to a business outcome before building
-              anything. What that advice skips is the how. This framework is the closest I've gotten to
-              answering that: before building, we can look at how an existing resource (if any) is already
-              performing against its intended outcome and set a target. Once the updated or new resource is
-              live, we have a way to find out whether it actually did anything.
-            </p>
-            <CodeRef icon="🖧">Flexible trained user DAX measure</CodeRef>
-          </div>
-        </section>
-
-        {/* IS TRAINING REALLY DRIVING IMPROVEMENT? */}
-        <section className="deep-section deep-section--navy">
-          <div className="deep-content">
-            <h2>Is Training Really Driving Improvement?</h2>
-            <p>
-              A simple average comparison that shows trained users perform better than untrained ones is a
-              start, but it's not a strong signal on its own. Too many other things could explain the gap.
-              So my goal was to find a pattern that holds across multiple methods, because if training
-              consistently shows up as a positive signal regardless of how you look at it, at some point we
-              can't ignore that training is doing something.
-            </p>
-            <p>
-              The first addition is same-tenure comparison. By isolating users within their first six
-              months on the platform, it strips out the performance gap that might come from simply having
-              more experience with the product. If trained users still outperform untrained users at the
-              same stage of their journey, we can eliminate tenure as the explanation of the gap.
-            </p>
-            <CodeRef icon="🖧">Same-tenure comparison DAX measures</CodeRef>
-            <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <ZoomableImage src="/images/training-impact/same-tenure.png" alt="Same-tenure comparison" />
-            </div>
-            <p>
-              But that still leaves another problem: trained users might already be more engaged with the
-              product before they ever touch a course. Or improvement over time might just be natural as
-              people get better at tools they use regularly. That's when I came across
-              Difference-in-differences (DiD) analysis.
-            </p>
-            <p>
-              Instead of comparing where two groups end up, it measures how much each group changed before
-              and after a training event, with untrained users as the control. Whatever improvement the
-              untrained group made on their own gets subtracted out. What's left is the change that
-              training can actually be attributed to.
-            </p>
-            <p>
-              The analysis window defaults to three months before and after the training event, though
-              readers can customize it anywhere from one to six months based on what they're investigating.
-              For both groups, only users with measured events before and after the analysis window are
-              included in the analysis to make sure the same population appears in both periods.
-            </p>
-            <p>
-              These two additional methods use the same flexible approach as the simple average, 50%
-              completion threshold by default with filter-based granularity for deeper analysis.
-            </p>
-            <CodeRef icon="🖧">DiD helper measures</CodeRef>
-            <CodeRef icon="🖧">DiD intermediate measures</CodeRef>
-            <CodeRef icon="🖧">DiD final DAX measure</CodeRef>
-            <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <ZoomableImage src="/images/training-impact/DiD.png" alt="Difference-in-differences analysis" />
-            </div>
-            <p>
-              The next panel shows a period-over-period performance of key metrics which shows changes over
-              time with WoW, MoM, and QoQ views. But it also works as a way to pressure-test specific
-              efforts. For example, if we run a campaign to drive training engagement, I'd expect trained
-              coverage to increase in the weeks after. If we launch targeted content on a specific feature,
-              associated impact and DiD effect for that feature should follow. And when they do, it's one
-              more data point that training is actually doing something.
-            </p>
-            <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-              <ZoomableImage src="/images/training-impact/Period-over-period.png" alt="Period-over-period performance" />
-            </div>
+          {/* IS TRAINING REALLY DRIVING IMPROVEMENT? */}
+          <section className="deep-section deep-section--navy">
+            <div className="deep-content">
+              <h2>Is Training Really Driving Improvement?</h2>
+              <p>
+                A simple average comparison that shows trained users perform better than untrained ones is a
+                start, but it's not a strong signal on its own. Too many other things could explain the gap.
+                So my goal was to find a pattern that holds across multiple methods, because if training
+                consistently shows up as a positive signal regardless of how you look at it, at some point we
+                can't ignore that training is doing something.
+              </p>
+              <p>
+                The first addition is same-tenure comparison. By isolating users within their first six
+                months on the platform, it strips out the performance gap that might come from simply having
+                more experience with the product. If trained users still outperform untrained users at the
+                same stage of their journey, we can eliminate tenure as the explanation of the gap.
+              </p>
+              <CodeRef icon="🖧">Same-tenure comparison DAX measures</CodeRef>
+              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                <ZoomableImage src="/images/training-impact/same-tenure.png" alt="Same-tenure comparison" />
+              </div>
+              <p>
+                But that still leaves another problem: trained users might already be more engaged with the
+                product before they ever touch a course. Or improvement over time might just be natural as
+                people get better at tools they use regularly. That's when I came across
+                Difference-in-differences (DiD) analysis.
+              </p>
+              <p>
+                Instead of comparing where two groups end up, it measures how much each group changed before
+                and after a training event, with untrained users as the control. Whatever improvement the
+                untrained group made on their own gets subtracted out. What's left is the change that
+                training can actually be attributed to.
+              </p>
+              <p>
+                The analysis window defaults to three months before and after the training event, though
+                readers can customize it anywhere from one to six months based on what they're investigating.
+                For both groups, only users with measured events before and after the analysis window are
+                included in the analysis to make sure the same population appears in both periods.
+              </p>
+              <p>
+                These two additional methods use the same flexible approach as the simple average, 50%
+                completion threshold by default with filter-based granularity for deeper analysis.
+              </p>
+              <CodeRef icon="🖧">DiD helper measures</CodeRef>
+              <CodeRef icon="🖧">DiD intermediate measures</CodeRef>
+              <CodeRef icon="🖧">DiD final DAX measure</CodeRef>
+              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                <ZoomableImage src="/images/training-impact/DiD.png" alt="Difference-in-differences analysis" />
+              </div>
+              <p>
+                The next panel shows a period-over-period performance of key metrics which shows changes over
+                time with WoW, MoM, and QoQ views. But it also works as a way to pressure-test specific
+                efforts. For example, if we run a campaign to drive training engagement, I'd expect trained
+                coverage to increase in the weeks after. If we launch targeted content on a specific feature,
+                associated impact and DiD effect for that feature should follow. And when they do, it's one
+                more data point that training is actually doing something.
+              </p>
+              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                <ZoomableImage src="/images/training-impact/Period-over-period.png" alt="Period-over-period performance" />
+              </div>
           </div>
         </section>
 
