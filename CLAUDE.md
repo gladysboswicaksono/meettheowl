@@ -1,5 +1,35 @@
 # Portfolio Site — Claude Context
 
+## ⚠️ READ FIRST — How to interact with Gladys
+Before doing anything on this project, **always read the memory files** that record how to work with me. They take priority over everything else in this file.
+- Memory index: `C:\Users\glady\.claude\projects\E--Portfolio-site\memory\MEMORY.md`
+- Read every feedback/memory file it links to (e.g. `feedback_no-unrequested-edits.md`) at the start of each session, before touching any code.
+
+Non-negotiable rules captured there:
+- **Never edit any file without an explicit, direct instruction to make that change.** When I ask a question (e.g. "Can you see it in the preview?") or describe my own plan (e.g. "so I have to make the padding 400px"), that is context — NOT a command to edit. Answer the question and leave files untouched.
+- Distinguish "I have to make X" (my plan) from "make X" (an instruction to you). When in doubt, ask before editing.
+- Never override or undo a state I just said I'm happy with.
+
+## ⚠️ Inspecting the original Wix portfolio — do this EXACTLY
+The live Wix site (https://gladys1998crb.wixstudio.com/theowl) is the ONLY source of truth, and **the rendered page is the only reliable view of it.** Do NOT trust indirect tools — they have been confidently wrong every session.
+
+**Never use for structure/counts:** WebFetch (its text flattens carousels into a single blob), the accessibility-tree `find` tool (gives contradictory answers), or DOM/JS slide counts (Wix lazy-loads slides, so the DOM undercounts). Wix also renders client-side, hashes asset names, and **paints fake carousel dots INTO the dashboard screenshots** — so dots inside an image are not the real controls.
+
+**The exact procedure:**
+1. Open the page in the real browser via **Claude-in-Chrome** (not WebFetch). Create a tab group, navigate, approve the screenshot permission for `wixstudio.com`.
+2. **Scroll correctly:** `scroll` requires a coordinate — without one it fails *silently* and the page never moves. Prefer `scroll_to` with an element ref, or pass a coordinate. After every scroll, screenshot and **verify the view actually changed** before describing it. Never narrate scrolling you didn't confirm.
+3. **Classify each section by looking**, not querying:
+   - **Carousel** → authoritative count = the dot buttons; `find` them and read "Show slide N of N". Click each **dot by its ref** (not the arrows by coordinate — they shift after scrolling and you'll mis-click). Read each slide's own gold subtitle. NEVER count a dashboard's internal sidebar tabs (OVERVIEW/TIME ON CORE TASK/etc.) or dots drawn inside a screenshot as slides.
+   - **Play-gif** → "PLAY GIF" overlay + play button; click play to confirm it animates (poster PNG + `.gif`).
+   - **Static image** → otherwise.
+4. **Filenames:** alt/title in markup give friendly names (e.g. `Same tenure.png`); CDN URLs are hashed (`b418e1_…~mv2.png`).
+5. **Report confidence honestly:** if you haven't visually counted or clicked it, say so. Never pass a tool's partial number off as fact.
+
+**Verified structure (Training Impact page, inspected slide-by-slide 2026-05-30):**
+- **1 carousel** — "What I Built" Overview = **5 slides** (confirmed by clicking the next-arrow until it looped back to slide 1), gold subtitles in order: **OVERVIEW PAGE → PROGRAM REACH → EFFECTIVENESS AND ACCOUNT HEALTH → DEDICATED METRIC PAGES → ASK THE OWL – BOT INTERPRETER**.
+- **Play-gif (the only one on the page, confirmed):** "One Measure, Two Modes" (clicked play, poster swapped to animated dashboard).
+- **Static images (all confirmed by view):** hero (owl eye); Framework charts (`Product training catalogue.png`, `Completion distribution.png`, `Performance comparison.png`); `Same tenure.png`; DiD figure (`DiD.png`); Period-Over-Period figure (`Period-over-period.png`, a Month-over-Month comparison table); `Anomaly investigation.png` (Ask the Owl).
+
 ## Goal
 This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfolio (https://gladys1998crb.wixstudio.com/theowl). The aim is to recreate it as a custom-coded site with full design fidelity to the original.
 
@@ -24,8 +54,12 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - `src/components/Nav.jsx` — sticky red nav, logo + name only, no links
 - `src/components/Footer.jsx` — charcoal bg, gold tagline, work links, owl watermark
 - `src/components/ProjectCard.jsx` — reusable card: image, category tag, title, description, Learn More
-- `src/components/Testimonials.jsx` — carousel with dots, 3 testimonials
+- `src/components/Testimonials.jsx` — carousel with dots, testimonials
+- `src/pages/` — one component per project page:
+  - `OwllocatePage.jsx` — Getting Started with Owllocate (the most built-out page: tabbed deep dive, zoomable images, gif toggle, mobile bottom tab nav)
+  - plus the other project pages (Training Impact, Needs Analysis, Virtual Onboarding)
 - `public/images/` — hero-portrait.png, logo-navigation.png, owl-outline.png, card-owllocate.png, card-needs-analysis.png, card-onboarding.png
+- `public/images/owllocate/` — Owllocate deep-dive assets (illustration PNGs, feedback PNGs, gif, Play.png / Pause.png icons)
 
 ## Design Tokens (index.css)
 ```css
@@ -57,7 +91,13 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 ## Key CSS Classes
 - `.hero` / `.hero__portrait` / `.hero__text` — hero layout (index.css)
 - `.artifacts-grid` — 2-col desktop, 1-col tablet/phone
-- `.btn-intro` — red shadow button used in hero
+- `.btn-primary` — red shadow/outline button (hero, project hero CTAs)
+- `.btn-secondary` — gold shadow/outline button (cross-link CTAs)
+- `.tabs` / `.tab-btn` / `.tab-content` — Owllocate deep-dive top tab strip + panel
+- `.tab-jump` / `.tab-jump__btn` — Owllocate mobile-only bottom tab nav (≤600px)
+- `.accordion-images` / `.accordion-images--grid3` — illustration image rows (grid3 = 3-col → 1-col mobile)
+- `.zoomable-img` / `.zoom-overlay` — click-to-zoom image + full-screen overlay
+- `.gif-figure` / `.gif-toggle` — gif play/pause control on Adaptive Feedback tab
 
 ## Reference
 - Original Wix portfolio: https://gladys1998crb.wixstudio.com/theowl
@@ -168,14 +208,16 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - Callout/disclaimer box: left dark red border, pale pinkish-red background, Crimson Pro italic text
 
 ### 4. Deep-Dive Content Sections (alternate dark navy / dark red bg)
-- Section headings include emoji icons (⚙️ 🔧 📐) + uppercase title
+- Section headings include emoji icons (⚙️ 🔧 📐) + title
 - **Tab navigation** (Owllocate page only): 3 tabs — "IMMERSIVE SIMULATION" / "PROGRESSIVE COMPLEXITY" / "ADAPTIVE FEEDBACK"
-  - Active tab: dark red background, white text
-  - Inactive tabs: transparent, white text, separated by thin vertical dividers
+  - Active tab: dark red background (`rgba(91,6,6,0.5)`), gold text; inactive: transparent white text, separated by thin gold vertical dividers
+  - Active tab is synced to the URL hash (e.g. `#adaptive`); the hash sets the initial tab on load
   - Tab content panel: left gold vertical border, gold subheading, white body text
+  - **Mobile-only bottom tab nav** (`.tab-jump`, shown `max-width: 600px` only): a labeled "Other Design Principles" stacked list of all 3 tabs (each a full-width gold-outlined button with a `→`, active one marked with a `●`). Lets users switch tabs without scrolling back up; tapping one switches the tab and smooth-scrolls to the top of the deep-dive section. Hidden on desktop.
+- **Illustration accordions** (`📸 Illustration`): collapsible, hold one or more images. Multi-image accordions use `.accordion-images` (flex-wrap); the 3-image grids use `.accordion-images--grid3` (3 cols desktop → 1 stacked column on mobile)
+- **Zoomable images** (`ZoomableImage` component): every deep-dive image has a zoom icon and opens a full-screen overlay on click
+- **Gif play/pause toggle** (`GifPlayImage` component, Adaptive Feedback tab): a "Play gif" button (with Play.png icon) above the poster image swaps the PNG for an animated gif and flips the label to "Pause gif" (Pause.png icon); also zoomable
 - Code snippet references styled as `</> Label text`
-- Photo placeholders labeled `📸 Illustration`
-- GIF placeholders labeled `PLAY GIF`
 
 ### 5. Cross-link CTA Section (dark red bg)
 - Short section with H3-level heading, body text, and an outlined button linking to the next related project page
@@ -239,14 +281,16 @@ When work takes over, self-care and wellbeing slip through the cracks. This cour
 - Trained users submitted **~27% fewer support cases** than untrained users
 - Ongoing refinements drove **~14% quarterly reductions** (QoQ)
 
-**Deep-dive section heading:** ⚙️ DESIGN PRINCIPLES
+**Deep-dive section heading:** ⚙️ Learning Design & Technical Implementation
 
 **Tab 1 — IMMERSIVE SIMULATION:**
-Uses character-driven scenarios mirroring real user challenges. Users maintain control with step-by-step or independent modes. Hints provide optional high-level direction. Outcome: "the shift from knowing where to click to shaping understanding that maximizes product readiness."
+Simulations mirror the system's actual interface, built around a character navigating the same tasks real users face. Users stay in control — step-by-step guidance or independent practice, switchable anytime, with optional high-level hints. Two "Illustration" accordions (character-driven, user autonomy). Result: ~27% fewer support tickets on practiced topics.
 
-**Tab 2 — PROGRESSIVE COMPLEXITY:** (content to be confirmed from live site)
+**Tab 2 — PROGRESSIVE COMPLEXITY:**
+Sequenced activities that gradually increase in complexity, building toward a final complete-workflow challenge. Where applicable, users repeat a task with different parameters for retrieval-based retention. Two accordions: a 3-image progression grid, and a single centered "Repetition" image (capped at 340px). Data point: users naturally transition from guided to independent practice.
 
-**Tab 3 — ADAPTIVE FEEDBACK:** (content to be confirmed from live site)
+**Tab 3 — ADAPTIVE FEEDBACK:**
+Custom feedback for every click is impractical, so data guides where precision matters — targeted tracking on workflows where users get stuck, then feedback that speaks to the actual problem. Example: a "Watch, Guide, Test" support-level option. Contributes to a ~14.1% QoQ drop in support tickets among trained users. Includes a 3-image implementation accordion plus a side-by-side comparison: "General feedback" (static) vs "Targeted feedback" (gif play/pause toggle), both zoomable.
 
 ---
 

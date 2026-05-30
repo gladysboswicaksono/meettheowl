@@ -102,6 +102,25 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   padding: 0 15px;
 }
 
+/* ── Text ──────────────────────────────────────────────────────── */
+
+.heading-primary {
+  color: var(--red);
+}
+
+.text-primary {
+  color: var(--dark);
+}
+
+.text-secondary {
+  color: var(--gray);
+}
+
+.text-red {
+  color: var(--red);
+  letter-spacing: 0em;
+}
+
 @media (max-width: 900px) {
   .nav { height: 80px; }
   .nav__logo { height: 55px; }
@@ -258,7 +277,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 /* ── Project Pages ────────────────────────────────────────────── */
 .project-hero {
   background-color: var(--gray);
-  padding: 30px 250px 0px;
+  padding: 50px 250px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 10px;
@@ -281,6 +300,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   width: auto;
   height: 400px;
   display: block;
+  width: 600px;
 }
 
 .project-hero__text {
@@ -313,7 +333,6 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 .about-section h2 {
   color: var(--red);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 28px;
 }
 
@@ -337,12 +356,11 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 }
 
 .deep-section--navy { background-color: var(--blue-bg); }
-.deep-section--red  { background: linear-gradient(180deg, #6B0808 0%, #3D0202 100%); }
+.deep-section--red  { background: linear-gradient(180deg, #5B0606 0%, #1C253C 100%); }
 
 .deep-section h2 {
   color: var(--white);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   margin-bottom: 36px;
 }
 
@@ -706,4 +724,227 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   .deep-section { padding: 24px; }
   .cta-section { padding: 24px; }
   .tab-btn { padding: 10px 14px; font-size: 10px; }
+}
+
+/* ── SUMMARY */
+.summary-section {
+  background-color: var(--blue-bg);
+  padding: 60px 80px;
+  display: flex;
+  gap: 15px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.summary-section h2 {
+  color: var(--gold);
+  padding-top: 30px;
+  padding-left: 250px;
+}
+
+
+
+.summary-grid {
+  max-width: 1100px;
+  flex: 1;
+  background-color: var(--blue-card);
+  padding: 30px;
+  border-left: 2px solid var(--gold);
+  color: var(--gray)
+
+}
+
+/* ── Training Impact: deep-section body content ───────────────── */
+/* .deep-content {
+  max-width: 1100px;
+  margin: 0 auto;
+} */
+
+/* .deep-section p {
+  color: var(--white);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  margin-bottom: 16px;
+} */
+
+/* .deep-section h3 {
+  color: var(--gold);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 18px;
+  margin: 30px 0 14px;
+} */
+
+/* Numbered list inside deep sections / about */
+.about-list {
+  margin: 0 0 16px;
+  padding-left: 22px;
+  color: var(--dark);
+  font-family: var(--font-body);
+  line-height: 1.7;
+}
+
+.about-list li { margin-bottom: 8px; }
+
+.deep-section .about-list,
+.about-list--light {
+  color: var(--white);
+}
+
+/* Small italic image caption */
+.img-caption {
+  text-align: center;
+  font-style: italic;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 8px 0 18px;
+}
+
+/* About: pull quote + subheads */
+.pull-quote {
+  border-left: 3px solid var(--red);
+  margin: 24px 0;
+  padding: 6px 22px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--dark);
+}
+
+/* Code-snippet reference label */
+.code-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(246, 199, 133, 0.35);
+  border-left: 3px solid var(--gold);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--gold);
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  padding: 8px 14px;
+  margin: 14px 0 8px;
+}
+
+.code-ref__glyph { opacity: 0.7; }
+
+/* Standalone gif figure (One Measure, Two Modes) */
+.gif-standalone {
+  max-width: 620px;
+  margin: 24px auto;
+}
+
+.gif-standalone .zoomable-img {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+/* ── Training Impact: image carousel ──────────────────────────── */
+.ti-carousel {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.ti-carousel__head {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.ti-carousel__title {
+  color: var(--gold);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.ti-carousel__caption {
+  color: var(--white);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.ti-carousel__stage {
+  position: relative;
+  margin-top: 18px;
+}
+
+.ti-carousel__stage .zoomable-img {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.ti-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(246, 199, 133, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--gold);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.ti-carousel__arrow--prev { left: -3.2rem; }
+.ti-carousel__arrow--next { right: -3.2rem; }
+
+.ti-carousel__placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 2px dashed rgba(246, 199, 133, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: rgba(246, 199, 133, 0.75);
+  font-family: var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding: 0 16px;
+}
+
+.ti-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 22px;
+}
+
+.ti-carousel__dot {
+  height: 6px;
+  width: 0.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.ti-carousel__dot.active {
+  width: 2rem;
+  background: var(--gold);
+}
+
+@media (max-width: 900px) {
+  .summary-section { padding: 40px; }
+  .summary-grid { grid-template-columns: 1fr; gap: 28px; }
+  .summary-col { border-left: none; border-top: 1px solid rgba(246, 199, 133, 0.5); padding: 20px 0 0; }
+  .ti-carousel__arrow--prev { left: 0.25rem; }
+  .ti-carousel__arrow--next { right: 0.25rem; }
 }

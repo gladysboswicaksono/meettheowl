@@ -24,7 +24,24 @@
       "WebFetch(domain:gladys1998crb.wixstudio.com)",
       "mcp__Claude_in_Chrome__tabs_create_mcp",
       "mcp__Claude_in_Chrome__browser_batch",
-      "mcp__Claude_in_Chrome__read_page"
+      "mcp__Claude_in_Chrome__read_page",
+      "mcp__Claude_in_Chrome__tabs_close_mcp",
+      "Bash(echo \"--- project .claude ---\"; ls -la E:/Portfolio/site/.claude 2>/dev/null; echo \"--- search SKILL.md user dir ---\"; find \"C:/Users/glady/.claude\" -name \"SKILL.md\" 2>/dev/null | head -50)",
+      "Bash(find \"C:/Users/glady/.claude\" -path \"*meettheowl*\" 2>/dev/null | head -30; echo \"---anthropic-skills dirs---\"; find \"C:/Users/glady/.claude\" -type d -name \"anthropic-skills*\" 2>/dev/null | head; echo \"---any meettheowl-voice---\"; find \"C:/Users/glady\" -iname \"*meettheowl-voice*\" 2>/dev/null | head)",
+      "mcp__Claude_in_Chrome__resize_window",
+      "Bash(git checkout *)",
+      "Bash(gh pr create --base main --title 'Optimize project pages for tablet/phone and polish testimonials' --body ' *)",
+      "PowerShell(\\(Get-Command gh -ErrorAction SilentlyContinue\\).Source)",
+      "Bash(git -C \"E:\\\\Portfolio\\\\site\" status)",
+      "Bash(git -C \"E:\\\\Portfolio\\\\site\" branch --show-current)",
+      "Bash(git -C \"E:\\\\Portfolio\\\\site\" diff --stat src/index.css src/pages/OwllocatePage.jsx)",
+      "Bash(git -C \"E:\\\\Portfolio\\\\site\" log --oneline -5)",
+      "Bash(curl -s \"https://api.github.com/repos/gladysboswicaksono/meettheowl/pulls?head=gladysboswicaksono:project-pages-responsive-and-testimonials&state=all\")",
+      "Bash(curl -s \"https://api.github.com/repos/gladysboswicaksono/meettheowl/pulls/1\")",
+      "mcp__Claude_in_Chrome__find",
+      "Bash(npm run *)",
+      "PowerShell(cd \"E:\\\\Portfolio\\\\site\"; if \\(Test-Path dist\\\\index.html\\) { \"DIST OK: \" + \\(Get-Item dist\\\\index.html\\).LastWriteTime } else { \"no dist yet\" }; Get-ChildItem dist\\\\assets -ErrorAction SilentlyContinue | Select-Object Name,Length)",
+      "Bash(curl -s \"http://localhost:5173/training-impact\" -o /dev/null -w \"%{http_code}\\\\n\")"
     ]
   }
 }

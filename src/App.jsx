@@ -18,7 +18,7 @@ const projects = [
     category: 'AI, Data & Measurement',
     title: 'Measuring Training Impact',
     description: '"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer confidently.\n\nThis is the framework I built so that question always has a data-backed answer and a clear direction forward.',
-    href: '/work/training-impact',
+    href: '/training-impact' ,
   },
   {
     image: '/images/card-needs-analysis.png',
