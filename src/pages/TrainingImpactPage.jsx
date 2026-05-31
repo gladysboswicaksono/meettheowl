@@ -1046,9 +1046,9 @@ const whatIBuiltSlides = [
 
 /* Ask the Owl — carousel, 3 images, placeholders for now. */
 const askTheOwlSlides = [
-  { title: null, caption: null, img: null, alt: 'Ask the Owl demo 1' },
-  { title: null, caption: null, img: null, alt: 'Ask the Owl demo 2' },
-  { title: null, caption: null, img: null, alt: 'Ask the Owl demo 3' },
+  { title: null, caption: null, img: '/images/training-impact/owl-summary.png', alt: 'Ask the Owl demo 1' },
+  { title: null, caption: null, img: '/images/training-impact/owl-dig.png', alt: 'Ask the Owl demo 2' },
+  { title: null, caption: null, img: '/images/training-impact/owl-signal.png', alt: 'Ask the Owl demo 3' },
 ];
 
 export default function TrainingImpactPage() {
@@ -1061,7 +1061,7 @@ export default function TrainingImpactPage() {
         <section className="project-hero">
           <h2>Measuring Training Impact</h2>
           <div className="project-hero__image">
-            <img src="/images/card-needs-analysis.png" alt="Owl eye close-up with data overlay" />
+            <img src="/images/card-training-impact.png" alt="Dashboard UI elements" />
           </div>
           <div className="project-hero__text">
             <p>"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer confidently.</p>
@@ -1071,8 +1071,13 @@ export default function TrainingImpactPage() {
               <strong style={{ color: 'var(--red)', textDecoration: 'underline' }}>honest, data-backed answer</strong>,
               and a clear direction forward.
             </p>
-            <a href="#" className="btn-primary project-hero-btn">
-              View Report
+            <a
+              href="https://app.powerbi.com/view?r=eyJrIjoiMjAzZDhhZGUtZTNkOS00Mjg5LTkwYTYtNDJlOTBhNGE4MzEyIiwidCI6ImVkNjUyMGQ1LTVhNjgtNDU5NS1hMTUxLTMxNGJhMjlkMDkzZSIsImMiOjl9&pageName=9b76e23a95ea177e60bd"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary"
+            >
+              View report
             </a>
           </div>
         </section>
@@ -1326,7 +1331,21 @@ export default function TrainingImpactPage() {
               </Accordion>
 
               <Accordion label="📷 How I validated">
-
+                <p className='accordion__body accordion-content-text'>
+                  I wrapped the final SELECT from the AI-generated query to return five sample users. The output shows training status, courses completed, catalog size, and the threshold at each completion point, flagging users as trained once they cross it.
+                </p>
+                <div className='accordion-images'>
+                  <ZoomableImage src="/images/training-impact/framework-validation-1.png"></ZoomableImage>
+                </div>
+                <p className='accordion__body accordion-content-text'>
+                  From that sample, I ran the validation query for each user individually. It returns the same output as before, but broken down row by row per course completion. User 8249's flag turns TRUE on 2025-02-28, which is consistent with the AI-generated query output.
+                </p>
+                <div className='accordion-images'>
+                  <ZoomableImage src="/images/training-impact/framework-validation-2.png" />
+                </div>
+                <p className='accordion__body accordion-content-text'>
+                  From there, I brought the view into Power BI alongside the other metric tables and built calculated columns that classify each event as trained or untrained based on whether they had crossed the threshold by the time that specific event happened.
+                </p>
               </Accordion>
 
               <p>
@@ -1538,8 +1557,13 @@ export default function TrainingImpactPage() {
                 adapts automatically. If the trained definition changes, I only update one view in the data
                 warehouse and every metric on every page will reflect it immediately.
               </p>
-              <div className="gif-standalone">
-                <div className="ti-carousel__placeholder">Gif coming soon</div>
+
+              <div className="gif-standalone" style={{ maxWidth: '1000px' }}>
+                <GifPlayImage
+                  poster="/images/training-impact/building-for-maintainability.png"
+                  gif="/images/training-impact/building-for-maintainability.gif"
+                  alt="One measure operating in two modes"
+                />
               </div>
               <Accordion label="( ) Metric-based final DAX">
                 <div>

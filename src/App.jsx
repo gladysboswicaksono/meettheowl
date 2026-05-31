@@ -13,7 +13,7 @@ const projects = [
     href: '/owllocate-get-started',
   },
   {
-    image: '/images/card-needs-analysis.png',
+    image: '/images/card-training-impact.png',
     imageAlt: 'Owl eye close-up with data overlay',
     category: 'AI, Data & Measurement',
     title: 'Measuring Training Impact',
@@ -26,7 +26,7 @@ const projects = [
     category: 'AI, Data & Measurement',
     title: 'Data & AI for Needs Analysis',
     description: "AI analyzes data fast and presents findings so credibly that we forget it pattern-matches toward plausibility, not truth.\n\nThat's why I treat it as a probabilistic assistant under audit, not a magic eight ball.",
-    href: '/work/needs-analysis',
+    href: '/needs-analysis',
   },
   {
     image: '/images/card-onboarding.png',
@@ -34,7 +34,7 @@ const projects = [
     category: 'Internal Enablement',
     title: 'Making Remote Onboarding Work',
     description: 'A Purchasing department held a two-day, in-person orientation that was crucial for transferring essential knowledge to new trainees.\n\nHowever, COVID-19 social distancing restrictions made continuing this traditional format impossible.',
-    href: '/work/remote-onboarding',
+    href: '/virtual-onboarding',
   },
 ];
 

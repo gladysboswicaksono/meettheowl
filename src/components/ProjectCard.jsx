@@ -2,7 +2,7 @@ export default function ProjectCard({ image, imageAlt, category, title, descript
   return (
     <article style={{ display: 'flex', flexDirection: 'column', border: '1px solid var(--gold)' }}>
 
-      <img src={image} alt={imageAlt} style={{ width: '100%', height: '300px', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
+      <img src={image} alt={imageAlt} style={{ width: '535px', height: '300px', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
 
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '1.5rem', gap: '1rem' }}>
 

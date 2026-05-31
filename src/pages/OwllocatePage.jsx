@@ -201,7 +201,7 @@ export default function OwllocatePage() {
               Tools: Articulate Storyline, Parta, Google Apps Script, Adobe Illustrator, Adobe Photoshop.
             </p>
             <a
-              href="https://gladys1998crb.wixstudio.com/theowl/owllocate-get-started"
+              href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
               target="_blank"
               rel="noreferrer"
               className="btn-primary"

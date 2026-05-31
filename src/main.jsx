@@ -6,6 +6,7 @@ import App from './App.jsx'
 import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
+import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/owllocate-get-started" element={<OwllocatePage />} />
         <Route path="/training-impact" element={<TrainingImpactPage />} />
         <Route path="/needs-analysis" element={<NeedsAnalysisPage />} />
+        <Route path="/virtual-onboarding" element={<VirtualOnboardingPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
