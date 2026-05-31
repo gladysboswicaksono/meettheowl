@@ -523,17 +523,17 @@ export default function TrainingImpactPage() {
               <Accordion label="📷 How I validated">
 
               </Accordion>
-              <div className="accordion-images">
-                <ZoomableImage src="/images/training-impact/framework-validation-1.png" alt="How I validated 1" />
-                <ZoomableImage src="/images/training-impact/framework-validation-2.png" alt="How I validated 2" />
-              </div>
-              <ImgCaption>📷 How I validated</ImgCaption>
+              
               <p>
                 From there, I brought the view into Power BI alongside the other metric tables and built
                 calculated columns that classify each event as trained or untrained based on whether they had
                 crossed the threshold by the time that specific event happened.
               </p>
-              <CodeRef icon="🖧">Time-aware trained event DAX</CodeRef>
+
+              <Accordion label="🖧 Time-aware trained event DAX">
+
+              </Accordion>
+
             </div>
 
 
