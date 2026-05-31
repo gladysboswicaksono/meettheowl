@@ -401,6 +401,16 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   background-color: var(--blue-card);
 }
 
+.tab-content-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-content-column {
+  flex: 1
+}
+
 .tab-content h3 {
   color: var(--gold);
   text-transform: uppercase;
@@ -488,7 +498,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 /* Accordions */
 .accordion {
   width: 100%;
-  background: rgba(255,255,255,0.04);
+  background: var(--blue-bg);
   border: 1px solid rgba(246,199,133,0.2);
   margin: 20px 0;
   cursor: pointer;
@@ -538,6 +548,26 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
+  background-color: var(--blue-card);
+}
+
+.accordion__body .accordion-content-comment {
+  text-transform: uppercase;
+  color: #9D9D9D;
+  font-size: 17px;
+  font-style: italic;
+}
+
+.accordion__body .accordion-content-query {
+  color: var(--gold);
+  font-size: 17px;
+  white-space: pre-wrap;
+  tab-size: 3;
+}
+
+.accordion__body .accordion-content-text {
+  color: var(--gray);
+  font-size: 17px;
 }
 
 /* Accordion image grid */
@@ -570,6 +600,12 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   width: 100%;
   display: block;
   border-radius: 4px;
+}
+
+/* Cropped thumbnail (Framework catalog image only) — full image still opens on click */
+.zoomable-img--crop {
+  max-height: 320px;
+  overflow: hidden;
 }
 
 .zoom-icon {

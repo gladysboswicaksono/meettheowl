@@ -2,11 +2,11 @@ import { useState } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
-function ZoomableImage({ src, alt }) {
+function ZoomableImage({ src, alt, crop }) {
   const [zoomed, setZoomed] = useState(false);
   return (
     <>
-      <div className="zoomable-img" onClick={() => setZoomed(true)}>
+      <div className={`zoomable-img${crop ? ' zoomable-img--crop' : ''}`} onClick={() => setZoomed(true)}>
         <img src={src} alt={alt} />
         <span className="zoom-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -25,6 +25,117 @@ function ZoomableImage({ src, alt }) {
     </>
   );
 }
+
+function Accordion({ label, children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={`accordion${open ? ' open' : ''}`}>
+      <button className="accordion__header" onClick={() => setOpen(o => !o)}>
+        <span className="accordion__label"> {label}</span>
+        <span className={`accordion__chevron${open ? ' open' : ''}`}>▾</span>
+      </button>
+      {open && <div className="accordion__body">{children}</div>}
+    </div>
+  );
+}
+
+  const userSegmentationQuery = (
+    <>
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    {`
+    with relevant_content AS(
+        select
+            content_id
+        from
+            academy.dim_LearningContent
+        where
+            category = 'Product Training'
+    ),
+     `}
+
+     <span className='accordion-content-comment'>-- 2. COUNT HOW MANY COURSES ARE IN RELEVANT_CONTENT - DENOMINATOR FOR #4</span>
+     {`
+     content_count as(
+        select
+            count(distinct content_id) as total_count
+        from
+            relevant_content
+      ),
+      `}
+
+    <span className='accordion-content-comment'>-- 3. PULL USER ENGAGEMENT ON RELEVANT CONTENT</span>
+    {`
+    user_completions as(
+        select
+            u.user_id,
+            count(distinct case
+                when fte.completed_date is not null and rc.content_id is not null `}<span className='accordion-content-comment'>-- MAKES SURE ONLY RELEVANT CONTENT IS INCLUDED</span>{`
+                then fte.content_id
+                end) as completed_count
+        from
+            core.dim_users u
+        left join academy.fact_training_engagement fte on u.user_id = fte.user_id
+        left join
+            relevant_content rc on fte.content_id = rc.content_id
+        group by
+            u.user_id
+      ),
+      `}
+
+    <span className='accordion-content-comment'>-- 4. GET % COMPLETIONS PER USER</span>
+    {`
+    pct_user_completions as (
+        select
+            uc.user_id,
+            uc.completed_count,`}<span className='accordion-content-comment'>-- HOW MANY RELEVANT COURSES THEY COMPLETED</span>{`
+            cc.total_content`}<span className='accordion-content-comment'>-- FROM #2</span>{`
+            uc.completed_count / nullif(cc.total_content, 0)*100 as completion_pct
+        from
+            user_completions uc
+        cross join
+            content_count cc
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 5. SEGMENT THEM INTO BUCKETS BASED ON % OF COMPLETIONS</span>{`
+    bucket as(
+        select
+            user_id,
+            completion_pct,
+            case
+                when completion_pct = 0 then 'Not started'
+                when completion_pct > 0 and completion_pct < 25 then 'Early progress (<25%)'
+                when completion_pct >= 25 and completion_pct < 50 then 'Low progress (25-49%)'
+                when completion_pct >= 50 and completion_pct < 75 then 'Mid progress (50-74%)'
+                when completion_pct >= 75 and completion_pct < 100 then 'High progress (75-99%)'
+                when completion_pct = 100 then 'Completed'
+            end as completion_bucket,
+            case
+                when completion_pct = 0 then 1
+                when completion_pct > 0 and completion_pct < 25 then 2
+                when completion_pct >= 25 and completion_pct < 50 then 3
+                when completion_pct >= 50 and completion_pct <75 then 4
+                when completion_pct >= 75 and completion_pct < 100 then 5
+                when completion_pct = 100 then 6
+            end as sort_order
+        from
+            pct_user_completions
+    )
+    `}
+
+    <span className='accordion-content-comment'>-- 6. SELECT THE OUTPUT COLUMNS</span>{`
+    select
+        completion_bucket as bucket,
+        count(user_id) as user_count,
+        round(count(user_id)*100 / sum(count(user_id)) over (), 2) as pct_of_users`}<span className='accordion-content-comment'>-- PCT OF USERS WITHIN EACH BUCKET</span>{`
+    from
+        bucket
+    group by
+        completion_bucket, sort_order
+    order by sort_order
+    `}
+    </>
+  )
 
 function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
@@ -260,33 +371,49 @@ export default function TrainingImpactPage() {
           </div>
         </section>
 
+
         {/* THE FRAMEWORK */}
         <section className="deep-section deep-section--navy">
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2>📐 The Framework</h2>
               <div className='tab-content'>
               <h3>Making Sense of What Exists</h3>
-              <p>
-                Not all courses in the LMS are relevant for measuring the particular goals we were setting.
-                I focused specifically on those categorized as Product Training, which are designed to drive
-                key behaviors like increasing engagement on core product features.
-              </p>
-              <p>
-                Once the relevant content is defined, I digged into the historical completion to understand
-                where the users actually stood and how the engagement is distributed. I.e., how many have not
-                started, partially completed, reached around halfway, or completed (almost) the full catalog.
-              </p>
-              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                <ZoomableImage src="/images/training-impact/framework-catalog.png" alt="Sample catalog scope" />
+
+              <div className='tab-content-grid'>
+                <div className='tab-content-column'>
+                  <p>
+                    Not all courses in the LMS are relevant for measuring the particular goals we were setting.
+                    I focused specifically on those categorized as Product Training, which are designed to drive
+                    key behaviors like increasing engagement on core product features.
+                  </p>
+                  <p>
+                    Once the relevant content is defined, I digged into the historical completion to understand
+                    where the users actually stood and how the engagement is distributed. I.e., how many have not
+                    started, partially completed, reached around halfway, or completed (almost) the full catalog.
+                  </p>
+                </div>
+
+                <div className='tab-content-column'>
+                  <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                    <ZoomableImage src="/images/training-impact/framework-catalog.png" alt="Sample catalog scope" crop />
+                  </div>
+                  <ImgCaption>Sample catalog scope</ImgCaption>
+                </div>
               </div>
-              <ImgCaption>Sample catalog scope</ImgCaption>
               <p>
                 To enable this level of analysis, I sourced the data from the data warehouse instead of
                 directly from the LMS reporting, so I had more flexibility in modeling and segmenting the
                 users.
               </p>
-              <CodeRef>User segmentation query</CodeRef>
-              </div>
+
+              <Accordion label="<> User segmentation query">
+                <div>
+                  <p className='accordion-content-query'>
+                    {userSegmentationQuery}
+                  </p>
+                </div>           
+              </Accordion>
+              </div> 
 
               <h3>Performance of Existing User Segments</h3>
               <p>
