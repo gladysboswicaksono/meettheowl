@@ -137,6 +137,799 @@ const userSegmentationQuery = (
   </>
 )
 
+const performanceComparisonQuery = (
+  <>
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    {`
+    with relevant_content AS(
+        select
+            content_id
+        from
+            academy.dim_LearningContent
+        where
+            category = 'Product Training'
+            ),
+    `}
+
+    <span className='accordion-content-comment'>-- 2. COUNT HOW MANY COURSES ARE IN RELEVANT_CONTENT</span>
+    {`
+    content_count as (
+        select count (distinct content_id) as total_content
+        FROM
+            relevant_content
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 3. COUNT % COMPLETION AS OF EACH INTERACTION DATE</span>
+    {`
+    interaction_completion_pct as (
+        SELECT
+            fi.interaction_id,
+            fi.user_id,
+            fi.interaction_start,
+            count(distinct CASE
+                when fte.completed_date is not NULL
+                and cast(fte.completed_date as date) <= cast(interaction_start as date)
+                and rc.content_id is not null
+                then fte.content_id
+                end) / nullif(cc.total_content, 0) * 100 as completion_pct
+        from
+            product.fact_session_feature_interactions fi
+        inner JOIN
+            core.dim_users du on du.user_id = fi.user_id
+        left join
+            academy.fact_training_engagement fte on fte.user_id = fi.user_id
+        left join
+            relevant_content rc on rc.content_id = fte.content_id
+        cross join
+            content_count cc
+        where du.is_active = 1
+        group by fi.interaction_id, fi.user_id, cc.total_content, fi.interaction_start
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 4. ADD THE COMPLETION BUCKETS</span>
+    {`
+    bucket as(
+        select
+            interaction_id,
+            user_id,
+            case
+                when completion_pct = 0 then 'Not started'
+                when completion_pct > 0 and completion_pct < 25 then 'Early progress (<25%)'
+                when completion_pct >= 25 and completion_pct < 50 then 'Low progress (25-49%)'
+                when completion_pct >= 50 and completion_pct < 75 then 'Mid progress (50-74%)'
+                when completion_pct >= 75 and completion_pct < 100 then 'High progress (75-99%)'
+                when completion_pct = 100 then 'Completed'
+            end as completion_bucket,
+            case
+                when completion_pct = 0 then 1
+                when completion_pct > 0 and completion_pct < 25 then 2
+                when completion_pct >= 25 and completion_pct < 50 then 3
+                when completion_pct >= 50 and completion_pct < 75 then 4
+                when completion_pct >= 75 and completion_pct < 100 then 5
+                when completion_pct = 100 then 6
+            end as sort_order
+        from interaction_completion_pct
+    )
+
+    select
+        completion_bucket as bucket,
+        round(count(distinct interaction_id) / nullif(count(distinct user_id), 0), 2) as avg_interactions_per_user
+    from
+        bucket
+    group by sort_order, bucket
+    order by sort_order
+    `}
+  </>
+)
+
+const generalTrainedFlagQuery = (
+  <>
+    {`create or replace view academy.vw_usertrainingstatus as(
+
+    `}
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    {`
+    WITH relevant_content AS (
+      SELECT content_id, content_name, created_date
+      FROM academy.dim_LearningContent
+      WHERE category = 'Product Training'
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 2. USER COMPLETION COUNT ON PRODUCT TRAINING</span>
+    {`
+    user_progress AS (
+      SELECT
+        du.user_id,
+        du.email,
+        COUNT(DISTINCT CASE
+            WHEN te.completed_date IS NOT NULL
+            AND rc.content_id IS NOT NULL
+            THEN te.content_id
+        END) AS completed_courses
+      FROM core.dim_users du
+      LEFT JOIN academy.fact_training_engagement te ON du.user_id = te.user_id
+      LEFT JOIN relevant_content rc ON te.content_id = rc.content_id
+      WHERE du.is_active = 1
+      GROUP BY 1, 2
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 3. GET FIRST DATE OF EACH COURSE COMPLETION</span>
+    {`
+    first_completions AS (
+      SELECT
+        te.user_id,
+        te.content_id,
+        MIN(te.completed_date) AS completed_date
+      FROM academy.fact_training_engagement te
+      INNER JOIN relevant_content rc ON te.content_id = rc.content_id
+      WHERE te.completed_date IS NOT NULL
+      GROUP BY 1, 2
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 4. GET COMPLETION COUNT AND PRODUCT TRAINING CATALOG SIZE ON EACH COMPLETION DATE</span>
+    {`
+    ranked_completions AS (
+      SELECT
+        user_id,
+        completed_date,
+        ROW_NUMBER() OVER (
+          PARTITION BY user_id
+          ORDER BY completed_date
+        ) AS cumulative_distinct_courses,
+        (
+          SELECT COUNT(DISTINCT content_id)
+          FROM relevant_content rc2
+          WHERE rc2.created_date <= completed_date `}<span className='accordion-content-comment'>-- MAKES SURE THE COUNT INCLUDES AVAILABLE COURSES BY COMPLETION DATES</span>{`
+        ) AS courses_available_at_date
+      FROM first_completions
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 5. GET THE DATE WHEN USERS PASSED 50% THRESHOLD</span>
+    {`
+    trained_date AS (
+      SELECT
+        user_id,
+        MIN(completed_date) AS trained_on_date
+      FROM ranked_completions
+      WHERE cumulative_distinct_courses >= CEIL(courses_available_at_date * 0.5)
+      GROUP BY 1
+    )
+    `}
+
+    <span className='accordion-content-comment'>-- 6. SELECT FINAL OUTPUT, MARKING USERS AS TRAINED WHEN TRAINING DATE IS NOT EMPTY</span>
+    {`
+    SELECT
+      up.user_id,
+      up.email,
+      up.completed_courses,
+      total.cnt AS current_total_courses,
+      SAFE_DIVIDE(up.completed_courses, total.cnt) * 100 AS overall_completion_pct,
+      CASE WHEN td.trained_on_date IS NOT NULL THEN TRUE ELSE FALSE END AS is_trained_overall,
+      td.trained_on_date AS completion_date
+    FROM user_progress up
+    CROSS JOIN (SELECT COUNT(DISTINCT content_id) AS cnt FROM relevant_content) AS total
+    LEFT JOIN trained_date td ON up.user_id = td.user_id
+    )
+    `}
+  </>
+)
+
+const validationQuery = (
+  <>
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    {`
+    with relevant_content AS(
+        select
+            content_id,
+            content_name,
+            created_date
+        from
+            academy.dim_LearningContent
+        where
+            category = 'Product Training'
+            ),
+    `}
+
+    <span className='accordion-content-comment'>-- 2. GET FIRST COMPLETION DATES FOR A USER</span>
+    {`
+    first_completions as(
+      select
+        fte.content_id,
+        min(fte.completed_date) as completed_date
+      from
+        academy.fact_training_engagement fte
+      join
+        relevant_content rc on rc.content_id = fte.content_id
+      where
+        fte.user_id = 8249 `}<span className='accordion-content-comment'>-- FILTER A USER TO VALIDATE</span>{`
+      and fte.completed_date is not null
+      group by fte.content_id
+    ),
+    `}
+
+    <span className='accordion-content-comment'>-- 3. GET CATALOG SIZE ON EACH COMPLETION DATE</span>
+    {`
+    catalog_size as(
+      select
+        fc.completed_date,
+        fc.content_id,
+        (select
+          count(distinct rc.content_id)
+        from
+          relevant_content rc
+        where
+          rc.created_date <= fc.completed_date) as course_count
+      from
+        first_completions fc
+    )
+    `}
+
+    <span className='accordion-content-comment'>-- 4. SELECT FINAL OUTPUT, COMPLETION TIMELINES OF FILTERED USER AND CONFIRM THE EXACT POINT AT WHICH A USER IS MARKED AS TRAINED</span>
+    {`
+    select
+      cs.completed_date,
+      rc.content_name,
+      row_number() over (order by cs.completed_date) as completion_count, `}<span className='accordion-content-comment'>-- COMPLETION COUNT ON EACH COMPLETION DATE</span>{`
+      cs.course_count as catalog_size_at_date,
+      cs.course_count * 0.5 as threshold_at_date,
+      row_number() over (order by cs.completed_date) >= (cs.course_count * 0.5) as is_trained_at_date `}<span className='accordion-content-comment'>-- CHECK WHETHER THE USER IS TRAINED OR NOT ON EACH COMPLETION DATE</span>{`
+    from
+      catalog_size cs
+    join
+      relevant_content rc on rc.content_id = cs.content_id
+    order by cs.completed_date
+    `}
+  </>
+)
+
+const timeAwareTrainedEventDax = (
+  <>
+    {`is_general_trained =
+
+    `}
+    <span className='accordion-content-comment'>-- 1. GET TRAINED DATE FROM THE VIEW FOR EACH USER PER EVENT</span>
+    {`
+    VAR UserTrainingDate =
+        CALCULATE(
+            MIN(vw_usertrainingstatus[is_trained_on]),
+            FILTER(
+                vw_usertrainingstatus,
+                vw_usertrainingstatus[user_id] = fact_session_feature_interactions[user_id]
+                && vw_usertrainingstatus[is_trained] = TRUE()
+            )
+        )
+    `}
+
+    <span className='accordion-content-comment'>-- 2. IF TRAINED DATE HAPPENED ON OR BEFORE THE FEATURE INTERACTION TIME, THE USER IS TRAINED (1) ELSE UNTRAINED (0)</span>
+    {`
+    RETURN
+        IF(
+            NOT(ISBLANK(UserTrainingDate)) &&
+            UserTrainingDate <= fact_session_feature_interactions[interaction_start],
+            1,
+            0
+        )
+    `}
+  </>
+)
+
+const flexibleTrainedUserDax = (
+  <>
+    {`_fa_avg_per_trained =
+
+    `}
+    <span className='accordion-content-comment'>// 1. ALL CONTENT AND FEATURE ARE SELECTED BY DEFAULT, OTHERWISE CHECK WHAT VALUES ARE APPLIED</span>
+    {`
+    VAR SelectedContent = SELECTEDVALUE(_slicer_content_name[content_name], "All")
+    VAR SelectedFeature = SELECTEDVALUE(_slicer_feature_name[feature_name], "All")
+    `}
+
+    <span className='accordion-content-comment'>// 2. GET FILTERED DATES</span>
+    {`
+    VAR StartDate = [_context_start_date]
+    VAR EndDate = [_context_end_date]
+
+    RETURN
+    IF(
+        SelectedContent = "All",
+        IF(
+            SelectedFeature = "All",
+    `}
+
+    <span className='accordion-content-comment'>// 3. LOGIC IF NOTHING IS SELECTED, COUNT UNIQUE INTERACTION ID DIVIDED BY COUNT OF UNIQUE TRAINED USER WITH INTERACTIONS WITHIN SELECTED DATE RANGE</span>
+    {`
+        DIVIDE(
+            CALCULATE(
+                DISTINCTCOUNT(fact_session_feature_interactions[interaction_id]),
+                fact_session_feature_interactions[interaction_start] >= StartDate,
+                fact_session_feature_interactions[interaction_start] <= EndDate,
+                fact_session_feature_interactions[is_general_trained] = 1 `}<span className='accordion-content-comment'>// FLAG FOR TRAINED IS 1. THIS MEASURE IS THE SAME FOR AVERAGE PER UNTRAINED USER, JUST CHANGE THE VALUE TO 0</span>{`
+            ),
+            CALCULATE(
+                DISTINCTCOUNT(fact_session_feature_interactions[user_id]),
+                fact_session_feature_interactions[interaction_start] >= StartDate,
+                fact_session_feature_interactions[interaction_start] <= EndDate,
+                fact_session_feature_interactions[is_general_trained] = 1
+            ),
+            0
+        ),
+    `}
+
+    <span className='accordion-content-comment'>// 4. LOGIC IF CONTENT IS NOT FILTERED BUT FEATURE IS, COUNT UNIQUE INTERACTION OF FILTERED FEATURE DIVIDED BY COUNT OF UNIQUE TRAINED USERS INTERACTING WITH THE FILTERED FEATURE</span>
+    {`
+        DIVIDE(
+            CALCULATE(
+                DISTINCTCOUNT(fact_session_feature_interactions[interaction_id]),
+                fact_session_feature_interactions[interaction_start] >= StartDate,
+                fact_session_feature_interactions[interaction_start] <= EndDate,
+                fact_session_feature_interactions[is_general_trained] = 1,
+                TREATAS(
+                    FILTER(VALUES(_slicer_feature_name[feature_name]), _slicer_feature_name[feature_name] <> "All"),
+                    fact_session_feature_interactions[feature_accessed]
+                )
+            ),
+            CALCULATE(
+                DISTINCTCOUNT(fact_session_feature_interactions[user_id]),
+                fact_session_feature_interactions[interaction_start] >= StartDate,
+                fact_session_feature_interactions[interaction_start] <= EndDate,
+                fact_session_feature_interactions[is_general_trained] = 1,
+                TREATAS(
+                    FILTER(VALUES(_slicer_feature_name[feature_name]), _slicer_feature_name[feature_name] <> "All"),
+                    fact_session_feature_interactions[feature_accessed]
+                )
+            ),
+            0
+        )
+    ),
+    `}
+
+    <span className='accordion-content-comment'>// 5. WRITE BASE INTERACTION LOGIC FOR IF CONTENT IS FILTERED</span>
+    {`
+    VAR BaseInteraction =
+        SUMMARIZE(
+            FILTER(
+                fact_session_feature_interactions,
+                fact_session_feature_interactions[interaction_start] >= StartDate &&
+                fact_session_feature_interactions[interaction_start] <= EndDate &&
+                (SelectedFeature = "All" || fact_session_feature_interactions[feature_accessed] = SelectedFeature)
+            ),
+            fact_session_feature_interactions[interaction_id],
+            fact_session_feature_interactions[user_id],
+            fact_session_feature_interactions[interaction_start]
+        )
+    `}
+
+    <span className='accordion-content-comment'>// 6. IF CONTENT IS FILTERED, CREATE KEY COLUMNS AND MARK USERS AS TRAINED WHEN FILTERED CONTENT IS COMPLETED BEFORE OR ON INTERACTION TIME</span>
+    {`
+    VAR ClassifiedRows =
+        ADDCOLUMNS(
+            BaseInteraction, `}<span className='accordion-content-comment'>-- LOGIC FROM #5</span>{`
+            "@trained", `}<span className='accordion-content-comment'>-- VIRTUAL COLUMN FOR TRAINED FLAGS</span>{`
+                VAR uid = [user_id]
+                VAR idate = [interaction_start]
+                VAR tdate =
+                    CALCULATE(
+                        MIN(fact_training_completions[completed_date]),
+                        fact_training_completions[user_id] = uid,
+                        fact_training_completions[content_name] = SelectedContent
+                    )
+                RETURN IF(NOT(ISBLANK(tdate)) && tdate <= idate, 1, 0) `}<span className='accordion-content-comment'>// IF FILTERED CONTENT IS COMPLETED BEFORE OR ON INTERACTION TIME, TRAINED (1), ELSE UNTRAINED (0)</span>{`
+        )
+    `}
+
+    <span className='accordion-content-comment'>// 7. FLAG TRAINED INTRACTIONS. CHANGE VALUE TO 0 FOR THE UNTRAINED MEASURE</span>
+    {`
+    VAR TrainedInteractions = FILTER(ClassifiedRows, [@trained] = 1)
+    `}
+
+    <span className='accordion-content-comment'>// 8. DIVIDE UNIQUE TRAINED INTERACTIONS BY UNIQUE TRAINED USERS</span>
+    {`
+    RETURN
+    DIVIDE(COUNTROWS(TrainedInteractions ), COUNTROWS(DISTINCT(SELECTCOLUMNS(TrainedInteractions , "uid", [user_id]))), 0)
+)
+    `}
+  </>
+)
+
+const sameTenureComparisonDax = (
+  <>
+    <span className='accordion-content-comment'>// # CALCULATED COLUMN FOR ACCOUNT AGE AS OF INTERACTION DATE</span>
+    {`
+    days_since_signup =
+    VAR user_signup = RELATED(dim_user[signup_date])
+
+    RETURN
+    fact_session_feature_interactions[interaction_start] - user_signup
+    `}
+
+    <span className='accordion-content-comment'>// # SAME-TENURE AVERAGE MEASURE</span>
+    {`
+    _fa_same_tenure_trained =
+    `}
+
+    <span className='accordion-content-comment'>// 1. ALL CONTENT AND FEATURE ARE SELECTED BY DEFAULT, OTHERWISE CHECK WHAT VALUES ARE APPLIED</span>
+    {`
+    VAR SelectedContent = SELECTEDVALUE(_slicer_content_name[content_name], "All")
+    VAR SelectedFeature = SELECTEDVALUE(_slicer_feature_name[feature_name], "All")
+
+    RETURN
+    IF(
+        SelectedContent = "All",
+        IF(
+            SelectedFeature = "All",
+    `}
+
+    <span className='accordion-content-comment'>// 2. LOGIC IF NOTHING IS FILTERED, DIVIDE UNIQUE INTERACTION BY UNIQUE TRAINED USER</span>
+    {`
+        CALCULATE(
+            DIVIDE(
+                DISTINCTCOUNT(fact_session_feature_interactions[interaction_id]),
+                DISTINCTCOUNT(fact_session_feature_interactions[user_id]),
+                0
+            ),
+            fact_session_feature_interactions[days_since_signup] > 0,
+            fact_session_feature_interactions[days_since_signup] <= 180, `}<span className='accordion-content-comment'>// ONLY FOR INTERACTIONS WITHIN USERS' FIRST 6 MONTHS</span>{`
+            fact_session_feature_interactions[is_general_trained] = 1,
+            TREATAS(VALUES(signup_cohort_slicer[SignupYear]), dim_user[signup_year]),
+            TREATAS(VALUES(signup_cohort_slicer[SignUpMonth]), dim_user[signup_month])
+        ),
+    `}
+
+    <span className='accordion-content-comment'>// 3. LOGIC IF CONTENT IS NOT FILTERED BUT FEATURE IS</span>
+    {`
+        CALCULATE(
+            DIVIDE(
+                DISTINCTCOUNT(fact_session_feature_interactions[interaction_id]),
+                DISTINCTCOUNT(fact_session_feature_interactions[user_id]),
+                0
+            ),
+            fact_session_feature_interactions[days_since_signup] > 0,
+            fact_session_feature_interactions[days_since_signup] <= 180,
+            fact_session_feature_interactions[is_general_trained] = 1,
+            TREATAS(VALUES(signup_cohort_slicer[SignupYear]), dim_user[signup_year]),
+            TREATAS(VALUES(signup_cohort_slicer[SignUpMonth]), dim_user[signup_month]),
+            TREATAS(
+                FILTER(VALUES(_slicer_feature_name[feature_name]), _slicer_feature_name[feature_name] <> "All"),
+                fact_session_feature_interactions[feature_accessed]
+            )
+        )
+    ),
+    `}
+
+    <span className='accordion-content-comment'>// 5. LOGIC IF CONTENT IS FILTERED</span>
+    {`
+        CALCULATE(
+    `}
+
+    <span className='accordion-content-comment'>// BASE INTERACTION COLUMNS</span>
+    {`
+            VAR Interactions =
+                SELECTCOLUMNS(
+                    SUMMARIZE(
+                        FILTER(
+                            fact_session_feature_interactions,
+                            fact_session_feature_interactions[days_since_signup] > 0 &&
+                            fact_session_feature_interactions[days_since_signup] <= 180 &&
+                            (SelectedFeature = "All" || fact_session_feature_interactions[feature_accessed] = SelectedFeature)
+                        ),
+                        fact_session_feature_interactions[interaction_id],
+                        fact_session_feature_interactions[interaction_start],
+                        fact_session_feature_interactions[user_id]
+                    ),
+                    "@iid", [interaction_id],
+                    "@istart", [interaction_start],
+                    "@iuid", [user_id]
+                )
+    `}
+
+    <span className='accordion-content-comment'>// VIRTUAL COLUMN TO FLAG TRAINED USERS</span>
+    {`
+            VAR ClassifiedRows =
+                ADDCOLUMNS(
+                    Interactions,
+                    "@is_trained",
+                        VAR uid = [@iuid]
+                        VAR idate = [@istart]
+                        VAR tdate =
+                            CALCULATE(
+                                MIN(fact_training_completions[completed_date]),
+                                fact_training_completions[user_id] = uid,
+                                fact_training_completions[content_name] = SelectedContent
+                            )
+                        RETURN IF(NOT(ISBLANK(tdate)) && tdate <= idate, 1, 0) `}<span className='accordion-content-comment'>// IF TRAINING COMPLETION HAPPENS BEFORE INTERACTION TIME, USER IS TRAINED (1), ELSE UNTRAINED (0)</span>{`
+                )
+
+            VAR TrainedRows = FILTER(ClassifiedRows, [@is_trained] = 1)
+            VAR TrainedEvents = COUNTROWS(TrainedRows)
+            VAR TrainedUsers = COUNTROWS(DISTINCT(SELECTCOLUMNS(TrainedRows, "uid", [@iuid])))
+    `}
+
+    <span className='accordion-content-comment'>// FINAL OUTPUT FOR LOGIC #5</span>
+    {`
+            RETURN DIVIDE(TrainedEvents, TrainedUsers, 0),
+            TREATAS(VALUES(signup_cohort_slicer[SignupYear]), dim_user[signup_year]),
+            TREATAS(VALUES(signup_cohort_slicer[SignUpMonth]), dim_user[signup_month])
+        )
+    )
+    `}
+  </>
+)
+
+const didHelpDax = (
+  <>
+    <span className='accordion-content-comment'>// # PRE- AND POST- TRAINING COMPARISON SELECTOR BETWEEN 1 TO 6 MONTHS, DEFAULT TO 3 MONTHS</span>
+    {`
+    _did_months = SELECTEDVALUE(DiD_comparison_months[Value], 3)
+    `}
+
+    <span className='accordion-content-comment'>// # TRAINING WINDOW BASED ON WHICH VISUAL THE MEASURE IS PLACED</span>
+    {`
+    _did_training_start =
+    SWITCH(
+        SELECTEDVALUE(_selected_visual[Value]),
+        "Table", MIN(table_Calendar[Date]),
+        "KPI", MIN(kpi_Calendar[Date]),
+        MIN(DiD_training_Calendar[Date])
+    )
+
+    _did_training_end =
+    SWITCH(
+        SELECTEDVALUE(_selected_visual[Value]),
+        "Table", MAX(table_Calendar[Date]),
+        "KPI", MAX(kpi_Calendar[Date]),
+        MAX(DiD_training_Calendar[Date])
+    )
+    `}
+
+    <span className='accordion-content-comment'>// # "BEFORE" PERIOD WINDOW</span>
+    {`
+    _did_before_end = [_did_training_start] - 1 `}<span className='accordion-content-comment'>-- // 1 DAY BEFORE TRAINING STARTS</span>{`
+
+    _did_before_start = EDATE([_did_before_end], - [_did_months]) + 1 `}<span className='accordion-content-comment'>-- // FIRST DAY OF THE SELECTED MONTH WINDOW ENDING ON _did_before_end</span>{`
+    `}
+
+    <span className='accordion-content-comment'>// # "AFTER" PERIOD WINDOW</span>
+    {`
+    _did_after_start = [_did_training_end] + 1
+
+    _did_after_end = EDATE([_did_after_start], [_did_months]) - 1
+    `}
+
+    <span className='accordion-content-comment'>// # FLAG TRAINED USERS BASED ON 50% THRESHOLD (DID REQUIRES CLASSIFYING EACH USER AS TRAINED WITHIN THE WINDOW, SO THE APPROACH IS DIFFERENT THAN THE OTHER TWO METHODS)</span>
+    {`
+    _is_user_did_general_trained =
+    `}
+
+    <span className='accordion-content-comment'>// 1. GET CURRENT USERS IN CONTEXT AND SELECTED TRAINING WINDOW</span>
+    {`
+    VAR CurrentUser = MAX(dim_user[user_id])
+    VAR TrainingStart = [_did_training_start]
+    VAR TrainingEnd = [_did_training_end]
+    `}
+
+    <span className='accordion-content-comment'>// 2. GET TRAINING COMPLETION DATE</span>
+    {`
+    VAR UserTrainingDate =
+        CALCULATE(
+            (vw_usertrainingstatus[completion_date]),
+            FILTER(
+                vw_usertrainingstatus,
+                vw_usertrainingstatus[user_id] = CurrentUser &&
+                vw_usertrainingstatus[is_trained_overall] = TRUE()
+            )
+        )
+    `}
+
+    <span className='accordion-content-comment'>// 3. IF USER TRAINED WITHIN SELECTED WINDOW, USER IS TRAINED (1), ELSE UNTRAINED (0)</span>
+    {`
+    RETURN
+        IF(
+           UserTrainingDate >= TrainingStart && UserTrainingDate <= TrainingEnd, 1, 0
+        )
+    `}
+
+    <span className='accordion-content-comment'>// # FLAG TRAINED USERS BASED ON FILTERED CONTENT</span>
+    {`
+    _is_user_did_course_trained =
+    `}
+
+    <span className='accordion-content-comment'>// 1. GET CURRENT USERS IN CONTEXT AND SELECTED TRAINING WINDOW</span>
+    {`
+    VAR CurrentUser = MAX(dim_user[user_id])
+    VAR TrainingStart = [_did_training_start]
+    VAR TrainingEnd = [_did_training_end]
+    `}
+
+    <span className='accordion-content-comment'>// 2. GET EARLIEST COURSE COMPLETION DATE FOR FILTERED CONTENT</span>
+    {`
+    VAR SelectedContent = SELECTEDVALUE(_slicer_content_name[content_name])
+    VAR UserTrainingDate =
+        CALCULATE(
+            MIN(fact_training_completions[completed_date]),
+            FILTER(
+                fact_training_completions,
+                fact_training_completions[user_id] = CurrentUser &&
+                fact_training_completions[content_name] IN SelectedContent
+            )
+        )
+    `}
+
+    <span className='accordion-content-comment'>// 3. IF USER TRAINED WITHIN SELECTED WINDOW, USER IS TRAINED (1), ELSE UNTRAINED (0)</span>
+    {`
+    RETURN
+        IF(
+            UserTrainingDate >= TrainingStart && UserTrainingDate <= TrainingEnd, 1, 0
+        )
+    `}
+
+    <span className='accordion-content-comment'>// # FLEXIBLE TRAINED FLAG BASED ON CONTENT FILTER</span>
+    {`
+    _is_user_did_metric_flexible_trained =
+    VAR SelectedContent = SELECTEDVALUE(_slicer_content_name[content_name], "All")
+    `}
+
+    <span className='accordion-content-comment'>// 1. IF SELECTEDCONTENT IS ALL, USE 50% THRESHOLD LOGIC, ELSE SELECTED CONTENT LOGIC</span>
+    {`
+    RETURN
+    IF(SelectedContent = "All",
+        [_is_user_did_general_trained],
+        [_is_user_did_course_trained]
+    )
+    `}
+  </>
+)
+
+const didIntermediateDax = (
+  <>
+    {`_fa_did_trained_before =
+
+    `}
+    <span className='accordion-content-comment'>// 1. GET DATE WINDOW</span>
+    {`
+    VAR BeforeStart = [_did_before_start]
+    VAR BeforeEnd = [_did_before_end]
+    VAR AfterStart = [_did_after_start]
+    VAR AfterEnd = [_did_after_end]
+    `}
+
+    <span className='accordion-content-comment'>// 2. CHECK WHAT FEATURE IS SELECTED, DEFAULT TO ALL</span>
+    {`
+    VAR SelectedFeature = SELECTEDVALUE(_slicer_feature_name[feature_name], "All")
+    `}
+
+    <span className='accordion-content-comment'>// 3. LOGIC IF NO FEATURE IS FILTERED, AVERAGE OF DISTINCT FEATURES INTERACTIONS</span>
+    {`
+    VAR AllFeature =
+        AVERAGEX(
+            FILTER(
+                VALUES(dim_user[user_id]),
+                [_is_user_did_metric_flexible_trained] = 1 `}<span className='accordion-content-comment'>// FROM HELPER MEASURE. FOR UNTRAINED MEASURE, CHANGE VALUE TO 0</span>{`
+                    && CALCULATE(
+    `}
+
+    <span className='accordion-content-comment'>// ONLY FOR USERS WHO HAVE INTERACTIONS IN BOTH BEFORE AND AFTER WINDOWS</span>
+    {`
+                        COUNTROWS(fact_session_feature_interactions),
+                        fact_session_feature_interactions[interaction_start] >= BeforeStart,
+                        fact_session_feature_interactions[interaction_start] <= BeforeEnd
+                    ) > 0
+                    && CALCULATE(
+                        COUNTROWS(fact_session_feature_interactions),
+                        fact_session_feature_interactions[interaction_start] >= AfterStart,
+                        fact_session_feature_interactions[interaction_start] <= AfterEnd
+                    ) > 0
+            ),
+            CALCULATE(
+                COUNTROWS(fact_session_feature_interactions),
+                fact_session_feature_interactions[interaction_start] >= BeforeStart,
+                fact_session_feature_interactions[interaction_start] <= BeforeEnd `}<span className='accordion-content-comment'>// FOR "AFTER" MEASURE, CHANGE TO AFTERSTART AND AFTEREND</span>{`
+            )
+        )
+    `}
+
+    <span className='accordion-content-comment'>// 4. LOGIC IF FEATURE IS FILTERED</span>
+    {`
+    VAR FilteredFeature =
+        CALCULATE(
+            AVERAGEX(
+                FILTER(
+                    VALUES(dim_user[user_id]),
+                    [_is_user_did_metric_flexible_trained] = 1
+                        && CALCULATE(
+                            COUNTROWS(fact_session_feature_interactions),
+                            fact_session_feature_interactions[interaction_start] >= BeforeStart,
+                            fact_session_feature_interactions[interaction_start] <= BeforeEnd
+                        ) > 0
+                        && CALCULATE(
+                            COUNTROWS(fact_session_feature_interactions),
+                            fact_session_feature_interactions[interaction_start] >= AfterStart,
+                            fact_session_feature_interactions[interaction_start] <= AfterEnd
+                        ) > 0
+                ),
+                CALCULATE(
+                    COUNTROWS(fact_session_feature_interactions),
+                    fact_session_feature_interactions[interaction_start] >= BeforeStart,
+                    fact_session_feature_interactions[interaction_start] <= BeforeEnd
+                )
+            ),
+            TREATAS(
+                FILTER(VALUES(_slicer_feature_name[feature_name]), _slicer_feature_name[feature_name] <> "All"),
+                fact_session_feature_interactions[feature_accessed]
+            )
+        )
+
+    RETURN IF(SelectedFeature = "All", AllFeature, FilteredFeature)
+    `}
+  </>
+)
+
+const didFinalDax = (
+  <>
+    {`_fa_did_trained_change = [_fa_did_trained_after] - [_fa_did_trained_before]`}
+  </>
+)
+
+const metricBasedFinalDax = (
+  <>
+    {`avg_per_trained =
+    VAR CurrentMetric = SELECTEDVALUE(dim_metric_type[metric_type])
+
+    RETURN
+    SWITCH(
+        CurrentMetric,
+        "Feature Adoption", [_fa_avg_per_trained],
+        "Bot Initiation", [_bi_avg_per_trained],
+        "Time on Task", [_tot_avg_per_trained],
+        BLANK()
+    )
+
+    pct_avg =
+    VAR CurrentMetric = SELECTEDVALUE(dim_metric_type[metric_type])
+    VAR Difference = [avg_per_trained] - [avg_per_untrained]
+
+    VAR PreResult = Difference / ABS([avg_per_untrained]) * 100
+    VAR Result =
+       IF(ABS(PreResult) >= 1000,
+            FORMAT(ABS(PreResult) / 1000, "0.0") & "K%",
+            FORMAT(ABS(PreResult), "0") & "%"
+        )
+    `}
+    <span className='accordion-content-comment'>// INDICATOR LOGIC DEPENDS ON THE NATURE OF THE METRIC. WHEN HIGHER IS BETTER, POSITIVE DIFFERENCE IS GREEN, WHEN LOWER IS BETTER, POSITIVE DIFFERENCE IS RED</span>
+    {`
+    VAR GoalIncreaseSign =
+     IF(
+        Difference > 0,
+        "🟢▲",
+        "🔴▼"
+     )
+
+     VAR GoalDecreaseSign =
+      IF(
+        Difference > 0,
+        "🔴▲",
+        "🟢▼"
+     )
+
+    RETURN
+    SWITCH(
+        CurrentMetric,
+        "Feature Adoption",
+        GoalIncreaseSign & " " & Result,
+        "Time on Task",
+        GoalDecreaseSign & " " & Result,
+        "Bot Initiation",
+        GoalDecreaseSign & " " & Result
+    )
+    `}
+  </>
+)
+
 function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
   const [zoomed, setZoomed] = useState(false);
@@ -452,7 +1245,11 @@ export default function TrainingImpactPage() {
               </p>
 
               <Accordion label="<> Performance comparison query">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {performanceComparisonQuery}
+                  </p>
+                </div>
               </Accordion>
             </div>
 
@@ -513,11 +1310,19 @@ export default function TrainingImpactPage() {
               </p>
 
               <Accordion label="<> General trained flag query (AI-generated)">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {generalTrainedFlagQuery}
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion label="<> Validation query">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {validationQuery}
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion label="📷 How I validated">
@@ -531,7 +1336,11 @@ export default function TrainingImpactPage() {
               </p>
 
               <Accordion label="( ) Time-aware trained event DAX">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {timeAwareTrainedEventDax}
+                  </p>
+                </div>
               </Accordion>
             </div>
 
@@ -571,7 +1380,11 @@ export default function TrainingImpactPage() {
               </p>
 
               <Accordion label="( ) Flexible trained user DAX">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {flexibleTrainedUserDax}
+                  </p>
+                </div>
               </Accordion>
             </div>
 
@@ -599,7 +1412,11 @@ export default function TrainingImpactPage() {
               </div>
 
               <Accordion label="( ) Same-tenure comparison DAX">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {sameTenureComparisonDax}
+                  </p>
+                </div>
               </Accordion>
 
               <p>
@@ -630,15 +1447,27 @@ export default function TrainingImpactPage() {
               </div>
 
               <Accordion label="( ) DiD help DAX measures">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {didHelpDax}
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion label="( ) DiD intermediate DAX measures">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {didIntermediateDax}
+                  </p>
+                </div>
               </Accordion>
 
               <Accordion label="( ) DiD final DAX">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {didFinalDax}
+                  </p>
+                </div>
               </Accordion>
 
               <p>
@@ -713,7 +1542,11 @@ export default function TrainingImpactPage() {
                 <div className="ti-carousel__placeholder">Gif coming soon</div>
               </div>
               <Accordion label="( ) Metric-based final DAX">
-
+                <div>
+                  <p className='accordion-content-query'>
+                    {metricBasedFinalDax}
+                  </p>
+                </div>
               </Accordion>
             </div>
           </div> {/* last div before CTA */}

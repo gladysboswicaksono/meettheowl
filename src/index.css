@@ -971,3 +971,41 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   .ti-carousel__arrow--prev { left: 0.25rem; }
   .ti-carousel__arrow--next { right: 0.25rem; }
 }
+
+/* ── Needs Analysis: methodology steps ────────────────────────── */
+/* WHAT / WHY / HOW labels inside each step's .tab-content card */
+.method-label {
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 18px 0 6px;
+}
+
+/* Prompt-example code box: navy card with a full gold border + gold pre-wrap text */
+.prompt-example {
+  border: 1px solid var(--gold);
+  background-color: var(--blue-card);
+  padding: 25px 30px;
+  margin-top: 24px;
+}
+
+.prompt-example h3 {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 21px;
+  margin-bottom: 16px;
+}
+
+.prompt-example__body {
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
+  .prompt-example { padding: 18px 16px; }
+  .prompt-example__body { font-size: 15px; }
+}
