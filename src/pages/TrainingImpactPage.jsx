@@ -10,10 +10,10 @@ function ZoomableImage({ src, alt, crop }) {
         <img src={src} alt={alt} />
         <span className="zoom-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="7" cy="7" r="5"/>
-            <line x1="11" y1="11" x2="14.5" y2="14.5"/>
-            <line x1="7" y1="5" x2="7" y2="9"/>
-            <line x1="5" y1="7" x2="9" y2="7"/>
+            <circle cx="7" cy="7" r="5" />
+            <line x1="11" y1="11" x2="14.5" y2="14.5" />
+            <line x1="7" y1="5" x2="7" y2="9" />
+            <line x1="5" y1="7" x2="9" y2="7" />
           </svg>
         </span>
       </div>
@@ -39,8 +39,8 @@ function Accordion({ label, children }) {
   );
 }
 
-  const userSegmentationQuery = (
-    <>
+const userSegmentationQuery = (
+  <>
     <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
     {`
     with relevant_content AS(
@@ -53,8 +53,8 @@ function Accordion({ label, children }) {
     ),
      `}
 
-     <span className='accordion-content-comment'>-- 2. COUNT HOW MANY COURSES ARE IN RELEVANT_CONTENT - DENOMINATOR FOR #4</span>
-     {`
+    <span className='accordion-content-comment'>-- 2. COUNT HOW MANY COURSES ARE IN RELEVANT_CONTENT - DENOMINATOR FOR #4</span>
+    {`
      content_count as(
         select
             count(distinct content_id) as total_count
@@ -134,8 +134,8 @@ function Accordion({ label, children }) {
         completion_bucket, sort_order
     order by sort_order
     `}
-    </>
-  )
+  </>
+)
 
 function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
@@ -151,10 +151,10 @@ function GifPlayImage({ poster, gif, alt }) {
         <img src={src} alt={alt} />
         <span className="zoom-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="7" cy="7" r="5"/>
-            <line x1="11" y1="11" x2="14.5" y2="14.5"/>
-            <line x1="7" y1="5" x2="7" y2="9"/>
-            <line x1="5" y1="7" x2="9" y2="7"/>
+            <circle cx="7" cy="7" r="5" />
+            <line x1="11" y1="11" x2="14.5" y2="14.5" />
+            <line x1="7" y1="5" x2="7" y2="9" />
+            <line x1="5" y1="7" x2="9" y2="7" />
           </svg>
         </span>
       </div>
@@ -285,44 +285,44 @@ export default function TrainingImpactPage() {
         </section>
 
         {/* SUMMARY */}
-        <section style={{ backgroundColor: 'var(--blue-bg)'}}>
-            <div className='summary-section'>
-              <h2>Summary</h2>
-              <div className='summary-grid'>
-                <div className='summary-column'>
-                  <h3>The Gap</h3>
-                    <p>
-                      Training happened, but the results were unclear. The definition of a trained user didn't
-                      say much about what they were actually supposed to be trained for. The metrics tracked,
-                      like completion rates and CSAT, had no reliable connection to what the business cared
-                      about. As an IC, that left me wondering how my work actually contribute to customer
-                      success and business outcomes.
-                    </p>
-                  </div>
-
-                <div className='summary-column'>
-                  <h3>The Work</h3>
-                    <p>
-                      A measurement framework with flexible definitions of trained users based on intended
-                      business outcomes, with in-depth reporting in Power BI. To get there, I retrieved relevant
-                      business data in the data warehouse and analyzed how users at different stages of training
-                      actually performed on the platform. I wanted the definition of trained to be grounded in
-                      where training visibly starts moving the needle.
-                    </p>
-                  </div>
-
-                <div className='summary-column'>
-                  <h3>The Shift</h3>
-                    <p>
-                    Trained user rate entered departmental OKRs, making training a business-accountable metric
-                    for the first time. Every design decision now has a baseline to build on and a way to test
-                    whether it actually worked. The function no longer reports on its own language, but rather
-                    setting goals in the same terms that our crossfunctional stakeholders use to measure
-                    success.
-                    </p>
-                  </div>
-
+        <section style={{ backgroundColor: 'var(--blue-bg)' }}>
+          <div className='summary-section'>
+            <h2>Summary</h2>
+            <div className='summary-grid'>
+              <div className='summary-column'>
+                <h3>The Gap</h3>
+                <p>
+                  Training happened, but the results were unclear. The definition of a trained user didn't
+                  say much about what they were actually supposed to be trained for. The metrics tracked,
+                  like completion rates and CSAT, had no reliable connection to what the business cared
+                  about. As an IC, that left me wondering how my work actually contribute to customer
+                  success and business outcomes.
+                </p>
               </div>
+
+              <div className='summary-column'>
+                <h3>The Work</h3>
+                <p>
+                  A measurement framework with flexible definitions of trained users based on intended
+                  business outcomes, with in-depth reporting in Power BI. To get there, I retrieved relevant
+                  business data in the data warehouse and analyzed how users at different stages of training
+                  actually performed on the platform. I wanted the definition of trained to be grounded in
+                  where training visibly starts moving the needle.
+                </p>
+              </div>
+
+              <div className='summary-column'>
+                <h3>The Shift</h3>
+                <p>
+                  Trained user rate entered departmental OKRs, making training a business-accountable metric
+                  for the first time. Every design decision now has a baseline to build on and a way to test
+                  whether it actually worked. The function no longer reports on its own language, but rather
+                  setting goals in the same terms that our crossfunctional stakeholders use to measure
+                  success.
+                </p>
+              </div>
+
+            </div>
           </div>
         </section>
 
@@ -376,7 +376,7 @@ export default function TrainingImpactPage() {
         <section className="deep-section deep-section--navy">
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2>📐 The Framework</h2>
-              <div className='tab-content'>
+            <div className='tab-content'>
 
               <h3>Making Sense of What Exists</h3>
 
@@ -412,13 +412,13 @@ export default function TrainingImpactPage() {
                   <p className='accordion-content-query'>
                     {userSegmentationQuery}
                   </p>
-                </div>           
+                </div>
               </Accordion>
-              </div> 
+            </div>
 
-              <br></br><br></br>
+            <br></br><br></br>
 
-              <div className='tab-content'>
+            <div className='tab-content'>
               <h3>Performance of Existing User Segments</h3>
 
               <div className='tab-content-grid'>
@@ -441,7 +441,7 @@ export default function TrainingImpactPage() {
                   <ImgCaption>Distribution - output from user segmentation query</ImgCaption>
                 </div>
               </div>
-              
+
               <p>
                 One of the primary goals of product training is to drive feature adoption and engagements, so
                 thats the metric that I started with. I ran a query calculating how each segment engages with
@@ -454,11 +454,11 @@ export default function TrainingImpactPage() {
               <Accordion label="<> Performance comparison query">
 
               </Accordion>
-              </div>
+            </div>
 
-              <br></br><br></br>
+            <br></br><br></br>
 
-              <div className='tab-content'>
+            <div className='tab-content'>
               <h3>Setting a General Baseline</h3>
 
               <div className='tab-content-grid'>
@@ -483,13 +483,13 @@ export default function TrainingImpactPage() {
                     <ZoomableImage src="/images/training-impact/framework-performance.png" alt="Output from performance comparison query" />
                   </div>
                   <ImgCaption>Output from performance comparison query</ImgCaption>
-                 </div>
+                </div>
               </div>
-              </div>
+            </div>
 
-              <br></br><br></br>
+            <br></br><br></br>
 
-              <div className='tab-content'>
+            <div className='tab-content'>
               <h3>Bringing It to Power BI</h3>
               <p>
                 The first step was creating a view in the data warehouse, that is sourced from tables that
@@ -523,23 +523,22 @@ export default function TrainingImpactPage() {
               <Accordion label="📷 How I validated">
 
               </Accordion>
-              
+
               <p>
                 From there, I brought the view into Power BI alongside the other metric tables and built
                 calculated columns that classify each event as trained or untrained based on whether they had
                 crossed the threshold by the time that specific event happened.
               </p>
 
-              <Accordion label="🖧 Time-aware trained event DAX">
+              <Accordion label="( ) Time-aware trained event DAX">
 
               </Accordion>
-
             </div>
 
+            <br></br><br></br>
 
-          {/* ONE MEASURE, TWO MODES */}
-
-              <h2>One Measure, Two Modes</h2>
+            <div className='tab-content'>
+              <h3>One Measure, Two Modes</h3>
               <p>
                 There's a difference between knowing the program is moving in the right direction and knowing
                 which resource is driving it. My flexible Power BI measure handles the two; in its default
@@ -551,7 +550,7 @@ export default function TrainingImpactPage() {
                 measure narrows the measured event too. Instead of overall feature adoption, the logic is
                 scoped to that feature alone.
               </p>
-              <div className="gif-standalone">
+              <div className="gif-standalone" style={{ maxWidth: '1000px' }}>
                 <GifPlayImage
                   poster="/images/training-impact/one-measure-two-methods.png"
                   gif="/images/training-impact/one-measure-two-methods.gif"
@@ -570,14 +569,17 @@ export default function TrainingImpactPage() {
                 performing against its intended outcome and set a target. Once the updated or new resource is
                 live, we have a way to find out whether it actually did anything.
               </p>
-              <CodeRef icon="🖧">Flexible trained user DAX measure</CodeRef>
-            </div>
-          </section>
 
-          {/* IS TRAINING REALLY DRIVING IMPROVEMENT? */}
-          <section className="deep-section deep-section--navy">
-            <div className="deep-content">
-              <h2>Is Training Really Driving Improvement?</h2>
+              <Accordion label="( ) Flexible trained user DAX">
+
+              </Accordion>
+            </div>
+
+
+            <br></br><br></br>
+
+            <div className='tab-content'>
+              <h3>Is Training Really Driving Improvement?</h3>
               <p>
                 A simple average comparison that shows trained users perform better than untrained ones is a
                 start, but it's not a strong signal on its own. Too many other things could explain the gap.
@@ -591,10 +593,15 @@ export default function TrainingImpactPage() {
                 more experience with the product. If trained users still outperform untrained users at the
                 same stage of their journey, we can eliminate tenure as the explanation of the gap.
               </p>
-              <CodeRef icon="🖧">Same-tenure comparison DAX measures</CodeRef>
+
               <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
                 <ZoomableImage src="/images/training-impact/same-tenure.png" alt="Same-tenure comparison" />
               </div>
+
+              <Accordion label="( ) Same-tenure comparison DAX">
+
+              </Accordion>
+
               <p>
                 But that still leaves another problem: trained users might already be more engaged with the
                 product before they ever touch a course. Or improvement over time might just be natural as
@@ -617,12 +624,23 @@ export default function TrainingImpactPage() {
                 These two additional methods use the same flexible approach as the simple average, 50%
                 completion threshold by default with filter-based granularity for deeper analysis.
               </p>
-              <CodeRef icon="🖧">DiD helper measures</CodeRef>
-              <CodeRef icon="🖧">DiD intermediate measures</CodeRef>
-              <CodeRef icon="🖧">DiD final DAX measure</CodeRef>
+
               <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
                 <ZoomableImage src="/images/training-impact/DiD.png" alt="Difference-in-differences analysis" />
               </div>
+
+              <Accordion label="( ) DiD help DAX measures">
+
+              </Accordion>
+
+              <Accordion label="( ) DiD intermediate DAX measures">
+
+              </Accordion>
+
+              <Accordion label="( ) DiD final DAX">
+
+              </Accordion>
+
               <p>
                 The next panel shows a period-over-period performance of key metrics which shows changes over
                 time with WoW, MoM, and QoQ views. But it also works as a way to pressure-test specific
@@ -634,93 +652,95 @@ export default function TrainingImpactPage() {
               <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
                 <ZoomableImage src="/images/training-impact/Period-over-period.png" alt="Period-over-period performance" />
               </div>
-          </div>
-        </section>
-
-        {/* ASK THE OWL */}
-        <section className="deep-section deep-section--red">
-          <div className="deep-content">
-            <h2>Ask the Owl</h2>
-            <p>
-              As analytical complexity increases, reports become harder to navigate without proper context.
-              Simplifying them might improve accessibility, but it also strips away the depth of signal
-              needed to understand what's actually happening. Training measurement is inherently complex,
-              and treating it otherwise will only lead to incomplete conclusions.
-            </p>
-            <p>
-              So instead of simplifying the report, I built an interpreter for its readers. The bot is
-              built on the Claude API, trained on the specific definitions, methodology, and logic behind
-              this report. Readers can ask what a metric means, ask what a combination of results signals,
-              or upload a screenshot and get a direct interpretation.
-            </p>
-            <p>This effort serves three purposes:</p>
-            <ol className="about-list about-list--light">
-              <li>
-                Stakeholders who might otherwise disengage when encountering unfamiliar concepts have a way
-                to navigate and understand the report.
-              </li>
-              <li>
-                The bot helps surface meaningful questions and guides readers toward the plausible
-                investigation areas.
-              </li>
-              <li>
-                Every interaction is logged, and what stakeholders ask while navigating a report of our
-                performance is a window into what they actually care about, what might confuse them, and
-                what they'd never think to bring to us directly.
-              </li>
-            </ol>
-            <Carousel slides={askTheOwlSlides} placeholderLabel="Ask the Owl demo — image coming soon" />
-          </div>
-        </section>
-
-        {/* BUILDING FOR MAINTAINABILITY */}
-        <section className="deep-section deep-section--navy">
-          <div className="deep-content">
-            <h2>Building for Maintainability</h2>
-            <p>
-              Earlier, I mentioned that my goal was to establish a consistent pattern here trained users
-              outperform untrained ones across multiple metrics. That's why I knew from the start that
-              whichever metric I started with, the underlying measures needed to be highly reusable.
-              Changes to definitions should require minimal updates, and each metric should build on a
-              shared foundation to make adding new ones straightforward.
-            </p>
-            <p>
-              The report is built around a shared metric type that controls calculation logic and
-              directional indicators. Adding a new metric is a controlled process where I duplicate an
-              existing page, change the page-level filter, and every measure from simple comparison to DiD
-              adapts automatically. If the trained definition changes, I only update one view in the data
-              warehouse and every metric on every page will reflect it immediately.
-            </p>
-            <div className="gif-standalone">
-              <div className="ti-carousel__placeholder">Gif coming soon</div>
+              <br></br>
             </div>
-            <CodeRef icon="🖧">Metric-based final DAX measures</CodeRef>
-          </div>
+
+            <br></br><br></br>
+
+            <div className='tab-content'>
+              <h3>Ask the Owl</h3>
+              <p>
+                As analytical complexity increases, reports become harder to navigate without proper context.
+                Simplifying them might improve accessibility, but it also strips away the depth of signal
+                needed to understand what's actually happening. Training measurement is inherently complex,
+                and treating it otherwise will only lead to incomplete conclusions.
+              </p>
+              <p>
+                So instead of simplifying the report, I built an interpreter for its readers. The bot is
+                built on the Claude API, trained on the specific definitions, methodology, and logic behind
+                this report. Readers can ask what a metric means, ask what a combination of results signals,
+                or upload a screenshot and get a direct interpretation.
+              </p>
+              <p>This effort serves three purposes:</p>
+              <ol className="about-list about-list--light">
+                <li>
+                  Stakeholders who might otherwise disengage when encountering unfamiliar concepts have a way
+                  to navigate and understand the report.
+                </li>
+                <li>
+                  The bot helps surface meaningful questions and guides readers toward the plausible
+                  investigation areas.
+                </li>
+                <li>
+                  Every interaction is logged, and what stakeholders ask while navigating a report of our
+                  performance is a window into what they actually care about, what might confuse them, and
+                  what they'd never think to bring to us directly.
+                </li>
+              </ol>
+              <Carousel slides={askTheOwlSlides} placeholderLabel="Ask the Owl demo — image coming soon" />
+            </div>
+
+            <br></br><br></br>
+
+
+            <div className="tab-content">
+              <h3>Building for Maintainability</h3>
+              <p>
+                Earlier, I mentioned that my goal was to establish a consistent pattern here trained users
+                outperform untrained ones across multiple metrics. That's why I knew from the start that
+                whichever metric I started with, the underlying measures needed to be highly reusable.
+                Changes to definitions should require minimal updates, and each metric should build on a
+                shared foundation to make adding new ones straightforward.
+              </p>
+              <p>
+                The report is built around a shared metric type that controls calculation logic and
+                directional indicators. Adding a new metric is a controlled process where I duplicate an
+                existing page, change the page-level filter, and every measure from simple comparison to DiD
+                adapts automatically. If the trained definition changes, I only update one view in the data
+                warehouse and every metric on every page will reflect it immediately.
+              </p>
+              <div className="gif-standalone">
+                <div className="ti-carousel__placeholder">Gif coming soon</div>
+              </div>
+              <Accordion label="( ) Metric-based final DAX">
+
+              </Accordion>
+            </div>
+          </div> {/* last div before CTA */}
         </section>
+
 
         {/* MEASUREMENT NEEDS DIRECTION — closing + cross-link */}
-        <section className="deep-section deep-section--red">
-          <div className="deep-content">
-            <h2>Measurement Needs Direction</h2>
-            <p>
-              As the title suggests, this report is designed to measure training impact and to surface what
-              is actually happening, not to prove that training works. Flat or inconsistent results are
-              signals worth investigating, and the bot is there to prompt those questions and guide deeper
-              exploration.
-            </p>
-            <p>
-              At the same time, meaningful results come from building training intentionally to solve the
-              right problems. The ability to analyze deeply and identify those problems is just as, if not
-              more, important than measuring success.
-            </p>
-            <p>
-              If you're interested in that side of the work, you can explore my other piece where I
-              showcase how I identify the right problems to solve before any development work starts.
-            </p>
-            <a href="/needs-analysis" className="btn-secondary" style={{ marginTop: '12px' }}>
-              Data &amp; AI for Needs Analysis
-            </a>
-          </div>
+        <section className="cta-section">
+          <h3>Measurement Needs Direction</h3>
+          <p>
+            As the title suggests, this report is designed to measure training impact and to surface what
+            is actually happening, not to prove that training works. Flat or inconsistent results are
+            signals worth investigating, and the bot is there to prompt those questions and guide deeper
+            exploration.
+          </p>
+          <p>
+            At the same time, meaningful results come from building training intentionally to solve the
+            right problems. The ability to analyze deeply and identify those problems is just as, if not
+            more, important than measuring success.
+          </p>
+          <p >
+            If you're interested in that side of the work, you can explore my other piece where I
+            showcase how I identify the right problems to solve before any development work starts.
+          </p>
+          <a href="/needs-analysis" className="btn-secondary" style={{ marginTop: '12px' }}>
+            Data &amp; AI for Needs Analysis
+          </a>
         </section>
 
       </main>
