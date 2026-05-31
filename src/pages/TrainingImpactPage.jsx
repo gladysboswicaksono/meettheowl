@@ -377,6 +377,7 @@ export default function TrainingImpactPage() {
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2>📐 The Framework</h2>
               <div className='tab-content'>
+
               <h3>Making Sense of What Exists</h3>
 
               <div className='tab-content-grid'>
@@ -415,20 +416,32 @@ export default function TrainingImpactPage() {
               </Accordion>
               </div> 
 
+              <br></br><br></br>
+
+              <div className='tab-content'>
               <h3>Performance of Existing User Segments</h3>
-              <p>
-                Looking at engaged users, the largest group sat in the Early progress bucket with less than
-                25% catalog completion. But that alone doesn't tell us where to draw the line for trained.
-              </p>
-              <p>
-                So I went deeper and analyzed how the users in each bucket actually perform on on the
-                platform, because I wanted the threshold to be defined by where training starts translating
-                into results.
-              </p>
-              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                <ZoomableImage src="/images/training-impact/framework-completion.png" alt="Distribution - output from user segmentation query" />
+
+              <div className='tab-content-grid'>
+                <div className='tab-content-column'>
+                  <p>
+                    Looking at engaged users, the largest group sat in the Early progress bucket with less than
+                    25% catalog completion. But that alone doesn't tell us where to draw the line for trained.
+                  </p>
+                  <p>
+                    So I went deeper and analyzed how the users in each bucket actually perform on on the
+                    platform, because I wanted the threshold to be defined by where training starts translating
+                    into results.
+                  </p>
+                </div>
+
+                <div className='tab-content-column'>
+                  <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                    <ZoomableImage src="/images/training-impact/framework-completion.png" alt="Distribution - output from user segmentation query" />
+                  </div>
+                  <ImgCaption>Distribution - output from user segmentation query</ImgCaption>
+                </div>
               </div>
-              <ImgCaption>Distribution - output from user segmentation query</ImgCaption>
+              
               <p>
                 One of the primary goals of product training is to drive feature adoption and engagements, so
                 thats the metric that I started with. I ran a query calculating how each segment engages with
@@ -437,27 +450,46 @@ export default function TrainingImpactPage() {
                 interactions belongs in the Low progress bucket. If Jackie progressed with their training and
                 is now at 60% completion, their average will move to the Mid progress bucket.
               </p>
-              <CodeRef>Performance comparison query</CodeRef>
 
-              <h3>Setting a General Baseline</h3>
-              <p>
-                The data generally shows gradual performance improvement with each completion segment, but
-                the most significant jump happens in the Mid progress bucket (50-74%). And that's where I set
-                the threshold; defining a trained user as someone who has completed at least 50% of the
-                Product Training catalog. This serves as a consistent baseline for measuring trained user
-                rates and setting targets.
-              </p>
-              <p>
-                While the specific threshold differs from what I use in my work, the logic I applied is the
-                same. And the trained user rate has been adopted into departmental OKRs since, shifting the
-                focus away from completion-based metrics toward measures that can be tied more closely to
-                business results.
-              </p>
-              <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                <ZoomableImage src="/images/training-impact/framework-performance.png" alt="Output from performance comparison query" />
+              <Accordion label="<> Performance comparison query">
+
+              </Accordion>
               </div>
-              <ImgCaption>Output from performance comparison query</ImgCaption>
 
+              <br></br><br></br>
+
+              <div className='tab-content'>
+              <h3>Setting a General Baseline</h3>
+
+              <div className='tab-content-grid'>
+                <div className='tab-content-column'>
+                  <p>
+                    The data generally shows gradual performance improvement with each completion segment, but
+                    the most significant jump happens in the Mid progress bucket (50-74%). And that's where I set
+                    the threshold; defining a trained user as someone who has completed at least 50% of the
+                    Product Training catalog. This serves as a consistent baseline for measuring trained user
+                    rates and setting targets.
+                  </p>
+                  <p>
+                    While the specific threshold differs from what I use in my work, the logic I applied is the
+                    same. And the trained user rate has been adopted into departmental OKRs since, shifting the
+                    focus away from completion-based metrics toward measures that can be tied more closely to
+                    business results.
+                  </p>
+                </div>
+
+                <div className='content-tab-column'>
+                  <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
+                    <ZoomableImage src="/images/training-impact/framework-performance.png" alt="Output from performance comparison query" />
+                  </div>
+                  <ImgCaption>Output from performance comparison query</ImgCaption>
+                 </div>
+              </div>
+              </div>
+
+              <br></br><br></br>
+
+              <div className='tab-content'>
               <h3>Bringing It to Power BI</h3>
               <p>
                 The first step was creating a view in the data warehouse, that is sourced from tables that
@@ -479,8 +511,18 @@ export default function TrainingImpactPage() {
                 I have included the supporting validation below to show how the output is derived and
                 verified against the underlying data.
               </p>
-              <CodeRef>General trained flag query (AI-generated)</CodeRef>
-              <CodeRef>Validation query</CodeRef>
+
+              <Accordion label="<> General trained flag query (AI-generated)">
+
+              </Accordion>
+
+              <Accordion label="<> Validation query">
+
+              </Accordion>
+
+              <Accordion label="📷 How I validated">
+
+              </Accordion>
               <div className="accordion-images">
                 <ZoomableImage src="/images/training-impact/framework-validation-1.png" alt="How I validated 1" />
                 <ZoomableImage src="/images/training-impact/framework-validation-2.png" alt="How I validated 2" />
@@ -493,11 +535,10 @@ export default function TrainingImpactPage() {
               </p>
               <CodeRef icon="🖧">Time-aware trained event DAX</CodeRef>
             </div>
-          </section>
+
 
           {/* ONE MEASURE, TWO MODES */}
-          <section className="deep-section deep-section--red">
-            <div className="deep-content">
+
               <h2>One Measure, Two Modes</h2>
               <p>
                 There's a difference between knowing the program is moving in the right direction and knowing

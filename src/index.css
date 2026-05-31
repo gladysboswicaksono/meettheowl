@@ -403,12 +403,12 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 
 .tab-content-grid {
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 35px;
 }
 
 .tab-content-column {
-  flex: 1
+  flex: 1;
 }
 
 .tab-content h3 {
@@ -604,7 +604,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 
 /* Cropped thumbnail (Framework catalog image only) — full image still opens on click */
 .zoomable-img--crop {
-  max-height: 320px;
+  max-height: 225px;
   overflow: hidden;
 }
 
