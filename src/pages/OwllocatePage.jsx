@@ -26,6 +26,36 @@ function ZoomableImage({ src, alt }) {
   );
 }
 
+function GifPlayImage({ poster, gif, alt }) {
+  const [playing, setPlaying] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+  const src = playing ? gif : poster;
+  return (
+    <div className="gif-figure">
+      <button type="button" className="gif-toggle" onClick={() => setPlaying(p => !p)}>
+        <img className="gif-toggle__icon" src={playing ? '/images/owllocate/Pause.png' : '/images/owllocate/Play.png'} alt="" />
+        {playing ? 'Pause gif' : 'Play gif'}
+      </button>
+      <div className="zoomable-img" onClick={() => setZoomed(true)}>
+        <img src={src} alt={alt} />
+        <span className="zoom-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="7" cy="7" r="5"/>
+            <line x1="11" y1="11" x2="14.5" y2="14.5"/>
+            <line x1="7" y1="5" x2="7" y2="9"/>
+            <line x1="5" y1="7" x2="9" y2="7"/>
+          </svg>
+        </span>
+      </div>
+      {zoomed && (
+        <div className="zoom-overlay" onClick={() => setZoomed(false)}>
+          <img src={src} alt={alt} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Accordion({ label, children }) {
   const [open, setOpen] = useState(false);
   return (
@@ -93,7 +123,7 @@ const tabs = [
           a final challenge where users execute a complete workflow.
         </p>
         <Accordion label="Illustration">
-          <div className="accordion-images" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          <div className="accordion-images accordion-images--grid3">
             <ZoomableImage src="/images/owllocate/3. Progression 1.png" alt="Progression 1" />
             <ZoomableImage src="/images/owllocate/3. Progression 2.png" alt="Progression 2" />
             <ZoomableImage src="/images/owllocate/3. Progression 3.png" alt="Progression 3" />
@@ -136,9 +166,10 @@ const tabs = [
           confusion. From there, I create feedback that speaks directly to the actual problem.
         </p>
         <Accordion label="Illustration">
-          <div className="accordion-images">
-            <ZoomableImage src="/images/owllocate/General feedback.png" alt="General feedback" />
-            <ZoomableImage src="/images/owllocate/Targeted feedback.png" alt="Targeted feedback" />
+          <div className="accordion-images accordion-images--grid3">
+            <ZoomableImage src="/images/owllocate/Implementation 1.png" alt="Adaptive feedback" />
+            <ZoomableImage src="/images/owllocate/Implementation 2.png" alt="Adaptive feedback" />
+            <ZoomableImage src="/images/owllocate/Implementation 3.png" alt="Adaptive feedback" />
           </div>
         </Accordion>
         <p>
@@ -162,6 +193,23 @@ const tabs = [
           simulations follow their chosen path either way and deliver feedback at the end to
           preserve flow while building toward a reflective conclusion.
         </p>
+        <p>
+          Think about it, which of these conclusions would stick more with you? 
+        </p>
+        <div className="feedback-row">
+          <div className="gif-figure">
+            <span className="gif-toggle gif-toggle--spacer" aria-hidden="true">
+              <img className="gif-toggle__icon" src="/images/owllocate/Play.png" alt="" />
+              Play gif
+            </span>
+            <ZoomableImage src="/images/owllocate/General feedback.png" alt="General feedback" />
+          </div>
+          <GifPlayImage
+            poster="/images/owllocate/Targeted feedback.png"
+            gif="/images/owllocate/Targetedfeedback-ezgif.com-optimize.gif"
+            alt="Targeted feedback"
+          />
+        </div>
       </>
     ),
   },
@@ -178,6 +226,11 @@ export default function OwllocatePage() {
   const switchTab = (id) => {
     setActiveTab(id);
     window.location.hash = id;
+  };
+
+  const jumpTab = (id) => {
+    switchTab(id);
+    document.querySelector('.deep-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -204,7 +257,7 @@ export default function OwllocatePage() {
               href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
               target="_blank"
               rel="noreferrer"
-              className="btn-primary"
+              className="btn-primary project-hero-btn"
             >
               Try Me
             </a>
@@ -280,6 +333,22 @@ export default function OwllocatePage() {
               <h3>{current.label}</h3>
               {current.content}
             </div>
+
+            {/* Bottom tab jump — mobile only */}
+            <nav className="tab-jump" aria-label="Jump to another design principle">
+              <span className="tab-jump__label">Other Design Principles</span>
+              <div className="tab-jump__list">
+                {tabs.map(t => (
+                  <button
+                    key={t.id}
+                    className={`tab-jump__btn${activeTab === t.id ? ' active' : ''}`}
+                    onClick={() => jumpTab(t.id)}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </nav>
           </div>
         </section>
 
