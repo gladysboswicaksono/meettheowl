@@ -175,27 +175,27 @@ export default function VirtualOnboardingPage() {
               </p>
 
               <div className="gif-standalone">
-                <GifPlayImage poster="/images/virtual-onboarding/" gif="/images/virtual-onboarding/" alt="360 degree virtual tour with embedded scenario prompts" />
+                <GifPlayImage poster="/images/virtual-onboarding/virtual-tour.png" gif="/images/virtual-onboarding/virtual-tour.gif" alt="360 degree virtual tour with embedded scenario prompts" />
               </div>
-              <p className="img-caption">Reduced quality</p>
+              <p className="img-caption">Compressed for faster loading</p>
               <p>
                 The 360° virtual tour included embedded scenario prompts to test their knowledge. Trainees
                 already familiar with the facility could skip directly to the prompts.
               </p>
 
               <div className="gif-standalone">
-                <GifPlayImage poster="/images/virtual-onboarding/" gif="/images/virtual-onboarding/" alt="Micro-learning recap between units" />
+                <GifPlayImage poster="/images/virtual-onboarding/knowledge-check.png" gif="/images/virtual-onboarding/knowledge-check.gif" alt="Knowledge checks and shortcuts inside simulation" />
               </div>
-              <p className="img-caption">Reduced quality</p>
+              <p className="img-caption">Compressed for faster loading</p>
               <p>
                 Short recaps between units reinforce prior learning and preview what's next. For trainees with
                 background knowledge, it's a way to get up to speed without sitting through everything.
               </p>
 
               <div className="gif-standalone">
-                <GifPlayImage poster="/images/virtual-onboarding/" gif="/images/virtual-onboarding/" alt="System simulation demo" />
+                <GifPlayImage poster="/images/virtual-onboarding/recap.png" gif="/images/virtual-onboarding/Recap.gif" alt="Micro-learning recap between units" />
               </div>
-              <p className="img-caption">Reduced quality</p>
+              <p className="img-caption">Compressed for faster loading</p>
             </div>
 
             {/* Outcomes */}
