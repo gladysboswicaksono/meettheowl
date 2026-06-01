@@ -347,6 +347,26 @@ You WILL NOT:
           </div>
         </section>
 
+        {/* CTA CROSS-LINK */}
+
+        <section className="cta-section">
+          <h3>IS IT WORTH THE DEPTH?</h3>
+          <p>
+            Thorough analysis takes time, time that most learning teams don't feel they have.
+            But the alternative is building content for a problem that was never quite right to begin with, then rebuilding once the results don't land.
+          </p>
+          <p>
+            On average, the product training informed by this approach reduced support tickets by ~27%, with ongoing refinement continuing to drive this number.
+            Hours spent on analysis upfront translated directly into fewer hours spent correcting course later.
+          </p>
+          <p>
+            If you're interested in seeing how this needs analysis shaped the actual learning design and product training that followed, you can explore it in my Owllocate work piece.
+          </p>
+          <a href="/owllocate-get-started" className='btn-secondary'>
+          Getting Started with Owllocate
+          </a>
+        </section>
+
       </main>
       <Footer />
     </div>

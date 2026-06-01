@@ -10,10 +10,10 @@ function ZoomableImage({ src, alt }) {
         <img src={src} alt={alt} />
         <span className="zoom-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="7" cy="7" r="5"/>
-            <line x1="11" y1="11" x2="14.5" y2="14.5"/>
-            <line x1="7" y1="5" x2="7" y2="9"/>
-            <line x1="5" y1="7" x2="9" y2="7"/>
+            <circle cx="7" cy="7" r="5" />
+            <line x1="11" y1="11" x2="14.5" y2="14.5" />
+            <line x1="7" y1="5" x2="7" y2="9" />
+            <line x1="5" y1="7" x2="9" y2="7" />
           </svg>
         </span>
       </div>
@@ -40,10 +40,10 @@ function GifPlayImage({ poster, gif, alt }) {
         <img src={src} alt={alt} />
         <span className="zoom-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="7" cy="7" r="5"/>
-            <line x1="11" y1="11" x2="14.5" y2="14.5"/>
-            <line x1="7" y1="5" x2="7" y2="9"/>
-            <line x1="5" y1="7" x2="9" y2="7"/>
+            <circle cx="7" cy="7" r="5" />
+            <line x1="11" y1="11" x2="14.5" y2="14.5" />
+            <line x1="7" y1="5" x2="7" y2="9" />
+            <line x1="5" y1="7" x2="9" y2="7" />
           </svg>
         </span>
       </div>
@@ -194,7 +194,7 @@ const tabs = [
           preserve flow while building toward a reflective conclusion.
         </p>
         <p>
-          Think about it, which of these conclusions would stick more with you? 
+          Think about it, which of these conclusions would stick more with you?
         </p>
         <div className="feedback-row">
           <div className="gif-figure">
@@ -274,27 +274,28 @@ export default function OwllocatePage() {
               the start — my guiding assumption was that <em>*trained users</em> should submit fewer
               support tickets on this topic. The data supported that assumption: on average, a trained
               user submitted{' '}
-              <strong style={{ color: 'var(--red)', textDecoration: 'underline' }}>~27% fewer support cases</strong>{' '}
+              <strong style={{ color: 'var(--red)' }}>~27% fewer support cases</strong>{' '}
               than an untrained user. Ongoing data-informed refinements continued to improve this
               result, driving an average{' '}
-              <strong style={{ color: 'var(--red)', textDecoration: 'underline' }}>QoQ reduction of ~14%</strong>{' '}
+              <strong style={{ color: 'var(--red)' }}>QoQ reduction of ~14%</strong>{' '}
               within the trained population.
             </p>
             <p>
-              Because this work is owned by my employer, I'm unable to share it directly. So, I created
+              I'm unable to share the work directly as it's owned by my emplolyer, so I created
               the approach using Owllocate, a personal app I built which provides a suitable environment
               to demonstrate the same principles.
             </p>
             <p>
-              This piece applies the same methods I used for that training: combining character-driven
+              This piece applies the same design choices I used for that training: combining character-driven
               storytelling, hands-on simulations, and contextual feedback that reframe "How to use
-              Feature X" into "How to achieve [Goal] with Feature X". While Owllocate is simpler than
-              the systems I work with professionally, it allows my design principles to stand on their
+              Feature X" into "How to achieve [Goal] with Feature X". It's a design approach that follows from an in-depth analysis, 
+              knowing precisely where users were failing and build scenarios that addressed the actual gap rather than an assumed one.
+              While Owllocate is simpler than the systems I work with professionally, it allows my design principles to stand on their
               own without the constraints of proprietary complexity.
             </p>
             <p>
               Below, I walk through the design approach behind these results. The needs analysis and
-              data work deserves its own deep dive — you can explore it in its dedicated piece linked
+              data work deserves its own deep dive, you can explore it in its dedicated piece linked
               at the end of this page.
             </p>
             <p>
