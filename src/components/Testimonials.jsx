@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const testimonials = [
   {
@@ -60,21 +60,44 @@ export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [notDesktop, setNotDesktop] = useState(false);
   const total = testimonials.length;
   const t = testimonials[current];
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 600px)');
-    const update = () => setIsMobile(mq.matches);
+    const phoneMq = window.matchMedia('(max-width: 600px)');
+    const tabletMq = window.matchMedia('(max-width: 900px)');
+    const update = () => { setIsMobile(phoneMq.matches); setNotDesktop(tabletMq.matches); };
     update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
+    phoneMq.addEventListener('change', update);
+    tabletMq.addEventListener('change', update);
+    return () => {
+      phoneMq.removeEventListener('change', update);
+      tabletMq.removeEventListener('change', update);
+    };
   }, []);
 
   const go = (i) => { setCurrent((i + total) % total); setExpanded(false); };
 
+  // Swipe navigation
+  const touchStartX = useRef(null);
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
+    touchStartX.current = null;
+  };
+
   const paraStyle = { fontFamily: 'var(--font-body)', color: 'var(--gray)', fontSize: '1.0625rem', lineHeight: 1.75, marginBottom: '1rem' };
   const readMoreStyle = { fontFamily: 'var(--font-body)', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.5rem 1.25rem', fontSize: '0.9375rem', cursor: 'pointer', marginTop: '0.5rem' };
+  const arrowBase = {
+    width: '2.25rem', height: '2.25rem', borderRadius: '50%',
+    border: '1px solid rgba(255,255,255,0.3)', background: 'transparent',
+    color: 'rgba(255,255,255,0.6)', fontSize: '1.25rem', cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    flex: '0 0 auto', padding: 0,
+  };
 
   return (
     <section style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
@@ -85,16 +108,14 @@ export default function Testimonials() {
         </h2>
 
         {/* Card */}
-        <div style={{ backgroundColor: 'var(--blue-card)', position: 'relative' }}>
+        <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} style={{ backgroundColor: 'var(--blue-card)', position: 'relative' }}>
 
-          {/* Prev */}
-          <button onClick={() => go(current - 1)} aria-label="Previous" style={{
-            position: 'absolute', left: '-3rem', top: '50%', transform: 'translateY(-50%)',
-            width: '2.25rem', height: '2.25rem', borderRadius: '50%',
-            border: '1px solid rgba(255,255,255,0.3)', background: 'transparent',
-            color: 'rgba(255,255,255,0.6)', fontSize: '1.25rem', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>‹</button>
+          {/* Prev — on card side (desktop only) */}
+          {!notDesktop && (
+            <button onClick={() => go(current - 1)} aria-label="Previous" style={{
+              ...arrowBase, position: 'absolute', left: '-3rem', top: '50%', transform: 'translateY(-50%)',
+            }}>‹</button>
+          )}
 
           {/* Slide */}
           <div style={{ borderLeft: '4px solid var(--gold)', paddingLeft: '2rem', paddingRight: '1rem', paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
@@ -130,18 +151,19 @@ export default function Testimonials() {
             )}
           </div>
 
-          {/* Next */}
-          <button onClick={() => go(current + 1)} aria-label="Next" style={{
-            position: 'absolute', right: '-3rem', top: '50%', transform: 'translateY(-50%)',
-            width: '2.25rem', height: '2.25rem', borderRadius: '50%',
-            border: '1px solid rgba(255,255,255,0.3)', background: 'transparent',
-            color: 'rgba(255,255,255,0.6)', fontSize: '1.25rem', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>›</button>
+          {/* Next — on card side (desktop only) */}
+          {!notDesktop && (
+            <button onClick={() => go(current + 1)} aria-label="Next" style={{
+              ...arrowBase, position: 'absolute', right: '-3rem', top: '50%', transform: 'translateY(-50%)',
+            }}>›</button>
+          )}
         </div>
 
-        {/* Dots */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', marginTop: '2.5rem' }}>
+        {/* Dots — flanked by arrows on non-desktop */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginTop: '2.5rem' }}>
+          {notDesktop && (
+            <button onClick={() => go(current - 1)} aria-label="Previous" style={{ ...arrowBase, marginRight: '0.5rem' }}>‹</button>
+          )}
           {testimonials.map((_, i) => (
             <button key={i} onClick={() => go(i)} aria-label={`Testimonial ${i + 1}`} style={{
               height: '6px', width: i === current ? '2rem' : '0.5rem',
@@ -150,6 +172,9 @@ export default function Testimonials() {
               transition: 'all 0.3s ease', padding: 0,
             }} />
           ))}
+          {notDesktop && (
+            <button onClick={() => go(current + 1)} aria-label="Next" style={{ ...arrowBase, marginLeft: '0.5rem' }}>›</button>
+          )}
         </div>
 
       </div>
