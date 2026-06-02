@@ -74,7 +74,7 @@ export default function App() {
             </p>
             <p className="p1">
               Some people call me a self-starter, others call me a systems thinker. But you can just{' '}
-              <strong style={{ color: 'var(--red)', fontWeight: 600 }}>Call me Gladys</strong>.
+              <strong style={{ color: 'var(--red)', fontWeight: 600 }}>call me Gladys</strong>.
             </p>
             <a href="#artifacts" className="btn-primary">
               The Artifacts

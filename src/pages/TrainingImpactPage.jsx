@@ -1097,7 +1097,7 @@ export default function TrainingImpactPage() {
           <div className="project-hero__text">
             <p>"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer confidently.</p>
             <p>
-              This work piece walksthrough the measurement framework and Power BI report I built so that
+              This work piece walks through the measurement framework and Power BI report I built so that
               question always has an{' '}
               <strong style={{ color: 'var(--red)', textDecoration: 'underline' }}>honest, data-backed answer</strong>,
               and a clear direction forward.
@@ -1217,7 +1217,7 @@ export default function TrainingImpactPage() {
                     key behaviors like increasing engagement on core product features.
                   </p>
                   <p>
-                    Once the relevant content is defined, I digged into the historical completion to understand
+                    Once the relevant content is defined, I dug into the historical completion to understand
                     where the users actually stood and how the engagement is distributed. I.e., how many have not
                     started, partially completed, reached around halfway, or completed (almost) the full catalog.
                   </p>

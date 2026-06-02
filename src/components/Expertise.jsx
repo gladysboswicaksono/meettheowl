@@ -51,12 +51,11 @@ const cards = [
     title: 'End-to-end learning ecosystems that bring results',
     desc: (
       <>
-        I design the whole learner path across tools and platforms so it works as one system, not
-        scattered courses, with realistic practice built in where people can fail safely before it
-        counts for real.
+        My learning experiences have <strong>reduced onboarding time</strong>, <strong>lowered support ticket volume</strong>, and <strong>increased upsell and cross-sell</strong>. From self-paced e-learning,
+        in-app enablement, immersive simulations, and live workshops, I design learning interventions with concrete business problems as my starting point.
       </>
     ),
-    tags: ['eLearning development', 'In-app enablement', 'Instructional video', 'Hands-on workshops', 'Objective frameworks', 'Articulate Rise & Storyline', 'Adobe Captivate', 'Figma'],
+    tags: ['backward Instructional design', 'job aids and video production', 'face-to-face workshop facilitation'],
   },
   {
     num: '02',
@@ -64,12 +63,11 @@ const cards = [
     title: 'Versatile, cost-effective problem-solving',
     desc: (
       <>
-        I've saved past employers <strong>over $120k a year</strong> as a single IC, building custom
-        workarounds instead of buying another tool. AI is my thinking partner for moving fast and
-        pressure-testing assumptions; I validate everything before it ships.
+        I've saved employers <strong>over $120k a year</strong> as a single IC by building custom workarounds and solutions instead of purchasing another tool. AI is my thinking partner for exploration, moving fast, and 
+        pressure-testing assumptions; and I validate its output for breakfast.
       </>
     ),
-    tags: ['Cross-source verification', 'Testing & experimentation', 'Documentation review', 'Data validation'],
+    tags: ['Cross-source verification', 'Testing & experimentation', 'Documentation review'],
   },
   {
     num: '03',
@@ -77,23 +75,24 @@ const cards = [
     title: 'Linking learning to business performance',
     desc: (
       <>
-        Most training can't prove it worked. I connect learning data to the metrics people actually
-        report on, so "did it move anything?" has an answer instead of a shrug.
+        I define how success should be measured before a project starts, investigating cross-functional challenges through data and use AI to accelerate my analyses.
+        My continuous investment to strengthen data literacy and technical skills enables me to provide <strong>credible and defensible evidence</strong> of learning's contribution to business results.
       </>
     ),
-    tags: ['Data manipulation & analysis', 'Visualization', 'SQL', 'Power BI', 'JavaScript'],
+    tags: ['Data manipulation & analysis', 'SQL', 'JavaScript', 'Business Intelligence Tools'],
   },
   {
     num: '04',
     icon: IconLoop,
-    title: 'Automating operations and manual work',
+    title: 'Building for scale',
     desc: (
       <>
-        I automate the repetitive admin that eats a team's week, so learning systems and operations
-        keep running without someone babysitting them.
+        I think about what happens at 1000x before I implement at 1. When I build something new, I enable others to adopt it, sit in on how they use it,
+        and refine based on what I learn. From there, I pinpoint what can be automated and build it so the system runs without someone babysitting it.
+        <strong> Building systems that outlast their original creator</strong> is a core driver of my work.
       </>
     ),
-    tags: ['Google Apps Script', 'Power Automate', 'JavaScript', 'LMS integrations'],
+    tags: ['Google Apps Script', 'Power Automate', 'Change Management', 'Process Documentation'],
   },
 ];
 
@@ -115,13 +114,13 @@ export default function Expertise() {
             {knows.map((item, i) => (
               <li className="expertise__know" key={i}>
                 <KnowMarker />
-                {item}
+                <span className="expertise__know-text">{item}</span>
               </li>
             ))}
           </ul>
 
           <div className="expertise__closer">
-            <p>I am <em>that someone.</em></p>
+            <p style={{ fontSize: '36px' }}>I am <em>that someone</em>, and here's how it looks in practice:</p>
           </div>
         </div>
 
