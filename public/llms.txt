@@ -1,0 +1,40 @@
+# Gladys Bos-Wicaksono - Learning Experience Design, Data & AI
+
+> Portfolio of Gladys Bos-Wicaksono (meettheowl.com). Seven years turning complex
+> learning challenges into measurable business outcomes as a senior individual
+> contributor working at the intersection of instructional design, data, and AI.
+> Tagline: "Rooted in truth, driven by possibility, adaptable in motion."
+
+This is a plain-text summary for AI tools and crawlers, because the live site is a
+client-rendered React app and its raw HTML is otherwise empty.
+
+Contact: LinkedIn - https://www.linkedin.com/in/gladys-bos-wicaksono/
+Site: https://meettheowl.com
+
+## Positioning
+
+I thrive on challenges that start in the dark, where solutions hide in patterns waiting to be seen. Seven years and counting, I've turned complex learning challenges into measurable wins: faster onboarding, higher adoption, and significant cost savings. I've grown as an individual contributor fluent in technical execution while building the business lens to create strategic value.
+
+## What you'd get from me
+
+Someone who knows which problems are worth solving, how success should be measured, whether learning actually changed behavior, how systems scale beyond a pilot, and when to trust AI and when not to. Four areas of expertise:
+
+1. End-to-end learning ecosystems that bring results - eLearning development, in-app enablement, instructional video, hands-on workshops, objective frameworks, Articulate Rise & Storyline, Adobe Captivate, Figma.
+2. Versatile, cost-effective problem-solving - saved past employers over $120k a year as a single IC by building custom workarounds instead of buying more tools. Cross-source verification, testing & experimentation, documentation review, data validation.
+3. Linking learning to business performance - data manipulation & analysis, visualization, SQL, Power BI, JavaScript.
+4. Automating operations and manual work - Google Apps Script, Power Automate, JavaScript, LMS integrations.
+
+## Selected work
+
+- Getting to Know Owllocate (Customer Education) - a course bridging personal wellbeing and financial responsibility through habit formation; trained users submitted about 27% fewer support cases. Tools: Articulate Storyline, Parta, Google Apps Script, Adobe Illustrator, Adobe Photoshop.
+- Measuring Training Impact (AI, Data & Measurement) - a measurement framework and Power BI report that ties "trained user" to business outcomes and proves impact through same-tenure, difference-in-differences, and period-over-period analysis, with an "Ask the Owl" bot for stakeholders. Tools: Power BI (DAX), SQL, Claude API.
+- Data and AI for Analysis & Evaluation (Needs Analysis) - a guard-railed method for using AI to analyze thousands of support tickets without fabrication, treating AI as a probabilistic assistant under audit. Tools: SQL, AI-assisted analysis.
+- Making Remote Onboarding Work (Internal Enablement) - a COVID-era redesign of in-person Purchasing onboarding into a blended remote program (Teams plus interactive video, a 360-degree tour, micro-learning, and system simulations); over 75% completed the path and the department kept it post-COVID. Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P.
+
+## What others say
+
+- Brenna O'Neil - Instructional Design Manager at Mews (2024-present)
+- Monika Anderova - Former Head of Global Education at Mews (2024-present)
+- Tianyi Tian - Former Academy Program Manager at Mendix (2022-2024)
+- Audrey - Former Senior Practical Facilitator at NHL Stenden Hospitality Group (2018-2022)
+- La Verne York - Former Human Capital Manager at NHL Stenden Hospitality Group (2018-2022)
