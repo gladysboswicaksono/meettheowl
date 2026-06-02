@@ -91,13 +91,6 @@ export default function Testimonials() {
 
   const paraStyle = { fontFamily: 'var(--font-body)', color: 'var(--gray)', fontSize: '1.0625rem', lineHeight: 1.75, marginBottom: '1rem' };
   const readMoreStyle = { fontFamily: 'var(--font-body)', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.5rem 1.25rem', fontSize: '0.9375rem', cursor: 'pointer', marginTop: '0.5rem' };
-  const arrowBase = {
-    width: '2.25rem', height: '2.25rem', borderRadius: '50%',
-    border: '1px solid rgba(255,255,255,0.3)', background: 'transparent',
-    color: 'rgba(255,255,255,0.6)', fontSize: '1.25rem', cursor: 'pointer',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    flex: '0 0 auto', padding: 0,
-  };
 
   return (
     <section style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
@@ -112,8 +105,8 @@ export default function Testimonials() {
 
           {/* Prev — on card side (desktop only) */}
           {!notDesktop && (
-            <button onClick={() => go(current - 1)} aria-label="Previous" style={{
-              ...arrowBase, position: 'absolute', left: '-3rem', top: '50%', transform: 'translateY(-50%)',
+            <button onClick={() => go(current - 1)} aria-label="Previous" className="testimonial-arrow" style={{
+              position: 'absolute', left: '-3rem', top: '50%', transform: 'translateY(-50%)',
             }}>‹</button>
           )}
 
@@ -153,8 +146,8 @@ export default function Testimonials() {
 
           {/* Next — on card side (desktop only) */}
           {!notDesktop && (
-            <button onClick={() => go(current + 1)} aria-label="Next" style={{
-              ...arrowBase, position: 'absolute', right: '-3rem', top: '50%', transform: 'translateY(-50%)',
+            <button onClick={() => go(current + 1)} aria-label="Next" className="testimonial-arrow" style={{
+              position: 'absolute', right: '-3rem', top: '50%', transform: 'translateY(-50%)',
             }}>›</button>
           )}
         </div>
@@ -162,7 +155,7 @@ export default function Testimonials() {
         {/* Dots — flanked by arrows on non-desktop */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginTop: '2.5rem' }}>
           {notDesktop && (
-            <button onClick={() => go(current - 1)} aria-label="Previous" style={{ ...arrowBase, marginRight: '0.5rem' }}>‹</button>
+            <button onClick={() => go(current - 1)} aria-label="Previous" className="testimonial-arrow" style={{ marginRight: '0.5rem' }}>‹</button>
           )}
           {testimonials.map((_, i) => (
             <button key={i} onClick={() => go(i)} aria-label={`Testimonial ${i + 1}`} style={{
@@ -173,7 +166,7 @@ export default function Testimonials() {
             }} />
           ))}
           {notDesktop && (
-            <button onClick={() => go(current + 1)} aria-label="Next" style={{ ...arrowBase, marginLeft: '0.5rem' }}>›</button>
+            <button onClick={() => go(current + 1)} aria-label="Next" className="testimonial-arrow" style={{ marginLeft: '0.5rem' }}>›</button>
           )}
         </div>
 

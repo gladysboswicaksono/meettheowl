@@ -715,6 +715,28 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   font-size: 1.1rem;
 }
 
+/* Testimonials carousel arrows — same hover effect as .carousel-arrow */
+.testimonial-arrow {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
+  transition: background-color 0.5s ease;
+}
+
+.testimonial-arrow:hover {
+  background-color: #f6c7854f;
+}
+
 .ti-carousel__placeholder {
   width: 100%;
   aspect-ratio: 16 / 9;
