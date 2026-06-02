@@ -1,8 +1,8 @@
 const workLinks = [
-  { label: 'Getting to Know Owllocate',     href: '/work/owllocate' },
-  { label: 'Measuring Training Impact',     href: '/work/training-impact' },
-  { label: 'Data & AI for Needs Analysis',  href: '/work/needs-analysis' },
-  { label: 'Making Remote Onboarding Work', href: '/work/remote-onboarding' },
+  { label: 'Getting Started with Owllocate',     href: '/owllocate-get-started' },
+  { label: 'Measuring Training Impact',     href: '/training-impact' },
+  { label: 'Data & AI for Needs Analysis',  href: '/needs-analysis' },
+  { label: 'Making Remote Onboarding Work', href: '/virtual-onboarding' },
 ];
 
 export default function Footer() {
@@ -59,7 +59,7 @@ export default function Footer() {
             </span>
           ))}
           <a
-            href="https://linkedin.com/in/gladysbarragan"
+            href="https://www.linkedin.com/in/gladys-bos-wicaksono/"
             target="_blank"
             rel="noopener noreferrer"
             style={{

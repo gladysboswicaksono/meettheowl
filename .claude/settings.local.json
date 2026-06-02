@@ -43,7 +43,9 @@
       "PowerShell(cd \"E:\\\\Portfolio\\\\site\"; if \\(Test-Path dist\\\\index.html\\) { \"DIST OK: \" + \\(Get-Item dist\\\\index.html\\).LastWriteTime } else { \"no dist yet\" }; Get-ChildItem dist\\\\assets -ErrorAction SilentlyContinue | Select-Object Name,Length)",
       "Bash(curl -s \"http://localhost:5173/training-impact\" -o /dev/null -w \"%{http_code}\\\\n\")",
       "Bash(git commit *)",
-      "Bash(rm .git/COMMIT_RESTORE_MSG.txt)"
+      "Bash(rm .git/COMMIT_RESTORE_MSG.txt)",
+      "Bash(git -C \"E:/Portfolio/site\" rev-parse --abbrev-ref HEAD)",
+      "Bash(git -C \"E:/Portfolio/site\" status --short)"
     ]
   }
 }

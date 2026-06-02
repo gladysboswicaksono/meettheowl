@@ -265,7 +265,7 @@ export default function OwllocatePage() {
         </section>
 
         {/* ABOUT THIS WORK */}
-        <section style={{ background: 'var(--gray)', padding: '60px 0' }}>
+        <section style={{ background: 'var(--gray)' }}>
           <div className="about-section">
             <h2>About This Work</h2>
             <p>

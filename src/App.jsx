@@ -2,6 +2,7 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 import ProjectCard from './components/ProjectCard';
 import Testimonials from './components/Testimonials';
+import Expertise from './components/Expertise';
 
 const projects = [
   {
@@ -95,6 +96,9 @@ export default function App() {
 
         {/* TESTIMONIALS */}
         <Testimonials />
+
+        {/* WHAT YOU'D GET FROM ME */}
+        <Expertise />
 
       </main>
       <Footer />

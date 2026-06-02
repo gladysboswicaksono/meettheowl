@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
@@ -976,9 +976,28 @@ function ImgCaption({ children }) {
    with arrows and dots. Pass slides as [{ title, caption, img, alt }]. */
 function Carousel({ slides, placeholderLabel = 'Image coming soon' }) {
   const [current, setCurrent] = useState(0);
+  const [notDesktop, setNotDesktop] = useState(false);
   const total = slides.length;
   const s = slides[current];
   const go = (i) => setCurrent((i + total) % total);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 900px)');
+    const update = () => setNotDesktop(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  // Swipe navigation
+  const touchStartX = useRef(null);
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
+    touchStartX.current = null;
+  };
 
   return (
     <div className="carousel">
@@ -987,15 +1006,24 @@ function Carousel({ slides, placeholderLabel = 'Image coming soon' }) {
         {s.caption && <p>{s.caption}</p>}
       </div>
 
-      <div className="carousel-box">
-        <button className="carousel-arrow carousel-arrow--prev" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
+      <div className="carousel-box" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        {/* Arrows on box sides (desktop only) */}
+        {!notDesktop && (
+          <button className="carousel-arrow carousel-arrow--prev" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
+        )}
         {s.img
           ? <ZoomableImage src={s.img} alt={s.alt || s.title || 'slide'} />
           : <div className="ti-carousel__placeholder">{placeholderLabel}</div>}
-        <button className="carousel-arrow carousel-arrow--next" onClick={() => go(current + 1)} aria-label="Next">›</button>
+        {!notDesktop && (
+          <button className="carousel-arrow carousel-arrow--next" onClick={() => go(current + 1)} aria-label="Next">›</button>
+        )}
       </div>
 
+      {/* Dots — flanked by arrows on non-desktop */}
       <div className='carousel-dots'>
+        {notDesktop && (
+          <button className="carousel-arrow carousel-arrow--inline" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
+        )}
         {slides.map((_, i) => (
           <button
             key={i}
@@ -1004,6 +1032,9 @@ function Carousel({ slides, placeholderLabel = 'Image coming soon' }) {
             aria-label={`Slide ${i + 1}`}
           />
         ))}
+        {notDesktop && (
+          <button className="carousel-arrow carousel-arrow--inline" onClick={() => go(current + 1)} aria-label="Next">›</button>
+        )}
       </div>
     </div>
   );
