@@ -20,15 +20,15 @@ const testimonials = [
     keyQuote: `[Gladys] has a talent for always asking the right questions ...`,
   },
   {
-    name: 'Audrey, Former Senior Practical Facilitator at NHL Stenden Hospitality Group',
+    name: 'Audrey Fleur, Former Senior Practical Facilitator at NHL Stenden Hospitality Group',
     tenure: 'My tenure: 2018 - 2022',
-    text: `I had the pleasure of collaborating with Gladys on various L&D projects, and her insights and efforts have undoubtedly elevated our initiatives. She not only met deadlines and deliver high-quality work but also fostered a positive and inclusive working environment. <span style="color: #f6c785"><strong>Her approachability and willingness to share knowledge have made her a go-to person for collaboration and support</strong></span>.<br><br>Gladys is a hard-working and memorable professional, and an invaluable member of our organization who brings dedication and expertise to every project. I am confident that she will continue to make meaningful contributions in any future endeavors.`,
+    text: `I had the pleasure of collaborating with Gladys on various L&D projects, and her insights and efforts have undoubtedly elevated our initiatives. She not only met deadlines and delivered high-quality work but also fostered a positive and inclusive working environment. <span style="color: #f6c785"><strong>Her approachability and willingness to share knowledge have made her a go-to person for collaboration and support</strong></span>.<br><br>Gladys is a hard-working and memorable professional, and an invaluable member of our organization who brings dedication and expertise to every project. I am confident that she will continue to make meaningful contributions in any future endeavors.`,
     keyQuote: `<span style="color: #f6c785"><strong>Her approachability and willingness to share knowledge have made her a go-to person for collaboration and support</strong></span>.`,
   },
   {
-    name: 'La Verne York, Former Human Capital Manager at NHL Stenden Hospitality Group',
+    name: 'LaVerne York, Former Human Capital Manager at NHL Stenden Hospitality Group',
     tenure: 'My tenure: 2018 - 2022',
-    text: `I wholeheartedly recommend Gladys for her outstanding skills, creativity, and dedication to delivering high-quality learning experiences. She is an invaluable asset to our team, and <span style="color: #f6c785"><strong>I have no doubt that her contributions will continue to elevate our educational initiatives in the future</strong></span>.<br><br>In addition to her technical proficiency and collaborative mindset, her reasoning ability stands out. She has a knack to grasp and turn complex concepts into digestable information that resonate well with our trainees, the team, and the stakeholders she works with.`,
+    text: `I wholeheartedly recommend Gladys for her outstanding skills, creativity, and dedication to delivering high-quality learning experiences. She is an invaluable asset to our team, and <span style="color: #f6c785"><strong>I have no doubt that her contributions will continue to elevate our educational initiatives in the future</strong></span>.<br><br>In addition to her technical proficiency and collaborative mindset, her technical ability stands out. She has a knack for grasping and turning complex concepts into digestable information that resonate well with our trainees, the team, and the stakeholders she works with.`,
     keyQuote: `<span style="color: #f6c785"><strong>I have no doubt that her contributions will continue to elevate our educational initiatives in the future</strong></span>.`,
   },
 ];
