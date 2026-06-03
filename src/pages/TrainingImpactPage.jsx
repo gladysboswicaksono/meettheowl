@@ -1124,7 +1124,7 @@ export default function TrainingImpactPage() {
                   Training happened, but the results were unclear. The definition of a trained user didn't
                   say much about what they were actually supposed to be trained for. The metrics tracked,
                   like completion rates and CSAT, had no reliable connection to what the business cared
-                  about. As an IC, that left me wondering how my work actually contribute to customer
+                  about. As an IC, that left me wondering how my work actually contributes to customer
                   success and business outcomes.
                 </p>
               </div>
@@ -1575,7 +1575,7 @@ export default function TrainingImpactPage() {
             <div className="tab-content">
               <h3>Building for Maintainability</h3>
               <p>
-                Earlier, I mentioned that my goal was to establish a consistent pattern here trained users
+                Earlier, I mentioned that my goal was to establish a consistent pattern that trained users
                 outperform untrained ones across multiple metrics. That's why I knew from the start that
                 whichever metric I started with, the underlying measures needed to be highly reusable.
                 Changes to definitions should require minimal updates, and each metric should build on a

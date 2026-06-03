@@ -180,7 +180,7 @@ Can you summarize what I need in your own words? Then, write your steps and reas
                   Now working with the full dataset from Phase 1, I ask AI to identify the three most common
                   patterns and provide at least 20 supporting cases for each. As importantly, I remind AI
                   upfront that it has processing limits and tell it exactly what to do when it can't handle
-                  everytthing at once.
+                  everything at once.
                 </p>
               </div>
               <div className="prompt-example">
@@ -288,7 +288,7 @@ You WILL NOT:
                 <h4 className="method-label">Why</h4>
                 <p>
                   Different groups often experience different knowledge gaps. Trained users might show new
-                  training opportunities, new users might struggle with concepts expereinced find obvious,
+                  training opportunities, new users might struggle with concepts experienced find obvious,
                   regional differences might present localization needs. Segmentation reveals whether existing
                   solutions are working for everyone or just some populations, what's still missing, and where
                   to focus next.
@@ -326,7 +326,7 @@ You WILL NOT:
               <div className="tab-content">
                 <h3>Step 6: Triangulate with Other Data Sources</h3>
                 <h4 className="method-label">What</h4>
-                <p>Validate and expand finidngs by analyzing other data sources.</p>
+                <p>Validate and expand findings by analyzing other data sources.</p>
                 <h4 className="method-label">Why</h4>
                 <p>
                   One data source can be wrong. Two can be a coincidence. But when support tickets, simulation

@@ -97,7 +97,7 @@ export default function VirtualOnboardingPage() {
           <h2>About This Work</h2>
           <p>
             The audience for this work was Purchasing trainees in Real-World Learning program, a hospitality
-            program providing hands-on profesional experience in active business environments. My role covered
+            program providing hands-on professional experience in active business environments. My role covered
             instructional design, video production, and eLearning development.
           </p>
           <p>
@@ -144,7 +144,7 @@ export default function VirtualOnboardingPage() {
                 Started by analyzing feedback from past onboarding sessions, confirming that onboarding still
                 has to take place to maintain trainee readiness, confidence, and engagement. Then, identified
                 critical activities to map must-keep activities tied to core responsibilities, like managing
-                inventory, tracking supplier deliveryt schedules, overseeing goods receipt and quality checks,
+                inventory, tracking supplier delivery schedules, overseeing goods receipt and quality checks,
                 and timely distributions to all departments.
               </p>
               <p>

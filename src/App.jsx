@@ -10,7 +10,7 @@ const projects = [
     imageAlt: 'Owllocate app on desktop and mobile',
     category: 'Customer Education',
     title: 'Getting Started with Owllocate',
-    description: 'When work takes over, self-care and wellbeing slip through the cracks.\n\nThis course explores how Owllocate bridges personal wellbeing and financial responsibility, transforming habit formation into a rewarding that pays (literally!)',
+    description: 'When work takes over, self-care and wellbeing slip through the cracks.\n\nThis course explores how Owllocate bridges personal wellbeing and financial responsibility, transforming habit formation into rewards that pays (literally!)',
     href: '/owllocate-get-started',
   },
   {
