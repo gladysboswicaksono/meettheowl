@@ -75,6 +75,100 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   padding: 0 15px;
 }
 
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-left: auto;
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  color: var(--gray);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.nav__link:hover { color: var(--gold); }
+
+.nav__link.active { color: var(--gold); }
+
+/* Offset anchored sections so they aren't hidden under the sticky nav */
+#artifacts, #testimonials, #expertise { scroll-margin-top: 90px; }
+
+/* Artifacts dropdown (detail pages) */
+.nav__links { align-self: stretch; }
+
+.nav__item--dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav__caret {
+  font-size: 0.7em;
+  margin-left: 0.35rem;
+  transition: transform 0.2s ease;
+}
+
+.nav__item--dropdown:hover .nav__caret { transform: rotate(180deg); }
+
+.nav__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--red);
+  padding: 0.5rem 0;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+  z-index: 60;
+}
+
+.nav__item--dropdown:hover .nav__dropdown { display: flex; }
+
+.nav__dropdown-link {
+  font-family: var(--font-display);
+  color: var(--gray);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.6rem 1.5rem;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav__dropdown-link:hover { color: var(--gold); background: rgba(0, 0, 0, 0.2); }
+
+.nav__toggle {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+}
+
+.nav__toggle:hover { color: var(--gold); }
+
 /* ── Text ──────────────────────────────────────────────────────── */
 
 .heading-primary {
@@ -403,6 +497,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   font-size: 17px;
   white-space: pre-wrap;
   tab-size: 3;
+  overflow-wrap: break-word;
 }
 
 .accordion__body .accordion-content-text {
@@ -658,7 +753,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   color: var(--gold);
   font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 0.0.85em;
+  letter-spacing: 0.085em;
   font-size: 18px;
   margin-bottom: 10px;
 }
@@ -889,6 +984,45 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   .nav { height: 80px; }
   .nav__logo { height: 55px; }
   .nav__name { font-size: 13px; }
+  .nav__toggle { display: block; }
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin-left: 0;
+    background: var(--red);
+    padding: 0.25rem 2rem 1rem;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.3);
+  }
+  .nav__links--open { display: flex; }
+  .nav__link {
+    width: 100%;
+    padding: 0.85rem 0;
+    font-size: 13px;
+    border-top: 1px solid rgba(246, 199, 133, 0.18);
+  }
+  .nav__item--dropdown { display: block; width: 100%; height: auto; position: static; }
+  .nav__caret { display: none; }
+  .nav__dropdown {
+    position: static;
+    display: flex;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+  .nav__dropdown-link {
+    width: 100%;
+    padding: 0.7rem 0 0.7rem 1.25rem;
+    font-size: 12px;
+    color: rgba(232, 230, 230, 0.7);
+    border-top: 1px solid rgba(246, 199, 133, 0.1);
+  }
+  .nav__dropdown-link:hover { color: var(--gold); background: transparent; }
 
   /* Artifacts grid → single column */
   .artifacts-grid {
@@ -929,10 +1063,9 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 
   /* Nav */
   .nav { height: 80px; }
-  .nav__inner { justify-content: center; }
-  .nav__inner a { flex-direction: column; align-items: center; gap: 4px; }
+  .nav__brand { flex-direction: column; align-items: flex-start; gap: 4px; }
   .nav__logo { height: 36px; }
-  .nav__name { font-size: 10px; letter-spacing: 0.05em; padding: 0; text-align: center; }
+  .nav__name { font-size: 10px; letter-spacing: 0.05em; padding: 0; }
 
   /* Hero */
   .hero {

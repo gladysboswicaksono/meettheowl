@@ -4,57 +4,34 @@ const testimonials = [
   {
     name: "Brenna O'Neil, Instructional Design Manager at Mews",
     tenure: 'My tenure: 2024 - present',
-    highlight: 'She has proven to work quickly, meeting all deadlines, while also maintaining a high standard.',
-    body: [
-      "Gladys quickly immersed herself after her New Hire Orientation and began making significant contributions immediately. She introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience.",
-      "Beyond Instructional Design tasks, Gladys developed trained user levels and established metrics for measuring the number of active users. Her work has been instrumental in setting two of our departmental OKRs, reflecting her impact on our strategic goals.",
-      "Gladys' achievements over her first six months at Mews demonstrate what an asset she is to our team and the company, we are very fortunate to have her on our team!",
-    ],
+    text: `Gladys quickly immersed herself after her New Hire Orientation and began making significant contributions immediately. She introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience. <span style="color: #f6c785"><strong>She has proven to work quickly, meeting all deadlines, while also maintaining a high standard.</strong></span><br><br>Beyond Instructional Design tasks, Gladys developed trained user levels and established metrics for measuring the number of active users. Her work has been instrumental in setting two of our departmental OKRs, reflecting her impact on our strategic goals.<br><br>Gladys' achievements over her first six months at Mews demonstrate what an asset she is to our team and the company, we are very fortunate to have her on our team!`,
+    keyQuote: `[Gladys] introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience. <span style="color: #f6c785"><strong>She has proven to work quickly, meeting all deadlines, while also maintaining a high standard.</strong></span>`,
   },
   {
     name: 'Monika Anderova, Former Head of Global Education at Mews',
     tenure: 'My tenure: 2024 - present',
-    highlight: 'Her strategic thinking has been invaluable, particularly in identifying what needs to be measured and why.',
-    body: [
-      "Gladys has done an outstanding job leading the Data and Measurement workstream within the Global Education team at Mews. She took the initiative to redefine our trained user levels, which provide a much more granular and effective way to track how prepared our clients are to use Mews products.",
-      "Beyond expectations, Gladys demonstrated incredible proactiveness and technical ability by building a dashboard herself. These efforts have provided new, actionable insights that were previously unavailable to the team.",
-      "Collaborating with her on this project has been a true pleasure, as her foresight and clarity have made the process smooth and impactful.",
-    ],
+    text: `Gladys has done an outstanding job leading the Data and Measurement workstream within the Global Education team at Mews. She took the initiative to redefine our trained user levels, which provide a much more granular and effective way to track how prepared our clients are to use Mews products.<br><br><span style="color: #f6c785"><strong>Her strategic thinking has been invaluable, particularly in identifying what needs to be measured and why</strong></span>. Beyond expectations, Gladys demonstrated incredible proactiveness and technical ability by building a dashboard herself. These efforts have provided new, actionable insights that were previously unavailable to the team.<br><br>Collaborating with her on this project has been a true pleasure, as her foresight and clarity have greatly enhanced our outcomes, and I look forward to seeing even more impact from her contributions moving forward!`,
+    keyQuote: `<span style="color: #f6c785"><strong>Her strategic thinking has been invaluable, particularly in identifying what needs to be measured and why</strong></span>.`,
   },
   {
     name: 'Tianyi Tian, Former Academy Program Manager at Mendix',
     tenure: 'My tenure: 2022 - 2024',
-    highlight: 'She has a talent for always asking the right questions.',
-    body: [
-      "Throughout my work with Gladys, she has consistently demonstrated an exceptional dedication to customer satisfaction. She has a talent for always asking the right questions, which not only ensures that the team does not miss out on important ideas to address the needs of our wide range of customers, but also uncovers latent customer desires, which helped us drive innovation and tailored solutions.",
-      "Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.",
-    ],
+    text: `Throughout my work with Gladys, she has consistently demonstrated an exceptional dedication to customer satisfaction. <span style="color: #f6c785"><strong>She has a talent for always asking the right questions</strong></span>, which not only ensures that the team does not miss out on important ideas to address the needs of our wide range of customers, but also uncovers latent customer desires, which helped us drive innovation and tailored solutions.<br><br>Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,
+    keyQuote: `[Gladys] has a talent for always asking the right questions ...`,
   },
   {
     name: 'Audrey, Former Senior Practical Facilitator at NHL Stenden Hospitality Group',
     tenure: 'My tenure: 2018 - 2022',
-    highlight: 'Her approachability and willingness to share knowledge have made her a go-to person for collaboration and support.',
-    body: [
-      "I had the pleasure of collaborating with Gladys on various L&D projects, and her insights and efforts have undoubtedly elevated our initiatives. She not only met deadlines and deliver high-quality work but also fostered a positive and inclusive working environment.",
-      "Gladys is a hard-working and memorable professional, and an invaluable member of our organization who brings dedication and expertise to every project. I am confident that she will continue to make meaningful contributions in any future endeavors.",
-    ],
+    text: `I had the pleasure of collaborating with Gladys on various L&D projects, and her insights and efforts have undoubtedly elevated our initiatives. She not only met deadlines and deliver high-quality work but also fostered a positive and inclusive working environment. <span style="color: #f6c785"><strong>Her approachability and willingness to share knowledge have made her a go-to person for collaboration and support</strong></span>.<br><br>Gladys is a hard-working and memorable professional, and an invaluable member of our organization who brings dedication and expertise to every project. I am confident that she will continue to make meaningful contributions in any future endeavors.`,
+    keyQuote: `<span style="color: #f6c785"><strong>Her approachability and willingness to share knowledge have made her a go-to person for collaboration and support</strong></span>.`,
   },
   {
     name: 'La Verne York, Former Human Capital Manager at NHL Stenden Hospitality Group',
     tenure: 'My tenure: 2018 - 2022',
-    highlight: 'I have no doubt that her contributions will continue to elevate our educational initiatives in the future.',
-    body: [
-      "I wholeheartedly recommend Gladys for her outstanding skills, creativity, and dedication to delivering high-quality learning experiences. She is an invaluable asset to our team, and I have no doubt that her contributions will continue to elevate our educational initiatives in the future.",
-      "In addition to her technical proficiency and collaborative mindset, her reasoning ability stands out. She has a knack to grasp and turn complex concepts into digestible information that resonate well with our trainees, the team, and the stakeholders she works with.",
-    ],
+    text: `I wholeheartedly recommend Gladys for her outstanding skills, creativity, and dedication to delivering high-quality learning experiences. She is an invaluable asset to our team, and <span style="color: #f6c785"><strong>I have no doubt that her contributions will continue to elevate our educational initiatives in the future</strong></span>.<br><br>In addition to her technical proficiency and collaborative mindset, her reasoning ability stands out. She has a knack to grasp and turn complex concepts into digestable information that resonate well with our trainees, the team, and the stakeholders she works with.`,
+    keyQuote: `<span style="color: #f6c785"><strong>I have no doubt that her contributions will continue to elevate our educational initiatives in the future</strong></span>.`,
   },
 ];
-
-function renderWithHighlight(text, highlight) {
-  if (!text.includes(highlight)) return text;
-  const [before, after] = text.split(highlight);
-  return <>{before}<strong style={{ color: 'var(--gold)', fontWeight: 600 }}>{highlight}</strong>{after}</>;
-}
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
@@ -85,7 +62,7 @@ export default function Testimonials() {
   const onTouchEnd = (e) => {
     if (touchStartX.current === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
     touchStartX.current = null;
   };
 
@@ -93,7 +70,7 @@ export default function Testimonials() {
   const readMoreStyle = { fontFamily: 'var(--font-body)', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.5rem 1.25rem', fontSize: '0.9375rem', cursor: 'pointer', marginTop: '0.5rem' };
 
   return (
-    <section style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
+    <section id="testimonials" style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
 
         <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--gold)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: '3rem' }}>
@@ -121,20 +98,14 @@ export default function Testimonials() {
             <div style={{ width: '5rem', height: '1px', backgroundColor: 'var(--gold)', margin: '0 auto 1.5rem' }} />
             {isMobile && !expanded ? (
               <>
-                <p style={{ ...paraStyle, color: 'var(--gold)', fontWeight: 600 }}>
-                  {t.highlight}
-                </p>
+                <div style={paraStyle} dangerouslySetInnerHTML={{ __html: t.keyQuote }} />
                 <button onClick={() => setExpanded(true)} style={readMoreStyle}>
                   Read more ↓
                 </button>
               </>
             ) : (
               <>
-                {t.body.map((para, i) => (
-                  <p key={i} style={paraStyle}>
-                    {renderWithHighlight(para, t.highlight)}
-                  </p>
-                ))}
+                <div style={paraStyle} dangerouslySetInnerHTML={{ __html: t.text }} />
                 {isMobile && (
                   <button onClick={() => setExpanded(false)} style={readMoreStyle}>
                     Read less ↑

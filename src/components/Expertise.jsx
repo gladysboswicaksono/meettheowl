@@ -98,7 +98,7 @@ const cards = [
 
 export default function Expertise() {
   return (
-    <section className="expertise">
+    <section className="expertise" id="expertise">
       <div className="expertise__inner">
 
         {/* Manifesto */}
@@ -120,7 +120,7 @@ export default function Expertise() {
           </ul>
 
           <div className="expertise__closer">
-            <p style={{ fontSize: '36px' }}>I am <em>that someone</em>, and here's how it looks in practice:</p>
+            <p style={{ fontSize: '36px' }}>I am <em>that someone</em>.</p>
           </div>
         </div>
 
@@ -147,7 +147,7 @@ export default function Expertise() {
 
         {/* Payoff */}
         <div className="expertise__payoff">
-          <p><em>Four</em> areas of expertise and more, for the price of <em>one</em></p>
+          <p><em>Four</em> core areas of expertise for the price of <em>one</em></p>
         </div>
 
         {/* CTA */}

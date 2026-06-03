@@ -9,13 +9,13 @@ const projects = [
     image: '/images/card-owllocate.png',
     imageAlt: 'Owllocate app on desktop and mobile',
     category: 'Customer Education',
-    title: 'Getting to Know Owllocate',
+    title: 'Getting Started with Owllocate',
     description: 'When work takes over, self-care and wellbeing slip through the cracks.\n\nThis course explores how Owllocate bridges personal wellbeing and financial responsibility, transforming habit formation into a rewarding that pays (literally!)',
     href: '/owllocate-get-started',
   },
   {
     image: '/images/card-training-impact.png',
-    imageAlt: 'Owl eye close-up with data overlay',
+    imageAlt: 'Report mock-up',
     category: 'AI, Data & Measurement',
     title: 'Measuring Training Impact',
     description: '"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer confidently.\n\nThis is the framework I built so that question always has a data-backed answer and a clear direction forward.',
@@ -70,15 +70,13 @@ export default function App() {
             <p className="p1">
               I've chosen depth in the craft over the ladder climb, growing as an{' '}
                 <strong style={{ color: 'var(--red)', fontWeight: 600 }}>Individual Contributor</strong>{' '}
-              fluent in technical execution while building the business lens to create strategic value.
+              fluent in technical execution while building the business lens to create strategic value. Currently working at Mews,
+              dedicating 50% of my time on Instructional Design and 50% on Data & Measurement.
             </p>
             <p className="p1">
               Some people call me a self-starter, others call me a systems thinker. But you can just{' '}
               <strong style={{ color: 'var(--red)', fontWeight: 600 }}>call me Gladys</strong>.
             </p>
-            <a href="#artifacts" className="btn-primary">
-              The Artifacts
-            </a>
           </div>
         </section>
 
