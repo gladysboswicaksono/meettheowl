@@ -43,23 +43,36 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - DNS: 4 A records on GoDaddy pointing to GitHub's IPs (185.199.108-111.153)
 - `www` subdomain is NOT configured (GoDaddy has a locked conflicting record)
 
+## AI crawlability / SEO
+- The site is a **client-rendered SPA**, so a raw HTML fetch of any URL returns an empty shell — AI tools that don't run JS (and most crawlers) see no content.
+- Mitigations in place: **`public/llms.txt`** (lean plain-text mirror of bio + 4 work pieces + testimonials — keep updated if positioning/work changes) and a `<noscript>` fallback + `meta`/Open Graph tags in `index.html`. For a content audit, hand an AI `meettheowl.com/llms.txt`.
+- `index.html` `<title>` is only the initial/fallback title. A dynamic per-route tab title would need a small `TitleManager` component using React Router's `useLocation` (not yet wired in).
+- The "real" fix (prerender/SSG so routes ship readable HTML) is deferred — it would add build tooling, which the stack has avoided so far.
+
 ## Stack
 - React + Vite, plain CSS, no Tailwind, no Astro
 - Dev server: `npm run dev` from `E:\Portfolio\site` — runs on `http://localhost:5173`
 - Launch config: `E:\Portfolio\Wix assets\.claude\launch.json`
 
 ## File Structure
-- `src/App.jsx` — homepage (hero, artifacts section, testimonials)
+- `src/main.jsx` — React Router (`BrowserRouter` + `Routes`); every page route is registered here
+- `src/App.jsx` — homepage: Hero → Artifacts grid → Testimonials → Expertise ("What you'd get from me")
 - `src/index.css` — all global styles, design tokens, typography, layout classes
-- `src/components/Nav.jsx` — sticky red nav, logo + name only, no links
+- `src/components/Nav.jsx` — sticky red nav, **context-aware**: homepage = section links + Artifacts hover-dropdown + scroll-spy; project pages = flat page links (Home + 4 artifacts, current page active); shared brand + mobile hamburger (see Nav section below)
 - `src/components/Footer.jsx` — charcoal bg, gold tagline, work links, owl watermark
 - `src/components/ProjectCard.jsx` — reusable card: image, category tag, title, description, Learn More
-- `src/components/Testimonials.jsx` — carousel with dots, testimonials
-- `src/pages/` — one component per project page:
-  - `OwllocatePage.jsx` — Getting Started with Owllocate (the most built-out page: tabbed deep dive, zoomable images, gif toggle, mobile bottom tab nav)
-  - plus the other project pages (Training Impact, Needs Analysis, Virtual Onboarding)
-- `public/images/` — hero-portrait.png, logo-navigation.png, owl-outline.png, card-owllocate.png, card-needs-analysis.png, card-onboarding.png
+- `src/components/Testimonials.jsx` — testimonial carousel; content mirrors the original Wix web component verbatim (see Testimonials section)
+- `src/components/Expertise.jsx` — homepage "What you'd get from me" section (manifesto + 4 cards + LinkedIn CTA)
+- `src/pages/` — one component per project page (**all four are built**):
+  - `OwllocatePage.jsx` — Getting Started with Owllocate (most built-out: tabbed deep dive, zoomable images, gif toggle, mobile bottom tab nav)
+  - `TrainingImpactPage.jsx` — Measuring Training Impact (What-I-Built carousel + Framework deep-dive with **populated SQL/DAX query accordions**)
+  - `NeedsAnalysisPage.jsx` — Data & AI for Analysis & Evaluation (6-step methodology with `prompt-example` code boxes)
+  - `VirtualOnboardingPage.jsx` — Making Remote Onboarding Work (Summary + deep-dive cards + gif demos)
+- `public/llms.txt` — lean plain-text content mirror for AI tools/crawlers (the SPA otherwise serves an empty shell; keep it lean to avoid drift)
+- `public/mockups/` — design mockups (**gitignored — not deployed**)
+- `public/images/` — hero-portrait.png, logo-navigation.png, owl-outline.png, card-owllocate.png, card-training-impact.png, card-needs-analysis.png, card-onboarding.png
 - `public/images/owllocate/` — Owllocate deep-dive assets (illustration PNGs, feedback PNGs, gif, Play.png / Pause.png icons)
+- `public/images/training-impact/`, `public/images/virtual-onboarding/` — deep-dive assets (some gif/poster paths are still placeholders)
 
 ## Design Tokens (index.css)
 ```css
@@ -89,15 +102,23 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - Phone: `max-width: 600px`
 
 ## Key CSS Classes
-- `.hero` / `.hero__portrait` / `.hero__text` — hero layout (index.css)
+- `.hero` / `.hero__portrait` / `.hero__text` — hero layout. **`.hero__text` is `align-items: flex-start`** (left-aligned) — do not set it back to `center` (centering makes short paragraphs look indented at ~860–900px widths)
 - `.artifacts-grid` — 2-col desktop, 1-col tablet/phone
 - `.btn-primary` — red shadow/outline button (hero, project hero CTAs)
-- `.btn-secondary` — gold shadow/outline button (cross-link CTAs)
-- `.tabs` / `.tab-btn` / `.tab-content` — Owllocate deep-dive top tab strip + panel
+- `.btn-secondary` — gold shadow/outline button (cross-link CTAs, the Expertise "Get in touch" CTA)
+- **Nav:** `.nav` / `.nav__inner` / `.nav__brand` / `.nav__name`; `.nav__links` / `.nav__link` (+ `.active` = scroll-spy highlight) / `.nav__toggle` (mobile hamburger) / `.nav__item--dropdown` / `.nav__dropdown` / `.nav__dropdown-link` / `.nav__caret` — section nav with the Artifacts dropdown
+- **Homepage Expertise section:** `.expertise*` / `.expertise-card*` / `.expertise-tag` (all namespaced)
+- `.summary-section` / `.summary-grid` / `.summary-column` — project-page Summary 3-col
+- `.deep-section` / `.deep-section--navy` / `.deep-section--red` — deep-dive section backgrounds
+- `.tab-content` — gold-left-border navy card (used for Owllocate tab panels, and as the deep-dive step cards on Training Impact / Needs Analysis / Virtual Onboarding)
+- `.method-label` / `.prompt-example` / `.prompt-example__body` — Needs Analysis WHAT/WHY/HOW labels + prompt code boxes
+- `.tabs` / `.tab-btn` — Owllocate deep-dive top tab strip
 - `.tab-jump` / `.tab-jump__btn` — Owllocate mobile-only bottom tab nav (≤600px)
+- `.accordion` / `.accordion__header` / `.accordion__body` — collapsible query/illustration accordions. `.accordion-content-query` = gold pre-wrap code (**has `overflow-wrap: break-word`** so long DAX/SQL tokens stay inside the box); `.accordion-content-comment` = gray italic comment lines
 - `.accordion-images` / `.accordion-images--grid3` — illustration image rows (grid3 = 3-col → 1-col mobile)
 - `.zoomable-img` / `.zoom-overlay` — click-to-zoom image + full-screen overlay
-- `.gif-figure` / `.gif-toggle` — gif play/pause control on Adaptive Feedback tab
+- `.gif-figure` / `.gif-toggle` — gif play/pause control (Owllocate Adaptive Feedback tab; also the Virtual Onboarding solution gifs)
+- `.carousel-arrow` / `.testimonial-arrow` — carousel/testimonial nav arrows (gold-tint `#f6c7854f` hover, `background-color 0.5s` transition; keep them in sync)
 
 ## Reference
 - Original Wix portfolio: https://gladys1998crb.wixstudio.com/theowl
@@ -116,7 +137,7 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 ## Site Structure (from live Wix portfolio)
 
 ### Pages
-- `/` — Homepage (Hero + Artifacts + Testimonials)
+- `/` — Homepage (Hero + Artifacts + Testimonials + "What you'd get from me")
 - `/owllocate-get-started` — Getting Started with Owllocate
 - `/training-impact` — Measuring Training Impact
 - `/needs-analysis` — Data and AI for Analysis & Evaluation
@@ -127,9 +148,13 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 ## Homepage Sections
 
 ### Nav
-- Sticky, dark red (`#5B0606`) background, full width
-- Left: owl logo icon + "Gladys Bos-Wicaksono | meettheowl.com" in Cinzel, white
-- No navigation links at all — logo clicks back to home
+- Sticky, dark red (`#5B0606`) background, full width, height 80px
+- Left: owl logo + "Gladys Bos-Wicaksono | meettheowl.com" (Cinzel, gray) — the brand links home
+- **The nav is context-aware** — it branches on `pathname === '/'` (`onHome` in `Nav.jsx`): the homepage shows section links, project pages show page links. The brand (logo + name) and mobile hamburger are shared across both.
+- **On the homepage — nav items = the homepage sections** (anchor links): **The Artifacts** (`/#artifacts`) · **Others' Eyes** (`/#testimonials`) · **What You'd Get** (`/#expertise`). Gray text, gold on hover; the active section is highlighted gold via an **IntersectionObserver scroll-spy** (homepage only — section ids `#artifacts` / `#testimonials` / `#expertise`, each with `scroll-margin-top` so anchors clear the sticky nav)
+- **"The Artifacts" has a ▾ caret and a hover dropdown** of the 4 project pages (full titles) — the pages "live inside" the Artifacts section as cards, so they aren't top-level nav items. From a project page, a section link routes home then scrolls.
+- **On a project page — nav items = the pages**, a flat list: **Home** (`/`) · **Owllocate** · **Training Impact** · **Needs Analysis** · **Remote Onboarding**. The current page is highlighted gold (`pathname === p.href`). These use the **short `navLabel`** on each `ARTIFACT_PAGES` entry (the full `label` is too wide for a horizontal row and only renders in the homepage dropdown). No scroll-spy, no caret, no dropdown here.
+- **Mobile (≤900px):** a hamburger toggle opens a stacked menu. On the homepage the 4 Artifacts pages show **indented under "The Artifacts"** (no hover on touch), caret hidden; on a project page the Home + 4 page links stack flat.
 
 ### Hero Section
 - Background: light warm gray (`--gray: #E8E6E6`)
@@ -162,17 +187,21 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 | MAKING REMOTE ONBOARDING WORK | INTERNAL ENABLEMENT | `/virtual-onboarding` |
 
 ### Testimonials ("Others' Eyes")
-- Background: dark navy (`--blue-card: #1A1A2E`)
-- Section title: "OTHERS' EYES" — centered, white, uppercase, Cinzel
-- **Carousel:** left/right circle-arrow buttons on the sides; 3 dot indicators at bottom
-  - Active dot: gold pill/elongated shape
-  - Inactive dots: small gray circles
-- **Testimonial card:** spans most of the section width, light/semi-transparent background, left vertical gold border line
-  - Name + role in bold Cinzel: e.g. "Brenna O'Neil, Instructional Design Manager at Mews"
-  - Tenure line in smaller italic: "My tenure: 2024 - present"
-  - Horizontal gold divider line
-  - Body text in Crimson Pro; some inline text highlighted in gold/dark red
-- There are **3 testimonials** total (3 dots)
+- Background: dark navy (`--blue-bg: #1C253C`); the card is `--blue-card: #1A1A2E`
+- Section title: "OTHERS' EYES" — centered, gold, uppercase, Cinzel. Section has `id="testimonials"`.
+- **Carousel:** circle-arrow buttons (`.testimonial-arrow`) on the card sides (desktop) or flanking the dots (tablet/phone); dot indicators below
+  - Active dot: gold pill; inactive: small gray circles
+- **Testimonial card:** left vertical gold border, name+role (Cinzel, centered, small-caps), italic tenure line, a thin gold divider, then body
+- **Content mirrors the original Wix web component VERBATIM** (incl. its typos like "oustanding", "digestable"). Each testimonial stores `text` (full HTML, with inline gold `<span style="color:#f6c785"><strong>` highlights and `<br><br>` breaks) and `keyQuote` (the mobile collapsed view), both rendered via `dangerouslySetInnerHTML`. The highlighted phrases and the mobile keyQuote must match the original exactly (e.g. Tianyi's keyQuote is plain, no gold). If editing testimonials, the original web-component JS is the source of truth.
+- **Mobile (≤600px):** shows the collapsed `keyQuote` with a "Read more ↓ / Read less ↑" toggle. **Swipe threshold = 50px** (matches the original; do not lower it — feels too sensitive).
+- There are **5 testimonials** (5 dots): Brenna O'Neil, Monika Anderova, Tianyi Tian, Audrey, La Verne York.
+
+### "What You'd Get From Me" (Expertise) — homepage closer, directly above the footer
+- Component: `src/components/Expertise.jsx`, section `id="expertise"`. Background: deep red → navy gradient. All `.expertise*` classes are namespaced.
+- **Manifesto:** heading "What you'd get from me" → a lede → a 5-item *"someone who knows:"* list (gold owl-aperture markers, the payoff word in gold) → a large closer *"I am that someone…"*.
+- **Four expertise cards**, 2×2 grid: number (01–04), gold line icon, title, description (gold `<strong>` emphasis), gold-outlined tag chips.
+- **Payoff line** ("…areas of expertise…for the price of one") + a **Get in touch** CTA (`.btn-secondary` styling + LinkedIn icon) → `linkedin.com/in/gladys-bos-wicaksono`.
+- NOTE: this is a NEW addition, not on the original Wix site. Card titles/descriptions/tags are written by Gladys and iterated often — treat the copy as living, not locked.
 
 ### Footer
 - Background: dark charcoal (`--dark: #2A2A2A`)
@@ -334,8 +363,9 @@ Custom feedback for every click is impractical, so data guides where precision m
 ### Data & AI for Needs Analysis (`/needs-analysis`)
 
 **Page title (H2):** Data and AI for Analysis & Evaluation
-**CTA button:** (to be confirmed — likely "VIEW REPORT" or similar)
-**Tools:** (to be confirmed from live site)
+**CTA button:** none (the live hero has no CTA button)
+**Tools:** none shown in the hero (no Tools line on this page)
+**Deep-dive styling:** the live page renders the methodology on light gray, but the React rebuild styles it the house way (dark `deep-section--navy` + `.tab-content` step cards), each step = WHAT/WHY/HOW + an optional `.prompt-example` code box (steps 1, 2, 3, 5 have one; 4 and 6 don't). No cross-link CTA at the end.
 
 **Hero description:**
 AI analyzes data fast and presents findings so credibly that we forget it pattern-matches toward plausibility, not truth. That's why I treat it as a probabilistic assistant under audit, not a magic eight ball.
@@ -357,8 +387,9 @@ AI analyzes data fast and presents findings so credibly that we forget it patter
 ### Making Remote Onboarding Work (`/virtual-onboarding`)
 
 **Page title (H2):** Making Remote Onboarding Work
-**CTA button:** (to be confirmed — likely "VIEW PROJECT" or similar)
+**CTA button:** none in the hero (Tools line only)
 **Tools:** Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P
+**Deep-dive styling:** like Needs Analysis, the React rebuild uses the house deep-dive style (`deep-section--navy` + `.tab-content` cards) for Project Goal / Analysis and Scoping / Solution / Outcomes. The Solution gifs use the `GifPlayImage` Play/Pause **button** (not the original's click-to-play overlay); poster/gif paths are placeholders (directory only).
 
 **Hero description:**
 A Purchasing department held a two-day, in-person orientation that was crucial for transferring essential knowledge to new trainees. However, COVID-19 social distancing restrictions made continuing this traditional format impossible.
@@ -386,10 +417,11 @@ Gathered feedback from past sessions, identified critical activities (inventory 
 **Solution details:**
 Blended approach: Teams virtual introductions + self-paced learning including interactive video, 360° virtual tour with embedded scenario prompts, micro-learning modules, and system simulations for inventory workflows (requisitions, order placement, stock counts).
 
-**GIF demonstrations (3 total):**
-1. 360° tour with embedded scenario prompts for knowledge testing
-2. Abbreviated recaps between units for reinforcement and preview
-3. (Third GIF — to be confirmed from live site)
+**GIF demonstrations (3 total, confirmed on the live site):**
+1. 360° tour with embedded scenario prompts for knowledge testing (has a caption)
+2. Micro-learning recap between units for reinforcement and preview (has a caption)
+3. A third, wider gif (system simulation) — shows only the "Reduced quality" label, no caption
+Each gif is followed by a small italic "Reduced quality" note.
 
 **Key stats (inline emphasis):**
 - **Over 75%** completed the full learning path

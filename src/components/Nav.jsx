@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ARTIFACT_PAGES = [
-  { label: 'Getting Started with Owllocate', href: '/owllocate-get-started' },
-  { label: 'Measuring Training Impact', href: '/training-impact' },
-  { label: 'Data & AI for Needs Analysis', href: '/needs-analysis' },
-  { label: 'Making Remote Onboarding Work', href: '/virtual-onboarding' },
+  { label: 'Getting Started with Owllocate', navLabel: 'Owllocate', href: '/owllocate-get-started' },
+  { label: 'Measuring Training Impact', navLabel: 'Training Impact', href: '/training-impact' },
+  { label: 'Data & AI for Needs Analysis', navLabel: 'Needs Analysis', href: '/needs-analysis' },
+  { label: 'Making Remote Onboarding Work', navLabel: 'Remote Onboarding', href: '/virtual-onboarding' },
 ];
 
 const SECTIONS = [
@@ -60,36 +60,57 @@ export default function Nav() {
           {open ? '✕' : '☰'}
         </button>
 
-        <nav className={`nav__links${open ? ' nav__links--open' : ''}`} aria-label="Sections">
-          {/* The Artifacts — section link with a dropdown of its detail pages */}
-          <div className="nav__item nav__item--dropdown">
-            <a
-              href="/#artifacts"
-              className={`nav__link${active === 'artifacts' ? ' active' : ''}`}
-              onClick={close}
-            >
-              The Artifacts
-              <span className="nav__caret" aria-hidden="true">▾</span>
-            </a>
-            <div className="nav__dropdown">
-              {ARTIFACT_PAGES.map((p) => (
-                <a key={p.href} href={p.href} className="nav__dropdown-link" onClick={close}>
-                  {p.label}
+        <nav className={`nav__links${open ? ' nav__links--open' : ''}`} aria-label={onHome ? 'Sections' : 'Pages'}>
+          {onHome ? (
+            <>
+              {/* The Artifacts — section link with a dropdown of its detail pages */}
+              <div className="nav__item nav__item--dropdown">
+                <a
+                  href="/#artifacts"
+                  className={`nav__link${active === 'artifacts' ? ' active' : ''}`}
+                  onClick={close}
+                >
+                  The Artifacts
+                  <span className="nav__caret" aria-hidden="true">▾</span>
+                </a>
+                <div className="nav__dropdown">
+                  {ARTIFACT_PAGES.map((p) => (
+                    <a key={p.href} href={p.href} className="nav__dropdown-link" onClick={close}>
+                      {p.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {SECTIONS.map((s) => (
+                <a
+                  key={s.id}
+                  href={`/#${s.id}`}
+                  className={`nav__link${active === s.id ? ' active' : ''}`}
+                  onClick={close}
+                >
+                  {s.label}
                 </a>
               ))}
-            </div>
-          </div>
-
-          {SECTIONS.map((s) => (
-            <a
-              key={s.id}
-              href={`/#${s.id}`}
-              className={`nav__link${active === s.id ? ' active' : ''}`}
-              onClick={close}
-            >
-              {s.label}
-            </a>
-          ))}
+            </>
+          ) : (
+            <>
+              {/* Project page — flat list of Home + the artifact pages */}
+              <a href="/" className="nav__link" onClick={close}>
+                Home
+              </a>
+              {ARTIFACT_PAGES.map((p) => (
+                <a
+                  key={p.href}
+                  href={p.href}
+                  className={`nav__link${pathname === p.href ? ' active' : ''}`}
+                  onClick={close}
+                >
+                  {p.navLabel}
+                </a>
+              ))}
+            </>
+          )}
         </nav>
       </div>
     </header>

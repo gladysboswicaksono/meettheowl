@@ -298,10 +298,10 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 }
 
 .project-hero__image img {
-  width: auto;
-  height: 400px;
   display: block;
-  width: 600px;
+  width: 100%;
+  height: auto;
+  max-width: 600px;
 }
 
 .project-hero__text {
@@ -966,6 +966,11 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   .btn-primary { font-size: 12px; }
 }
 
+/* ≤1500px — Laptops (the 250px desktop padding is too wide here) */
+@media (max-width: 1500px) {
+  .project-hero { padding: 50px 100px; column-gap: 30px;}
+}
+
 /* ≤900px — Tablets (iPad Mini / iPad Air portrait) */
 @media (max-width: 900px) {
   /* Typography */
@@ -1035,7 +1040,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
   }
 
   /* Project pages */
-  .project-hero { grid-template-columns: 1fr; padding: 40px; column-gap: 0; row-gap: 28px; }
+  .project-hero { grid-template-columns: 1fr; padding: 40px; column-gap: 0px; row-gap: 28px; }
   .project-hero__image { justify-content: center; }
   .project-hero__image img { width: 100%; height: auto; max-width: 560px; }
   .about-section { padding: 32px 40px; }
@@ -1063,7 +1068,7 @@ h6 { font-size: 10px;  line-height: 1.4; font-weight: 400; text-transform: upper
 
   /* Nav */
   .nav { height: 80px; }
-  .nav__brand { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .nav__brand { flex-direction: column; align-items: center; gap: 4px; margin: auto; gap: 10px;}
   .nav__logo { height: 36px; }
   .nav__name { font-size: 10px; letter-spacing: 0.05em; padding: 0; }
 

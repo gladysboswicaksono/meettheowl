@@ -106,8 +106,8 @@ export default function Expertise() {
           <span className="expertise__rule" />
           <h2 className="expertise__title">What you'd get from me</h2>
           <p className="expertise__lede">
-            A list of skills won't tell you what changes when you onboard me onto your team. What stays
-            constant, no matter how the tools and workflows evolve, is the need for someone who knows:
+            A list of skills doesn't say much of what I actually bring to a team. What stays
+            constant, no matter how the tools and workflows evolve, is the need for someone who <strong>asks and figures out</strong>:
           </p>
 
           <ul className="expertise__knows">
@@ -129,8 +129,8 @@ export default function Expertise() {
           {cards.map((c) => (
             <article className="expertise-card" key={c.num}>
               <div className="expertise-card__index">
-                <span className="expertise-card__num">{c.num}</span>
                 <span className="expertise-card__icon" aria-hidden="true">{c.icon}</span>
+                                <span className="expertise-card__num">{c.num}</span>
               </div>
               <div className="expertise-card__body">
                 <h3 className="expertise-card__title">{c.title}</h3>
@@ -147,7 +147,7 @@ export default function Expertise() {
 
         {/* Payoff */}
         <div className="expertise__payoff">
-          <p><em>Four</em> core areas of expertise for the price of <em>one</em></p>
+          <p><em>Four</em> core areas for the price of <em>one</em></p>
         </div>
 
         {/* CTA */}
