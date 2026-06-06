@@ -7,7 +7,7 @@ import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
-import OwnWhatAIBuilds from './pages/OwnWhatAIBuildsPage.jsx'
+import OwnWhatAIBuildsPage from './pages/OwnWhatAIBuildsPage.jsx'
 import Analytics from './components/Analytics.jsx'
 
 createRoot(document.getElementById('root')).render(

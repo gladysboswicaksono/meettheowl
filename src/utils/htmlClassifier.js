@@ -110,7 +110,7 @@ export function buildFeedbackText(result) {
       return null;
 
     case 'MATCH':
-      return 'That matches. h1, h2, h3, and two p elements — all five in place.';
+      return 'That matches. h1, h2, h3, and two p elements, all five in place. Well done!';
 
     case 'SUPERSET': {
       const parts = [];
@@ -122,7 +122,7 @@ export function buildFeedbackText(result) {
         parts.push(`included ${tagList} beyond what was asked`);
       }
       const detail = parts.length
-        ? `You also ${parts.join(' and ')} — that goes further than the exercise asked, which is fine.`
+        ? `You also ${parts.join(' and ')} which goes further than the practice asked, really great work!`
         : '';
       return `The required structure is there. ${detail}`.trim();
     }
@@ -140,9 +140,9 @@ export function buildFeedbackText(result) {
       if (result.extraInline?.size) niceExtras.push([...result.extraInline].map(t => `&lt;${t}&gt;`).join(' and '));
       if (result.extraAttrs) niceExtras.push('inline styling');
       if (niceExtras.length) {
-        return `Almost — you're missing ${missingDesc}. The ${niceExtras.join(' and ')} you added is a nice touch — get the missing tags in place and you're done.`;
+        return `Almost! You're missing ${missingDesc}. The ${niceExtras.join(' and ')} you added is a nice touch, though! Get the missing tags in place and you're done.`;
       }
-      return `Almost — you're missing ${missingDesc}. Check that each tag has an opening and a closing half.`;
+      return `Almost! you're missing ${missingDesc}. Check that each tag has an opening and a closing half.`;
     }
 
     case 'DIVERGENT':
