@@ -49,6 +49,15 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - `index.html` `<title>` is only the initial/fallback title. A dynamic per-route tab title would need a small `TitleManager` component using React Router's `useLocation` (not yet wired in).
 - The "real" fix (prerender/SSG so routes ship readable HTML) is deferred — it would add build tooling, which the stack has avoided so far.
 
+## Analytics
+- **GCP project:** `meettheowl-analytics` (project ID: `meettheowl`)
+- **Service account:** `meettheowl-tracker@meettheowl.iam.gserviceaccount.com` (BigQuery Data Editor role)
+- **Cloud Function:** `trackEvent` — deployed to `us-central1`, URL: `https://us-central1-meettheowl.cloudfunctions.net/trackEvent`
+- **BigQuery:** dataset `portfolio_analytics`, table `events` — schema: `session_id (STRING)`, `timestamp (TIMESTAMP)`, `event_type (STRING)`, `page (STRING)`, `label (STRING)`, `properties (JSON)`
+- **To redeploy Cloud Function:** `cd cloud-function && gcloud functions deploy trackEvent --runtime nodejs22 --trigger-http --allow-unauthenticated --region us-central1 --service-account meettheowl-tracker@meettheowl.iam.gserviceaccount.com`
+- **To exclude your own visits:** append `?notrack=1` to any URL — suppresses tracking for the entire browser session
+- **To add new tracking:** import `trackClick` or `trackEvent` from `src/utils/tracker.js` and call on any interaction
+
 ## Stack
 - React + Vite, plain CSS, no Tailwind, no Astro
 - Dev server: `npm run dev` from `E:\Portfolio\site` — runs on `http://localhost:5173`
@@ -73,6 +82,10 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - `public/images/` — hero-portrait.png, logo-navigation.png, owl-outline.png, card-owllocate.png, card-training-impact.png, card-needs-analysis.png, card-onboarding.png
 - `public/images/owllocate/` — Owllocate deep-dive assets (illustration PNGs, feedback PNGs, gif, Play.png / Pause.png icons)
 - `public/images/training-impact/`, `public/images/virtual-onboarding/` — deep-dive assets (some gif/poster paths are still placeholders)
+- `src/utils/tracker.js` — analytics tracking script: generates session ID, checks `?notrack=1`, sends events to Cloud Function. Exports `trackEvent`, `trackPageView`, `trackClick`
+- `src/components/Analytics.jsx` — fires `page_view` on every route change via `useLocation`; mounted in `main.jsx` inside `<BrowserRouter>`
+- `cloud-function/index.js` — Google Cloud Function (Node.js 22, 2nd gen) that receives POST requests and writes rows to BigQuery. Deployed separately — does NOT deploy via GitHub Pages
+- `cloud-function/package.json` — declares `@google-cloud/bigquery` dependency
 
 ## Design Tokens (index.css)
 ```css

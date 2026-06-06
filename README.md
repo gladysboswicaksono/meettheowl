@@ -1,16 +1,53 @@
-# React + Vite
+# meettheowl.com — Portfolio Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite rebuild of Gladys Bos-Wicaksono's portfolio, deployed to GitHub Pages at [meettheowl.com](https://meettheowl.com).
 
-Currently, two official plugins are available:
+## Stack
+- React + Vite, plain CSS
+- React Router for client-side routing
+- GitHub Pages for hosting
+- Google Cloud Functions + BigQuery for analytics
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Dev setup
+```bash
+npm install
+npm run dev
+```
+Runs on `http://localhost:5173`.
 
-## React Compiler
+## Deployment
+Push to `main`, then manually trigger **Deploy to GitHub Pages** under Actions → Run workflow.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Pushing to `main` alone does NOT deploy — it only saves code to GitHub.
 
-## Expanding the ESLint configuration
+## Analytics
+Visitor interactions are tracked via a custom setup:
+- `src/utils/tracker.js` — runs in the visitor's browser, sends events to the Cloud Function
+- `src/components/Analytics.jsx` — fires a `page_view` on every route change
+- `cloud-function/` — Node.js Cloud Function on GCP that writes events to BigQuery
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**To add tracking to a new element:**
+```js
+import { trackClick } from '../utils/tracker';
+<button onClick={() => trackClick('Button label')}>...</button>
+```
+
+**To exclude your own visits:** visit the site with `?notrack=1` in the URL. Suppresses all tracking for that browser session.
+
+**To redeploy the Cloud Function after changes:**
+```bash
+cd cloud-function
+gcloud functions deploy trackEvent --runtime nodejs22 --trigger-http --allow-unauthenticated --region us-central1 --service-account meettheowl-tracker@meettheowl.iam.gserviceaccount.com
+```
+
+**To query the data:**
+```sql
+SELECT * FROM `meettheowl.portfolio_analytics.events` ORDER BY timestamp DESC LIMIT 10
+```
+
+## Pages
+- `/` — Homepage (Hero, Artifacts, Testimonials, Expertise)
+- `/owllocate-get-started` — Getting Started with Owllocate
+- `/training-impact` — Measuring Training Impact
+- `/needs-analysis` — Data and AI for Analysis & Evaluation
+- `/virtual-onboarding` — Making Remote Onboarding Work

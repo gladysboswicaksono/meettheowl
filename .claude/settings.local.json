@@ -45,7 +45,14 @@
       "Bash(git commit *)",
       "Bash(rm .git/COMMIT_RESTORE_MSG.txt)",
       "Bash(git -C \"E:/Portfolio/site\" rev-parse --abbrev-ref HEAD)",
-      "Bash(git -C \"E:/Portfolio/site\" status --short)"
+      "Bash(git -C \"E:/Portfolio/site\" status --short)",
+      "Bash(git -C \"E:/Portfolio/site\" log --oneline -3)",
+      "Bash(git -C \"E:/Portfolio\" status)",
+      "Bash(find \"C:/Users/glady/.claude\" -ipath \"*meettheowl-voice*\" -type f 2>/dev/null)",
+      "Bash(find \"C:/Users/glady\" -iname \"SKILL.md\" 2>/dev/null | grep -i \"voice\\\\|meettheowl\" | head; echo \"---broad---\"; find \"C:/Users/glady\" -type d -iname \"*meettheowl-voice*\" 2>/dev/null | head)",
+      "Bash(ls \"E:\\\\Portfolio\")",
+      "mcp__Claude_in_Chrome__upload_image",
+      "Bash(gcloud init *)"
     ]
   }
 }

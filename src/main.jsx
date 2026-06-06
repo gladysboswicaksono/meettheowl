@@ -7,10 +7,12 @@ import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
+import Analytics from './components/Analytics.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+      <Analytics />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/owllocate-get-started" element={<OwllocatePage />} />

@@ -15,6 +15,12 @@ dist-ssr
 # Local design mockups (not for deployment)
 public/mockups/
 
+# Project 5 working files (standalone mockup, not yet in React)
+project 5/
+
+# Google service account credentials
+meettheowl-f359e3ea4692.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
