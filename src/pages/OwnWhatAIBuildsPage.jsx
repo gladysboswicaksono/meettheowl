@@ -1,7 +1,7 @@
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
-export default function NewWorkWayPart1Page() {
+export default function OwnWhatAIBuilds() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Nav />
@@ -9,7 +9,7 @@ export default function NewWorkWayPart1Page() {
 
         {/* PROJECT HERO */}
         <section className="project-hero">
-          <h2>New Way of Working</h2>
+          <h2>Own what AI Builds</h2>
 
           <div className="project-hero__image">
             <div style={{
@@ -42,15 +42,8 @@ export default function NewWorkWayPart1Page() {
 
           <div className="project-hero__text">
             <p>
-              Most people who edit a webpage were never taught how. They get handed an HTML
-              file, a vague instruction, and a reference that explains what HTML{' '}
-              <span style={{ color: 'var(--red)', fontWeight: 600  }}>stands for</span>{' '}
-              instead of what a tag actually does.
-            </p>
-            <p>
-              My employer gives every R&D member €1,500 of Claude tokens a month. With that, I can generate a course skeleton, a feedback script, and a working prototype before lunch. 
-              The Owllocate piece in this portfolio took weeks. 
-              Today it would take two days, and the remaining weeks would go toward the parts AI cannot (yet) do; deciding what the learner needs to be able to do and whether training is the right answer.
+              My employer gives every R&D member €1,500 of Claude tokens a month. With that, I outsource most of my development work to it. 
+              But that budget won't follow me everywhere. So, what happens when I need to achieve the same output with a fraction of what I have now?
             </p>
             <p className="project-hero__tools">
               Tools: HTML, CSS, JavaScript
@@ -63,31 +56,18 @@ export default function NewWorkWayPart1Page() {
         <section className="about-section">
           <h2>About this work</h2>
           <p>
-           I won't always have €1,500 to work With
-
-           
+           My employer gives every R&D member €1,500 of Claude tokens a month. With that, I can generate a course skeleton, a feedback script, and a working prototype before lunch. 
+           The <a href="/owllocate-get-started" target='_blank' className='hyperlink'>Owllocate</a> piece in this portfolio took two weeks. 
+           Today it would take two days, and the remaining time would go toward the parts AI cannot (yet) do: deciding what the learner actually needs to be able to do, and whether training is the right answer at all.
           </p>
           <p>
-            The piece teaches by output. Each tag card shows what the tag does and what it
-            renders, not where its name came from. The practice panel pairs an expected result
-            with an empty editor, so you write the markup yourself and run it against the target
-            instead of taking my word for it.
+          That budget won't follow me everywhere. So before I became fully dependent on it, I needed the minimum viable code knowledge to own what AI produces.
+          Read it, navigate it, edit it, extend it, and know exactly what I'm asking for when I tell a tool to build or update something.
           </p>
           <p>
-            Feedback runs through Claude, but on a short leash. A check in the browser compares
-            the structure of your code to the structure the exercise expects — which tags, in
-            what order — and never the words you type. Match it and you get a straight
-            confirmation. Add something past the brief, like a color, and it tells you that's
-            more than the exercise asked for. Claude only writes feedback for the cases I didn't
-            script: code that diverges in a way the rules don't already cover.
+            This is the first piece in my New Way of Working series: A hands-on microlearning covering the basics of HTML, CSS, JavaScript, and how to structure files
+            so your AI prompts produce something you can maintain.
           </p>
-          <div className="disclaimer">
-            <p>
-              Your text content never reaches the model. The feedback reads HTML structure only,
-              so whatever you write inside a tag stays between you and the editor. The model also
-              runs behind my own endpoint, so no one needs an API key to use this.
-            </p>
-          </div>
         </section>
 
       </main>

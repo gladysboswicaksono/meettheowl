@@ -7,7 +7,7 @@ import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
-import NewWorkWayPart1Page from './pages/NewWorkWayPart1Page.jsx'
+import OwnWhatAIBuilds from './pages/OwnWhatAIBuildsPage.jsx'
 import Analytics from './components/Analytics.jsx'
 
 createRoot(document.getElementById('root')).render(
@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/training-impact" element={<TrainingImpactPage />} />
         <Route path="/needs-analysis" element={<NeedsAnalysisPage />} />
         <Route path="/virtual-onboarding" element={<VirtualOnboardingPage />} />
-        <Route path="/new-work-way-part-1" element={<NewWorkWayPart1Page />} />
+        <Route path="/own-what-AI-builds" element={<OwnWhatAIBuildsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
