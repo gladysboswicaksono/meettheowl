@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { trackEvent } from '../utils/tracker';
 
 const testimonials = [
   {
@@ -54,7 +55,12 @@ export default function Testimonials() {
     };
   }, []);
 
-  const go = (i) => { setCurrent((i + total) % total); setExpanded(false); };
+  const go = (i) => {
+    const next = (i + total) % total;
+    trackEvent('testimonial_slide', '/', testimonials[next].name);
+    setCurrent(next);
+    setExpanded(false);
+  };
 
   // Swipe navigation
   const touchStartX = useRef(null);
