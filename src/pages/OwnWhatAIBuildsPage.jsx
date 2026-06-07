@@ -173,19 +173,15 @@ export default function OwnWhatAIBuildsPage() {
   useEffect(() => {
     const el = pathSelectorRef.current;
     if (!el) return;
-    pillRef.current?.classList.remove('is-visible');
-    barRef.current?.classList.remove('is-visible');
-    let hasSeen = false;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) hasSeen = true;
-      if (hasSeen) {
-        const show = !entry.isIntersecting;
-        pillRef.current?.classList.toggle('is-visible', show);
-        barRef.current?.classList.toggle('is-visible', show);
-      }
-    }, { threshold: 0 });
-    observer.observe(el);
-    return () => observer.disconnect();
+    function update() {
+      // Show bar only when the path selector has fully scrolled above the
+      // viewport (user is past the section). Hides again if they scroll back up.
+      const scrolledPast = el.getBoundingClientRect().bottom < 0;
+      pillRef.current?.classList.toggle('is-visible', scrolledPast);
+      barRef.current?.classList.toggle('is-visible', scrolledPast);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
   }, []);
 
   const switchTab = (id) => {
@@ -414,7 +410,7 @@ function go(dir) {
 }`}
                 </div>
                 <div className="lesson__divider" style={{ marginTop: '48px' }}>
-                  &#9998; Try editing it<hr />
+                  &#9998; Make it yours<hr />
                 </div>
                 <p className="lesson__p" style={{ marginBottom: '20px' }}>
                   Same stepper, now yours to pull apart. Hit <strong>Inspect</strong> and click any element —
