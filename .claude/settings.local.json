@@ -53,7 +53,9 @@
       "Bash(ls \"E:\\\\Portfolio\")",
       "mcp__Claude_in_Chrome__upload_image",
       "Bash(gcloud init *)",
-      "Bash(dir \"E:\\\\Portfolio\\\\site\")"
+      "Bash(dir \"E:\\\\Portfolio\\\\site\")",
+      "Bash(git pull *)",
+      "Bash(git stash *)"
     ]
   }
 }

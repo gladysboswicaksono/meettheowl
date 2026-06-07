@@ -9,6 +9,27 @@ export const SOURCE = `<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
 <style>
 
+/* ── Page content (heading + intro) ── */
+.page-content {
+  padding: 32px 32px 24px;
+  background: #FAFAF8;
+  border-bottom: 1px solid #e0dede;
+}
+.page-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2A2A2A;
+  margin: 0 0 12px;
+}
+.page-body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #525252;
+  margin: 0;
+}
+
 /* ── Wrapper ── */
 .stepper {
   background: #FAFAF8;
@@ -121,8 +142,16 @@ export const SOURCE = `<!DOCTYPE html>
 </head>
 
 <!-- ═══ HTML Structure ══════════════════════════════════════════════════ -->
-<body style="margin: 20px; background: #1C253C;">
+<body style="margin: 0; background: #FAFAF8;">
 
+<div class="page-content">
+  <h3 class="page-heading">Tips to work with AI to build your course</h3>
+  <p class="page-body">The output quality depends almost entirely on what you give AI upfront. Without a design system to reference, it defaults to generic styles. Without a defined pattern, it creates something that works in isolation but is a nightmare to reuse and maintain.</p>
+  <br>
+  <p class="page-body">These <strong>five steps</strong> are not only gonna help you produce something <strong>more consistent</strong> but also <strong>scalable</strong> and <strong>maintainable</strong>.</p>
+</div>
+
+<div style="padding: 20px; background: #1C253C;">
 <div class="stepper">
   <div class="stepper__label">
     Tips to work with AI to build your course
@@ -139,6 +168,7 @@ export const SOURCE = `<!DOCTYPE html>
       <button class="stepper__btn"       id="btn-next" onclick="go(1)">Next step →</button>
     </div>
   </div>
+</div>
 </div>
 
 <!-- ═══ JavaScript ══════════════════════════════════════════════════════ -->
