@@ -52,7 +52,8 @@
       "Bash(find \"C:/Users/glady\" -iname \"SKILL.md\" 2>/dev/null | grep -i \"voice\\\\|meettheowl\" | head; echo \"---broad---\"; find \"C:/Users/glady\" -type d -iname \"*meettheowl-voice*\" 2>/dev/null | head)",
       "Bash(ls \"E:\\\\Portfolio\")",
       "mcp__Claude_in_Chrome__upload_image",
-      "Bash(gcloud init *)"
+      "Bash(gcloud init *)",
+      "Bash(dir \"E:\\\\Portfolio\\\\site\")"
     ]
   }
 }

@@ -1,30 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-
-function ZoomableImage({ src, alt, crop }) {
-  const [zoomed, setZoomed] = useState(false);
-  return (
-    <>
-      <div className={`zoomable-img${crop ? ' zoomable-img--crop' : ''}`} onClick={() => setZoomed(true)}>
-        <img src={src} alt={alt} />
-        <span className="zoom-icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="7" cy="7" r="5" />
-            <line x1="11" y1="11" x2="14.5" y2="14.5" />
-            <line x1="7" y1="5" x2="7" y2="9" />
-            <line x1="5" y1="7" x2="9" y2="7" />
-          </svg>
-        </span>
-      </div>
-      {zoomed && (
-        <div className="zoom-overlay" onClick={() => setZoomed(false)}>
-          <img src={src} alt={alt} />
-        </div>
-      )}
-    </>
-  );
-}
+import ZoomableImage from '../components/ZoomableImage';
+import Carousel from '../components/Carousel';
 
 function Accordion({ label, children }) {
   const [open, setOpen] = useState(false);
@@ -974,74 +952,6 @@ function ImgCaption({ children }) {
 
 /* Reusable image carousel: gold subtitle + caption + image (or placeholder),
    with arrows and dots. Pass slides as [{ title, caption, img, alt }]. */
-function Carousel({ slides, placeholderLabel = 'Image coming soon' }) {
-  const [current, setCurrent] = useState(0);
-  const [notDesktop, setNotDesktop] = useState(false);
-  const total = slides.length;
-  const s = slides[current];
-  const go = (i) => setCurrent((i + total) % total);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 900px)');
-    const update = () => setNotDesktop(mq.matches);
-    update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
-  }, []);
-
-  // Swipe navigation
-  const touchStartX = useRef(null);
-  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
-  const onTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
-    touchStartX.current = null;
-  };
-
-  return (
-    <div className="carousel">
-      <div className="carousel-head">
-        {s.title && <h3>{s.title}</h3>}
-        {s.caption && <p>{s.caption}</p>}
-      </div>
-
-      <div className="carousel-box" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        {/* Arrows on box sides (desktop only) */}
-        {!notDesktop && (
-          <button className="carousel-arrow carousel-arrow--prev" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
-        )}
-        {s.img
-          ? <ZoomableImage src={s.img} alt={s.alt || s.title || 'slide'} />
-          : <div className="ti-carousel__placeholder">{placeholderLabel}</div>}
-        {!notDesktop && (
-          <button className="carousel-arrow carousel-arrow--next" onClick={() => go(current + 1)} aria-label="Next">›</button>
-        )}
-      </div>
-
-      {/* Dots — flanked by arrows on non-desktop */}
-      <div className='carousel-dots'>
-        {notDesktop && (
-          <button className="carousel-arrow carousel-arrow--inline" onClick={() => go(current - 1)} aria-label="Previous">‹</button>
-        )}
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            className={`carousel-dot${i === current ? ' active' : ''}`}
-            onClick={() => go(i)}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
-        {notDesktop && (
-          <button className="carousel-arrow carousel-arrow--inline" onClick={() => go(current + 1)} aria-label="Next">›</button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* What I Built — carousel, images not ready yet → placeholders.
-   Subtitles verified slide-by-slide from the live page. */
 const whatIBuiltSlides = [
   {
     title: 'Overview Page',
