@@ -2,8 +2,11 @@
   "name": "meettheowl-tracker",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "node --test"
+  },
   "engines": {
-    "node": "20"
+    "node": "22"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^7.0.0"
