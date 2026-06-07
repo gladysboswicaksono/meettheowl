@@ -19,6 +19,14 @@ function isNoTrack() {
   return false;
 }
 
+export function getDeviceContext() {
+  return {
+    device_type: window.innerWidth <= 600 ? 'phone' : window.innerWidth <= 900 ? 'tablet' : 'desktop',
+    viewport_width: window.innerWidth,
+    screen_width: window.screen.width,
+  };
+}
+
 export function trackEvent(event_type, page, label, properties = {}) {
   if (isNoTrack()) return;
   const payload = {
@@ -26,7 +34,7 @@ export function trackEvent(event_type, page, label, properties = {}) {
     event_type,
     page: page || window.location.pathname,
     label: label || null,
-    properties,
+    properties: { ...getDeviceContext(), ...properties },
   };
   fetch(ENDPOINT, {
     method: 'POST',
