@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/training-impact" element={<TrainingImpactPage />} />
         <Route path="/needs-analysis" element={<NeedsAnalysisPage />} />
         <Route path="/virtual-onboarding" element={<VirtualOnboardingPage />} />
-        <Route path="/own-what-AI-builds" element={<OwnWhatAIBuildsPage />} />
+        <Route path="/own-what-ai-builds" element={<OwnWhatAIBuildsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
