@@ -15,6 +15,14 @@ npm run dev
 ```
 Runs on `http://localhost:5173`.
 
+## CSS
+
+Global foundations and design tokens live in `src/index.css`. Component,
+project, and responsive styles are organized under `src/styles/`.
+
+See [docs/css-architecture.md](docs/css-architecture.md) for stylesheet
+ownership, import order, breakpoints, and responsive conventions.
+
 ## Deployment
 Push to `main`, then manually trigger **Deploy to GitHub Pages** under Actions → Run workflow.
 

@@ -66,7 +66,8 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 ## File Structure
 - `src/main.jsx` — React Router (`BrowserRouter` + `Routes`); every page route is registered here
 - `src/App.jsx` — homepage: Hero → Artifacts grid → Testimonials → Expertise ("What you'd get from me")
-- `src/index.css` — all global styles, design tokens, typography, layout classes
+- `src/index.css` — reset, global design tokens, typography, and body styles
+- `src/styles/` — navigation, site, project, expertise, AI course, and responsive styles; see `docs/css-architecture.md`
 - `src/components/Nav.jsx` — sticky red nav, **context-aware**: homepage = section links + Artifacts hover-dropdown + scroll-spy; project pages = flat page links (Home + 4 artifacts, current page active); shared brand + mobile hamburger (see Nav section below)
 - `src/components/Footer.jsx` — charcoal bg, gold tagline, work links, owl watermark
 - `src/components/ProjectCard.jsx` — reusable card: image, category tag, title, description, Learn More
@@ -87,7 +88,7 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - `cloud-function/index.js` — Google Cloud Function (Node.js 22, 2nd gen) that receives POST requests and writes rows to BigQuery. Deployed separately — does NOT deploy via GitHub Pages
 - `cloud-function/package.json` — declares `@google-cloud/bigquery` dependency
 
-## Design Tokens (index.css)
+## Design Tokens (src/index.css)
 ```css
 --red:   #5B0606;
 --blue-card:  #1A1A2E;
@@ -111,8 +112,14 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - `.p1` 26px, `.p2` 19px, `.p3` 17px — CSS classes applied to `<p>` elements
 
 ## Breakpoints
+- Laptop: `max-width: 1500px`
+- Large tablet / small laptop: `max-width: 1024px`
 - Tablet: `max-width: 900px`
 - Phone: `max-width: 600px`
+
+All viewport media queries live in `src/styles/responsive.css`. Keep them
+ordered widest to narrowest and put base component rules in the relevant
+stylesheet under `src/styles/`.
 
 ## Key CSS Classes
 - `.hero` / `.hero__portrait` / `.hero__text` — hero layout. **`.hero__text` is `align-items: flex-start`** (left-aligned) — do not set it back to `center` (centering makes short paragraphs look indented at ~860–900px widths)
@@ -143,7 +150,7 @@ This project is a React rebuild of Gladys Barragan-Torres's existing Wix portfol
 - p1/p2/p3 are CSS classes — use `<p className="p1">`, NOT `<p1>`
 - Do not add card background colors — cards sit on the section gradient
 - Artifacts section gradient: `linear-gradient(180deg, #6B0808 0%, #2D0202 100%)`
-- Do not invent button class names — check index.css first
+- Do not invent button class names — check `src/styles/site.css` first
 
 ---
 

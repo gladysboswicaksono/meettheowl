@@ -219,7 +219,7 @@ export default function OwnWhatAIBuildsPage() {
                 <span style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#3a3a52', display: 'inline-block' }}></span>
                 <span style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#3a3a52', display: 'inline-block' }}></span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div className="own-ai-hero-panes">
                 <div style={{ background: 'var(--blue-card)', borderRadius: '8px', padding: '12px' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'block', marginBottom: '8px' }}>Your code</span>
                   <div style={{ fontFamily: 'monospace', fontSize: '10.5px', color: 'var(--gold)', lineHeight: 1.65, whiteSpace: 'pre' }}>{`<h1>AI made this.</h1>\n<p>Now, make it yours.</p>\n\n<section\n  class="course-card">\n\n  <h2>Write it.</h2>\n  <p>Build from the basics.</p>\n\n  <h2>Edit it.</h2>\n  <p>Change what AI gives you.</p>\n\n  <h2>Structure it.</h2>\n  <p>Prompt for files you can maintain.</p>\n\n</section>`}</div>

@@ -1,0 +1,125 @@
+/* ── Nav ──────────────────────────────────────────────────────── */
+.nav {
+  background-color: var(--red);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 80px;
+}
+
+.nav__inner {
+  max-width: 100%;
+  height: 100%;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav__logo {
+  height: 65px;
+  width: auto;
+}
+
+.nav__name {
+  font-family: var(--font-display);
+  color: var(--gray);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 15px;
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-left: auto;
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  color: var(--gray);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.nav__link:hover { color: var(--gold); }
+
+.nav__link.active { color: var(--gold); }
+
+/* Offset anchored sections so they aren't hidden under the sticky nav */
+#artifacts, #testimonials, #expertise { scroll-margin-top: 90px; }
+
+/* Artifacts dropdown (detail pages) */
+.nav__links { align-self: stretch; }
+
+.nav__item--dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav__caret {
+  font-size: 0.7em;
+  margin-left: 0.35rem;
+  transition: transform 0.2s ease;
+}
+
+.nav__item--dropdown:hover .nav__caret { transform: rotate(180deg); }
+
+.nav__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  background: var(--red);
+  padding: 0.5rem 0;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+  z-index: 60;
+}
+
+.nav__item--dropdown:hover .nav__dropdown { display: flex; }
+
+.nav__dropdown-link {
+  font-family: var(--font-display);
+  color: var(--gray);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.6rem 1.5rem;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav__dropdown-link:hover { color: var(--gold); background: rgba(0, 0, 0, 0.2); }
+
+.nav__toggle {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+}
+
+.nav__toggle:hover { color: var(--gold); }

@@ -1,0 +1,105 @@
+/* ── Text ──────────────────────────────────────────────────────── */
+
+.heading-primary {
+  color: var(--red);
+}
+
+.text-primary {
+  color: var(--dark);
+}
+
+.text-secondary {
+  color: var(--gray);
+}
+
+.text-red {
+  color: var(--red);
+  letter-spacing: 0em;
+}
+
+
+.hero {
+  background-color: var(--gray);
+  /* min-height: calc(100vh - 64px); */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.hero__portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero__portrait img {
+  max-height: 60vh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 64px 80px 64px 48px;
+}
+
+/* ── Artifacts grid ──────────────────────────────────────────── */
+.artifacts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 537px));
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* ── Button ───────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 10px 24px;
+  font-family: var(--font-display);
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 0 0 0.5px #5B0606, 2px 2px 3px #5B0606;
+  background: transparent;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: rgba(91, 6, 6, 0.15);
+  transform: translate(-2px, -2px);
+  box-shadow: 0 0 0 0.5px #5B0606, 3px 3px 4px #5B0606;
+}
+
+.btn-secondary {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 8px 20px;
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 0 0 0.5px #F6C785, 2px 2px 3px #F6C785;
+  background: transparent;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(26, 26, 46, 1);
+  transform: translate(-2px, -2px);
+  box-shadow: 0 0 0 0.5px #F6C785, 3px 3px 4px #F6C785;
+}
