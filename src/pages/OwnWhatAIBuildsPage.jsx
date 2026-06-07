@@ -212,7 +212,7 @@ export default function OwnWhatAIBuildsPage() {
               padding: '14px',
               boxShadow: '0 14px 30px rgba(0,0,0,0.25)',
               width: '100%',
-              maxWidth: '480px',
+              maxWidth: '600px',
             }} aria-hidden="true">
               <div style={{ display: 'flex', gap: '6px', padding: '4px 4px 12px' }}>
                 <span style={{ width: '11px', height: '11px', borderRadius: '50%', background: '#3a3a52', display: 'inline-block' }}></span>
@@ -222,13 +222,20 @@ export default function OwnWhatAIBuildsPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div style={{ background: 'var(--blue-card)', borderRadius: '8px', padding: '12px' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'block', marginBottom: '8px' }}>Your code</span>
-                  <div style={{ fontFamily: 'monospace', fontSize: '12.5px', color: 'var(--gold)', lineHeight: 1.7, whiteSpace: 'pre' }}>{'<h1>Meet me!</h1>\n<h2>I am Gladys</h2>\n<p>I build things.</p>'}</div>
+                  <div style={{ fontFamily: 'monospace', fontSize: '10.5px', color: 'var(--gold)', lineHeight: 1.65, whiteSpace: 'pre' }}>{`<h1>AI made this.</h1>\n<p>Now, make it yours.</p>\n\n<section\n  class="course-card">\n\n  <h2>Write it.</h2>\n  <p>Build from the basics.</p>\n\n  <h2>Edit it.</h2>\n  <p>Change what AI gives you.</p>\n\n  <h2>Structure it.</h2>\n  <p>Prompt for files you can maintain.</p>\n\n</section>`}</div>
                 </div>
-                <div style={{ background: 'var(--blue-card)', borderRadius: '8px', padding: '12px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'block', marginBottom: '8px' }}>Your output</span>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--gray)' }}>Meet me!</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--gray)', marginTop: '4px' }}>I am Gladys</div>
-                  <div style={{ fontSize: '13px', color: 'var(--gray)', marginTop: '4px' }}>I build things.</div>
+                <div style={{ background: 'var(--blue-card)', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)', display: 'block', marginBottom: '2px' }}>Your output</span>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--gray)', lineHeight: 1.2 }}>AI made this.</div>
+                  <div style={{ fontSize: '14px', color: '#b0aeb8', fontStyle: 'italic', marginBottom: '4px' }}>Now, make it yours.</div>
+                  <div style={{ border: '1px solid rgba(246,199,133,0.2)', borderRadius: '6px', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {[['Write it.', 'Build from the basics.'], ['Edit it.', 'Change what AI gives you.'], ['Structure it.', 'Prompt for files you can maintain.']].map(([h, p]) => (
+                      <div key={h}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--gold)', lineHeight: 1.2 }}>{h}</div>
+                        <div style={{ fontSize: '13px', color: '#b0aeb8', lineHeight: 1.3 }}>{p}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

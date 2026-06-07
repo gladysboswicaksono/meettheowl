@@ -21,6 +21,9 @@ project 5/
 # Google service account credentials
 meettheowl-f359e3ea4692.json
 
+# Agent skill files
+.agents/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
