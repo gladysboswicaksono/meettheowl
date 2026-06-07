@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 
 // ── Virtual file system ─────────────────────────────────────────────────────
 const EDIT_FILES = {
@@ -85,7 +85,6 @@ export default function HtmlCssApplyIt() {
   // Which files have been opened (tabs) + which is active
   const [openTabs,     setOpenTabs]     = useState({ style: true });
   const [activeFile,   setActiveFile]   = useState('style');
-  const [editorValue,  setEditorValue]  = useState(EDIT_FILES.style.content);
   const [isReadOnly,   setIsReadOnly]   = useState(false);
 
   // Live preview heading color (starts as original blue)
@@ -98,6 +97,13 @@ export default function HtmlCssApplyIt() {
 
   // Expand modal
   const [expandOpen,   setExpandOpen]   = useState(false);
+
+  const closeExpand = useCallback(() => {
+    if (editorRef.current && expandRef.current && !isReadOnly) {
+      editorRef.current.value = expandRef.current.value;
+    }
+    setExpandOpen(false);
+  }, [isReadOnly]);
 
   // Auto-focus editor and set initial value on mount
   useEffect(() => {
@@ -123,7 +129,7 @@ export default function HtmlCssApplyIt() {
     }
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [expandOpen]);
+  }, [expandOpen, closeExpand]);
 
   // ── File navigation ────────────────────────────────────────────────────────
   function openFile(key) {
@@ -156,25 +162,24 @@ export default function HtmlCssApplyIt() {
 
     if (color === TARGET_COLOR) {
       setFeedbackType('MATCH');
-      setFeedbackText(`That's it. The heading is now <code>#5B0606</code> — matching the brand red.`);
+      setFeedbackText(
+        <>That's it. The heading is now <code>#5B0606</code> — matching the brand red.</>,
+      );
     } else if (color === ORIGINAL_COLOR) {
       setFeedbackType('PARTIAL');
-      setFeedbackText(`The color hasn't changed yet — it's still the original blue. Find the <code>color</code> property inside <code>.course-heading</code> and update its value.`);
+      setFeedbackText(
+        <>The color hasn't changed yet — it's still the original blue. Find the <code>color</code> property inside <code>.course-heading</code> and update its value.</>,
+      );
     } else {
       setFeedbackType('PARTIAL');
-      setFeedbackText(`The color updated, but it's not quite right. The target is <code>#5B0606</code> — check the hex value and try again.`);
+      setFeedbackText(
+        <>The color updated, but it's not quite right. The target is <code>#5B0606</code> — check the hex value and try again.</>,
+      );
     }
   }
 
   // ── Expand modal ───────────────────────────────────────────────────────────
   function openExpand() { setExpandOpen(true); }
-
-  function closeExpand() {
-    if (editorRef.current && expandRef.current && !isReadOnly) {
-      editorRef.current.value = expandRef.current.value;
-    }
-    setExpandOpen(false);
-  }
 
   function handleOverlayClick(e) {
     if (e.target === e.currentTarget) closeExpand();
@@ -195,8 +200,6 @@ export default function HtmlCssApplyIt() {
   const expandTitle = activeFile_obj
     ? (isReadOnly ? `Viewing — ${activeFile_obj.name}` : `Editing — ${activeFile_obj.name}`)
     : 'Editor';
-
-  const inspectHex = headingColor; // will be rgb string after first apply
 
   return (
     <>
@@ -302,11 +305,8 @@ export default function HtmlCssApplyIt() {
           {/* Feedback */}
           <div className={feedbackClass} style={{ marginTop: '14px', borderRadius: '4px' }}>
             <span className="lesson-feedback__label">Feedback</span>
-            <div
-              className={bodyClass}
-              dangerouslySetInnerHTML={feedbackText ? { __html: feedbackText } : undefined}
-            >
-              {!feedbackText && 'Apply your changes to see feedback.'}
+            <div className={bodyClass}>
+              {feedbackText || 'Apply your changes to see feedback.'}
             </div>
           </div>
         </div>

@@ -314,7 +314,7 @@ const INSPECT_SCRIPT = `<script>
     }
   }, true);
 })();
-<\/script>`;
+</script>`;
 
 function buildIframeSrc(code) {
   return code.includes('</body>')

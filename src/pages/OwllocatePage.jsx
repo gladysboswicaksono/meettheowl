@@ -225,7 +225,7 @@ export default function OwllocatePage() {
 
   const switchTab = (id) => {
     setActiveTab(id);
-    window.location.hash = id;
+    window.history.pushState(null, '', `#${id}`);
   };
 
   const jumpTab = (id) => {

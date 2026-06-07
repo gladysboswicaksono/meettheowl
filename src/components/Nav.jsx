@@ -21,7 +21,7 @@ export default function Nav() {
 
   // Scroll-spy: highlight the section currently crossing the viewport's center.
   useEffect(() => {
-    if (!onHome) { setActive(''); return; }
+    if (!onHome) return;
     const ids = ['artifacts', 'testimonials', 'expertise'];
     const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
     if (!sections.length) return;

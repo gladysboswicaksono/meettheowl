@@ -149,16 +149,6 @@ export default function StepperInspectBlock() {
   const editorRef  = useRef(null);
   const expandRef  = useRef(null);
 
-  // Clear inspect highlights when inspect turns off
-  useEffect(() => {
-    if (!inspectOn) {
-      if (hoveredEl.current)  { hoveredEl.current.style.outline  = ''; hoveredEl.current.style.outlineOffset  = ''; hoveredEl.current  = null; }
-      if (selectedEl.current) { selectedEl.current.style.outline = ''; selectedEl.current.style.outlineOffset = ''; selectedEl.current = null; }
-      setElementPath([]);
-      setActiveSectionKey(null);
-    }
-  }, [inspectOn]);
-
   // ESC closes expand
   useEffect(() => {
     function onKey(e) { if (e.key === 'Escape' && expandOpen) closeExpand(); }
@@ -253,16 +243,40 @@ export default function StepperInspectBlock() {
     ta.scrollTop = Math.max(0, (line - 4)) * lineH;
   }
 
+  function stopInspect() {
+    if (hoveredEl.current) {
+      hoveredEl.current.style.outline = '';
+      hoveredEl.current.style.outlineOffset = '';
+      hoveredEl.current = null;
+    }
+    if (selectedEl.current) {
+      selectedEl.current.style.outline = '';
+      selectedEl.current.style.outlineOffset = '';
+      selectedEl.current = null;
+    }
+    setInspectOn(false);
+    setElementPath([]);
+    setActiveSectionKey(null);
+  }
+
+  function toggleInspect() {
+    if (inspectOn) {
+      stopInspect();
+    } else {
+      setInspectOn(true);
+    }
+  }
+
   function runCode(sourceEl) {
     const code = (sourceEl ?? editorRef.current)?.value ?? SOURCE;
     setIframeSrc(code);
     setPreviewMode('iframe');
-    setInspectOn(false);
+    stopInspect();
   }
 
   function resetToReact() {
     setPreviewMode('react');
-    setInspectOn(false);
+    stopInspect();
     if (editorRef.current) editorRef.current.value = SOURCE;
   }
 
@@ -285,7 +299,7 @@ export default function StepperInspectBlock() {
           {previewMode === 'react' ? (
             <button
               className={`inspect-btn${inspectOn ? ' is-active' : ''}`}
-              onClick={() => setInspectOn(v => !v)}
+              onClick={toggleInspect}
             >
               {inspectOn ? '✕ Stop' : '⬚ Inspect'}
             </button>

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { classify, normalizeHTML, buildFeedbackText } from '../utils/htmlClassifier';
+import { decodeFeedbackText } from '../utils/feedbackText';
 
 // Props:
 //   exerciseId     string       — key into EXERCISES in htmlClassifier (e.g. 'html-text-tags')
@@ -207,7 +208,7 @@ export default function HtmlCssPractice({ exerciseId, prompt, expectedOutput, nu
         <div className={feedbackClass}>
           <span className="lesson-feedback__label">Feedback</span>
           {feedbackText
-            ? <div className={bodyClass} dangerouslySetInnerHTML={{ __html: feedbackText }} />
+            ? <div className={bodyClass}>{decodeFeedbackText(feedbackText)}</div>
             : <div className={bodyClass}>Run your code to see feedback.</div>
           }
           {showNudge && feedbackText && nudgeHref && (

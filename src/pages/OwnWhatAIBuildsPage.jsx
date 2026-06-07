@@ -186,7 +186,7 @@ export default function OwnWhatAIBuildsPage() {
 
   const switchTab = (id) => {
     setActiveTab(id);
-    window.location.hash = id;
+    window.history.pushState(null, '', `#${id}`);
   };
 
   const switchPath = (id) => setActivePath(id);

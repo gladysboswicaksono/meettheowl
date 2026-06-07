@@ -938,14 +938,6 @@ function GifPlayImage({ poster, gif, alt }) {
   );
 }
 
-function CodeRef({ icon = '</>', children }) {
-  return (
-    <span className="code-ref">
-      <span className="code-ref__glyph">{icon}</span> {children}
-    </span>
-  );
-}
-
 function ImgCaption({ children }) {
   return <p className="img-caption">{children}</p>;
 }
