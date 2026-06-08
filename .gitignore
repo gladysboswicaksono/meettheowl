@@ -24,6 +24,9 @@ meettheowl-f359e3ea4692.json
 # Agent skill files
 .agents/
 
+# Claude Code local settings
+.claude/settings.local.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

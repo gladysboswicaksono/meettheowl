@@ -72,12 +72,11 @@ export default function AiCourseStepper() {
           </p>
           <br></br>
           <p className='browser-window__page-body'>
-            These <strong>five steps</strong> are not only gonna help you produce something <strong>more consistent</strong> but also <strong>scalable</strong> and <strong>maintainable</strong>.
+            These <strong>five tips</strong> are not only gonna help you produce something <strong>more consistent</strong> but also <strong>scalable</strong> and <strong>maintainable</strong>.
           </p>
         </div>
 
         <div className="stepper-mock" style={{ borderRadius: 0, marginTop: 0, border: 'none' }}>
-          {/* <div className="stepper-mock__label">Tips to work with AI to build your course</div> */}
           <div className="stepper-mock__body">
 
             <div className="stepper__steps">
@@ -91,7 +90,6 @@ export default function AiCourseStepper() {
                   ].filter(Boolean).join(' ')}
                   onClick={() => setActive(i)}
                 >
-                  <span className="stepper__step-num">{s.label}</span>
                   {s.title}
                 </button>
               ))}

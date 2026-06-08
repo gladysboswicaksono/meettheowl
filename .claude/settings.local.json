@@ -56,7 +56,8 @@
       "Bash(dir \"E:\\\\Portfolio\\\\site\")",
       "Bash(git pull *)",
       "Bash(git stash *)",
-      "Bash(git restore *)"
+      "Bash(git restore *)",
+      "PowerShell(New-Item -ItemType Directory -Force \"E:\\\\Portfolio\\\\site\\\\public\\\\downloads\")"
     ]
   }
 }

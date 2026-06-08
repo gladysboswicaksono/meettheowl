@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { classify, normalizeHTML, buildFeedbackText } from '../utils/htmlClassifier';
 import { decodeFeedbackText } from '../utils/feedbackText';
+import CodeEditor from './CodeEditor';
 
 // Props:
 //   exerciseId     string       — key into EXERCISES in htmlClassifier (e.g. 'html-text-tags')
@@ -30,16 +31,6 @@ const PLACEHOLDER_SRCDOC = `<!DOCTYPE html><html><head><style>
   p { font-size: 13px; color: rgba(232,230,230,0.35); font-style: italic; }
 </style></head><body><p>Write your code and press Run</p></body></html>`;
 
-function handleTab(e) {
-  if (e.key !== 'Tab') return;
-  e.preventDefault();
-  const el = e.target;
-  const start = el.selectionStart;
-  const end   = el.selectionEnd;
-  el.value = el.value.substring(0, start) + '  ' + el.value.substring(end);
-  el.selectionStart = el.selectionEnd = start + 2;
-}
-
 const TYPE_CLASS = {
   MATCH: 'is-match',
   SUPERSET: 'is-superset',
@@ -50,49 +41,19 @@ const TYPE_CLASS = {
 export default function HtmlCssPractice({ exerciseId, prompt, expectedOutput, nudgeHref }) {
   const textareaRef  = useRef(null);
   const iframeRef    = useRef(null);
-  const expandRef    = useRef(null);
   const attemptCount = useRef(0);
 
   const [feedbackType, setFeedbackType] = useState(null);
   const [feedbackText, setFeedbackText] = useState(null);
   const [showNudge,    setShowNudge]    = useState(false);
   const [isLoading,    setIsLoading]    = useState(false);
-  const [expandOpen,   setExpandOpen]   = useState(false);
 
   useEffect(() => {
     if (iframeRef.current) iframeRef.current.srcdoc = PLACEHOLDER_SRCDOC;
   }, []);
 
-  useEffect(() => {
-    if (expandOpen && expandRef.current && textareaRef.current) {
-      expandRef.current.value = textareaRef.current.value;
-      expandRef.current.focus();
-    }
-  }, [expandOpen]);
-
-  useEffect(() => {
-    function onKey(e) {
-      if (e.key === 'Escape' && expandOpen) closeExpand();
-    }
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [expandOpen]);
-
-  function openExpand() { setExpandOpen(true); }
-
-  function closeExpand() {
-    if (textareaRef.current && expandRef.current) {
-      textareaRef.current.value = expandRef.current.value;
-    }
-    setExpandOpen(false);
-  }
-
-  function handleOverlayClick(e) {
-    if (e.target === e.currentTarget) closeExpand();
-  }
-
-  async function runCode() {
-    const userHTML = textareaRef.current?.value?.trim() ?? '';
+  async function runCode(value) {
+    const userHTML = value.trim();
 
     if (iframeRef.current) {
       iframeRef.current.srcdoc = userHTML
@@ -180,30 +141,12 @@ export default function HtmlCssPractice({ exerciseId, prompt, expectedOutput, nu
           </div>
         </div>
 
-        <div className="practice__output">
-          <div className="practice__output-head">
-            <span className="practice__label">Your code</span>
-            <div className="practice__actions">
-              <button className="practice__btn" onClick={openExpand}>
-                &#10562; expand
-              </button>
-              <button
-                className="practice__btn practice__btn--run"
-                onClick={runCode}
-                disabled={isLoading}
-              >
-                run &#9654;
-              </button>
-            </div>
-          </div>
-          <textarea
-            ref={textareaRef}
-            className="practice__editor"
-            spellCheck={false}
-            placeholder="Write your HTML here..."
-            onKeyDown={handleTab}
-          />
-        </div>
+        <CodeEditor
+          editorRef={textareaRef}
+          placeholder="Write your HTML here..."
+          onRun={runCode}
+          runDisabled={isLoading}
+        />
 
         <div className={feedbackClass}>
           <span className="lesson-feedback__label">Feedback</span>
@@ -219,29 +162,6 @@ export default function HtmlCssPractice({ exerciseId, prompt, expectedOutput, nu
         </div>
       </div>
 
-      {expandOpen && (
-        <div className="expand-overlay open" onClick={handleOverlayClick}>
-          <div className="expand-modal">
-            <div className="expand-modal__header">
-              <span className="expand-modal__title">Your Code</span>
-              <button className="expand-modal__close" onClick={closeExpand}>
-                &#10005; close
-              </button>
-            </div>
-            <textarea
-              ref={expandRef}
-              className="expand-editor"
-              spellCheck={false}
-              onKeyDown={handleTab}
-            />
-            <div className="expand-modal__footer">
-              <button className="practice__btn practice__btn--run" onClick={closeExpand}>
-                Done
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
