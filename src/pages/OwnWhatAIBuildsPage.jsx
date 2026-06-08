@@ -346,14 +346,14 @@ export default function OwnWhatAIBuildsPage() {
                 <AiCourseStepper />
                 <br></br>
                 <ol className='lesson__p'>
-                  <li>HTML body holds the structure and the static content, like the heading and paragraph.</li>
+                  <li>HTML is what you use when you want to change text, headings, or the order of content.</li>
                   <div className='inspect-practice__editor'>
                     {`<h2>Tips to work with AI to Build your courses</h2>\n<p>The output quality depends almost entirely on what you give AI upfront. Without a design system to reference, it defaults to generic styles.\nWithout a defined pattern, it creates something that works in isoluation but is a nightmare to reuse and maintain.\n<br>
                       \n<p>These <strong>five steps</strong> are not only gonna help you produce something <strong>more consistent</strong> \nbut also <strong>scalable</strong> and <strong>maintainable</strong>.
                       `}
                   </div>
                   <br></br>
-                  <li><span className='inline-code'>&lt;style&gt;</span> block at the top holding the CSS, which stores rules for colors, fonts, spacing, and layout.</li>
+                  <li><span className='inline-code'>&lt;style&gt;</span> block at the top holding the CSS, which you use to change how something looks like color, spacing, fonts.</li>
                   <div className='inspect-practice__editor'>
                     {`<style>
   :root {
@@ -385,11 +385,11 @@ export default function OwnWhatAIBuildsPage() {
 </style>`}
                   </div>
                   <br></br>
-                  <li><span className='inline-code'>&lt;script&gt;</span> block at the bottom has two layers. The top layer holds data objects: the content within an interactive element, and the page renders
-                    whichever one applies when the learner interacts.
+                  <li><span className='inline-code'>&lt;script&gt;</span> block at the bottom has two layers. The top layer holds the text inside an interaction. Instead of writing every step 
+                  directly in HTML, the content is stored as data, and JavaScript swaps in the right title, sentence, or label based on what the user does.
                   </li>
                   <div className='inspect-practice__editor'>
-                    {`// Data objects — one entry per step
+                    {`<script>\n// DATA OBJECTS - ONE ENTRY PER STEP
 const steps = [
   { label: 'Step 1', title: 'Point it to your design system',     body: 'Have a file with your themes, colors, and fonts that AI can reference.' },
   { label: 'Step 2', title: 'Design the pattern',                  body: 'Name the interaction: stepper, accordion, hotspot, knowledge check.' },
@@ -407,25 +407,43 @@ function go(dir) {
 }`}
                   </div>
                   <br></br>
-                  <p>The bottom layer is event wiring: what happens when a user clicks a button or advances a step.</p>
+                  <p>The second layer handles behavior; it listens for user actions, like clicking a button or progressing a step, and tells the page what to update next. </p>
                 </ol>
                 <div className='inspect-practice__editor'>
                   {`function setStep(i) { active = i; render(); }
 function go(dir) {
   active = Math.max(0, Math.min(steps.length - 1, active + dir));
   render();
+
+  ...
+  </script>
 }`}
                 </div>
                 <div className="lesson__divider" style={{ marginTop: '48px' }}>
                   &#9998; Make it yours<hr />
                 </div>
-                <p className="lesson__p" style={{ marginBottom: '20px' }}>
-                  Same stepper, now yours to pull apart. Hit <strong>Inspect</strong> and click any element —
-                  the panel on the right shows the DOM structure while the editor below jumps to and
-                  highlights the code that produces it. Edit the source, hit <strong>Run</strong>, and the
-                  browser window swaps to show your version.
+                <p className="lesson__p">
+                  Now it's your turn to work with the file. You'll make five small changes to this AI-generated block, each one targeting a different part of the interaction.
+                  Use the suggested edits if you want a quick path, or replace them with your own course idea. The goal is <strong>not</strong> to memorize the code but to recognize the pattern and learn where to look when you want to change something.
                 </p>
-                <StepperInspectBlock />
+                <p className='lesson__p'>
+                  You can download the file and edit it locally on your computer, or use the editor provided below.
+                </p>
+                <a
+                  href="/downloads/stepper.html"
+                  download="stepper.html"
+                  className="download-btn"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '12px', marginBottom: '28px' }}
+                >
+                  ↓ Download stepper.html
+                </a>
+                <StepperInspectBlock exercises={[
+                  { title: 'Exercise 1: Update the title', desc: 'Replace "Tips to work with AI to build your course" with "Build Better Learning Interactions with AI".' },
+                  { title: 'Exercise 2 — placeholder', desc: 'Placeholder description for exercise 2. Make a different edit, then click Run.' },
+                  { title: 'Exercise 3 — placeholder', desc: 'Placeholder description for exercise 3. Try something bolder this time.' },
+                  { title: 'Exercise 4 — placeholder', desc: 'Placeholder description for exercise 4. Almost there.' },
+                  { title: 'Exercise 5 — placeholder', desc: 'Placeholder description for exercise 5. Last one.' },
+                ]} />
               </>
             )}
             {activePath === 'structure' && (
