@@ -94,7 +94,7 @@ const tabs = [
         <p>
           Users stay in control the entire time. They can choose step-by-step guidance, work independently,
           and switch modes at any point throughout the simulation. In independent practice mode, hints
-          provide optional, high-level direction — just enough support to keep moving forward without
+          provide optional, high-level direction whiich give just enough support to keep moving forward without
           taking away agency.
         </p>
         <Accordion label="Illustration">
@@ -105,8 +105,8 @@ const tabs = [
         </Accordion>
         <p>
           The result of this approach is tangible. On average, users who complete such simulations submit{' '}
-          <strong style={{ color: 'var(--gold)', textDecoration: 'underline' }}>~27% fewer support tickets</strong>{' '}
-          for the topics they've practiced. That's my principle behind immersive simulation — the shift
+          <strong style={{ color: 'var(--gold)' }}>~27% fewer support tickets</strong>{' '}
+          for the topics they've practiced. That's my principle behind immersive simulation: the shift
           from knowing where to click to shaping understanding that maximizes product readiness.
         </p>
       </>
@@ -143,7 +143,7 @@ const tabs = [
         <p>
           The data confirms my belief; confidence is a product of success and not its prerequisite.
           As users accumulate small, successful experiences, they{' '}
-          <strong style={{ color: 'var(--gold)', textDecoration: 'underline' }}>naturally transition from guided to independent</strong>{' '}
+          <strong style={{ color: 'var(--gold)' }}>naturally transition from guided to independent</strong>{' '}
           practice. Each success and repetition reinforces both confidence and accuracy, creating
           the compounding effect that lies at the heart of this approach.
         </p>
@@ -183,7 +183,7 @@ const tabs = [
           I introduced a simple "Watch, Guide, Test" option that let users choose the level of
           support they needed. It's one small example, but these data-driven tweaks continue to
           pay off, contributing to an ongoing{' '}
-          <strong style={{ color: 'var(--gold)', textDecoration: 'underline' }}>QoQ drop of ~14.1%</strong>{' '}
+          <strong style={{ color: 'var(--gold)' }}>QoQ drop of ~14%</strong>{' '}
           in support tickets among trained users.
         </p>
         <p>
@@ -271,7 +271,7 @@ export default function OwllocatePage() {
             <p>
               In my role, I designed a product training for one of our most complex topics, also one
               that contributed the most to our support ticket volume. I didn't set a hard metric at
-              the start — my guiding assumption was that <em>*trained users</em> should submit fewer
+              the start, my guiding assumption was that <em>*trained users</em> should submit fewer
               support tickets on this topic. The data supported that assumption: on average, a trained
               user submitted{' '}
               <strong style={{ color: 'var(--red)' }}>~27% fewer support cases</strong>{' '}

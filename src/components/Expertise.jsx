@@ -12,9 +12,9 @@ function KnowMarker() {
 const knows = [
   <>Which problems are <b>worth solving</b></>,
   <>How success should be <b>measured</b></>,
-  <>Whether learning <b>actually changed behavior</b></>,
-  <>How systems <b>scale beyond a pilot</b></>,
-  <>When to <b>trust AI</b>, and when not to</>,
+  <>Whether learning actually <b>changed behavior</b></>,
+  <>How systems <b>scale</b> beyond a pilot</>,
+  <>How to be <b>better</b> than they were yesterday</>,
 ];
 
 const IconEcosystem = (

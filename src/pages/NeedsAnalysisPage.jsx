@@ -56,7 +56,7 @@ export default function NeedsAnalysisPage() {
         {/* THE METHODOLOGY */}
         <section className="deep-section deep-section--navy">
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2>⚙️ The Methodology</h2>
+            <h2>⚙️ The steps</h2>
 
             {/* STEP 1 */}
             <div style={{ marginBottom: '36px' }}>
@@ -337,7 +337,7 @@ You WILL NOT:
                 <p>
                   I apply the same validation methodology to additional sources: simulation output data (if
                   available), internal documentation, Gong call recordings, or other relevant datasets. I also
-                  often just ask Ai directly: "What other data sources or methods that I haven't considered?",
+                  often just ask AI directly: "What other data sources or methods that I haven't considered?",
                   and this can surface angles I missed. This final step is about understanding where output
                   aligns or differs, and what that tells me about the actual problem.
                 </p>

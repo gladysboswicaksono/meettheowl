@@ -103,7 +103,7 @@ export default function VirtualOnboardingPage() {
           <p>
             The solution combined live virtual sessions via Teams with self-paced learning: interactive
             videos, 360° virtual tour with embedded scenario prompts, micro-learning modules, and system
-            simulations for hands-on practice with inventory management workflows—reviewing requisitions,
+            simulations for hands-on practice with inventory management workflows: reviewing requisitions,
             placing orders, and conducting stock counts.
           </p>
           <p>

@@ -1001,7 +1001,7 @@ export default function TrainingImpactPage() {
             <p>
               This work piece walks through the measurement framework and Power BI report I built so that
               question always has an{' '}
-              <strong style={{ color: 'var(--red)', textDecoration: 'underline' }}>honest, data-backed answer</strong>,
+              <strong style={{ color: 'var(--red)' }}>honest, data-backed answer</strong>,
               and a clear direction forward.
             </p>
             <a
@@ -1062,10 +1062,10 @@ export default function TrainingImpactPage() {
           <div className="about-section">
             <h2>About This Work</h2>
             <p>
-              The LinkedIn wisdom: "Start with business outcomes, build the training to address them, then
+              The common advice in our space sounds simple, "Start with business outcomes, build the training to address them, then
               decide what trained means."
             </p>
-            <p>The reality is that there are two main challenges with this advice:</p>
+            <p>In practice, there are two main challenges with this:</p>
             <ol className="about-list">
               <li>
                 Most of us inherit training portfolios built by people who've moved on, and we're left
@@ -1074,7 +1074,7 @@ export default function TrainingImpactPage() {
               <li>What is trained? There is no a single definition that addresses everything.</li>
             </ol>
             <p>
-              Even then, proving training works is harder than it looks. Most business functions measure
+              Even then, proving training works is harder than it looks. Many business functions measure
               impact through a relatively clean, linear chain of events: Action ➔ Response ➔ Outcome, while
               a learning function doesn't have that luxury. Our work shapes behavior gradually, across a
               distributed population with different tenure and experience. The causal chain is long, noisy,

@@ -44,6 +44,8 @@ CLAUDE.MD
 # PROJECT 5
 public/courses/
 src/pages/OwnWhatAIBuildsPage.jsx
-src/styles.ai-course.css
+src/styles/ai-course.css
+public/downloads/
+public/practice/
 
 
