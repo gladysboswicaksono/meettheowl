@@ -6,14 +6,12 @@ import './styles/navigation.css'
 import './styles/site.css'
 import './styles/projects.css'
 import './styles/expertise.css'
-import './styles/ai-course.css'
 import './styles/responsive.css'
 import App from './App.jsx'
 import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
-import OwnWhatAIBuildsPage from './pages/OwnWhatAIBuildsPage.jsx'
 import Analytics from './components/Analytics.jsx'
 
 createRoot(document.getElementById('root')).render(
@@ -26,7 +24,6 @@ createRoot(document.getElementById('root')).render(
         <Route path="/training-impact" element={<TrainingImpactPage />} />
         <Route path="/needs-analysis" element={<NeedsAnalysisPage />} />
         <Route path="/virtual-onboarding" element={<VirtualOnboardingPage />} />
-        <Route path="/own-what-ai-builds" element={<OwnWhatAIBuildsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
