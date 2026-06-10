@@ -10,6 +10,7 @@ function getSessionId() {
 }
 
 function isNoTrack() {
+  if (window.location.hostname === 'localhost') return true;
   if (sessionStorage.getItem('notrack') === '1') return true;
   const params = new URLSearchParams(window.location.search);
   if (params.get('notrack') === '1') {
