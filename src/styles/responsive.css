@@ -273,6 +273,8 @@
   .prompt-example__body { font-size: 15px; }
 
  .summary-grid { flex-direction: column; }
+  .summary-section { padding: 24px; }
+  .summary-column { padding: 20px 16px; }
 
 .expertise { padding: 44px 22px 52px; }
   .expertise__title { font-size: 27px; }
