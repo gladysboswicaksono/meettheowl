@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course 02 — Edit an Existing File | Own What AI Builds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../shared/course.css">
+  <link rel="stylesheet" href="../shared/sidenav.css">
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+     COURSE 02 — Edit an Existing File
+     Sidenav is injected by sidenav.js into the body before this content.
+
+     Lesson structure:
+       intro        — Introduction (1 block)
+       how-it-works — The Three-Block Structure (3 blocks)
+       practice     — Make It Yours (2 blocks)
+       recap        — Key Ideas (2 blocks)
+  ════════════════════════════════════════════════════════════════════════ -->
+
+
+
+  <!-- ══ HERO (always visible, not a lesson) ══════════════════════════════ -->
+
+  <section class="course-section course-section--intro">
+    <div class="course-hero">
+      <div class="intro">
+        <h1 class="section-heading">Find your way around a file you didn't write.</h1>
+        <p class="section-intro">
+          AI can produce an aesthetic, interactive course file in minutes. What you get back is a file
+          you didn't write, and somewhere in it is the one thing you need to change.
+        </p>
+        <p class="section-intro">
+          In this course, you'll open the typical HTML file that AI generates, make the edit it needs, run it to see
+          what changes, and start seeing the pattern underneath the file.
+        </p>
+      </div>
+
+      <div class="about-course">
+        <div class="about-course-item">
+          <p class="about-course-item-val">3</p>
+          <p class="about-course-item-title">lessons</p>
+        </div>
+        <hr class="about-course-line">
+        <div class="about-course-item">
+          <p class="about-course-item-val">15</p>
+          <p class="about-course-item-title">mins</p>
+        </div>
+        <hr class="about-course-line">
+        <div class="about-course-item">
+          <p class="about-course-item-val">5</p>
+          <p class="about-course-item-title">exercises</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="course-page">
+
+    <!-- ══ LESSON 1: Introduction ════════════════════════════════════════ -->
+    <section id="intro" class="course-section">
+
+      <div class="course-block">
+        <div class="lesson__divider">What you'll be able to do without AI:
+          <hr>
+        </div>
+        <ol class="lesson-ol">
+          <li>
+            <div>Open any single-file AI-generated file and tell apart its three blocks: the <code
+                class="inline-code">HTML</code> markup, <code class="inline-code">CSS</code> styles,
+              and the JavaScript.</div>
+          </li>
+          <li>Trace a change you want to make back to the right block, and find the exact line to edit.</li>
+          <li>Experience why one-file courses are useful for practice, but harder to scale when every course
+            carries its own styles and interactive components.
+          </li>
+        </ol>
+
+        <iframe
+          src="../assets/intro.html"
+          sandbox="allow-scripts"
+          style="width:100%; border:none; display:block; margin-top: 32px;">
+        </iframe>
+      </div>
+
+    </section>
+
+
+    <!-- ══ LESSON 2: The Three-Block Structure ═══════════════════════════ -->
+    <section id="how-it-works" class="course-section">
+
+      <!-- Block 1: Concept + anatomy cards -->
+      <div class="course-block">
+        <h2 class="section-heading">The three-block structure</h2>
+        <p class="section-intro">
+          When AI generates an interactive course or reference guide, it almost always produces a
+          single file. Everything lives inside one <code class="inline-code">.html</code> file:
+          the content, the styling, and the interactivity. Most AI-generated courses follow the
+          same predictable structure — once you see it, you'll recognise it everywhere.
+        </p>
+
+        <div class="anatomy-grid">
+          <div class="anatomy-card anatomy-card--html">
+            <div class="anatomy-card__label">Block 1</div>
+            <div class="anatomy-card__title">HTML — the content</div>
+            <p class="anatomy-card__desc">
+              Text, headings, and the skeleton of any interactions. This is what you edit when
+              you want to change words, headings, or the order of things.
+            </p>
+            <span class="anatomy-card__tag">&lt;body&gt; … &lt;/body&gt;</span>
+          </div>
+          <div class="anatomy-card anatomy-card--css">
+            <div class="anatomy-card__label">Block 2</div>
+            <div class="anatomy-card__title">CSS — the appearance</div>
+            <p class="anatomy-card__desc">
+              Colors, spacing, fonts, layout. Lives in a <code class="inline-code">&lt;style&gt;</code>
+              tag in the <code class="inline-code">&lt;head&gt;</code>. This is what you edit when
+              something looks wrong.
+            </p>
+            <span class="anatomy-card__tag">&lt;style&gt; … &lt;/style&gt;</span>
+          </div>
+          <div class="anatomy-card anatomy-card--js">
+            <div class="anatomy-card__label">Block 3</div>
+            <div class="anatomy-card__title">JavaScript — the behaviour</div>
+            <p class="anatomy-card__desc">
+              Two layers: a data layer (the content stored as objects) and a behaviour layer
+              (what happens when the user clicks). Edit the data layer to change step titles
+              and body copy.
+            </p>
+            <span class="anatomy-card__tag">&lt;script&gt; … &lt;/script&gt;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block 2: See it in the file (code examples + the rule) -->
+      <div class="course-block">
+        <div class="lesson__divider">See it in the file
+          <hr>
+        </div>
+        <p class="lesson__p">
+          Here's how those three blocks look inside <code class="inline-code">stepper.html</code>.
+          Notice how each block is marked with a comment so you know exactly where you are.
+        </p>
+
+        <div class="code-block"><span class="comment">&lt;!-- ═══ HTML Structure ═══════════════════════ --&gt;</span>
+          <span class="tag">&lt;body&gt;</span>
+
+          <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"page-content"</span><span
+            class="tag">&gt;</span>
+          <span class="tag">&lt;h3</span> <span class="attr">class</span>=<span class="string">"page-heading"</span><span
+            class="tag">&gt;</span>Tips to work with AI<span class="tag">&lt;/h3&gt;</span>
+          <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="string">"page-body"</span><span
+            class="tag">&gt;</span>The output quality depends…<span class="tag">&lt;/p&gt;</span>
+          <span class="tag">&lt;/div&gt;</span>
+
+          <span class="comment">&lt;!-- stepper markup below --&gt;</span>
+
+          <span class="tag">&lt;/body&gt;</span>
+        </div>
+
+        <div class="code-block"><span class="comment">&lt;!-- ═══ Style block (CSS) ════════════════════ --&gt;</span>
+          <span class="tag">&lt;style&gt;</span>
+
+          <span class="prop">.page-heading</span> {
+          <span class="attr">font-family</span>: <span class="value">'Cinzel', serif</span>;
+          <span class="attr">font-size</span>: <span class="value">20px</span>;
+          <span class="attr">color</span>: <span class="value">#2A2A2A</span>;
+          }
+
+          <span class="prop">.stepper__step.is-active</span> {
+          <span class="attr">background</span>: <span class="value">#5B0606</span>; <span class="comment">/* ← this is the
+            red color */</span>
+          <span class="attr">color</span>: <span class="value">#FAFAF8</span>;
+          }
+
+          <span class="tag">&lt;/style&gt;</span>
+        </div>
+
+        <div class="code-block"><span class="comment">&lt;!-- ═══ JavaScript ══════════════════════════ --&gt;</span>
+          <span class="tag">&lt;script&gt;</span>
+
+          <span class="comment">// DATA LAYER — edit this to change step content</span>
+          <span class="keyword">const</span> <span class="fn">steps</span> = [
+          { <span class="attr">title</span>: <span class="string">'Point it to your design system'</span>,
+          <span class="attr">body</span>: <span class="string">'Have a file with your themes…'</span> },
+          <span class="comment">// … more steps</span>
+          ];
+
+          <span class="comment">// BEHAVIOUR LAYER — handles clicks and rendering</span>
+          <span class="keyword">function</span> <span class="fn">setStep</span>(i) { active = i; render(); }
+          <span class="keyword">function</span> <span class="fn">go</span>(dir) { active = Math.max(0, …); render(); }
+
+          <span class="tag">&lt;/script&gt;</span>
+        </div>
+
+        <div class="lesson__divider">The rule
+          <hr>
+        </div>
+        <p class="lesson__p">
+          <strong>Change text and structure?</strong> Look in the HTML block.<br>
+          <strong>Change how it looks?</strong> Look in the <code class="inline-code">&lt;style&gt;</code> block.<br>
+          <strong>Change what's in an interaction?</strong> Look for the data array in the <code
+            class="inline-code">&lt;script&gt;</code> block.
+        </p>
+        <p class="lesson__p">
+          That's it. The rest of this course is practice.
+        </p>
+      </div>
+
+      <!-- Block 3: Live example (stepper demo) -->
+      <div class="course-block">
+        <div class="lesson__divider">Live example
+          <hr>
+        </div>
+        <p class="lesson__p">
+          This is <code class="inline-code">stepper.html</code> running in the browser.
+          The five step buttons, the detail panel, and the nav controls are all rendered by the
+          JavaScript data layer — each step is a single object in the <code class="inline-code">steps</code> array.
+        </p>
+
+        <div class="browser-window">
+          <div class="browser-window__chrome">
+            <div class="browser-window__dots">
+              <span class="browser-window__dot browser-window__dot--red"></span>
+              <span class="browser-window__dot browser-window__dot--yellow"></span>
+              <span class="browser-window__dot browser-window__dot--green"></span>
+            </div>
+            <div class="browser-window__tab">stepper.html</div>
+          </div>
+          <div class="browser-window__navbar">
+            <button class="browser-window__nav-btn">←</button>
+            <button class="browser-window__nav-btn">→</button>
+            <button class="browser-window__nav-btn">↺</button>
+            <div class="browser-window__urlbar">file:///stepper.html</div>
+          </div>
+          <div class="stepper-mock" style="border-radius:0;border:none;">
+            <div class="browser-window__page">
+              <h3 class="browser-window__page-heading">Tips to work with AI to build your course</h3>
+              <p class="browser-window__page-body">The output quality depends almost entirely on what you give AI upfront.
+                Without a design system to reference, it defaults to generic styles.</p>
+              <br>
+              <p class="browser-window__page-body">These <strong>five tips</strong> are not only gonna help you produce
+                something
+                <strong>more consistent</strong> but also <strong>scalable</strong> and <strong>maintainable</strong>.
+              </p>
+            </div>
+            <div class="stepper-mock__body">
+              <div class="stepper__steps" id="demo-steps"></div>
+              <div class="stepper__detail">
+                <h4 class="stepper__detail-title" id="demo-title"></h4>
+                <p class="stepper__detail-body" id="demo-body"></p>
+              </div>
+              <div class="stepper__controls">
+                <button class="stepper__btn stepper__btn--ghost" id="demo-prev" onclick="demoGo(-1)">← Previous</button>
+                <span class="stepper__counter" id="demo-counter"></span>
+                <button class="stepper__btn" id="demo-next" onclick="demoGo(1)">Next step →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ══ LESSON 3: Make It Yours ═══════════════════════════════════════ -->
+    <section id="practice" class="course-section">
+
+      <!-- Block 1: Intro + download -->
+      <div class="course-block">
+        <span class="section-eyebrow">Lesson 2</span>
+        <h2 class="section-heading">Make it yours</h2>
+        <p class="section-intro">
+          Five exercises, each targeting a different block. You'll make real changes to the file —
+          not fill in blanks, not answer questions. Edit the code, run it, and see it change.
+        </p>
+        <p class="lesson__p">
+          Use the suggested edits to follow a clear path, or replace them with your own course
+          idea. The goal is not to memorise the code — it's to recognise the pattern and know
+          where to look when you need to change something.
+        </p>
+
+        <div class="lesson__divider">Before you start
+          <hr>
+        </div>
+        <p class="lesson__p">
+          You can work in the editor below, or download the file and edit it in any text editor
+          (VS Code, Notepad, TextEdit — anything that saves as plain text).
+        </p>
+        <a href="../../downloads/stepper.html" download="stepper.html" class="download-btn">
+          ↓ Download stepper.html
+        </a>
+      </div>
+
+      <!-- Block 2: Exercises + editor -->
+      <div class="course-block">
+        <div class="exercise-stack" id="exercise-stack"></div>
+
+        <div class="editor-block" id="editor-block">
+          <div class="editor-block__preview" id="preview-wrap" style="display:none;">
+            <div class="browser-window" style="margin:0;border-radius:0;box-shadow:none;">
+              <div class="browser-window__chrome">
+                <div class="browser-window__dots">
+                  <span class="browser-window__dot browser-window__dot--red"></span>
+                  <span class="browser-window__dot browser-window__dot--yellow"></span>
+                  <span class="browser-window__dot browser-window__dot--green"></span>
+                </div>
+                <div class="browser-window__tab">stepper.html — your version</div>
+              </div>
+              <div class="browser-window__navbar">
+                <button class="browser-window__nav-btn">←</button>
+                <button class="browser-window__nav-btn">→</button>
+                <button class="browser-window__nav-btn">↺</button>
+                <div class="browser-window__urlbar">file:///stepper.html</div>
+              </div>
+              <iframe id="preview-iframe" sandbox="allow-scripts"
+                style="width:100%;border:none;display:block;min-height:380px;"></iframe>
+            </div>
+            <div class="editor-block__footer">
+              <button class="btn-secondary" id="btn-revert">↺ Revert to original</button>
+            </div>
+          </div>
+          <div class="editor-block__code-header">
+            <span class="editor-block__code-label">stepper.html — your code</span>
+          </div>
+          <textarea class="editor-block__textarea" id="code-editor" spellcheck="false"></textarea>
+          <div class="editor-block__actions">
+            <button class="btn-run" id="btn-run">▶ Run</button>
+            <button class="btn-secondary" id="btn-reset-editor">Reset to original</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ══ LESSON 4: Key Ideas ════════════════════════════════════════════ -->
+    <section id="recap" class="course-section">
+
+      <!-- Block 1: The three questions -->
+      <div class="course-block">
+        <span class="section-eyebrow">Lesson 3</span>
+        <h2 class="section-heading">What to remember</h2>
+        <p class="section-intro">
+          Three patterns you can apply to any AI-generated file — not just steppers.
+        </p>
+
+        <div class="lesson__divider">The three questions
+          <hr>
+        </div>
+        <ol class="lesson-ol">
+          <li>
+            <div>
+              <strong>What needs to change — text, look, or behaviour?</strong><br>
+              <span style="color:rgba(232,230,230,0.7);">That tells you which block to open: HTML, CSS, or JS.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Is the content hardcoded in HTML, or generated from a JS array?</strong><br>
+              <span style="color:rgba(232,230,230,0.7);">If it's JS-generated, editing the HTML directly won't stick. Find
+                the data array and edit it there.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <strong>Which class name controls this element?</strong><br>
+              <span style="color:rgba(232,230,230,0.7);">Right-click → Inspect in your browser. The class in the Elements
+                panel is the same one in the CSS block. Find it, edit it.</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Block 2: When prompting AI + callout -->
+      <div class="course-block">
+        <div class="lesson__divider">When you're prompting AI to generate a file
+          <hr>
+        </div>
+        <p class="lesson__p">
+          Ask it to use a comment above every major section. This takes 10 seconds to add to
+          your prompt and saves you from hunting through 200 lines to find the right block.
+        </p>
+        <div class="code-block"><span class="comment">/* ── Navigation controls ── */</span>
+          <span class="prop">.stepper__controls</span> { … }
+
+          <span class="comment">/* ── Detail panel ── */</span>
+          <span class="prop">.stepper__detail</span> { … }
+        </div>
+
+        <p class="lesson__p">
+          Also ask for readable class names. <code class="inline-code">.step-detail</code> and
+          <code class="inline-code">.accordion-body</code> tell you what they are.
+          <code class="inline-code">.c1</code> and <code class="inline-code">.x2</code> don't.
+        </p>
+
+        <div class="callout">
+          The next course — Structure Your Files — covers how to get AI to produce the right
+          file structure from the start, so you spend less time hunting and more time building.
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ══ Course footer: what's next (shown by onComplete callback) ═════ -->
+    <footer class="course-footer" id="course-footer" style="display:none">
+      <span class="course-footer__eyebrow">You've finished Course 02</span>
+      <h2 class="course-footer__heading">What's next</h2>
+      <p class="course-footer__body">
+        Course 01 covers writing HTML from scratch — useful if you want to understand what AI
+        is generating before you edit it. Course 03 covers file structure and prompting for
+        maintainable output.
+      </p>
+      <div class="course-footer__links">
+        <a href="#" class="course-footer__link course-footer__link--soon">← Course 01: Write from Scratch</a>
+        <a href="https://meettheowl.com/own-what-ai-builds" class="course-footer__link">Back to portfolio</a>
+        <a href="#" class="course-footer__link course-footer__link--soon">Course 03: Structure Your Files →</a>
+      </div>
+    </footer>
+
+  </div><!-- /.course-page -->
+
+
+  <!-- ═══ Sidenav ═════════════════════════════════════════════════════════ -->
+  <script src="../shared/sidenav.js"></script>
+  <script>
+    CourseNav.init({
+      courseTitle:    'Course 02 / 03',
+      courseSubtitle: `Find your way around a file you didn't write`,
+      backHref:       'https://meettheowl.com/own-what-ai-builds',
+      sections: [
+        {
+          label: 'Getting Started',
+          lessons: [
+            { id: 'intro',        label: 'Introduction',           type: 'theory' },
+          ],
+        },
+        {
+          label: 'The Course',
+          lessons: [
+            { id: 'how-it-works', label: 'The Three-Block Structure', type: 'theory' },
+            { id: 'practice',     label: 'Make It Yours',             type: 'practice' },
+            { id: 'recap',        label: 'Key Ideas',                 type: 'theory' },
+          ],
+        },
+      ],
+      lockedLessons: ['how-it-works', 'practice', 'recap'],
+      onComplete: () => {
+        const footer = document.getElementById('course-footer');
+        if (footer) {
+          footer.style.display = '';
+          footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      },
+    });
+  </script>
+
+
+  <!-- ═══ Demo stepper ════════════════════════════════════════════════════ -->
+  <script>
+    const DEMO_STEPS = [
+      { title: 'Point it to your design system', body: "It's a good practice to have a file with your themes, colors, and fonts that you can easily point AI to. Without it, AI defaults to generic styles — and you spend the next hour re-prompting to fix the colors." },
+      { title: 'Design the pattern', body: 'Name the interaction you want to incorporate: stepper, accordion, hotspot, knowledge check. The more specific you are with the pattern name, the more likely the output will be usable out of the box.' },
+      { title: 'Specify the output', body: 'Specify any constraints and structure: single HTML or separated files, standalone artifact or something you will embed. This avoids getting a beautifully built component that only works in isolation.' },
+      { title: 'Ask for readable names and inline comments', body: 'Tell it to name classes that describe what an element is (.step-detail, .accordion-body, .course-heading), and to add a comment above every major section. Your future self will thank you.' },
+      { title: 'Create reusable components', body: 'Like something? Ask it to create a reusable component out of it and save it in a centralized folder. The next time you build a course with AI, you can point directly to it — no rebuilding from scratch.' },
+    ];
+    let demoActive = 0;
+    function demoRender() {
+      document.getElementById('demo-steps').innerHTML = DEMO_STEPS.map((s, i) => `
+    <button class="stepper__step${i === demoActive ? ' is-active' : i < demoActive ? ' is-done' : ''}"
+            onclick="demoSet(${i})">${s.title}</button>`).join('');
+      document.getElementById('demo-title').textContent = DEMO_STEPS[demoActive].title;
+      document.getElementById('demo-body').textContent = DEMO_STEPS[demoActive].body;
+      document.getElementById('demo-counter').textContent = `${demoActive + 1} of ${DEMO_STEPS.length}`;
+      document.getElementById('demo-prev').disabled = demoActive === 0;
+      document.getElementById('demo-next').disabled = demoActive === DEMO_STEPS.length - 1;
+    }
+    function demoSet(i) { demoActive = i; demoRender(); }
+    function demoGo(dir) { demoActive = Math.max(0, Math.min(DEMO_STEPS.length - 1, demoActive + dir)); demoRender(); }
+    demoRender();
+  </script>
+
+
+  <!-- ═══ Exercises + editor ═══════════════════════════════════════════════ -->
+  <script>
+    const SOURCE = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page content (heading + intro) ── */
+.page-content {
+  padding: 32px 32px 24px;
+  background: #FAFAF8;
+  border-bottom: 1px solid #e0dede;
+}
+.page-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2A2A2A;
+  margin: 0 0 12px;
+}
+.page-body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #525252;
+  margin: 0;
+}
+
+/* ── Wrapper ── */
+.stepper {
+  background: #FAFAF8;
+  border: 1px solid rgba(246,199,133,0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ── Step buttons grid ── */
+.stepper__steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* ── Individual step button ── */
+.stepper__step {
+  background: #FAFAF8;
+  border: 1px solid #d4d2d2;
+  border-radius: 6px;
+  padding: 12px 10px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #2A2A2A;
+  cursor: pointer;
+}
+.stepper__step.is-active {
+  background: #5B0606;
+  border-color: #5B0606;
+  color: #FAFAF8;
+}
+.stepper__step.is-done {
+  background: #2A2A2A;
+  border-color: #2A2A2A;
+  color: #F6C785;
+}
+.stepper__step:hover { border-color: #5B0606; }
+
+/* ── Detail panel ── */
+.stepper__detail {
+  background: #E8E6E6;
+  border-radius: 8px;
+  padding: 22px 24px;
+  min-height: 120px;
+  margin-bottom: 16px;
+}
+.stepper__detail-title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #5B0606;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+.stepper__detail-body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 17px;
+  color: #2A2A2A;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Navigation controls ── */
+.stepper__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stepper__btn {
+  background: #2A2A2A;
+  color: #FAFAF8;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.stepper__btn.ghost {
+  background: transparent;
+  color: #2A2A2A;
+  border: 1px solid #2A2A2A;
+}
+.stepper__btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.stepper__counter {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: #525252;
+  letter-spacing: 0.04em;
+}
+
+</style>
+</head>
+
+<body style="margin: 0; background: #FAFAF8;">
+
+<div class="page-content">
+  <h3 class="page-heading">Tips to work with AI to build your course</h3>
+  <p class="page-body">The output quality depends almost entirely on what you give AI upfront. Without a design system to reference, it defaults to generic styles. Without a defined pattern, it creates something that works in isolation but is a nightmare to reuse and maintain.</p>
+  <br>
+  <p class="page-body">These <strong>five tips</strong> are not only gonna help you produce something <strong>more consistent</strong> but also <strong>scalable</strong> and <strong>maintainable</strong>.</p>
+</div>
+
+<div class="stepper">
+  <div style="padding: 24px;">
+    <div class="stepper__steps" id="steps"></div>
+    <div class="stepper__detail">
+      <h4 class="stepper__detail-title" id="detail-title"></h4>
+      <p  class="stepper__detail-body"  id="detail-body"></p>
+    </div>
+    <div class="stepper__controls">
+      <button class="stepper__btn ghost" id="btn-prev" onclick="go(-1)">← Previous</button>
+      <span   class="stepper__counter"   id="counter"></span>
+      <button class="stepper__btn"       id="btn-next" onclick="go(1)">Next step →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  { title: 'Point it to your design system',           body: "It's a good practice to have a file with your themes, colors, and fonts that you can easily point AI to. Without it, AI defaults to generic styles — and you spend the next hour re-prompting to fix the colors." },
+  { title: 'Design the pattern',                        body: 'Name the interaction you want to incorporate: stepper, accordion, hotspot, knowledge check. The more specific you are with the pattern name, the more likely the output will be usable out of the box.' },
+  { title: 'Specify the output',                        body: 'Specify any constraints and structure: single HTML or separated files, standalone artifact or something you will embed. This avoids getting a beautifully built component that only works in isolation.' },
+  { title: 'Ask for readable names and inline comments', body: 'Tell it to name classes that describe what an element is (.step-detail, .accordion-body, .course-heading), and to add a comment above every major section. Your future self will thank you.' },
+  { title: 'Create reusable components',                body: 'Like something? Ask it to create a reusable component out of it and save it in a centralized folder. The next time you build a course with AI, you can point directly to it — no rebuilding from scratch.' },
+];
+let active = 0;
+
+function render() {
+  document.getElementById('steps').innerHTML = steps.map((s, i) => \`
+    <button class="stepper__step\${i===active?' is-active':i<active?' is-done':''}"
+            onclick="setStep(\${i})">
+      \${s.title}
+    </button>\`).join('');
+  document.getElementById('detail-title').textContent = steps[active].title;
+  document.getElementById('detail-body').textContent  = steps[active].body;
+  document.getElementById('counter').textContent = \`\${active+1} of \${steps.length}\`;
+  document.getElementById('btn-prev').disabled = active === 0;
+  document.getElementById('btn-next').disabled = active === steps.length - 1;
+}
+
+function setStep(i) { active = i; render(); }
+function go(dir) {
+  active = Math.max(0, Math.min(steps.length-1, active+dir));
+  render();
+}
+
+render();
+<\/script>
+
+</body>
+</html>`;
+
+    const ORIGINAL_BODIES = [
+      "It's a good practice to have a file with your themes, colors, and fonts that you can easily point AI to. Without it, AI defaults to generic styles — and you spend the next hour re-prompting to fix the colors.",
+      'Name the interaction you want to incorporate: stepper, accordion, hotspot, knowledge check. The more specific you are with the pattern name, the more likely the output will be usable out of the box.',
+      'Specify any constraints and structure: single HTML or separated files, standalone artifact or something you will embed. This avoids getting a beautifully built component that only works in isolation.',
+      'Tell it to name classes that describe what an element is (.step-detail, .accordion-body, .course-heading), and to add a comment above every major section. Your future self will thank you.',
+      'Like something? Ask it to create a reusable component out of it and save it in a centralized folder. The next time you build a course with AI, you can point directly to it — no rebuilding from scratch.',
+    ];
+
+    const EXERCISES = [
+      {
+        title: 'Exercise 1: Update the title',
+        desc: 'Replace "Tips to work with AI to build your course" with any title of your choice. It appears in two places: the page heading and the stepper label.',
+        validate(code) {
+          const pass = !code.includes('Tips to work with AI to build your course');
+          return {
+            pass, feedback: pass
+              ? 'Title updated.'
+              : 'The original title still appears in the file. Look for the <h3 class="page-heading"> and replace the text.'
+          };
+        },
+      },
+      {
+        title: 'Exercise 2: Rewrite a step',
+        desc: 'Find the steps array in the JavaScript block and rewrite at least one body value. Replace it with your own words or a completely different topic.',
+        validate(code) {
+          const unchanged = ORIGINAL_BODIES.filter(b => code.includes(b));
+          const pass = unchanged.length < ORIGINAL_BODIES.length;
+          return {
+            pass, feedback: pass
+              ? `Step updated — ${ORIGINAL_BODIES.length - unchanged.length} of 5 bodies changed.`
+              : 'All step bodies are still the original text. Find the steps array in the <script> block and change at least one body: value.'
+          };
+        },
+      },
+      {
+        title: 'Exercise 3: Add a hover effect',
+        desc: 'Find the .stepper__step:hover rule in the CSS and add a background-color property inside it. Try background-color: #5B060680 for a semi-transparent red.',
+        validate(code) {
+          const idx = code.indexOf('.stepper__step:hover');
+          if (idx === -1) return { pass: false, feedback: 'No .stepper__step:hover rule found — look in the <style> block.' };
+          const block = code.slice(idx, idx + 200);
+          const pass = /background(-color)?\s*:/.test(block);
+          return {
+            pass, feedback: pass
+              ? 'Hover effect added.'
+              : 'Found .stepper__step:hover but no background or background-color inside it. Add background-color: #5B060680; inside the { } block.'
+          };
+        },
+      },
+      {
+        title: 'Exercise 4: Add a sixth step',
+        desc: 'Add a new entry to the steps array in the JavaScript. Give it a title and body of your choice — it will appear as Step 6 in the stepper.',
+        validate(code) {
+          const count = (code.match(/\bbody\s*:/g) ?? []).length;
+          const pass = count >= 6;
+          return {
+            pass, feedback: pass
+              ? 'Step 6 added.'
+              : `Found ${count} step${count === 1 ? '' : 's'} — need at least 6. Add a new { title: '...', body: '...' } entry to the steps array.`
+          };
+        },
+      },
+      {
+        title: 'Exercise 5: Add a browser tooltip',
+        desc: 'Add a title attribute to each step button inside render() so hovering shows its full title as a tooltip. Hint: add title="${s.title}" to the <button> element.',
+        validate(code) {
+          const pass = /title\s*=\s*["'`][^"'`]*\$\{s\.title\}/.test(code);
+          return {
+            pass, feedback: pass
+              ? 'Tooltip added — hovering a step button will now show the full title.'
+              : 'No title attribute found. In render(), add title="${s.title}" to the <button> element.'
+          };
+        },
+      },
+    ];
+
+    let activeEx = 0;
+    const completedExs = [];
+
+    const editorEl    = document.getElementById('code-editor');
+    const stackEl     = document.getElementById('exercise-stack');
+    const previewWrap = document.getElementById('preview-wrap');
+    const iframeEl    = document.getElementById('preview-iframe');
+
+    editorEl.value = SOURCE;
+
+    editorEl.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      e.preventDefault();
+      const s = editorEl.selectionStart, end = editorEl.selectionEnd;
+      editorEl.value = editorEl.value.substring(0, s) + '  ' + editorEl.value.substring(end);
+      editorEl.selectionStart = editorEl.selectionEnd = s + 2;
+    });
+
+    function renderExercises() {
+      let html = '';
+      completedExs.forEach(ex => {
+        html += `<div class="exercise-card exercise-card--done">
+      <div class="exercise-card__header">
+        <span class="exercise-card__check">✓</span>
+        <span class="exercise-card__title">${EXERCISES[ex.idx].title}</span>
+      </div>
+      <p class="exercise-card__desc">${EXERCISES[ex.idx].desc}</p>
+      <div class="exercise-card__feedback">${ex.feedback}</div>
+    </div>`;
+      });
+      if (activeEx < EXERCISES.length) {
+        html += `<div class="exercise-card exercise-card--active">
+      <div class="exercise-card__header">
+        <span class="exercise-card__num">${activeEx + 1} / ${EXERCISES.length}</span>
+        <span class="exercise-card__title">${EXERCISES[activeEx].title}</span>
+      </div>
+      <p class="exercise-card__desc">${EXERCISES[activeEx].desc}</p>
+      ${window._runFeedback ? `<div class="exercise-card__feedback">${window._runFeedback}</div>` : ''}
+    </div>`;
+      } else {
+        html += `<div class="exercise-card exercise-card--complete">
+      <span class="exercise-card__title">🎉 All ${EXERCISES.length} exercises done.</span>
+    </div>`;
+      }
+      stackEl.innerHTML = html;
+    }
+
+    function addResizeScript(code) {
+      const s = `<script>(function(){function r(){window.parent.postMessage({type:'resize',h:document.documentElement.scrollHeight},'*');}window.addEventListener('load',r);new ResizeObserver(r).observe(document.documentElement);r();})()\<\/script>`;
+      return code.includes('</body>') ? code.replace('</body>', s + '\n</body>') : code + '\n' + s;
+    }
+
+    window.addEventListener('message', e => {
+      if (e.data?.type === 'resize' && typeof e.data.h === 'number') {
+        iframeEl.style.minHeight = Math.max(380, Math.ceil(e.data.h)) + 'px';
+      }
+    });
+
+    document.getElementById('btn-run').addEventListener('click', () => {
+      const code = editorEl.value;
+      iframeEl.srcdoc = addResizeScript(code);
+      previewWrap.style.display = 'block';
+      previewWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      if (activeEx < EXERCISES.length) {
+        const { pass, feedback } = EXERCISES[activeEx].validate(code);
+        if (pass) {
+          completedExs.push({ idx: activeEx, feedback });
+          activeEx++;
+          window._runFeedback = null;
+        } else {
+          window._runFeedback = feedback;
+        }
+        renderExercises();
+      }
+    });
+
+    document.getElementById('btn-revert').addEventListener('click', () => {
+      editorEl.value = SOURCE;
+      previewWrap.style.display = 'none';
+      iframeEl.srcdoc = '';
+      window._runFeedback = null;
+      renderExercises();
+    });
+
+    document.getElementById('btn-reset-editor').addEventListener('click', () => {
+      editorEl.value = SOURCE;
+      window._runFeedback = null;
+      renderExercises();
+    });
+
+    renderExercises();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+/**
+ * tokens.css - shared design tokens for standalone microlearning courses.
+ * Change theme values here to update both course.css and sidenav.css.
+ */
+
+:root {
+  --red: #5B0606;
+  --blue-card: #1A1A2E;
+  --blue-bg: #1C253C;
+  --gold: #F6C785;
+  --gold-rgb: 246, 199, 133;
+  --gray: #E8E6E6;
+  --dark: #2A2A2A;
+  --white: #FAFAF8;
+  --thin-border: rgba(var(--gold-rgb), 0.2);
+  --gradient-bg: linear-gradient(
+    180deg,
+    var(--red),
+    var(--blue-bg)
+  );
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+}

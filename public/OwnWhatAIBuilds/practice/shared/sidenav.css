@@ -1,0 +1,5 @@
+@import url('../../courses/shared/sidenav.css');
+@import url('./tokens.css');
+
+.course-nav__item.is-locked { opacity: 0.35; }
+.course-nav__item-lock { opacity: 0.6; }

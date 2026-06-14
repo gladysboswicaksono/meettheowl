@@ -1,0 +1,3992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Learning Path | Course 2</title>
+  <style>
+    :root {
+      --ink: #242321;
+      --muted: #68635c;
+      --paper: #fbf8f0;
+      --surface: #ffffff;
+      --cream: #f2ead8;
+      --wine: #6b1118;
+      --wine-dark: #450b10;
+      --green: #2d6750;
+      --green-soft: #e8f2ec;
+      --gold: #c7993d;
+      --line: #d8cfbd;
+      --code: #201f1d;
+      --shadow: 0 18px 50px rgba(56, 44, 27, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0 0, rgba(199, 153, 61, 0.14), transparent 28rem),
+        var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(230px, 290px) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 34px 24px;
+      color: #fffaf0;
+      background: var(--wine-dark);
+    }
+
+    .brand {
+      margin-bottom: 34px;
+    }
+
+    .brand__eyebrow,
+    .eyebrow,
+    .task-label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .brand__eyebrow {
+      color: #e9c77c;
+    }
+
+    .brand__title {
+      margin: 7px 0 4px;
+      font-size: 1.45rem;
+      line-height: 1.2;
+    }
+
+    .brand__subtitle {
+      margin: 0;
+      color: #dbcac4;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .progress {
+      margin-bottom: 28px;
+      padding: 17px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .progress__row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 9px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .progress__track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .progress__fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: #e9c77c;
+      transition: width 250ms ease;
+    }
+
+    .level-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .level-nav__item {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      padding: 11px;
+      border: 0;
+      border-radius: 10px;
+      color: #eaded8;
+      background: transparent;
+      text-align: left;
+    }
+
+    .level-nav__item:hover,
+    .level-nav__item:focus-visible {
+      background: rgba(255, 255, 255, 0.09);
+      outline: none;
+    }
+
+    .level-nav__item.is-current {
+      color: #321015;
+      background: #f3dfb4;
+    }
+
+    .level-nav__item.is-complete {
+      color: #e7f4ec;
+      background: rgba(45, 103, 80, 0.45);
+    }
+
+    .level-nav__item[disabled] {
+      cursor: not-allowed;
+      opacity: 0.58;
+    }
+
+    .level-nav__number {
+      display: grid;
+      width: 27px;
+      height: 27px;
+      place-items: center;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .level-nav__text {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .main {
+      width: min(1050px, 100%);
+      margin: 0 auto;
+      padding: 58px clamp(24px, 6vw, 76px) 100px;
+    }
+
+    .hero {
+      padding-bottom: 42px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      color: var(--wine);
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.16;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 10px 0 20px;
+      font-size: clamp(2.5rem, 7vw, 5.25rem);
+      letter-spacing: -0.045em;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      margin: 0 0 9px;
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    .hero__intro {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(1.1rem, 2vw, 1.32rem);
+    }
+
+    .course-promise {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .promise-card {
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .promise-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+    }
+
+    .promise-card span {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .section {
+      padding: 54px 0 0;
+    }
+
+    .section-intro {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .map-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 8px 28px rgba(56, 44, 27, 0.06);
+    }
+
+    .map-card__icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 16px;
+      place-items: center;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+    }
+
+    .map-card p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    code,
+    .code {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    code {
+      padding: 0.12em 0.35em;
+      border-radius: 4px;
+      color: var(--wine);
+      background: var(--cream);
+      font-size: 0.88em;
+    }
+
+    .code-card {
+      margin-top: 30px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .code-card__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 13px 18px;
+      color: #d9d1c4;
+      background: #34312d;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .code-card__body {
+      overflow-x: auto;
+      padding: 23px;
+      color: #eee8dc;
+      background: var(--code);
+      font-size: 0.9rem;
+      line-height: 1.75;
+      white-space: pre;
+    }
+
+    .code-comment {
+      color: #94b8a2;
+    }
+
+    .code-keyword {
+      color: #e9c77c;
+    }
+
+    .code-name {
+      color: #e99ca3;
+    }
+
+    .code-string {
+      color: #b9d8ef;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .legend span {
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      color: var(--muted);
+      background: var(--surface);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+    }
+
+    .concepts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .concept {
+      min-height: 150px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .concept__plain {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .concept__technical {
+      display: none;
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 0.88rem;
+    }
+
+    .concept.is-open .concept__technical {
+      display: block;
+    }
+
+    .concept__technical strong {
+      display: block;
+      margin: 13px 0 5px;
+      color: var(--green);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .concept__technical strong:first-child {
+      margin-top: 0;
+    }
+
+    .concept__example {
+      display: block;
+      overflow-x: auto;
+      margin: 7px 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #f4eee2;
+      background: var(--code);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .concept__note {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .text-button {
+      margin-top: 13px;
+      padding: 0;
+      border: 0;
+      color: var(--wine);
+      background: transparent;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .task {
+      margin-top: 58px;
+      padding: clamp(24px, 5vw, 42px);
+      border: 1px solid #ccb67f;
+      border-radius: 24px;
+      background: linear-gradient(145deg, #fffdf7, #f3ead6);
+      box-shadow: var(--shadow);
+    }
+
+    .task.is-complete {
+      border-color: #9ab9a7;
+      background: linear-gradient(145deg, #fbfffc, var(--green-soft));
+      box-shadow: none;
+    }
+
+    .task-label {
+      display: inline-block;
+      margin-bottom: 9px;
+      padding: 6px 9px;
+      border-radius: 5px;
+      color: #fff;
+      background: var(--wine);
+    }
+
+    .task-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 26px 0;
+    }
+
+    .task-note {
+      padding: 18px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .task-note strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+    }
+
+    .quiz {
+      margin-top: 26px;
+    }
+
+    .question {
+      margin-bottom: 18px;
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .question legend {
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .option {
+      display: block;
+      margin: 9px 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.91rem;
+    }
+
+    .option:hover {
+      background: var(--cream);
+    }
+
+    .option input {
+      margin-right: 8px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .button {
+      min-height: 44px;
+      padding: 10px 17px;
+      border: 2px solid var(--wine);
+      border-radius: 9px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .button--primary {
+      color: #fff;
+      background: var(--wine);
+    }
+
+    .button--primary:hover,
+    .button--primary:focus-visible {
+      background: var(--wine-dark);
+    }
+
+    .button--secondary {
+      color: var(--wine);
+      background: transparent;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 15px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.91rem;
+    }
+
+    .feedback.is-visible {
+      display: block;
+    }
+
+    .feedback.is-success {
+      color: #174b36;
+      background: var(--green-soft);
+    }
+
+    .feedback.is-try-again {
+      color: #66161d;
+      background: #f8e5e5;
+    }
+
+    .reflection {
+      margin-top: 28px;
+      padding-top: 27px;
+      border-top: 1px solid #ccb67f;
+    }
+
+    .reflection label {
+      display: block;
+      margin-bottom: 9px;
+      font-weight: 700;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 15px;
+      resize: vertical;
+      border: 1px solid #b7aa91;
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.55;
+    }
+
+    textarea:focus {
+      border-color: var(--wine);
+      outline: 3px solid rgba(107, 17, 24, 0.12);
+    }
+
+    .save-status {
+      color: var(--green);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .journal {
+      margin-top: 54px;
+      padding: 28px;
+      border: 1px dashed #af9e7c;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.44);
+    }
+
+    .journal__empty {
+      margin: 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .journal-entry {
+      padding: 20px;
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+      background: var(--green-soft);
+    }
+
+    .journal-entry p:last-child {
+      margin-bottom: 0;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-top: 27px;
+    }
+
+    .flow__step {
+      height: 100%;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+    }
+
+    .flow__step strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .flow__arrow {
+      color: var(--gold);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    .breakdown {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+      counter-reset: breakdown-step;
+    }
+
+    .breakdown__step {
+      position: relative;
+      padding: 19px 19px 19px 66px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+      counter-increment: breakdown-step;
+    }
+
+    .breakdown__step::before {
+      content: counter(breakdown-step);
+      position: absolute;
+      top: 19px;
+      left: 18px;
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .breakdown__step h3 {
+      font-size: 1.05rem;
+    }
+
+    .breakdown__step p {
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .breakdown__step p:last-child {
+      margin-bottom: 0;
+    }
+
+    .worked-example {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 14px;
+    }
+
+    .worked-example__card {
+      padding: 15px;
+      border-radius: 10px;
+      background: var(--cream);
+    }
+
+    .worked-example__card strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .callout {
+      padding: 18px 20px;
+      border-left: 4px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      color: var(--ink);
+      background: var(--cream);
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .roadmap__item {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 15px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--surface);
+    }
+
+    .roadmap__item.is-current {
+      border-color: var(--gold);
+      box-shadow: inset 4px 0 0 var(--gold);
+    }
+
+    .roadmap__number {
+      display: grid;
+      width: 39px;
+      height: 39px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--wine);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+    }
+
+    .roadmap__item h3 {
+      margin-bottom: 3px;
+      font-size: 1.05rem;
+    }
+
+    .roadmap__item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .status {
+      padding: 5px 9px;
+      border-radius: 99px;
+      color: var(--muted);
+      background: var(--cream);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .is-current .status {
+      color: #fff;
+      background: var(--green);
+    }
+
+    .footer-note {
+      margin-top: 44px;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .level-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .course-promise,
+      .concepts,
+      .flow,
+      .worked-example {
+        grid-template-columns: 1fr;
+      }
+
+      .flow__arrow {
+        transform: rotate(90deg);
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .main {
+        padding: 38px 18px 70px;
+      }
+
+      .level-nav,
+      .map-grid,
+      .task-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .roadmap__item {
+        grid-template-columns: 38px 1fr;
+      }
+
+      .roadmap__item .status {
+        grid-column: 2;
+        justify-self: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Course progress">
+      <div class="brand">
+        <div class="brand__eyebrow">Course 2 companion</div>
+        <div class="brand__title">JavaScript without panic</div>
+        <p class="brand__subtitle">A living learning path built around your existing course.</p>
+      </div>
+
+      <div class="progress">
+        <div class="progress__row">
+          <span>Learning progress</span>
+          <strong id="progress-label">11 of 12 levels</strong>
+        </div>
+        <div class="progress__track" aria-hidden="true">
+          <div class="progress__fill" id="progress-fill" style="width: 91.7%"></div>
+        </div>
+      </div>
+
+      <nav class="level-nav" aria-label="Learning levels">
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-one">
+          <span class="level-nav__number">1</span>
+          <span class="level-nav__text">Read JavaScript</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-two">
+          <span class="level-nav__number">2</span>
+          <span class="level-nav__text">Find and change text</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-three">
+          <span class="level-nav__number">3</span>
+          <span class="level-nav__text">Find HTML elements</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-four">
+          <span class="level-nav__number">4</span>
+          <span class="level-nav__text">Respond to clicks</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-five">
+          <span class="level-nav__number">5</span>
+          <span class="level-nav__text">Change CSS classes</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-six">
+          <span class="level-nav__number">6</span>
+          <span class="level-nav__text">Understand state</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-seven">
+          <span class="level-nav__number">7</span>
+          <span class="level-nav__text">Boolean visibility</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-eight">
+          <span class="level-nav__number">8</span>
+          <span class="level-nav__text">Coachmark and dimming</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-nine">
+          <span class="level-nav__number">9</span>
+          <span class="level-nav__text">Five-second timer</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-ten">
+          <span class="level-nav__number">10</span>
+          <span class="level-nav__text">Detect visibility</span>
+        </button>
+        <button class="level-nav__item is-complete" type="button" data-scroll-to="task-eleven">
+          <span class="level-nav__number">11</span>
+          <span class="level-nav__text">Dismiss and clean up</span>
+        </button>
+        <button class="level-nav__item is-current" type="button" data-scroll-to="task-twelve">
+          <span class="level-nav__number">12</span>
+          <span class="level-nav__text">Complete coachmark</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="hero">
+        <div class="eyebrow">Your centralized learning course</div>
+        <h1>Learn the JavaScript you already have.</h1>
+        <p class="hero__intro">
+          This course grows with you. Each level explains one idea, lets you examine it
+          inside Course 2, and records what you understood before we move forward.
+        </p>
+
+        <div class="course-promise">
+          <div class="promise-card">
+            <strong>Theory first</strong>
+            <span>We name the concept before asking you to use it.</span>
+          </div>
+          <div class="promise-card">
+            <strong>One safe task</strong>
+            <span>Each lesson changes or examines one small thing.</span>
+          </div>
+          <div class="promise-card">
+            <strong>Living record</strong>
+            <span>Your notes stay here, and completed lessons become a reference.</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="section" id="course-map">
+        <div class="eyebrow">Orientation</div>
+        <h2>What JavaScript does in Course 2</h2>
+        <p class="section-intro">
+          JavaScript is the behaviour layer. In the demo stepper, it stores the step
+          content, remembers which step is selected, reacts to clicks, and updates the page.
+        </p>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">1</div>
+            <h3>Stores the content</h3>
+            <p>
+              <code>DEMO_STEPS</code> is a list containing six content objects. Each object
+              has a <code>title</code> and <code>body</code>.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">2</div>
+            <h3>Remembers the current step</h3>
+            <p>
+              <code>demoActive</code> is a memory box containing the number of the currently
+              selected step.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">3</div>
+            <h3>Updates the screen</h3>
+            <p>
+              <code>demoRender()</code> finds HTML elements and replaces their displayed
+              content with the current step.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">4</div>
+            <h3>Responds to the learner</h3>
+            <p>
+              <code>demoSet()</code>, <code>demoGo()</code>, and <code>demoReset()</code>
+              respond to step, navigation, and reset button clicks.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="concepts">
+        <div class="eyebrow">Level 1 theory</div>
+        <h2>Recognize the pieces</h2>
+        <p class="section-intro">
+          You do not need to understand every symbol yet. Start by recognizing what kind
+          of thing you are looking at. Select “Show the technical name” when you are ready.
+        </p>
+
+        <div class="concepts">
+          <article class="concept">
+            <h3>A labelled memory box</h3>
+            <p class="concept__plain">It gives a name to a value so the course can use that value later.</p>
+            <div class="concept__technical">
+              <strong>Technical name</strong>
+              Variable
+              <strong>Definition pattern</strong>
+              <span class="concept__example">let customName = value;</span>
+              <strong>Simple example</strong>
+              <span class="concept__example">let score = 0;</span>
+              <strong>Course 2 example</strong>
+              <span class="concept__example">let demoActive = 0;</span>
+              <p class="concept__note"><code>let</code> is an official JavaScript keyword. <code>demoActive</code> is a custom name chosen for this course.</p>
+            </div>
+            <button class="text-button" type="button" data-reveal>Show definition and examples</button>
+          </article>
+          <article class="concept">
+            <h3>An ordered list</h3>
+            <p class="concept__plain">It keeps several related values together in a particular order.</p>
+            <div class="concept__technical">
+              <strong>Technical name</strong>
+              Array
+              <strong>Definition pattern</strong>
+              <span class="concept__example">const customName = [item1, item2];</span>
+              <strong>Simple example</strong>
+              <span class="concept__example">const colors = ['red', 'blue'];</span>
+              <strong>Course 2 example</strong>
+              <span class="concept__example">const DEMO_STEPS = [
+  { title: 'Point it to your design system', ... },
+  { title: 'Design the pattern', ... }
+];</span>
+              <p class="concept__note">The square brackets <code>[ ]</code> define the array. <code>DEMO_STEPS</code> is the course’s custom name for it.</p>
+            </div>
+            <button class="text-button" type="button" data-reveal>Show definition and examples</button>
+          </article>
+          <article class="concept">
+            <h3>A bundle of labelled details</h3>
+            <p class="concept__plain">It groups related information, such as one step’s title and body.</p>
+            <div class="concept__technical">
+              <strong>Technical name</strong>
+              Object
+              <strong>Definition pattern</strong>
+              <span class="concept__example">{ label: value, label: value }</span>
+              <strong>Simple example</strong>
+              <span class="concept__example">{ name: 'Amina', score: 3 }</span>
+              <strong>Course 2 example</strong>
+              <span class="concept__example">{
+  title: 'Design the pattern',
+  body: 'Name the interaction you want...'
+}</span>
+              <p class="concept__note">The curly braces <code>{ }</code> define the object. <code>title</code> and <code>body</code> are custom property names.</p>
+            </div>
+            <button class="text-button" type="button" data-reveal>Show definition and examples</button>
+          </article>
+          <article class="concept">
+            <h3>A set of instructions</h3>
+            <p class="concept__plain">It gives a reusable name to actions the course should perform.</p>
+            <div class="concept__technical">
+              <strong>Technical name</strong>
+              Function
+              <strong>Definition pattern</strong>
+              <span class="concept__example">function customName() {
+  // instructions go here
+}</span>
+              <strong>Simple example</strong>
+              <span class="concept__example">function sayHello() {
+  alert('Hello');
+}</span>
+              <strong>Course 2 example</strong>
+              <span class="concept__example">function demoReset() {
+  demoActive = 0;
+  demoRender();
+}</span>
+              <p class="concept__note"><code>function</code> is an official keyword. <code>demoReset</code> is a custom name describing what these instructions do.</p>
+            </div>
+            <button class="text-button" type="button" data-reveal>Show definition and examples</button>
+          </article>
+          <article class="concept">
+            <h3>A learner-action trigger</h3>
+            <p class="concept__plain">It connects an action, such as a click, to instructions that should run.</p>
+            <div class="concept__technical">
+              <strong>Technical name</strong>
+              Event handler
+              <strong>Definition pattern</strong>
+              <span class="concept__example">element.addEventListener('click', functionName);</span>
+              <strong>Simple example</strong>
+              <span class="concept__example">button.addEventListener('click', sayHello);</span>
+              <strong>Course 2 example</strong>
+              <span class="concept__example">&lt;button onclick="demoReset()"&gt;
+  Start over
+&lt;/button&gt;</span>
+              <p class="concept__note"><code>onclick</code> is a browser event attribute. <code>demoReset</code> is the custom function that runs after the click.</p>
+            </div>
+            <button class="text-button" type="button" data-reveal>Show definition and examples</button>
+          </article>
+          <article class="concept">
+            <h3>A note for humans</h3>
+            <p class="concept__plain">It explains the code but is ignored when the browser runs the course.</p>
+            <div class="concept__technical">
+              <strong>Technical name</strong>
+              Comment
+              <strong>Definition pattern</strong>
+              <span class="concept__example">// One-line comment
+
+/* Comment that can
+   use several lines */</span>
+              <strong>Simple example</strong>
+              <span class="concept__example">// Remember the learner's score</span>
+              <strong>Course 2 example</strong>
+              <span class="concept__example">// Demo stepper</span>
+              <p class="concept__note">The symbols <code>//</code> and <code>/* */</code> mark comments. The words inside are written freely for human readers.</p>
+            </div>
+            <button class="text-button" type="button" data-reveal>Show definition and examples</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="code-reading">
+        <div class="eyebrow">The real course code</div>
+        <h2>Read the shape before the details</h2>
+        <p class="section-intro">
+          This shortened extract comes from the Course 2 demo stepper. The colors are
+          reading aids, not part of JavaScript itself.
+        </p>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Course 2: demo stepper extract</span>
+            <span>Read only</span>
+          </div>
+          <div class="code-card__body code"><span class="code-comment">// A list containing step content</span>
+<span class="code-keyword">const</span> <span class="code-name">DEMO_STEPS</span> = [
+  { title: <span class="code-string">'Point it to your design system'</span>,
+    body: <span class="code-string">'Have a file with your themes...'</span> },
+  { title: <span class="code-string">'Design the pattern'</span>,
+    body: <span class="code-string">'Name the interaction you want...'</span> }
+];
+
+<span class="code-comment">// A memory box for the selected step</span>
+<span class="code-keyword">let</span> <span class="code-name">demoActive</span> = 0;
+
+<span class="code-comment">// Instructions that update the screen</span>
+<span class="code-keyword">function</span> <span class="code-name">demoRender</span>() {
+  document.getElementById(<span class="code-string">'demo-title'</span>).textContent =
+    DEMO_STEPS[demoActive].title;
+}
+
+<span class="code-comment">// Run those instructions once when the page opens</span>
+<span class="code-name">demoRender</span>();</div>
+        </div>
+
+        <div class="legend" aria-label="Code color legend">
+          <span>Green = human comments</span>
+          <span>Gold = JavaScript keywords</span>
+          <span>Pink = custom project names</span>
+          <span>Blue = stored text</span>
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-one">
+        <div class="task-label">Completed task: 1</div>
+        <h2>Read JavaScript without changing it</h2>
+        <p>
+          Your goal is to identify the large building blocks. You are not expected to
+          explain how every line works yet.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            JavaScript looks like one wall of unfamiliar words.
+          </div>
+          <div class="task-note">
+            <strong>What happens on screen</strong>
+            Nothing changes yet. This task is about reading safely.
+          </div>
+          <div class="task-note">
+            <strong>Concept</strong>
+            Recognizing variables, arrays, objects, and functions.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe action</strong>
+            Classify three parts of the existing code.
+          </div>
+        </div>
+
+        <form class="quiz" id="task-one-quiz">
+          <fieldset class="question">
+            <legend>1. Which name represents the list of step content?</legend>
+            <label class="option"><input type="radio" name="q1" value="demoRender"> demoRender</label>
+            <label class="option"><input type="radio" name="q1" value="DEMO_STEPS"> DEMO_STEPS</label>
+            <label class="option"><input type="radio" name="q1" value="document"> document</label>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend>2. Which line is the course’s memory of the currently selected step?</legend>
+            <label class="option"><input type="radio" name="q2" value="array"> const DEMO_STEPS = [...]</label>
+            <label class="option"><input type="radio" name="q2" value="state"> let demoActive = 0;</label>
+            <label class="option"><input type="radio" name="q2" value="render"> demoRender();</label>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend>3. Which custom name represents a set of instructions?</legend>
+            <label class="option"><input type="radio" name="q3" value="title"> title</label>
+            <label class="option"><input type="radio" name="q3" value="zero"> 0</label>
+            <label class="option"><input type="radio" name="q3" value="demoRender"> demoRender</label>
+          </fieldset>
+
+          <div class="button-row">
+            <button class="button button--primary" type="submit">Check my reading</button>
+            <button class="button button--secondary" type="button" id="reset-quiz">Clear answers</button>
+          </div>
+          <div class="feedback" id="quiz-feedback" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="reflection">
+          <h3>Explain it in your own words</h3>
+          <label for="task-one-reflection">
+            What do you think <code>DEMO_STEPS</code>, <code>demoActive</code>, and
+            <code>demoRender()</code> each do?
+          </label>
+          <textarea id="task-one-reflection" placeholder="It is fine to guess. For example: DEMO_STEPS seems to..."></textarea>
+          <div class="button-row">
+            <button class="button button--primary" type="button" id="save-reflection">Save my response</button>
+            <span class="save-status" id="save-status" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="journal" id="learning-journal">
+        <div class="eyebrow">Completed learning journal</div>
+        <h2>What I can now explain</h2>
+        <article class="journal-entry">
+          <h3>Level 1: Reading the stepper’s main pieces</h3>
+          <p>
+            <code>DEMO_STEPS</code> is an array containing objects. Each object stores a
+            step’s <code>title</code> and <code>body</code>.
+          </p>
+          <p>
+            <code>demoActive</code> stores which step is selected. The interaction functions
+            change that value, then <code>demoRender()</code> recreates the step buttons and
+            displays the title and body belonging to the active step.
+          </p>
+        </article>
+        <article class="journal-entry" style="margin-top: 14px">
+          <h3>Level 2: Following stored text to the screen</h3>
+          <p>
+            A step title is stored as a string in the <code>DEMO_STEPS</code> array.
+            JavaScript uses the value in <code>demoActive</code> to select the correct
+            object, then uses that object’s <code>title</code> in more than one place.
+          </p>
+          <p>
+            Changing <code>'Design the pattern'</code> to
+            <code>'Choose the interaction pattern'</code> updated both the second step
+            button and the content-panel heading without changing <code>demoRender()</code>.
+          </p>
+        </article>
+        <article class="journal-entry" style="margin-top: 14px">
+          <h3>Level 3: Connecting JavaScript to HTML</h3>
+          <p>
+            The JavaScript string <code>'demo-title'</code> matches the
+            <code>id="demo-title"</code> attribute on an HTML <code>&lt;h4&gt;</code>
+            element.
+          </p>
+          <p>
+            The heading begins empty because its title is dynamic.
+            <code>demoActive</code> identifies the active object in
+            <code>DEMO_STEPS</code>, and <code>demoRender()</code> places that object’s
+            title inside the heading with <code>.textContent</code>.
+          </p>
+        </article>
+        <article class="journal-entry" style="margin-top: 14px">
+          <h3>Level 4: Following a click into JavaScript</h3>
+          <p>
+            Clicking Next calls <code>demoGo(1)</code>. Inside the function, the parameter
+            <code>dir</code> receives <code>1</code>, meaning move one array position
+            forward.
+          </p>
+          <p>
+            The function safely changes <code>demoActive</code>, then calls
+            <code>demoRender()</code> so the active step styling, title, body, counter, and
+            navigation-button states reflect the new position.
+          </p>
+        </article>
+        <article class="journal-entry" style="margin-top: 14px">
+          <h3>Level 5: Connecting state classes to CSS</h3>
+          <p>
+            When <code>demoActive</code> is <code>2</code>, the button at position
+            <code>2</code> receives <code>is-active</code>, earlier buttons such as
+            position <code>1</code> receive <code>is-done</code>, and future buttons such
+            as position <code>4</code> receive no extra state class.
+          </p>
+          <p>
+            JavaScript decides which class name belongs on each button. CSS decides that
+            <code>is-active</code> should have the red background and other visual styles.
+          </p>
+        </article>
+        <article class="journal-entry" style="margin-top: 14px">
+          <h3>Level 6: Understanding state as remembered information</h3>
+          <p>
+            <code>demoActive</code> is the stepper’s state: the number it currently
+            remembers as the selected array position.
+          </p>
+          <p>
+            Starting from <code>0</code>, the journey Next, fourth-step button, Back, and
+            Start over changes the value through <code>1 → 3 → 2 → 0</code>. The fourth
+            item uses position <code>3</code> because arrays begin counting at zero.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-two">
+        <div class="eyebrow">Level 2 theory</div>
+        <h2>How stored text reaches the screen</h2>
+        <p class="section-intro">
+          The title you see in the stepper begins as text inside an object. JavaScript
+          selects the active object, finds the correct HTML element, and places that text
+          inside it.
+        </p>
+
+        <div class="flow" aria-label="How step text moves from JavaScript to the page">
+          <div class="flow__step">
+            <strong>1. Stored content</strong>
+            <code>DEMO_STEPS</code> contains the title and body objects.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>2. Selected content</strong>
+            <code>DEMO_STEPS[demoActive].title</code> gets the active title.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>3. Visible content</strong>
+            <code>.textContent</code> places that title into the HTML.
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Follow one piece of text</span>
+            <span>Course 2</span>
+          </div>
+          <div class="code-card__body code"><span class="code-comment">// The title is stored here</span>
+{ title: <span class="code-string">'Design the pattern'</span>, body: <span class="code-string">'Name the interaction...'</span> }
+
+<span class="code-comment">// The active title is selected and placed in the HTML here</span>
+document.getElementById(<span class="code-string">'demo-title'</span>).textContent =
+  DEMO_STEPS[demoActive].title;</div>
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-two">
+        <div class="task-label">Completed task: 2</div>
+        <h2>Change one stored step title</h2>
+        <p>
+          This task changes content only. You do not need to change the rendering function
+          because it already knows how to display whichever title is stored in the array.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            One step title may need clearer wording.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            The second step button and detail heading should show the new title.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            Changing a string stored in an object inside an array.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe change</strong>
+            Edit one title string and nothing else.
+          </div>
+        </div>
+
+        <h3>Official features and custom names</h3>
+        <p>
+          The array brackets <code>[ ]</code>, object braces <code>{ }</code>, strings, and
+          <code>const</code> are JavaScript features. <code>DEMO_STEPS</code> and
+          <code>title</code> are custom names used by this project.
+        </p>
+
+        <h3>Your change</h3>
+        <p>
+          In Course 2’s <code>DEMO_STEPS</code> array, find the second object. Change only
+          its title from <code>'Design the pattern'</code> to
+          <code>'Choose the interaction pattern'</code>.
+        </p>
+        <p>
+          Before editing, predict where that new wording will appear. Then make the change
+          yourself in <code>index.html</code> and tell me what you observed. I will check
+          the file before marking this task complete.
+        </p>
+      </section>
+
+      <section class="section" id="level-three">
+        <div class="eyebrow">Level 3 theory</div>
+        <h2>How JavaScript finds an HTML element</h2>
+        <p class="section-intro">
+          Before JavaScript can change something on the page, it needs a way to point to
+          the correct HTML element. Course 2 often uses an element’s unique
+          <code>id</code> as that connection.
+        </p>
+
+        <div class="flow" aria-label="How JavaScript finds the title element">
+          <div class="flow__step">
+            <strong>HTML gives it an ID</strong>
+            <code>&lt;h4 id="demo-title"&gt;&lt;/h4&gt;</code>
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>JavaScript finds that ID</strong>
+            <code>document.getElementById('demo-title')</code>
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>JavaScript changes it</strong>
+            <code>.textContent = activeTitle</code>
+          </div>
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">ID</div>
+            <h3><code>id="demo-title"</code></h3>
+            <p>
+              This is an HTML attribute. An ID should uniquely identify one element on the
+              page. <code>demo-title</code> is a custom name chosen for this project.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">JS</div>
+            <h3><code>document.getElementById()</code></h3>
+            <p>
+              <code>document</code> represents the web page.
+              <code>getElementById()</code> is a built-in browser method that searches for
+              the element whose ID exactly matches the supplied string.
+            </p>
+          </article>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The matching connection</span>
+            <span>HTML and JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-comment">&lt;!-- HTML: the element JavaScript will control --&gt;</span>
+&lt;h4 class="stepper__detail-title" id=<span class="code-string">"demo-title"</span>&gt;&lt;/h4&gt;
+
+<span class="code-comment">// JavaScript: find the element with that exact ID</span>
+document.getElementById(<span class="code-string">'demo-title'</span>).textContent =
+  DEMO_STEPS[demoActive].title;</div>
+        </div>
+
+        <p class="section-intro" style="margin-top: 22px">
+          The class and ID have different jobs here. The class
+          <code>stepper__detail-title</code> is mainly used by CSS for appearance. The ID
+          <code>demo-title</code> gives JavaScript a unique element to find.
+        </p>
+      </section>
+
+      <section class="task is-complete" id="task-three">
+        <div class="task-label">Completed task: 3</div>
+        <h2>Identify the HTML element JavaScript controls</h2>
+        <p>
+          This is another reading task. Do not change the code yet.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            It is unclear how a JavaScript instruction connects to something visible.
+          </div>
+          <div class="task-note">
+            <strong>What happens on screen</strong>
+            The active step title appears inside an otherwise empty heading element.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            Finding one HTML element with <code>document.getElementById()</code>.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe action</strong>
+            Match one JavaScript ID string to one HTML element.
+          </div>
+        </div>
+
+        <h3>Your reading task</h3>
+        <p>
+          In Course 2, find this JavaScript:
+          <code>document.getElementById('demo-title')</code>.
+        </p>
+        <p>
+          Then find the HTML element whose ID matches it. Tell me:
+        </p>
+        <ol>
+          <li>What type of HTML element is it?</li>
+          <li>What is its ID?</li>
+          <li>Why is the element empty in the original HTML?</li>
+        </ol>
+        <p>
+          It is fine to infer the third answer from what you already know about
+          <code>demoRender()</code>.
+        </p>
+      </section>
+
+      <section class="journal" aria-labelledby="level-three-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-three-journey-title">What I learned in Level 3</h2>
+        <article class="journal-entry">
+          <h3>Connecting JavaScript to an HTML element</h3>
+          <p>
+            The element is an HTML <code>&lt;h4&gt;</code> with the ID
+            <code>demo-title</code>. JavaScript finds it with
+            <code>document.getElementById('demo-title')</code>.
+          </p>
+          <p>
+            The heading starts empty because its content is populated dynamically.
+            <code>DEMO_STEPS</code> stores the titles in array order,
+            <code>demoActive</code> identifies the active position, and
+            <code>demoRender()</code> places the matching title inside the heading.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-four">
+        <div class="eyebrow">Level 4 theory</div>
+        <h2>What happens after a click</h2>
+        <p class="section-intro">
+          A click is an event: something that happens in the browser. The button’s
+          <code>onclick</code> attribute tells the browser which JavaScript function to run
+          when that event happens.
+        </p>
+
+        <div class="flow" aria-label="What happens when the learner clicks Next">
+          <div class="flow__step">
+            <strong>1. Learner action</strong>
+            The learner clicks the Next button.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>2. Function call</strong>
+            <code>onclick="demoGo(1)"</code> runs <code>demoGo()</code>.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>3. Screen update</strong>
+            The active step changes, then <code>demoRender()</code> refreshes the display.
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Trace the Next click</span>
+            <span>Course 2</span>
+          </div>
+          <div class="code-card__body code"><span class="code-comment">&lt;!-- The click starts here --&gt;</span>
+&lt;button id=<span class="code-string">"demo-next"</span> onclick=<span class="code-string">"demoGo(1)"</span>&gt;
+  Next
+&lt;/button&gt;
+
+<span class="code-comment">// The number 1 arrives in the custom parameter named dir</span>
+<span class="code-keyword">function</span> <span class="code-name">demoGo</span>(dir) {
+  demoActive = Math.max(
+    0,
+    Math.min(DEMO_STEPS.length - 1, demoActive + dir)
+  );
+  demoRender();
+}</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3>Define the function and receive a direction</h3>
+            <span class="concept__example">function demoGo(dir) {</span>
+            <p>
+              <code>demoGo</code> is the custom function name. <code>dir</code> is a custom
+              parameter name meaning direction.
+            </p>
+            <p>
+              Next calls <code>demoGo(1)</code>, so <code>dir</code> becomes
+              <code>1</code>. Back calls <code>demoGo(-1)</code>, so <code>dir</code>
+              becomes <code>-1</code>.
+            </p>
+          </article>
+
+          <article class="breakdown__step">
+            <h3>Calculate the proposed new step</h3>
+            <span class="concept__example">demoActive + dir</span>
+            <p>
+              This asks: “If I move in that direction, which array position would come
+              next?”
+            </p>
+            <div class="worked-example">
+              <div class="worked-example__card">
+                <strong>Next from position 2</strong>
+                <code>2 + 1 = 3</code>
+              </div>
+              <div class="worked-example__card">
+                <strong>Back from position 2</strong>
+                <code>2 + -1 = 1</code>
+              </div>
+            </div>
+          </article>
+
+          <article class="breakdown__step">
+            <h3>Calculate the last valid position</h3>
+            <span class="concept__example">DEMO_STEPS.length - 1</span>
+            <p>
+              Six steps have a <code>length</code> of <code>6</code>, but array positions
+              begin at <code>0</code>. The valid positions are therefore
+              <code>0, 1, 2, 3, 4, 5</code>.
+            </p>
+            <p><code>6 - 1 = 5</code>, so position <code>5</code> is the upper limit.</p>
+          </article>
+
+          <article class="breakdown__step">
+            <h3>Prevent movement beyond the last step</h3>
+            <span class="concept__example">Math.min(DEMO_STEPS.length - 1, demoActive + dir)</span>
+            <p>
+              <code>Math.min()</code> chooses the smaller of the last valid position and
+              the proposed position.
+            </p>
+            <p>
+              On the final step, Next proposes <code>5 + 1 = 6</code>.
+              <code>Math.min(5, 6)</code> returns <code>5</code>, so the stepper stays on
+              the final step.
+            </p>
+          </article>
+
+          <article class="breakdown__step">
+            <h3>Prevent movement before the first step</h3>
+            <span class="concept__example">Math.max(0, previousResult)</span>
+            <p>
+              <code>Math.max()</code> chooses the larger of <code>0</code> and the result
+              calculated inside it.
+            </p>
+            <p>
+              On the first step, Back proposes <code>0 + -1 = -1</code>.
+              <code>Math.max(0, -1)</code> returns <code>0</code>, so the stepper stays on
+              the first step.
+            </p>
+          </article>
+
+          <article class="breakdown__step">
+            <h3>Store the safe result and refresh the screen</h3>
+            <span class="concept__example">demoActive = safePosition;
+demoRender();</span>
+            <p>
+              The protected result is assigned to <code>demoActive</code>. This changes the
+              course’s memory of the selected step.
+            </p>
+            <p>
+              <code>demoRender()</code> then reads that new value and updates the step
+              buttons, title, body, counter, and navigation-button states.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout" style="margin-top: 24px">
+          In plain language: receive <code>1</code> or <code>-1</code>, propose a new
+          position, keep it between the first and last valid positions, save it in
+          <code>demoActive</code>, then redraw the stepper.
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">+1</div>
+            <h3>Why pass <code>1</code>?</h3>
+            <p>
+              The function adds <code>dir</code> to <code>demoActive</code>. Passing
+              <code>1</code> moves one position forward. The Back button passes
+              <code>-1</code> to move one position backward.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">R</div>
+            <h3>Why call <code>demoRender()</code>?</h3>
+            <p>
+              Changing the memory variable alone does not redraw the page. The render
+              function reads the new value and updates everything the learner sees.
+            </p>
+          </article>
+        </div>
+
+        <p class="section-intro" style="margin-top: 22px">
+          <code>onclick</code>, <code>function</code>, and <code>Math.min()</code> are
+          official browser or JavaScript features. <code>demoGo</code>, <code>dir</code>,
+          and <code>demoActive</code> are custom project names.
+        </p>
+      </section>
+
+      <section class="task is-complete" id="task-four">
+        <div class="task-label">Completed task: 4</div>
+        <h2>Explain the Next-button click chain</h2>
+        <p>
+          This is a reading and prediction task. Do not change the click code yet.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            A button click can feel disconnected from the JavaScript below it.
+          </div>
+          <div class="task-note">
+            <strong>What happens on screen</strong>
+            The stepper moves forward and displays the next step’s content.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            A click event calls a function with an argument.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe action</strong>
+            Trace the existing click without editing it.
+          </div>
+        </div>
+
+        <h3>Your reading task</h3>
+        <p>
+          Look at the Next button and <code>demoGo()</code> in Course 2. In your own
+          words, tell me:
+        </p>
+        <ol>
+          <li>Which function runs when Next is clicked?</li>
+          <li>What does the <code>1</code> mean?</li>
+          <li>Which variable changes?</li>
+          <li>Why does the function call <code>demoRender()</code> afterwards?</li>
+        </ol>
+      </section>
+
+      <section class="journal" aria-labelledby="level-four-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-four-journey-title">What I learned in Level 4</h2>
+        <article class="journal-entry">
+          <h3>Tracing the Next-button click</h3>
+          <p>
+            The Next button calls <code>demoGo(1)</code>. The number <code>1</code> tells
+            the function to move one step forward, and <code>demoActive</code> stores the
+            resulting active position.
+          </p>
+          <p>
+            After that memory changes, <code>demoRender()</code> refreshes the correct
+            active step, title, body, counter, and button states on screen.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-five">
+        <div class="eyebrow">Level 5 theory</div>
+        <h2>JavaScript chooses the class; CSS chooses the appearance</h2>
+        <p class="section-intro">
+          JavaScript does not directly paint the active button red. It adds a class name
+          describing the button’s state. CSS already contains the visual rules for that
+          class.
+        </p>
+
+        <div class="flow" aria-label="How JavaScript and CSS style a step button">
+          <div class="flow__step">
+            <strong>1. JavaScript compares positions</strong>
+            Is this button current, earlier, or later?
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>2. JavaScript adds a class</strong>
+            <code>is-active</code>, <code>is-done</code>, or no state class.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>3. CSS applies the look</strong>
+            The matching CSS rule controls color, border, and background.
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The current Course 2 code</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code">DEMO_STEPS.map((s, i) =&gt; `
+  &lt;button class="stepper__step${
+    i === demoActive ? ' is-active' :
+    i &lt; demoActive ? ' is-done' :
+    ''
+  }"&gt;
+    ${s.title}
+  &lt;/button&gt;
+`)</div>
+        </div>
+
+        <div class="callout" style="margin-top: 20px">
+          In the existing code, <code>s</code> means the current step-content object and
+          <code>i</code> means its numeric position. More humane names would be
+          <code>stepContent</code> and <code>stepPosition</code>.
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The same idea with clearer names</span>
+            <span>Explanation only</span>
+          </div>
+          <div class="code-card__body code">DEMO_STEPS.map((stepContent, stepPosition) =&gt; `
+  &lt;button class="stepper__step${
+    stepPosition === demoActive ? ' is-active' :
+    stepPosition &lt; demoActive ? ' is-done' :
+    ''
+  }"&gt;
+    ${stepContent.title}
+  &lt;/button&gt;
+`)</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3>If the positions are equal</h3>
+            <span class="concept__example">stepPosition === demoActive</span>
+            <p>
+              This is the currently selected button, so JavaScript adds
+              <code>is-active</code>.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>If the button comes before the active position</h3>
+            <span class="concept__example">stepPosition &lt; demoActive</span>
+            <p>
+              This is an earlier step, so JavaScript adds <code>is-done</code>.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>If neither condition is true</h3>
+            <span class="concept__example">''</span>
+            <p>
+              This is a future step. JavaScript adds no extra state class, so the button
+              keeps its ordinary <code>stepper__step</code> appearance.
+            </p>
+          </article>
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">JS</div>
+            <h3>JavaScript output</h3>
+            <p>
+              The active button ends up with
+              <code>class="stepper__step is-active"</code>.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">CSS</div>
+            <h3>CSS response</h3>
+            <p>
+              The selector <code>.stepper__step.is-active</code> matches that button and
+              applies the active colors.
+            </p>
+          </article>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The visual rules</span>
+            <span>CSS</span>
+          </div>
+          <div class="code-card__body code">.stepper__step.is-active {
+  background: #5B0606;
+  color: #FAFAF8;
+}
+
+.stepper__step.is-done {
+  background: #2A2A2A;
+  color: #F6C785;
+}</div>
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-five">
+        <div class="task-label">Completed task: 5</div>
+        <h2>Explain the three possible class outcomes</h2>
+        <p>
+          This is a reading task first. Do not rename the variables or change the classes
+          yet.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            It is unclear whether JavaScript or CSS creates the visual state.
+          </div>
+          <div class="task-note">
+            <strong>What happens on screen</strong>
+            Current, completed, and future step buttons look different.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            Choosing a class string based on a condition.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe action</strong>
+            Explain the three existing outcomes without editing them.
+          </div>
+        </div>
+
+        <h3>Your reading task</h3>
+        <p>
+          Imagine <code>demoActive</code> is <code>2</code>. That means the third step is
+          active because array positions start at zero. Tell me:
+        </p>
+        <ol>
+          <li>Which class does the button at position <code>2</code> receive?</li>
+          <li>Which class does the button at position <code>1</code> receive?</li>
+          <li>Which extra class does the button at position <code>4</code> receive?</li>
+          <li>Does JavaScript or CSS decide that the active button has a red background?</li>
+        </ol>
+      </section>
+
+      <section class="journal" aria-labelledby="level-five-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-five-journey-title">What I learned in Level 5</h2>
+        <article class="journal-entry">
+          <h3>JavaScript state labels and CSS appearance</h3>
+          <p>
+            The active button receives <code>is-active</code>, earlier buttons receive
+            <code>is-done</code>, and future buttons receive no extra class.
+          </p>
+          <p>
+            JavaScript chooses those class labels by comparing each step position with
+            <code>demoActive</code>. CSS then turns the labels into visible colors,
+            borders, and backgrounds.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-six">
+        <div class="eyebrow">Level 6 theory</div>
+        <h2>State is the course’s current memory</h2>
+        <p class="section-intro">
+          State is not a special JavaScript container. It is the information the course
+          needs to remember right now. In this stepper, that information is stored in one
+          variable: <code>demoActive</code>.
+        </p>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">0</div>
+            <h3>The initial state</h3>
+            <p>
+              <code>let demoActive = 0;</code> means the course begins with the first
+              object in <code>DEMO_STEPS</code> selected.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">M</div>
+            <h3>Why it uses <code>let</code></h3>
+            <p>
+              The selected position changes while the learner uses the stepper, so
+              <code>demoActive</code> must be reassigned to new numbers.
+            </p>
+          </article>
+        </div>
+
+        <div class="flow" aria-label="The state and render cycle">
+          <div class="flow__step">
+            <strong>1. Learner acts</strong>
+            Click a step, Next, Back, or Start over.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>2. State changes</strong>
+            A function assigns a number to <code>demoActive</code>.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>3. Screen reflects state</strong>
+            <code>demoRender()</code> redraws the stepper using that number.
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Three ways the same state changes</span>
+            <span>Course 2</span>
+          </div>
+          <div class="code-card__body code"><span class="code-comment">// Select a specific step button</span>
+<span class="code-keyword">function</span> <span class="code-name">demoSet</span>(stepPosition) {
+  demoActive = stepPosition;
+  demoRender();
+}
+
+<span class="code-comment">// Move one position backward or forward</span>
+<span class="code-keyword">function</span> <span class="code-name">demoGo</span>(direction) {
+  demoActive = /* a safe position using direction */;
+  demoRender();
+}
+
+<span class="code-comment">// Return to the first array position</span>
+<span class="code-keyword">function</span> <span class="code-name">demoReset</span>() {
+  demoActive = 0;
+  demoRender();
+}</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3><code>demoSet(stepPosition)</code> replaces the state directly</h3>
+            <p>
+              Clicking the fourth step button supplies position <code>3</code>. The
+              function stores <code>3</code> in <code>demoActive</code>.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>demoGo(direction)</code> calculates a new state</h3>
+            <p>
+              Next or Back starts from the current number and safely adds
+              <code>1</code> or <code>-1</code>.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>demoReset()</code> restores the initial state</h3>
+            <p>
+              Start over assigns <code>0</code>, which selects the first object in the
+              array again.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout" style="margin-top: 24px">
+          State is the remembered number. Rendering is the process that turns that number
+          into the correct visible content and styling.
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-six">
+        <div class="task-label">Completed task: 6</div>
+        <h2>Track the state through a short learner journey</h2>
+        <p>
+          This is a prediction task using the course’s existing logic. Do not change the
+          code.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            “State” sounds abstract when it is actually one remembered value.
+          </div>
+          <div class="task-note">
+            <strong>What happens on screen</strong>
+            Each action changes which step appears active.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            Several functions can update the same state variable.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe action</strong>
+            Predict the number stored after each action.
+          </div>
+        </div>
+
+        <h3>Your prediction task</h3>
+        <p>
+          The page has just opened, so <code>demoActive</code> begins at <code>0</code>.
+          Now imagine this sequence:
+        </p>
+        <ol>
+          <li>The learner clicks Next.</li>
+          <li>The learner clicks the fourth step button.</li>
+          <li>The learner clicks Back.</li>
+          <li>The learner clicks Start over.</li>
+        </ol>
+        <p>
+          Tell me the value of <code>demoActive</code> after each action. Then explain why
+          the fourth step button supplies <code>3</code>, rather than <code>4</code>.
+        </p>
+      </section>
+
+      <section class="journal" aria-labelledby="level-six-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-six-journey-title">What I learned in Level 6</h2>
+        <article class="journal-entry">
+          <h3>Tracking one state variable through several actions</h3>
+          <p>
+            <code>demoActive</code> begins at <code>0</code>. Next changes it to
+            <code>1</code>, clicking the fourth step changes it to <code>3</code>, Back
+            changes it to <code>2</code>, and Start over restores <code>0</code>.
+          </p>
+          <p>
+            The visible stepper follows this remembered number whenever
+            <code>demoRender()</code> runs.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-seven">
+        <div class="eyebrow">Your end goal</div>
+        <h2>A delayed Next-button coachmark</h2>
+        <p class="section-intro">
+          When the stepper becomes visible and the learner does nothing for five seconds,
+          show a coachmark beside Next saying “Click Next to explore more.” Dim everything
+          else while keeping Next and the coachmark visually prominent.
+        </p>
+
+        <div class="callout" style="margin-top: 24px">
+          <strong>This can solve a real orientation problem:</strong> a learner may not
+          recognize that the stepper continues through the Next button. But it must be
+          dismissible, non-repeating, and timed carefully so it does not become an
+          interruption.
+        </div>
+
+        <div class="roadmap">
+          <article class="roadmap__item">
+            <div class="roadmap__number">7</div>
+            <div>
+              <h3>Boolean visibility state</h3>
+              <p>Represent whether the coachmark should currently be shown or hidden.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">8</div>
+            <div>
+              <h3>Static coachmark and dimming</h3>
+              <p>Build the message and use classes to dim the surrounding interaction.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">9</div>
+            <div>
+              <h3>Five-second timer</h3>
+              <p>Schedule the coachmark with <code>setTimeout()</code> and cancel it with <code>clearTimeout()</code>.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">10</div>
+            <div>
+              <h3>Detect when the stepper is visible</h3>
+              <p>Start waiting only after the interaction enters the viewport.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">11</div>
+            <div>
+              <h3>Dismissal and cleanup rules</h3>
+              <p>Hide on action, prevent duplicate timers, and decide whether it may appear again.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item is-current">
+            <div class="roadmap__number">12</div>
+            <div>
+              <h3>Assemble and test the full coachmark</h3>
+              <p>Combine the pieces and test scrolling, waiting, clicking, and repeated visits.</p>
+            </div>
+            <span class="status">Current</span>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 34px">Why we should not build it all at once</h3>
+        <div class="flow" aria-label="The three main layers of the coachmark">
+          <div class="flow__step">
+            <strong>State and display</strong>
+            Is the coachmark currently visible, dismissed, or waiting?
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Time and visibility</strong>
+            Is the stepper on screen, and have five inactive seconds passed?
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Lifecycle rules</strong>
+            What cancels, dismisses, or prevents the prompt from repeating?
+          </div>
+        </div>
+
+        <div class="eyebrow" style="margin-top: 44px">Level 7 theory</div>
+        <h2>A Boolean is a yes-or-no memory box</h2>
+        <p class="section-intro">
+          Before adding a timer, the course needs a simple way to represent whether the
+          coachmark should be visible. A Boolean stores one of two official JavaScript
+          values: <code>true</code> or <code>false</code>.
+        </p>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The smallest visibility state</span>
+            <span>Concept only</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">let</span> <span class="code-name">coachmarkVisible</span> = false;
+
+<span class="code-comment">// Later, when it should appear</span>
+coachmarkVisible = true;
+
+<span class="code-comment">// Later, when it should disappear</span>
+coachmarkVisible = false;</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3><code>coachmarkVisible</code> is a custom name</h3>
+            <p>
+              JavaScript does not provide this name. We choose it because it describes
+              exactly what the value remembers.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>false</code> means hidden</h3>
+            <p>
+              The initial value is false because the coachmark should not be visible when
+              the page first loads.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>true</code> means shown</h3>
+            <p>
+              After the correct conditions are met, the value can change to true. A render
+              function can then use that state to show the coachmark and dimming class.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-seven">
+        <div class="task-label">Completed task: 7</div>
+        <h2>Define the coachmark’s visibility state</h2>
+        <p>
+          This is a prediction task. Do not add the coachmark to Course 2 yet.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            The course needs to remember whether the guidance is currently showing.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            One value should clearly represent shown or hidden.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            A Boolean variable stores <code>true</code> or <code>false</code>.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe change</strong>
+            Understand the state before connecting it to HTML, CSS, or a timer.
+          </div>
+        </div>
+
+        <h3>Your prediction task</h3>
+        <p>
+          Imagine the variable begins as:
+          <code>let coachmarkVisible = false;</code>
+        </p>
+        <ol>
+          <li>What does <code>false</code> mean for the learner’s screen?</li>
+          <li>What should the value become when the coachmark appears?</li>
+          <li>What should it become after the learner clicks Next?</li>
+          <li>Why must this use <code>let</code> instead of <code>const</code>?</li>
+        </ol>
+        <p>
+          After this, Level 8 will build a manually shown coachmark and dimming state with
+          no timer. That lets us verify the visual behavior before time and viewport logic
+          are involved.
+        </p>
+      </section>
+
+      <section class="journal" aria-labelledby="level-seven-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-seven-journey-title">What I learned in Level 7</h2>
+        <article class="journal-entry">
+          <h3>A Boolean can remember whether guidance is visible</h3>
+          <p>
+            <code>let nextButtonPromptVisible = false;</code> means the prompt does not
+            appear on screen. When it should appear, the value changes to
+            <code>true</code>. After the learner clicks Next, it changes back to
+            <code>false</code>.
+          </p>
+          <p>
+            The variable uses <code>let</code> because the course reassigns it between two
+            Boolean values. <code>nextButtonPromptVisible</code> is a custom, descriptive
+            name; <code>true</code> and <code>false</code> are official JavaScript values.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-eight">
+        <div class="eyebrow">Level 8 theory</div>
+        <h2>Show the prompt and dim the surrounding content</h2>
+        <p class="section-intro">
+          Before introducing five-second timing, we need a visual state that works on
+          demand. One parent class can tell CSS that the stepper is currently showing
+          guidance.
+        </p>
+
+        <div class="flow" aria-label="How one parent class controls the visual guidance">
+          <div class="flow__step">
+            <strong>JavaScript state</strong>
+            <code>nextButtonPromptVisible</code> is true.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Parent class</strong>
+            Add <code>is-showing-next-prompt</code> to the stepper.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>CSS response</strong>
+            Reveal the prompt, dim other content, and keep Next prominent.
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The new HTML pieces</span>
+            <span>Concept preview</span>
+          </div>
+          <div class="code-card__body code">&lt;div class=<span class="code-string">"browser-window is-showing-next-prompt"</span>
+     id=<span class="code-string">"demo-stepper"</span>&gt;
+  &lt;!-- existing browser chrome, page, and stepper --&gt;
+
+  &lt;div class=<span class="code-string">"stepper__controls"</span>&gt;
+    &lt;button id=<span class="code-string">"demo-prev"</span>&gt;Back&lt;/button&gt;
+    &lt;span id=<span class="code-string">"demo-counter"</span>&gt;&lt;/span&gt;
+
+    &lt;div class=<span class="code-string">"stepper__next-area"</span>&gt;
+      &lt;div class=<span class="code-string">"next-button-prompt"</span>&gt;
+        Click Next to explore more
+      &lt;/div&gt;
+      &lt;button id=<span class="code-string">"demo-next"</span>&gt;Next&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3>The browser window receives the overall state class</h3>
+            <span class="concept__example">demoStepper.classList.add('is-showing-next-prompt');</span>
+            <p>
+              The class name describes the entire browser mockup’s current visual state.
+              CSS can then style several children without JavaScript changing each child
+              individually.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>A dim layer reduces competing emphasis</h3>
+            <p>
+              A semi-transparent layer can sit over the stepper. This is usually clearer
+              than reducing the opacity of every individual element.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>Next and the prompt sit above the dim layer</h3>
+            <p>
+              CSS uses <code>position</code> and <code>z-index</code> to control which
+              elements appear visually on top.
+            </p>
+          </article>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The CSS layers</span>
+            <span>Simplified model</span>
+          </div>
+          <div class="code-card__body code">#demo-stepper {
+  position: relative;
+}
+
+#demo-stepper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.next-button-prompt {
+  display: none;
+}
+
+#demo-stepper.is-showing-next-prompt::after {
+  opacity: 1;
+}
+
+.stepper__next-area {
+  position: relative;
+  z-index: 2;
+}
+
+.next-button-prompt {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: max-content;
+  display: none;
+}
+
+#demo-stepper.is-showing-next-prompt .next-button-prompt {
+  display: block;
+}</div>
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">1</div>
+            <h3><code>z-index: 1</code></h3>
+            <p>
+              The dim layer sits above the ordinary stepper content.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">2</div>
+            <h3><code>z-index: 2</code></h3>
+            <p>
+              The Next button and guidance prompt sit above the dim layer.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout" style="margin-top: 24px">
+          <code>z-index</code> controls stacking order, not importance or brightness. It
+          works on positioned elements, which is why these rules also use
+          <code>position: relative</code> or <code>position: absolute</code>.
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-eight">
+        <div class="task-label">Completed task: 8</div>
+        <h2>Build the static prompt and dimming</h2>
+        <p>
+          You have explained the visual model. Now implement it without a timer or
+          viewport detection. The parent class will be written directly into the HTML so
+          the prompt is always visible while you test it.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            The prompt must focus attention on Next without hiding the whole interaction.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            Other content dims while Next and its prompt remain prominent.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            One parent class represents a coordinated visual state.
+          </div>
+          <div class="task-note">
+            <strong>CSS concept</strong>
+            Positioned layers use <code>z-index</code> to control stacking.
+          </div>
+        </div>
+
+        <h3>Part 1: Change the HTML</h3>
+        <p>
+          In Course 2’s live demo stepper:
+        </p>
+        <ol>
+          <li>
+            Add <code>id="demo-stepper"</code> and the temporary class
+            <code>is-showing-next-prompt</code> to the outer
+            <code>browser-window</code> element so the full mock browser dims.
+          </li>
+          <li>
+            Wrap only the existing Next button in a new
+            <code>&lt;div class="stepper__next-area"&gt;</code>.
+          </li>
+          <li>
+            Inside that wrapper, immediately before Next, add
+            <code>&lt;div class="next-button-prompt"&gt;Click Next to explore more&lt;/div&gt;</code>.
+          </li>
+        </ol>
+
+        <h3>Part 2: Add Course 2-scoped CSS</h3>
+        <p>
+          Add a <code>&lt;style&gt;</code> block in Course 2’s
+          <code>&lt;head&gt;</code>, after the shared stylesheet link. Scope every rule to
+          <code>#demo-stepper</code> so this experiment does not affect other courses.
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Static visual test CSS</span>
+            <span>Add to Course 2 only</span>
+          </div>
+          <div class="code-card__body code">#demo-stepper {
+  position: relative;
+}
+
+#demo-stepper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#demo-stepper .stepper__next-area {
+  position: relative;
+  z-index: 2;
+}
+
+#demo-stepper .next-button-prompt {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: max-content;
+  display: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #FAFAF8;
+  background: #2A2A2A;
+}
+
+#demo-stepper.is-showing-next-prompt::after {
+  opacity: 1;
+}
+
+#demo-stepper.is-showing-next-prompt .next-button-prompt {
+  display: block;
+}</div>
+        </div>
+
+        <h3>Part 3: Check the result</h3>
+        <p>
+          Open Course 2 and confirm:
+        </p>
+        <ol>
+          <li>The surrounding stepper is dimmed.</li>
+          <li>Next and the prompt remain above the dim layer.</li>
+          <li>Next can still be clicked.</li>
+          <li>The prompt sits near Next without covering its label.</li>
+        </ol>
+        <p>
+          Then temporarily remove only <code>is-showing-next-prompt</code> from the parent
+          class and confirm that the dimming and prompt disappear. Restore the class and
+          tell me what you observe. I will inspect the file before we introduce JavaScript
+          control or a timer.
+        </p>
+
+        <h3>Part 4: Adjust the existing Flexbox spacing</h3>
+        <p>
+          The shared stylesheet already gives the controls this rule:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The existing shared layout</span>
+            <span>Why the controls spread out</span>
+          </div>
+          <div class="code-card__body code">.stepper__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}</div>
+        </div>
+
+        <p>
+          Flexbox arranges an element’s direct children. Before your change, the direct
+          children were Back, the counter, and Next. After wrapping Next, they are Back,
+          the counter, and <code>stepper__next-area</code>. The CSS did not change, but it
+          now lays out a different third child.
+        </p>
+        <p>
+          Because <code>space-between</code> deliberately pushes the outer children to
+          opposite edges, add this Course 2-scoped override to the same local
+          <code>&lt;style&gt;</code> block:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Your spacing override</span>
+            <span>Add this yourself</span>
+          </div>
+          <div class="code-card__body code">#demo-stepper .stepper__controls {
+  justify-content: center;
+  gap: 80px;
+}</div>
+        </div>
+        <p>
+          <code>justify-content: center</code> groups the three direct children in the
+          middle. <code>gap: 80px</code> adds your chosen amount of space between them
+          instead of distributing all unused space across the row.
+        </p>
+
+        <div class="callout" style="margin-top: 24px">
+          Do not add <code>setTimeout()</code>, <code>IntersectionObserver</code>, or new
+          JavaScript state in this task. This task proves the visual layer by itself.
+        </div>
+      </section>
+
+      <section class="journal" aria-labelledby="level-eight-theory-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-eight-theory-title">What I learned in Level 8</h2>
+        <article class="journal-entry">
+          <h3>Using one parent state class to coordinate the visual guidance</h3>
+          <p>
+            The Next button and coachmark sit above the dim layer. The dim layer uses
+            <code>pointer-events: none</code>, so it creates visual emphasis without
+            preventing the learner from clicking Next.
+          </p>
+          <p>
+            One parent class such as <code>is-showing-next-prompt</code> on the outer
+            browser window lets CSS reveal the coachmark, dim the full mock browser, and
+            lift Next above it without JavaScript changing every child separately.
+            Removing the class removes the dimming and hides the coachmark.
+          </p>
+          <p>
+            Wrapping Next changed the direct children of the existing Flexbox controls.
+            A Course 2-scoped override now uses <code>justify-content: center</code> with
+            the chosen <code>80px</code> gap instead of inherited
+            <code>space-between</code>.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-nine">
+        <div class="eyebrow">Level 9 theory</div>
+        <h2>Schedule work for five seconds later</h2>
+        <p class="section-intro">
+          <code>setTimeout()</code> asks the browser to run a function once after a delay.
+          JavaScript measures that delay in milliseconds, so five seconds is
+          <code>5000</code> milliseconds.
+        </p>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The smallest five-second timer</span>
+            <span>Concept preview</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">let</span> <span class="code-name">nextButtonPromptTimer</span> = null;
+
+nextButtonPromptTimer = setTimeout(() =&gt; {
+  nextButtonPromptVisible = true;
+  showNextButtonPrompt();
+}, 5000);</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3>The timer variable begins empty</h3>
+            <span class="concept__example">let nextButtonPromptTimer = null;</span>
+            <p>
+              <code>null</code> means there is currently no scheduled timer stored in the
+              variable.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>setTimeout()</code> schedules one future action</h3>
+            <p>
+              The first argument is the function to run later. The second argument is the
+              waiting time in milliseconds.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The browser returns a timer ID</h3>
+            <p>
+              That returned value is stored in <code>nextButtonPromptTimer</code>. It is a
+              reference to the scheduled work, not the five-second count itself.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The delayed function changes state and updates the screen</h3>
+            <p>
+              After five seconds, it sets <code>nextButtonPromptVisible</code> to
+              <code>true</code> and calls a custom function that applies the visual class.
+            </p>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 34px">Why cancellation matters</h3>
+        <p class="section-intro">
+          Suppose the learner clicks Next after two seconds. The guidance is no longer
+          needed. Without cancellation, the old timer would still finish three seconds
+          later and show an irrelevant prompt.
+        </p>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Cancel the scheduled work</span>
+            <span>Concept preview</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">cancelNextButtonPromptTimer</span>() {
+  clearTimeout(nextButtonPromptTimer);
+  nextButtonPromptTimer = null;
+}</div>
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">S</div>
+            <h3><code>setTimeout()</code></h3>
+            <p>Schedule one function to run once after a delay.</p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">C</div>
+            <h3><code>clearTimeout()</code></h3>
+            <p>Cancel scheduled work by supplying its stored timer ID.</p>
+          </article>
+        </div>
+
+        <div class="callout" style="margin-top: 24px">
+          A timer does not pause JavaScript or freeze the page. It registers work for later
+          while the learner can continue using the course.
+        </div>
+
+        <div class="eyebrow" style="margin-top: 48px">Full interaction anatomy</div>
+        <h2>How the HTML, CSS, and JavaScript work together</h2>
+        <p class="section-intro">
+          No single line creates the complete behavior. The HTML provides targets, CSS
+          defines hidden and visible appearances, and JavaScript changes state and class
+          names at the correct time.
+        </p>
+
+        <h3 style="margin-top: 30px">1. The HTML provides stable anchors</h3>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Your current structure</span>
+            <span>HTML responsibilities</span>
+          </div>
+          <div class="code-card__body code">&lt;div class=<span class="code-string">"browser-window"</span> id=<span class="code-string">"demo-stepper"</span>&gt;
+  &lt;!-- browser mockup and stepper content --&gt;
+
+  &lt;div class=<span class="code-string">"stepper__next-area"</span>&gt;
+    &lt;div class=<span class="code-string">"next-button-prompt"</span>&gt;
+      Click Next to explore more.
+    &lt;/div&gt;
+
+    &lt;button id=<span class="code-string">"demo-next"</span> onclick=<span class="code-string">"demoGo(1)"</span>&gt;
+      Next
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3><code>id="demo-stepper"</code> identifies the full visual area</h3>
+            <p>
+              JavaScript finds this exact element to add or remove the state class. CSS
+              also uses the ID to keep the experiment scoped to this browser mockup.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>stepper__next-area</code> groups the two highlighted elements</h3>
+            <p>
+              The prompt and Next button share one wrapper, so they can be positioned and
+              lifted above the dim layer together.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>next-button-prompt</code> exists even while hidden</h3>
+            <p>
+              JavaScript does not create the message after five seconds. The HTML is
+              already present; CSS initially hides it with <code>display: none</code>.
+            </p>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 38px">2. The CSS defines both visual states</h3>
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">A</div>
+            <h3>Normal state</h3>
+            <p>
+              The pseudo-element has <code>opacity: 0</code>, and the prompt has
+              <code>display: none</code>.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">B</div>
+            <h3>Prompt state</h3>
+            <p>
+              When the parent receives <code>is-showing-next-prompt</code>, the overlay
+              fades to opacity 1 and the prompt changes to <code>display: block</code>.
+            </p>
+          </article>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3><code>#demo-stepper { position: relative; }</code></h3>
+            <p>
+              This makes the browser window the positioning boundary for its absolutely
+              positioned <code>::after</code> dim layer.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>#demo-stepper::after</code> creates the dim layer</h3>
+            <p>
+              A pseudo-element is CSS-generated content. <code>content: ''</code> allows
+              it to exist, and <code>inset: 0</code> stretches it across all four edges of
+              the browser window.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>background-color: rgba(0, 0, 0, 0.55)</code></h3>
+            <p>
+              This creates black with 55% opacity. The content beneath it remains visible
+              but receives less visual emphasis.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>opacity: 0</code> keeps the layer initially invisible</h3>
+            <p>
+              The pseudo-element still exists. This matters because an existing element
+              can animate smoothly between opacity values.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>transition: opacity 0.3s ease</code> controls the fade</h3>
+            <p>
+              Only opacity animates. The browser takes 0.3 seconds to move between
+              <code>0</code> and <code>1</code>, using an eased speed curve.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>pointer-events: none</code> lets clicks pass through</h3>
+            <p>
+              The dim layer is visual only. It does not become an invisible wall that
+              intercepts the learner’s mouse or pointer.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The stacking order separates dimmed and highlighted content</h3>
+            <p>
+              The overlay uses <code>z-index: 1</code>. The Next wrapper uses
+              <code>z-index: 2</code>, so the prompt and Next button are painted above the
+              overlay.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The prompt is positioned relative to the Next wrapper</h3>
+            <p>
+              <code>right: 0</code> aligns their right edges.
+              <code>bottom: calc(100% + 10px)</code> places the prompt one wrapper-height
+              above the button, plus a 10-pixel gap.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The parent state class activates both visual changes</h3>
+            <p>
+              <code>#demo-stepper.is-showing-next-prompt::after</code> reveals the overlay.
+              <code>#demo-stepper.is-showing-next-prompt .next-button-prompt</code> reveals
+              the message.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The controls override is a separate layout adjustment</h3>
+            <p>
+              <code>justify-content: center</code> replaces inherited
+              <code>space-between</code>. Your <code>gap: 80px</code> sets the chosen
+              spacing between Back, the counter, and the Next wrapper.
+            </p>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 38px">3. JavaScript stores two different kinds of memory</h3>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Your two prompt variables</span>
+            <span>State and timer reference</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">let</span> <span class="code-name">nextButtonPromptVisible</span> = false;
+<span class="code-keyword">let</span> <span class="code-name">nextButtonPromptTimer</span> = null;</div>
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">V</div>
+            <h3>Visibility state</h3>
+            <p>
+              <code>nextButtonPromptVisible</code> answers: “Should the prompt currently
+              be visible?”
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">T</div>
+            <h3>Timer reference</h3>
+            <p>
+              <code>nextButtonPromptTimer</code> answers: “Is there scheduled work that we
+              may need to cancel?”
+            </p>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 38px">4. Each function has one main responsibility</h3>
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3><code>renderNextButtonPrompt()</code> synchronizes state with HTML</h3>
+            <span class="concept__example">classList.toggle(
+  'is-showing-next-prompt',
+  nextButtonPromptVisible
+);</span>
+            <p>
+              With a second Boolean argument, <code>classList.toggle()</code> is explicit:
+              add the class when the Boolean is true; remove it when false.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>showNextButtonPrompt()</code> handles normal timer completion</h3>
+            <p>
+              It changes visibility to true, sets the timer reference to
+              <code>null</code> because the scheduled work has finished, and renders the
+              new state.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>hideNextButtonPrompt()</code> changes visibility to false</h3>
+            <p>
+              It then renders that state, which removes the parent class. CSS responds by
+              hiding the prompt and fading out the dim layer.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>cancelNextButtonPrompt()</code> cancels unfinished work</h3>
+            <p>
+              <code>clearTimeout()</code> receives the stored timer ID. Resetting the
+              variable to <code>null</code> records that no timer is now pending.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>scheduleNextButtonPrompt()</code> prevents duplicate timers</h3>
+            <p>
+              It cancels any earlier timer before scheduling a new one. The browser stores
+              the new timer ID in <code>nextButtonPromptTimer</code>.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>demoGo()</code> dismisses guidance before navigation</h3>
+            <p>
+              It first cancels an unfinished timer and hides a visible prompt. It then
+              changes <code>demoActive</code> and calls <code>demoRender()</code> to update
+              the stepper content.
+            </p>
+          </article>
+        </div>
+
+        <h3 style="margin-top: 38px">5. Complete event timelines</h3>
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">5</div>
+            <h3>The learner waits five seconds</h3>
+            <p>
+              Page loads → timer is scheduled → timer finishes →
+              <code>showNextButtonPrompt()</code> runs → Boolean becomes true → parent
+              class is added → CSS fades in dimming and displays the prompt.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">2</div>
+            <h3>The learner clicks after two seconds</h3>
+            <p>
+              Page loads → timer is scheduled → Next calls <code>demoGo(1)</code> →
+              timer is cancelled → Boolean remains false → prompt never appears → stepper
+              moves forward normally.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout" style="margin-top: 24px">
+          The central pattern is: <strong>JavaScript changes state, rendering changes a
+          class, and CSS turns that class into a visual result.</strong>
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-nine">
+        <div class="task-label">Completed task: 9</div>
+        <h2>Implement the five-second timer</h2>
+        <p>
+          Your lifecycle answers are correct. Now replace the hardcoded visual state with
+          JavaScript that waits five seconds, shows the prompt, and dismisses it when the
+          learner navigates.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            Guidance should appear after inactivity, not after the learner has already acted.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            Wait five seconds, unless the learner clicks Next first.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            Schedule with <code>setTimeout()</code> and cancel with <code>clearTimeout()</code>.
+          </div>
+          <div class="task-note">
+            <strong>Smallest safe action</strong>
+            Start the timer on page load. Viewport detection remains a separate next step.
+          </div>
+        </div>
+
+        <h3>Part 1: Remove the hardcoded visible state</h3>
+        <p>
+          On the outer browser window, remove only
+          <code>is-showing-next-prompt</code>. Keep its ID and original class:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The prompt should begin hidden</span>
+            <span>HTML</span>
+          </div>
+          <div class="code-card__body code">&lt;div class=<span class="code-string">"browser-window"</span> id=<span class="code-string">"demo-stepper"</span>&gt;</div>
+        </div>
+
+        <h3>Part 2: Add the prompt state and timer reference</h3>
+        <p>
+          In the live demo stepper script, immediately after
+          <code>let demoActive = 0;</code>, add:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Two new memory variables</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">let</span> <span class="code-name">nextButtonPromptVisible</span> = false;
+<span class="code-keyword">let</span> <span class="code-name">nextButtonPromptTimer</span> = null;</div>
+        </div>
+
+        <h3>Part 3: Add four small functions</h3>
+        <p>
+          Place these after <code>demoRender()</code>. Read each function’s custom name as
+          a description of its one job.
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Show, hide, schedule, and cancel</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">renderNextButtonPrompt</span>() {
+  document
+    .getElementById(<span class="code-string">'demo-stepper'</span>)
+    .classList.toggle(
+      <span class="code-string">'is-showing-next-prompt'</span>,
+      nextButtonPromptVisible
+    );
+}
+
+<span class="code-keyword">function</span> <span class="code-name">showNextButtonPrompt</span>() {
+  nextButtonPromptVisible = true;
+  nextButtonPromptTimer = null;
+  renderNextButtonPrompt();
+}
+
+<span class="code-keyword">function</span> <span class="code-name">hideNextButtonPrompt</span>() {
+  nextButtonPromptVisible = false;
+  renderNextButtonPrompt();
+}
+
+<span class="code-keyword">function</span> <span class="code-name">cancelNextButtonPromptTimer</span>() {
+  clearTimeout(nextButtonPromptTimer);
+  nextButtonPromptTimer = null;
+}
+
+<span class="code-keyword">function</span> <span class="code-name">scheduleNextButtonPrompt</span>() {
+  cancelNextButtonPromptTimer();
+  nextButtonPromptTimer = setTimeout(showNextButtonPrompt, 5000);
+}</div>
+        </div>
+
+        <h3>Part 4: Dismiss it when the learner navigates</h3>
+        <p>
+          Expand the existing <code>demoGo()</code> function so navigation cancels any
+          unfinished timer and hides any visible prompt:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Replace the current one-line function</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">demoGo</span>(direction) {
+  cancelNextButtonPromptTimer();
+  hideNextButtonPrompt();
+
+  demoActive = Math.max(
+    0,
+    Math.min(DEMO_STEPS.length - 1, demoActive + direction)
+  );
+
+  demoRender();
+}</div>
+        </div>
+        <p>
+          This also dismisses the prompt when Back is clicked. That is acceptable for this
+          intermediate version because either navigation action proves that the learner
+          understands the controls.
+        </p>
+
+        <h3>Part 5: Start the timer</h3>
+        <p>
+          At the bottom of the demo script, keep <code>demoRender();</code> and add the
+          schedule call immediately after it:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Temporary page-load behavior</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code">demoRender();
+scheduleNextButtonPrompt();</div>
+        </div>
+
+        <h3>Part 6: Test the behavior</h3>
+        <ol>
+          <li>Refresh: the prompt should begin hidden.</li>
+          <li>Wait five seconds: the dimming and prompt should appear.</li>
+          <li>Click Next: the prompt and dimming should disappear.</li>
+          <li>Refresh and click Next before five seconds: the prompt should never appear.</li>
+        </ol>
+        <p>
+          Make these changes yourself and tell me what happened in all four checks. I will
+          inspect the file before marking Level 9 complete.
+        </p>
+
+        <div class="callout" style="margin-top: 24px">
+          This version starts counting when the page loads, even if the stepper is still
+          below the viewport. That limitation is intentional. Level 10 will move the timer
+          start to the moment the browser window becomes visible.
+        </div>
+      </section>
+
+      <section class="journal" aria-labelledby="level-nine-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-nine-journey-title">What I learned in Level 9</h2>
+        <article class="journal-entry">
+          <h3>Scheduling, showing, cancelling, and hiding delayed guidance</h3>
+          <p>
+            <code>setTimeout()</code> schedules the prompt for five seconds later and
+            returns a timer ID. That ID is stored in
+            <code>nextButtonPromptTimer</code> so <code>clearTimeout()</code> can cancel
+            the pending work if the learner navigates first.
+          </p>
+          <p>
+            The Boolean <code>nextButtonPromptVisible</code> controls whether
+            <code>classList.toggle()</code> adds or removes
+            <code>is-showing-next-prompt</code>. CSS then fades the dim layer and shows or
+            hides the prompt.
+          </p>
+          <p>
+            The current version schedules on page load. It is functional, but the timer
+            may finish before the learner scrolls to the interaction. Level 10 corrects
+            that behavior.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-ten">
+        <div class="eyebrow">Level 10 theory</div>
+        <h2>Start the timer when the interaction is actually visible</h2>
+        <p class="section-intro">
+          <code>IntersectionObserver</code> is a browser feature that reports when an
+          observed element enters or leaves the viewport. We will use it to begin the
+          five-second wait only when at least half of the browser mockup is visible.
+        </p>
+
+        <div class="callout" style="margin-top: 24px">
+          <strong>Course rule from this point onward:</strong> active tasks build and test
+          real behavior. Theory explains the implementation, but a theory-only quiz is not
+          considered an active task.
+        </div>
+
+        <div class="flow" aria-label="How viewport visibility controls the timer">
+          <div class="flow__step">
+            <strong>Observe</strong>
+            Watch <code>#demo-stepper</code>.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Enter view</strong>
+            At 50% visibility, schedule the five-second timer.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Leave view</strong>
+            Cancel the timer and hide the prompt.
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The visibility observer</span>
+            <span>Next implementation</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">handleDemoStepperVisibility</span>(entries) {
+  <span class="code-keyword">const</span> [entry] = entries;
+
+  <span class="code-keyword">if</span> (entry.isIntersecting) {
+    scheduleNextButtonPrompt();
+  } <span class="code-keyword">else</span> {
+    cancelNextButtonPrompt();
+    hideNextButtonPrompt();
+  }
+}
+
+<span class="code-keyword">const</span> <span class="code-name">demoStepperObserver</span> =
+  <span class="code-keyword">new</span> IntersectionObserver(
+    handleDemoStepperVisibility,
+    { threshold: 0.5 }
+  );
+
+demoStepperObserver.observe(
+  document.getElementById(<span class="code-string">'demo-stepper'</span>)
+);</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3><code>IntersectionObserver</code> is the official browser feature</h3>
+            <p>
+              <code>handleDemoStepperVisibility</code> and
+              <code>demoStepperObserver</code> are custom names chosen for this project.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The callback receives an array of observation reports</h3>
+            <p>
+              <code>entries</code> is an array. Because we observe one element,
+              <code>const [entry] = entries;</code> takes its first report and gives it the
+              clearer singular name <code>entry</code>.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>entry.isIntersecting</code> is a Boolean</h3>
+            <p>
+              It is true when the observed element meets the visibility threshold and
+              false when it does not.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3><code>threshold: 0.5</code> means 50% visible</h3>
+            <p>
+              The callback changes state when roughly half of the observed browser window
+              crosses into or out of the viewport.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>Entering and leaving have opposite cleanup behavior</h3>
+            <p>
+              Entering schedules the timer. Leaving cancels unfinished work and hides
+              guidance that is already visible.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-ten">
+        <div class="task-label">Completed task: 10</div>
+        <h2>Implement viewport-aware timing</h2>
+        <p>
+          Replace the page-load timer start with an observer that responds to the browser
+          mockup entering and leaving the viewport.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            The five seconds should not expire while the interaction is still off screen.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            Start waiting at 50% visibility and cancel when the mock browser leaves view.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            A browser observer calls your function when viewport intersection changes.
+          </div>
+          <div class="task-note">
+            <strong>Hands-on outcome</strong>
+            The timing now follows what the learner can actually see.
+          </div>
+        </div>
+
+        <h3>Part 1: Remove the page-load schedule call</h3>
+        <p>
+          At the bottom of the demo script, remove:
+          <code>scheduleNextButtonPrompt();</code>. Keep <code>demoRender();</code>.
+        </p>
+
+        <h3>Part 2: Add the observer</h3>
+        <p>
+          After your prompt functions and stepper functions, but before
+          <code>demoRender();</code>, add:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Observe the browser mockup</span>
+            <span>Add this yourself</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">handleDemoStepperVisibility</span>(entries) {
+  <span class="code-keyword">const</span> [entry] = entries;
+
+  <span class="code-keyword">if</span> (entry.isIntersecting) {
+    scheduleNextButtonPrompt();
+  } <span class="code-keyword">else</span> {
+    cancelNextButtonPrompt();
+    hideNextButtonPrompt();
+  }
+}
+
+<span class="code-keyword">const</span> <span class="code-name">demoStepperObserver</span> =
+  <span class="code-keyword">new</span> IntersectionObserver(
+    handleDemoStepperVisibility,
+    { threshold: 0.5 }
+  );
+
+demoStepperObserver.observe(
+  document.getElementById(<span class="code-string">'demo-stepper'</span>)
+);</div>
+        </div>
+
+        <h3>Part 3: Test four real scenarios</h3>
+        <ol>
+          <li>
+            Refresh near the top of the page and wait longer than five seconds without
+            showing the mock browser. When you scroll to it, the prompt should not already
+            be visible.
+          </li>
+          <li>
+            Bring at least half of the mock browser into view and wait five seconds. The
+            prompt and dimming should appear.
+          </li>
+          <li>
+            Refresh, bring it into view, then scroll it out of view before five seconds.
+            The unfinished timer should be cancelled.
+          </li>
+          <li>
+            Let the prompt appear, then scroll the mock browser out of view. The prompt
+            should hide.
+          </li>
+        </ol>
+        <p>
+          Implement and test this yourself, then report what happened in each scenario. A
+          repeat on re-entry is expected in this version; Level 11 will add dismissal and
+          one-time rules.
+        </p>
+      </section>
+
+      <section class="journal" aria-labelledby="level-ten-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-ten-journey-title">What I learned in Level 10</h2>
+        <article class="journal-entry">
+          <h3>Starting and resetting delayed guidance from viewport visibility</h3>
+          <p>
+            <code>IntersectionObserver</code> watches the full browser mockup. When at
+            least 50% becomes visible, it schedules the five-second timer. The timer does
+            not begin while the interaction remains off screen.
+          </p>
+          <p>
+            Leaving the viewport cancels unfinished scheduled work and hides a prompt that
+            is already visible. Re-entering currently schedules a new timer, which Level 11
+            will prevent after the learner has demonstrated they understand the controls.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-eleven">
+        <div class="eyebrow">Level 11 theory</div>
+        <h2>Remember that the learner has dismissed the guidance</h2>
+        <p class="section-intro">
+          Visibility state answers whether the prompt is showing right now. Dismissal state
+          answers a different question: should this page session ever schedule it again?
+        </p>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">V</div>
+            <h3><code>nextButtonPromptVisible</code></h3>
+            <p>
+              Temporary display state. It moves between true and false whenever the prompt
+              appears or disappears.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">D</div>
+            <h3><code>nextButtonPromptDismissed</code></h3>
+            <p>
+              Session decision state. Once true, new prompt timers should not be scheduled
+              again during that page load.
+            </p>
+          </article>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The one-time guard</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">let</span> <span class="code-name">nextButtonPromptDismissed</span> = false;
+
+<span class="code-keyword">function</span> <span class="code-name">scheduleNextButtonPrompt</span>() {
+  <span class="code-keyword">if</span> (nextButtonPromptDismissed) return;
+
+  cancelNextButtonPrompt();
+  nextButtonPromptTimer = setTimeout(showNextButtonPrompt, 5000);
+}</div>
+        </div>
+
+        <div class="breakdown">
+          <article class="breakdown__step">
+            <h3>The new Boolean begins false</h3>
+            <p>
+              The learner has not dismissed anything yet, so the observer may schedule the
+              guidance when the mock browser becomes visible.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>The guard clause stops unnecessary work early</h3>
+            <span class="concept__example">if (nextButtonPromptDismissed) return;</span>
+            <p>
+              When dismissal is true, <code>return</code> exits the schedule function
+              immediately. No timer is created.
+            </p>
+          </article>
+          <article class="breakdown__step">
+            <h3>A dedicated dismiss function coordinates cleanup</h3>
+            <p>
+              It records the learner’s decision, cancels pending work, and hides current
+              guidance in one reusable place.
+            </p>
+          </article>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>The dismissal function</span>
+            <span>One coordinated action</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">dismissNextButtonPrompt</span>() {
+  nextButtonPromptDismissed = true;
+  cancelNextButtonPrompt();
+  hideNextButtonPrompt();
+}</div>
+        </div>
+
+        <div class="callout" style="margin-top: 24px">
+          This memory lasts only until the page reloads. We are deliberately not using
+          <code>localStorage</code>: remembering across visits would require a product
+          decision about whether the guidance should ever return.
+        </div>
+      </section>
+
+      <section class="task is-complete" id="task-eleven">
+        <div class="task-label">Completed task: 11</div>
+        <h2>Implement one-time dismissal and cleanup</h2>
+        <p>
+          Make the prompt stop returning after the learner clicks Next or directly selects
+          a step.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            Repeating guidance after the learner understands the interaction becomes an interruption.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            One navigation action permanently dismisses the prompt for this page load.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            A Boolean guard prevents future work after dismissal.
+          </div>
+          <div class="task-note">
+            <strong>Hands-on outcome</strong>
+            Scrolling away and back no longer causes the guidance to return.
+          </div>
+        </div>
+
+        <h3>Part 1: Add dismissal state</h3>
+        <p>
+          Add this beside the other prompt variables:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Session dismissal memory</span>
+            <span>Add this yourself</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">let</span> <span class="code-name">nextButtonPromptDismissed</span> = false;</div>
+        </div>
+
+        <h3>Part 2: Add one dismissal function</h3>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Record, cancel, and hide</span>
+            <span>Add this yourself</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">dismissNextButtonPrompt</span>() {
+  nextButtonPromptDismissed = true;
+  cancelNextButtonPrompt();
+  hideNextButtonPrompt();
+}</div>
+        </div>
+
+        <h3>Part 3: Guard the schedule function</h3>
+        <p>
+          Add the guard as the first line inside your existing
+          <code>scheduleNextButtonPrompt()</code>:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Updated scheduler</span>
+            <span>Replace the current function</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">scheduleNextButtonPrompt</span>() {
+  <span class="code-keyword">if</span> (nextButtonPromptDismissed) return;
+
+  cancelNextButtonPrompt();
+  nextButtonPromptTimer = setTimeout(showNextButtonPrompt, 5000);
+}</div>
+        </div>
+
+        <h3>Part 4: Use dismissal from both navigation routes</h3>
+        <p>
+          Replace the one-line <code>demoSet()</code> with:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Direct step selection</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">demoSet</span>(stepPosition) {
+  dismissNextButtonPrompt();
+  demoActive = stepPosition;
+  demoRender();
+}</div>
+        </div>
+        <p>
+          At the beginning of <code>demoGo()</code>, replace the separate cancel and hide
+          calls with:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Back and Next navigation</span>
+            <span>First line inside demoGo</span>
+          </div>
+          <div class="code-card__body code">dismissNextButtonPrompt();</div>
+        </div>
+
+        <h3>Part 5: Test the complete dismissal lifecycle</h3>
+        <ol>
+          <li>
+            Refresh, show 50% of the mock browser, wait five seconds, then click Next. Scroll
+            away and back. The prompt must not return.
+          </li>
+          <li>
+            Refresh, show 50%, and click Next before five seconds. Scroll away and back and
+            wait. The prompt must never appear.
+          </li>
+          <li>
+            Refresh and directly click a numbered step before five seconds. Scroll away and
+            back. The prompt must not appear.
+          </li>
+          <li>
+            Refresh without interacting. The prompt should be eligible again because the
+            dismissal state resets on page load.
+          </li>
+        </ol>
+        <p>
+          Implement and test all four scenarios. Level 12 will be the final integration
+          review, edge-case cleanup, and documentation pass.
+        </p>
+      </section>
+
+      <section class="journal" aria-labelledby="level-eleven-journey-title">
+        <div class="eyebrow">Completed learning journey</div>
+        <h2 id="level-eleven-journey-title">What I learned in Level 11</h2>
+        <article class="journal-entry">
+          <h3>Separating temporary visibility from one-time dismissal</h3>
+          <p>
+            <code>nextButtonPromptVisible</code> controls whether the prompt is showing
+            now. <code>nextButtonPromptDismissed</code> remembers that the learner has
+            already used the interaction and should not receive another prompt during the
+            same page load.
+          </p>
+          <p>
+            The scheduler uses an early-return guard to prevent future timers after
+            dismissal. Both numbered-step selection and Back/Next navigation call one
+            shared dismissal function that records the decision, cancels pending work, and
+            hides visible guidance.
+          </p>
+        </article>
+      </section>
+
+      <section class="section" id="level-twelve">
+        <div class="eyebrow">Level 12 theory</div>
+        <h2>Finish the interaction as one maintainable lifecycle</h2>
+        <p class="section-intro">
+          The main behavior works. The final pass closes the remaining navigation gap,
+          improves the prompt’s visual transition, and verifies the entire lifecycle from
+          page load through dismissal and reload.
+        </p>
+
+        <div class="flow" aria-label="The completed prompt lifecycle">
+          <div class="flow__step">
+            <strong>Eligible</strong>
+            Page loads with dismissal false and prompt hidden.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Waiting or showing</strong>
+            Viewport entry schedules the timer; completion shows guidance.
+          </div>
+          <div class="flow__arrow" aria-hidden="true">→</div>
+          <div class="flow__step">
+            <strong>Dismissed</strong>
+            Any meaningful stepper navigation prevents it returning until reload.
+          </div>
+        </div>
+
+        <div class="map-grid">
+          <article class="map-card">
+            <div class="map-card__icon">R</div>
+            <h3>Remaining route: Start over</h3>
+            <p>
+              Reset is also a meaningful learner action. It should use the same dismissal
+              function before restoring step position zero.
+            </p>
+          </article>
+          <article class="map-card">
+            <div class="map-card__icon">F</div>
+            <h3>Remaining polish: prompt fade</h3>
+            <p>
+              <code>display: none</code> cannot animate. Keeping the prompt rendered and
+              transitioning opacity and transform creates a smoother entrance and exit.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="task" id="task-twelve">
+        <div class="task-label">Active task: 12</div>
+        <h2>Complete, polish, and verify the coachmark</h2>
+        <p>
+          This final active task changes working code and tests the completed interaction.
+        </p>
+
+        <div class="task-grid">
+          <div class="task-note">
+            <strong>Learner-facing problem</strong>
+            Every navigation route should dismiss guidance consistently.
+          </div>
+          <div class="task-note">
+            <strong>What should happen</strong>
+            The prompt fades smoothly and never repeats after learner action.
+          </div>
+          <div class="task-note">
+            <strong>JavaScript concept</strong>
+            One lifecycle function is reused across all dismissal routes.
+          </div>
+          <div class="task-note">
+            <strong>Hands-on outcome</strong>
+            A tested, documented coachmark ready to keep in Course 2.
+          </div>
+        </div>
+
+        <h3>Part 1: Make Start over dismiss guidance</h3>
+        <p>
+          Update the existing reset function:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Complete the final navigation route</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="code-card__body code"><span class="code-keyword">function</span> <span class="code-name">demoReset</span>() {
+  dismissNextButtonPrompt();
+  demoActive = 0;
+  demoRender();
+}</div>
+        </div>
+
+        <h3>Part 2: Replace abrupt prompt display with a transition</h3>
+        <p>
+          In the base <code>.next-button-prompt</code> rule, remove
+          <code>display: none;</code> and add:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Hidden prompt state</span>
+            <span>CSS</span>
+          </div>
+          <div class="code-card__body code">opacity: 0;
+visibility: hidden;
+transform: translateY(6px);
+transition:
+  opacity 0.2s ease,
+  transform 0.2s ease,
+  visibility 0s linear 0.2s;</div>
+        </div>
+        <p>
+          Replace the state rule’s <code>display: block;</code> with:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Visible prompt state</span>
+            <span>CSS</span>
+          </div>
+          <div class="code-card__body code">opacity: 1;
+visibility: visible;
+transform: translateY(0);
+transition-delay: 0s;</div>
+        </div>
+
+        <h3>Part 3: Add short maintenance comments</h3>
+        <p>
+          Add one comment above the local coachmark CSS and one above its JavaScript state:
+        </p>
+        <div class="code-card">
+          <div class="code-card__bar">
+            <span>Orientation comments</span>
+            <span>CSS and JavaScript</span>
+          </div>
+          <div class="code-card__body code">/* Delayed Next-button prompt for the live demo stepper */
+
+// Next-button prompt state, timer, dismissal, and viewport lifecycle</div>
+        </div>
+
+        <h3>Part 4: Run the final test matrix</h3>
+        <ol>
+          <li>Off screen for over five seconds: no prompt yet.</li>
+          <li>50% visible for five seconds: overlay and prompt fade in.</li>
+          <li>Leave before five seconds: pending timer is cancelled.</li>
+          <li>Leave after it appears: prompt hides.</li>
+          <li>Click Next, Back, a numbered step, or Start over: prompt dismisses.</li>
+          <li>Scroll away and back after dismissal: prompt does not return.</li>
+          <li>Reload: prompt becomes eligible again.</li>
+          <li>Final step: Next remains disabled and no dismissed prompt returns.</li>
+        </ol>
+        <p>
+          Make the three small code changes and test all eight scenarios. Report any
+          failures precisely; otherwise, this completes the learning path and the feature.
+        </p>
+      </section>
+
+      <section class="section" id="roadmap">
+        <div class="eyebrow">The path ahead</div>
+        <h2>Twelve levels, one idea at a time</h2>
+        <div class="roadmap">
+          <article class="roadmap__item">
+            <div class="roadmap__number">1</div>
+            <div>
+              <h3>Reading JavaScript without panic</h3>
+              <p>Recognize comments, variables, arrays, objects, functions, and custom names.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">2</div>
+            <div>
+              <h3>Finding and changing text</h3>
+              <p>Trace visible text from an object into the HTML, then make one tiny edit.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">3</div>
+            <div>
+              <h3>Finding HTML elements</h3>
+              <p>Understand how IDs connect HTML elements to JavaScript instructions.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">4</div>
+            <div>
+              <h3>Responding to clicks</h3>
+              <p>Follow a learner click from the button to the function and screen update.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">5</div>
+            <div>
+              <h3>Changing CSS classes</h3>
+              <p>See how JavaScript changes a class and CSS controls the visual result.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">6</div>
+            <div>
+              <h3>Understanding state</h3>
+              <p>Learn how a variable remembers the current step between learner actions.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">7</div>
+            <div>
+              <h3>Boolean visibility state</h3>
+              <p>Represent whether the coachmark should be shown or hidden.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">8</div>
+            <div>
+              <h3>Static coachmark and dimming</h3>
+              <p>Create the visual guidance and control it with a class.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">9</div>
+            <div>
+              <h3>Five-second timer</h3>
+              <p>Schedule and cancel delayed behavior safely.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">10</div>
+            <div>
+              <h3>Viewport visibility</h3>
+              <p>Start the timer only when the stepper is actually on screen.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item">
+            <div class="roadmap__number">11</div>
+            <div>
+              <h3>Dismissal and cleanup</h3>
+              <p>Cancel timers, hide on action, and prevent unwanted repeats.</p>
+            </div>
+            <span class="status">Complete</span>
+          </article>
+          <article class="roadmap__item is-current">
+            <div class="roadmap__number">12</div>
+            <div>
+              <h3>Complete coachmark</h3>
+              <p>Assemble and test the full learner experience.</p>
+            </div>
+            <span class="status">Current</span>
+          </article>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        Progress and reflection text are stored locally in this browser. This file will be
+        updated as each coached task is completed.
+      </p>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'course-2-javascript-learning-path';
+
+    function getSavedWork() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function saveWork(changes) {
+      const current = getSavedWork();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...current, ...changes }));
+    }
+
+    document.querySelectorAll('[data-scroll-to]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById(button.dataset.scrollTo).scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-reveal]').forEach(button => {
+      button.addEventListener('click', () => {
+        const concept = button.closest('.concept');
+        const isOpen = concept.classList.toggle('is-open');
+        button.textContent = isOpen ? 'Hide definition and examples' : 'Show definition and examples';
+      });
+    });
+
+    const quiz = document.getElementById('task-one-quiz');
+    const quizFeedback = document.getElementById('quiz-feedback');
+
+    quiz.addEventListener('submit', event => {
+      event.preventDefault();
+      const answers = new FormData(quiz);
+      const answered = ['q1', 'q2', 'q3'].every(name => answers.has(name));
+      const correct =
+        answers.get('q1') === 'DEMO_STEPS' &&
+        answers.get('q2') === 'state' &&
+        answers.get('q3') === 'demoRender';
+
+      quizFeedback.className = 'feedback is-visible';
+
+      if (!answered) {
+        quizFeedback.classList.add('is-try-again');
+        quizFeedback.textContent = 'Choose one answer for each question, then check again.';
+        return;
+      }
+
+      if (correct) {
+        quizFeedback.classList.add('is-success');
+        quizFeedback.textContent =
+          'You identified the content list, the memory variable, and the function. Save your own explanation below so we can review your understanding, not just the answers.';
+        saveWork({ taskOneQuizPassed: true });
+      } else {
+        quizFeedback.classList.add('is-try-again');
+        quizFeedback.textContent =
+          'Not quite yet. Return to the colored code extract: pink names are custom project names, and comments describe the role of each section.';
+      }
+    });
+
+    document.getElementById('reset-quiz').addEventListener('click', () => {
+      quiz.reset();
+      quizFeedback.className = 'feedback';
+      quizFeedback.textContent = '';
+    });
+
+    const reflection = document.getElementById('task-one-reflection');
+    const saveStatus = document.getElementById('save-status');
+    const savedWork = getSavedWork();
+
+    if (savedWork.taskOneReflection) {
+      reflection.value = savedWork.taskOneReflection;
+    }
+
+    if (savedWork.taskOneQuizPassed) {
+      quizFeedback.className = 'feedback is-visible is-success';
+      quizFeedback.textContent =
+        'Your reading check was passed earlier. You can still revisit the questions whenever useful.';
+    }
+
+    document.getElementById('save-reflection').addEventListener('click', () => {
+      const response = reflection.value.trim();
+
+      if (!response) {
+        saveStatus.textContent = 'Write a short explanation before saving.';
+        return;
+      }
+
+      saveWork({ taskOneReflection: response });
+      saveStatus.textContent = 'Saved in this browser.';
+    });
+  </script>
+</body>
+</html>

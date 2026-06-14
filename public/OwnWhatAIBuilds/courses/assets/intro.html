@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Own What AI Builds — animation concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800;900&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #5B0606;
+    --blue-card: #1A1A2E;
+    --blue-bg: #1C253C;
+    --gold: #F6C785;
+    --gray: #E8E6E6;
+    --thin-border: #f6c78534;
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-body: 'Crimson Pro', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  /* ── Shell — same anatomy as .hero-visual in project-page.html ── */
+  .file-anim {
+    width: 460px;
+    background: var(--blue-bg);
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+  }
+  .file-anim__bar { display: flex; align-items: center; gap: 6px; padding: 4px 4px 12px; }
+  .file-anim__bar span:not(.file-anim__name) {
+    width: 11px; height: 11px; border-radius: 50%; background: #3a3a52;
+  }
+  .file-anim__name {
+    margin-left: 8px;
+    font-family: monospace;
+    font-size: 11px;
+    color: rgba(232, 230, 230, 0.35);
+  }
+  .file-anim__panes { display: grid; grid-template-columns: 1.15fr 1fr; gap: 12px; }
+  .file-anim__pane { background: var(--blue-card); border-radius: 8px; padding: 14px; }
+  .file-anim__tag {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* ── Code pane ── */
+  .code-lines { position: relative; display: flex; flex-direction: column; gap: 10px; }
+  .code-line {
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(246, 199, 133, 0.14);
+  }
+  .code-line--indent { margin-left: 18px; }
+  .code-line--target { display: flex; align-items: center; gap: 8px; }
+  .code-line__chip {
+    width: 8px; height: 8px; border-radius: 50%;
+    background-color: #2563eb;
+    animation: chip-color 14s ease-in-out infinite;
+  }
+  .scan {
+    position: absolute;
+    left: -6px; right: -6px;
+    height: 18px;
+    border-radius: 5px;
+    background: rgba(246, 199, 133, 0.10);
+    border: 1px solid rgba(246, 199, 133, 0.35);
+    animation: scan-move 14s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  /* ── Output pane ── */
+  .out-heading {
+    height: 14px;
+    width: 72%;
+    border-radius: 4px;
+    background-color: #2563eb;
+    margin-bottom: 12px;
+    animation: chip-color 14s ease-in-out infinite;
+  }
+  .out-line { height: 8px; border-radius: 4px; background: rgba(232, 230, 230, 0.18); margin-bottom: 8px; }
+
+  @keyframes scan-move {
+    0%   { transform: translateY(-2px); opacity: 0; }
+    4%   { transform: translateY(-2px); opacity: 1; }
+    17%  { transform: translateY(13px); }
+    30%  { transform: translateY(31px); }
+    50%  { transform: translateY(31px); }
+    63%  { transform: translateY(49px); }
+    76%  { transform: translateY(67px); }
+    89%  { transform: translateY(85px); }
+    95%  { transform: translateY(85px); opacity: 1; }
+    100% { transform: translateY(85px); opacity: 0; }
+  }
+
+  @keyframes chip-color {
+    0%   { background-color: #2563eb; }
+    30%  { background-color: #2563eb; }
+    40%  { background-color: #5B0606; }
+    88%  { background-color: #5B0606; }
+    100% { background-color: #2563eb; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scan { display: none; }
+    .code-line__chip, .out-heading { animation: none; background-color: #5B0606; }
+  }
+</style>
+</head>
+<body>
+  <div class="file-anim" aria-hidden="true">
+    <div class="file-anim__bar">
+      <span></span><span></span><span></span>
+      <span class="file-anim__name">style.css</span>
+    </div>
+    <div class="file-anim__panes">
+      <div class="file-anim__pane">
+        <span class="file-anim__tag">Your code</span>
+        <div class="code-lines">
+          <div class="scan"></div>
+          <div class="code-line" style="width: 55%"></div>
+          <div class="code-line code-line--indent" style="width: 70%"></div>
+          <div class="code-line code-line--indent code-line--target" style="width: 50%">
+            <span class="code-line__chip"></span>
+          </div>
+          <div class="code-line code-line--indent" style="width: 62%"></div>
+          <div class="code-line code-line--indent" style="width: 40%"></div>
+          <div class="code-line" style="width: 14%"></div>
+        </div>
+      </div>
+      <div class="file-anim__pane">
+        <span class="file-anim__tag">Your output</span>
+        <div class="out-heading"></div>
+        <div class="out-line" style="width: 90%"></div>
+        <div class="out-line" style="width: 75%"></div>
+        <div class="out-line" style="width: 82%"></div>
+      </div>
+    </div>
+  </div>
+  <script src="../shared/resize-reporter.js"></script>
+</body>
+</html>

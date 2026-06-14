@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Course Storyboard Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:       #5B0606;
+    --blue-card: #1A1A2E;
+    --blue-bg:   #1C253C;
+    --gold:      #F6C785;
+    --gray:      #E8E6E6;
+    --white:     #FAFAF8;
+    --ink:       #363838;
+    --dark-gray: #525252;
+    --border:    #D4D2D0;
+    --thin-border: #f6c78534;
+    --surface:   #F3F2F0;
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-body:    'Crimson Pro', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--white);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: var(--red);
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .topbar__title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .topbar__actions { margin-left: auto; display: flex; gap: 8px; }
+  .topbar__btn {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+  }
+  .topbar__btn:hover { opacity: 0.85; }
+  .topbar__btn--ghost {
+    background: transparent;
+    border: 1px solid rgba(232,230,230,0.4);
+    color: var(--gray);
+  }
+  .topbar__btn--gold {
+    background: var(--gold);
+    color: var(--blue-card);
+    font-weight: 800;
+  }
+
+  /* ── Main layout ── */
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 220px 1fr 420px;
+    overflow: hidden;
+  }
+
+  /* ── Nav rail ── */
+  .nav-rail {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 20px 0;
+  }
+  .nav-rail__label {
+    font-family: var(--font-display);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dark-gray);
+    padding: 0 16px 10px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+    user-select: none;
+  }
+  .nav-item:hover { background: rgba(91,6,6,0.05); }
+  .nav-item.is-active {
+    background: rgba(91,6,6,0.08);
+    border-left-color: var(--red);
+  }
+  .nav-item__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dark-gray);
+    background: transparent;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .nav-item.has-data .nav-item__dot {
+    background: var(--red);
+    border-color: var(--red);
+  }
+  .nav-item__label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--dark-gray);
+  }
+  .nav-item.is-active .nav-item__label { color: var(--red); }
+
+  /* ── Form panel ── */
+  .form-panel {
+    overflow-y: auto;
+    padding: 28px 32px 60px;
+  }
+
+  .section-block { display: none; }
+  .section-block.is-visible { display: block; }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: var(--dark-gray);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* Form elements */
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark-gray);
+    margin-bottom: 6px;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus { border-color: var(--red); }
+  .field textarea { min-height: 80px; line-height: 1.6; }
+  .field--mono input,
+  .field--mono textarea {
+    font-family: monospace;
+    font-size: 13px;
+  }
+  .field-hint {
+    font-size: 12px;
+    color: var(--dark-gray);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  /* Tags / multi-select */
+  .tag-input-wrap {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: var(--white);
+    cursor: text;
+    min-height: 42px;
+    align-items: center;
+    transition: border-color 0.2s;
+  }
+  .tag-input-wrap:focus-within { border-color: var(--red); }
+  .tag {
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tag__remove {
+    cursor: pointer;
+    opacity: 0.7;
+    font-size: 11px;
+    line-height: 1;
+  }
+  .tag__remove:hover { opacity: 1; }
+  .tag-input {
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: transparent;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  /* Dynamic list (sections, interactions) */
+  .dynamic-list { display: flex; flex-direction: column; gap: 16px; }
+  .dynamic-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .dynamic-item__head {
+    background: var(--surface);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .dynamic-item__num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--red);
+    min-width: 22px;
+  }
+  .dynamic-item__name {
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    flex: 1;
+  }
+  .dynamic-item__toggle {
+    font-size: 12px;
+    color: var(--dark-gray);
+    transition: transform 0.2s;
+  }
+  .dynamic-item.is-open .dynamic-item__toggle { transform: rotate(180deg); }
+  .dynamic-item__remove {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--dark-gray);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .dynamic-item__remove:hover { color: var(--red); border-color: var(--red); }
+  .dynamic-item__body {
+    display: none;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .dynamic-item.is-open .dynamic-item__body { display: block; }
+
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+    background: transparent;
+    border: 1px dashed rgba(91,6,6,0.35);
+    border-radius: 5px;
+    padding: 10px 16px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+    margin-top: 4px;
+  }
+  .add-btn:hover { border-color: var(--red); background: rgba(91,6,6,0.04); }
+
+  /* Divider */
+  .form-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+  }
+
+  /* ── Output panel ── */
+  .output-panel {
+    background: var(--blue-bg);
+    border-left: 1px solid rgba(246,199,133,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .output-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--thin-border);
+    flex-shrink: 0;
+  }
+  .output-tab {
+    padding: 12px 18px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(232,230,230,0.4);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .output-tab:hover { color: var(--gray); }
+  .output-tab.is-active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .output-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .output-pane { display: none; }
+  .output-pane.is-visible { display: block; }
+
+  .output-pre {
+    font-family: monospace;
+    font-size: 12px;
+    color: rgba(232,230,230,0.85);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .output-pre .gold { color: var(--gold); }
+  .output-pre .dim  { color: rgba(232,230,230,0.4); }
+
+  /* Output footer */
+  .output-footer {
+    border-top: 1px solid var(--thin-border);
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  .out-btn {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid var(--thin-border);
+    color: var(--gray);
+    background: transparent;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .out-btn:hover { background: rgba(232,230,230,0.08); border-color: var(--gold); color: var(--gold); }
+  .out-btn--primary {
+    background: var(--gold);
+    color: var(--blue-card);
+    border-color: var(--gold);
+    font-weight: 800;
+  }
+  .out-btn--primary:hover { background: rgba(246,199,133,0.85); color: var(--blue-card); }
+
+  /* Checklist */
+  .checklist { display: flex; flex-direction: column; gap: 10px; }
+  .checklist-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--thin-border);
+  }
+  .checklist-item.is-ok { border-color: rgba(246,199,133,0.3); }
+  .checklist-item.is-warn { border-color: rgba(91,6,6,0.4); }
+  .check-icon { font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .check-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+  .check-sub {
+    font-size: 12px;
+    color: rgba(232,230,230,0.5);
+    font-family: var(--font-body);
+    margin-top: 2px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--blue-card);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 10px 18px;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.visible { opacity: 1; transform: translateY(0); }
+
+  /* Scrollbar styling for dark panels */
+  .output-content::-webkit-scrollbar { width: 6px; }
+  .output-content::-webkit-scrollbar-track { background: transparent; }
+  .output-content::-webkit-scrollbar-thumb { background: rgba(246,199,133,0.2); border-radius: 3px; }
+  .nav-rail::-webkit-scrollbar { width: 4px; }
+  .nav-rail::-webkit-scrollbar-thumb { background: rgba(91,6,6,0.2); border-radius: 2px; }
+  .form-panel::-webkit-scrollbar { width: 6px; }
+  .form-panel::-webkit-scrollbar-thumb { background: rgba(91,6,6,0.15); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <span class="topbar__title">Course Storyboard Generator</span>
+  <div class="topbar__actions">
+    <button class="topbar__btn topbar__btn--ghost" onclick="importJSON()">Import JSON</button>
+    <button class="topbar__btn topbar__btn--ghost" onclick="resetAll()">Reset</button>
+    <button class="topbar__btn topbar__btn--gold" onclick="generateAll()">Generate ▶</button>
+  </div>
+</div>
+
+<input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Nav rail -->
+  <nav class="nav-rail">
+    <div class="nav-rail__label">Sections</div>
+    <div class="nav-item is-active" data-section="identity" onclick="switchSection('identity')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Artifact</span>
+    </div>
+    <div class="nav-item" data-section="problem" onclick="switchSection('problem')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Problem &amp; Outcome</span>
+    </div>
+    <div class="nav-item" data-section="structure" onclick="switchSection('structure')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Course Structure</span>
+    </div>
+    <div class="nav-item" data-section="interactions" onclick="switchSection('interactions')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Interactions</span>
+    </div>
+    <div class="nav-item" data-section="design" onclick="switchSection('design')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Design Direction</span>
+    </div>
+    <div class="nav-item" data-section="technical" onclick="switchSection('technical')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Technical</span>
+    </div>
+    <div class="nav-item" data-section="buildinstr" onclick="switchSection('buildinstr')">
+      <div class="nav-item__dot"></div>
+      <span class="nav-item__label">Build Instructions</span>
+    </div>
+  </nav>
+
+  <!-- Form panel -->
+  <div class="form-panel" id="form-panel">
+
+    <!-- 1. Artifact identity -->
+    <div class="section-block is-visible" id="sec-identity">
+      <div class="section-title">Artifact Identity</div>
+      <div class="section-desc">Define what you're building. The clearer this is, the more specific the generated prompt.</div>
+
+      <div class="field">
+        <label>Artifact name</label>
+        <input type="text" id="art-name" placeholder="e.g. Instructional Alignment 101" oninput="markDirty('identity')">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Artifact type</label>
+          <select id="art-type" onchange="markDirty('identity')">
+            <option value="">Select type…</option>
+            <option>Learning course</option>
+            <option>Portfolio page</option>
+            <option>Interactive explainer</option>
+            <option>Scenario activity</option>
+            <option>Knowledge check</option>
+            <option>Reusable component</option>
+            <option>Job aid</option>
+            <option>Simulation</option>
+            <option>Landing page</option>
+            <option>Data story</option>
+            <option>Reflection tool</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="art-status" onchange="markDirty('identity')">
+            <option value="draft">Draft</option>
+            <option value="prototype">Prototype</option>
+            <option value="polished">Polished</option>
+            <option value="final">Final</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Platform / context</label>
+        <input type="text" id="art-platform" placeholder="e.g. Standalone HTML page hosted on Vercel, embedded in LMS" oninput="markDirty('identity')">
+      </div>
+      <div class="field">
+        <label>Primary purpose</label>
+        <input type="text" id="art-purpose" placeholder="e.g. Teach L&D professionals to align objectives with assessment" oninput="markDirty('identity')">
+      </div>
+      <div class="field">
+        <label>Audience</label>
+        <input type="text" id="art-audience" placeholder="e.g. Non-technical L&D professionals, intermediate" oninput="markDirty('identity')">
+      </div>
+      <div class="field">
+        <label>Success definition</label>
+        <textarea id="art-success" placeholder="What does 'done' look like? e.g. Learner can write a measurable objective without a template." oninput="markDirty('identity')"></textarea>
+      </div>
+    </div>
+
+    <!-- 2. Problem & outcome -->
+    <div class="section-block" id="sec-problem">
+      <div class="section-title">Problem &amp; Outcome</div>
+      <div class="section-desc">Define the gap and what this artifact closes. This is what stops AI from filling blanks with plausible filler.</div>
+
+      <div class="field">
+        <label>Current problem</label>
+        <textarea id="prob-problem" placeholder="What's broken or missing right now?" oninput="markDirty('problem')"></textarea>
+      </div>
+      <div class="field">
+        <label>User need</label>
+        <textarea id="prob-need" placeholder="What does the user actually need to be able to do?" oninput="markDirty('problem')"></textarea>
+      </div>
+      <div class="field">
+        <label>Desired outcome</label>
+        <textarea id="prob-outcome" placeholder="What should change after someone completes this?" oninput="markDirty('problem')"></textarea>
+      </div>
+      <div class="field">
+        <label>Key message</label>
+        <input type="text" id="prob-message" placeholder="One sentence the artifact must communicate" oninput="markDirty('problem')">
+      </div>
+      <div class="field">
+        <label>Not in scope</label>
+        <div class="tag-input-wrap" id="notinscope-wrap" onclick="document.getElementById('notinscope-input').focus()">
+          <input type="text" class="tag-input" id="notinscope-input" placeholder="Type and press Enter…" onkeydown="handleTagInput(event, 'notinscope')">
+        </div>
+        <div class="field-hint">Press Enter after each item.</div>
+      </div>
+      <div class="field">
+        <label>Source material / reference files</label>
+        <textarea id="prob-sources" placeholder="List files, URLs, or documents AI should reference — e.g. needs-analysis-report.pdf, existing-course-outline.docx" oninput="markDirty('problem')"></textarea>
+        <div class="field-hint">One per line.</div>
+      </div>
+    </div>
+
+    <!-- 3. Course structure -->
+    <div class="section-block" id="sec-structure">
+      <div class="section-title">Course Structure</div>
+      <div class="section-desc">Map each section of the course. Add as many as you need — you can collapse and reopen them.</div>
+
+      <div class="dynamic-list" id="sections-list"></div>
+      <button class="add-btn" onclick="addSection()">+ Add section</button>
+    </div>
+
+    <!-- 4. Interactions -->
+    <div class="section-block" id="sec-interactions">
+      <div class="section-title">Interactions</div>
+      <div class="section-desc">Define each interactive component. Select "Let AI decide" when you want a suggestion based on the learning goal.</div>
+
+      <div class="dynamic-list" id="interactions-list"></div>
+      <button class="add-btn" onclick="addInteraction()">+ Add interaction</button>
+    </div>
+
+    <!-- 5. Design direction -->
+    <div class="section-block" id="sec-design">
+      <div class="section-title">Design Direction</div>
+      <div class="section-desc">Point to your existing design system so the build reuses what's already there instead of inventing new styles.</div>
+
+      <div class="field">
+        <label>Design system file paths</label>
+        <textarea id="des-filepaths" placeholder="e.g.
+src/index.css
+src/components/Button.jsx
+src/tokens.css" oninput="markDirty('design')" class="field--mono" style="min-height:90px;"></textarea>
+        <div class="field-hint">Claude Code will inspect these files first. Only new classes or components will be created if something is missing.</div>
+      </div>
+      <div class="field">
+        <label>Visual mood</label>
+        <input type="text" id="des-mood" placeholder="e.g. Dark editorial, clean learning module, high-contrast tool" oninput="markDirty('design')">
+      </div>
+      <div class="field">
+        <label>Color tokens (leave blank if defined in file above)</label>
+        <textarea id="des-colors" placeholder="e.g.
+--red: #5B0606
+--gold: #F6C785
+--blue-card: #1A1A2E" oninput="markDirty('design')" class="field--mono" style="min-height:80px;"></textarea>
+      </div>
+      <div class="field">
+        <label>Typography (leave blank if defined in file above)</label>
+        <textarea id="des-type" placeholder="e.g. Display: Cinzel / Body: Crimson Pro / Mono: monospace" oninput="markDirty('design')" style="min-height:60px;"></textarea>
+      </div>
+      <div class="field">
+        <label>Things to avoid</label>
+        <div class="tag-input-wrap" id="avoid-wrap" onclick="document.getElementById('avoid-input').focus()">
+          <input type="text" class="tag-input" id="avoid-input" placeholder="Type and press Enter…" onkeydown="handleTagInput(event, 'avoid')">
+        </div>
+        <div class="field-hint">e.g. Tailwind, rem units, component libraries, invented class names</div>
+      </div>
+    </div>
+
+    <!-- 6. Technical constraints -->
+    <div class="section-block" id="sec-technical">
+      <div class="section-title">Technical Constraints</div>
+      <div class="section-desc">Tell Claude Code exactly where to look and what it can or cannot touch.</div>
+
+      <div class="field">
+        <label>Target stack</label>
+        <input type="text" id="tech-stack" placeholder="e.g. Plain HTML/CSS/JS — no frameworks" oninput="markDirty('technical')">
+      </div>
+      <div class="field">
+        <label>File structure preference</label>
+        <select id="tech-filestructure" onchange="markDirty('technical')">
+          <option value="">Select…</option>
+          <option value="single_file">Single file (all-in-one HTML)</option>
+          <option value="separate_html_css_js">Separate HTML / CSS / JS</option>
+          <option value="react_component">React component</option>
+          <option value="existing_project_structure">Follow existing project structure</option>
+          <option value="custom">Custom (described below)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Files to inspect first</label>
+        <textarea id="tech-inspect" placeholder="e.g.
+src/index.css
+src/pages/ExamplePage.jsx" oninput="markDirty('technical')" class="field--mono" style="min-height:80px;"></textarea>
+        <div class="field-hint">One per line. These will be read before any code is written.</div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Files allowed to edit</label>
+          <textarea id="tech-allowed" placeholder="Leave blank = all new files only" oninput="markDirty('technical')" class="field--mono" style="min-height:70px;"></textarea>
+        </div>
+        <div class="field">
+          <label>Files not allowed to edit</label>
+          <textarea id="tech-notallowed" placeholder="e.g. src/index.css (read only)" oninput="markDirty('technical')" class="field--mono" style="min-height:70px;"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label>Dependencies allowed?</label>
+        <select id="tech-deps" onchange="markDirty('technical')">
+          <option value="none">No external dependencies</option>
+          <option value="cdn_only">CDN links only (no npm)</option>
+          <option value="npm">npm packages permitted</option>
+          <option value="specify">Specified only (list below)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Naming conventions / other notes</label>
+        <textarea id="tech-notes" placeholder="e.g. BEM class names, px not rem, no Tailwind utility classes" oninput="markDirty('technical')"></textarea>
+      </div>
+    </div>
+
+    <!-- 7. Build instructions -->
+    <div class="section-block" id="sec-buildinstr">
+      <div class="section-title">Build Instructions</div>
+      <div class="section-desc">Tell Claude Code how to behave — not just what to build.</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Work mode</label>
+          <select id="build-mode" onchange="markDirty('buildinstr')">
+            <option value="plan_first">Plan first, wait for approval</option>
+            <option value="build_directly">Build directly</option>
+            <option value="review_only">Review only — no edits</option>
+            <option value="revise_existing">Revise existing code</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Change style</label>
+          <select id="build-change" onchange="markDirty('buildinstr')">
+            <option value="minimal">Minimal — smallest working change</option>
+            <option value="moderate">Moderate</option>
+            <option value="full_build">Full build</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Must do</label>
+        <div class="tag-input-wrap" id="mustdo-wrap" onclick="document.getElementById('mustdo-input').focus()">
+          <input type="text" class="tag-input" id="mustdo-input" placeholder="Type and press Enter…" onkeydown="handleTagInput(event, 'mustdo')">
+        </div>
+        <div class="field-hint">e.g. Explain what changed, list how to test, ask before editing shared files</div>
+      </div>
+      <div class="field">
+        <label>Must not do</label>
+        <div class="tag-input-wrap" id="mustnot-wrap" onclick="document.getElementById('mustnot-input').focus()">
+          <input type="text" class="tag-input" id="mustnot-input" placeholder="Type and press Enter…" onkeydown="handleTagInput(event, 'mustnot')">
+        </div>
+        <div class="field-hint">e.g. Rewrite unrelated files, add Tailwind, invent class names</div>
+      </div>
+      <div class="field">
+        <label>Deliverables expected</label>
+        <div class="tag-input-wrap" id="deliverables-wrap" onclick="document.getElementById('deliverables-input').focus()">
+          <input type="text" class="tag-input" id="deliverables-input" placeholder="Type and press Enter…" onkeydown="handleTagInput(event, 'deliverables')">
+        </div>
+      </div>
+      <div class="field">
+        <label>Open questions / notes for handoff</label>
+        <textarea id="build-notes" placeholder="Anything unresolved that AI should flag rather than assume." oninput="markDirty('buildinstr')"></textarea>
+      </div>
+    </div>
+
+  </div><!-- /form-panel -->
+
+  <!-- Output panel -->
+  <div class="output-panel">
+    <div class="output-tabs">
+      <div class="output-tab is-active" data-tab="prompt" onclick="switchTab('prompt')">Prompt</div>
+      <div class="output-tab" data-tab="json" onclick="switchTab('json')">JSON</div>
+      <div class="output-tab" data-tab="review" onclick="switchTab('review')">Review</div>
+    </div>
+    <div class="output-content">
+      <div class="output-pane is-visible" id="pane-prompt">
+        <pre class="output-pre" id="out-prompt"><span class="dim">Fill in the form and click Generate ▶ to build your prompt.</span></pre>
+      </div>
+      <div class="output-pane" id="pane-json">
+        <pre class="output-pre" id="out-json"><span class="dim">Fill in the form and click Generate ▶ to see the JSON.</span></pre>
+      </div>
+      <div class="output-pane" id="pane-review">
+        <div class="checklist" id="out-review">
+          <div class="checklist-item">
+            <span class="check-icon">⏳</span>
+            <div>
+              <div class="check-label">Generate your brief first</div>
+              <div class="check-sub">Click Generate ▶ to run the review checklist.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="output-footer">
+      <button class="out-btn out-btn--primary" onclick="copyPrompt()">Copy prompt</button>
+      <button class="out-btn" onclick="downloadJSON()">Download JSON</button>
+      <button class="out-btn" onclick="downloadMarkdown()">Download MD</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let state = {
+  identity: {},
+  problem:  { notInScope: [] },
+  sections: [],
+  interactions: [],
+  design:   { avoid: [] },
+  technical: {},
+  buildinstr: { mustDo: [], mustNot: [], deliverables: [] },
+  _generated: false,
+};
+
+let sectionCounter    = 0;
+let interactionCounter = 0;
+
+// Tag arrays keyed by their DOM id
+const TAG_STORES = {
+  notinscope:   () => state.problem.notInScope,
+  avoid:        () => state.design.avoid,
+  mustdo:       () => state.buildinstr.mustDo,
+  mustnot:      () => state.buildinstr.mustNot,
+  deliverables: () => state.buildinstr.deliverables,
+};
+
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function switchSection(id) {
+  document.querySelectorAll('.section-block').forEach(b => b.classList.remove('is-visible'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('is-active'));
+  document.getElementById('sec-' + id).classList.add('is-visible');
+  document.querySelector(`.nav-item[data-section="${id}"]`).classList.add('is-active');
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('is-active'));
+  document.querySelectorAll('.output-pane').forEach(p => p.classList.remove('is-visible'));
+  document.querySelector(`.output-tab[data-tab="${id}"]`).classList.add('is-active');
+  document.getElementById('pane-' + id).classList.add('is-visible');
+}
+
+
+// ── Dirty / completion dots ────────────────────────────────────────────────
+function markDirty(sectionId) {
+  const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+  if (!navItem) return;
+  navItem.classList.add('has-data');
+}
+
+function updateCompletionDots() {
+  const checks = {
+    identity:    () => document.getElementById('art-name').value.trim(),
+    problem:     () => document.getElementById('prob-problem').value.trim(),
+    structure:   () => state.sections.length > 0,
+    interactions:() => state.interactions.length > 0,
+    design:      () => document.getElementById('des-filepaths').value.trim() || document.getElementById('des-mood').value.trim(),
+    technical:   () => document.getElementById('tech-stack').value.trim(),
+    buildinstr:  () => document.getElementById('build-mode').value,
+  };
+  for (const [sec, fn] of Object.entries(checks)) {
+    const navItem = document.querySelector(`.nav-item[data-section="${sec}"]`);
+    if (navItem) navItem.classList.toggle('has-data', !!fn());
+  }
+}
+
+
+// ── Tag inputs ─────────────────────────────────────────────────────────────
+function handleTagInput(e, storeKey) {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  const input = e.target;
+  const val   = input.value.trim();
+  if (!val) return;
+  const arr = TAG_STORES[storeKey]();
+  if (arr.includes(val)) { input.value = ''; return; }
+  arr.push(val);
+  renderTags(storeKey);
+  input.value = '';
+  markDirty({ notinscope:'problem', avoid:'design', mustdo:'buildinstr', mustnot:'buildinstr', deliverables:'buildinstr' }[storeKey]);
+}
+
+function removeTag(storeKey, idx) {
+  TAG_STORES[storeKey]().splice(idx, 1);
+  renderTags(storeKey);
+}
+
+function renderTags(storeKey) {
+  const wrap  = document.getElementById(storeKey + '-wrap');
+  const input = document.getElementById(storeKey + '-input');
+  // Remove existing tags (not the input)
+  [...wrap.children].forEach(c => { if (c !== input) c.remove(); });
+  TAG_STORES[storeKey]().forEach((val, i) => {
+    const tag = document.createElement('div');
+    tag.className = 'tag';
+    tag.innerHTML = `${escHtml(val)} <span class="tag__remove" onclick="removeTag('${storeKey}',${i})">✕</span>`;
+    wrap.insertBefore(tag, input);
+  });
+}
+
+
+// ── Dynamic sections ───────────────────────────────────────────────────────
+const INTERACTION_TYPES = [
+  'accordion', 'tabs', 'stepper / progress', 'modal / overlay',
+  'drag-and-drop', 'flip card', 'scenario / branching', 'form / input',
+  'click-to-reveal', 'quiz / knowledge check', 'timer / countdown',
+  'live code editor', 'iframe preview', 'scrollytelling', 'Let AI decide',
+];
+
+function addSection(data) {
+  sectionCounter++;
+  const id  = 'sec-dyn-' + sectionCounter;
+  const num = sectionCounter;
+  const d   = data || {};
+
+  const item = document.createElement('div');
+  item.className = 'dynamic-item is-open';
+  item.dataset.sid = id;
+
+  item.innerHTML = `
+    <div class="dynamic-item__head" onclick="toggleDynItem(this)">
+      <span class="dynamic-item__num">${String(num).padStart(2,'0')}</span>
+      <span class="dynamic-item__name" id="${id}-title-display">${d.title || 'New section'}</span>
+      <span class="dynamic-item__toggle">▾</span>
+      <button class="dynamic-item__remove" onclick="removeSection(event,'${id}')">Remove</button>
+    </div>
+    <div class="dynamic-item__body">
+      <div class="field">
+        <label>Section title</label>
+        <input type="text" id="${id}-title" value="${escHtml(d.title||'')}" placeholder="e.g. What is instructional alignment?"
+          oninput="document.getElementById('${id}-title-display').textContent=this.value||'New section'; markDirty('structure')">
+      </div>
+      <div class="field">
+        <label>Purpose</label>
+        <input type="text" id="${id}-purpose" value="${escHtml(d.purpose||'')}" placeholder="Why does this section exist?" oninput="markDirty('structure')">
+      </div>
+      <div class="field">
+        <label>Content summary</label>
+        <textarea id="${id}-content" placeholder="What belongs here? Key concepts, examples, narrative arc." oninput="markDirty('structure')">${escHtml(d.content||'')}</textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>User action</label>
+          <input type="text" id="${id}-action" value="${escHtml(d.userAction||'')}" placeholder="e.g. Read, reflect, write, click" oninput="markDirty('structure')">
+        </div>
+        <div class="field">
+          <label>Interaction type</label>
+          <select id="${id}-interaction" onchange="markDirty('structure')">
+            <option value="">None / reading</option>
+            ${INTERACTION_TYPES.map(t => `<option${d.interaction===t?' selected':''}>${t}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Required elements</label>
+        <input type="text" id="${id}-elements" value="${escHtml(d.elements||'')}" placeholder="e.g. heading, body copy, ref card, practice editor, feedback panel" oninput="markDirty('structure')">
+      </div>
+      <div class="field">
+        <label>Completion condition</label>
+        <input type="text" id="${id}-completion" value="${escHtml(d.completion||'')}" placeholder="e.g. Learner submits code that passes the classifier — or leave blank" oninput="markDirty('structure')">
+      </div>
+      <div class="field">
+        <label>Builder notes</label>
+        <textarea id="${id}-notes" placeholder="Constraints, warnings, links to reference components." oninput="markDirty('structure')">${escHtml(d.notes||'')}</textarea>
+      </div>
+    </div>`;
+
+  document.getElementById('sections-list').appendChild(item);
+  state.sections.push({ _domId: id });
+}
+
+function removeSection(e, id) {
+  e.stopPropagation();
+  document.querySelector(`[data-sid="${id}"]`).remove();
+  state.sections = state.sections.filter(s => s._domId !== id);
+}
+
+function readSections() {
+  return [...document.querySelectorAll('#sections-list .dynamic-item')].map(item => {
+    const id = item.dataset.sid;
+    const g  = s => { const el = document.getElementById(id+'-'+s); return el ? el.value.trim() : ''; };
+    return {
+      id:           id,
+      title:        g('title'),
+      purpose:      g('purpose'),
+      content:      g('content'),
+      userAction:   g('action'),
+      interaction:  g('interaction'),
+      elements:     g('elements'),
+      completion:   g('completion'),
+      notes:        g('notes'),
+    };
+  });
+}
+
+
+// ── Dynamic interactions ───────────────────────────────────────────────────
+function addInteraction(data) {
+  interactionCounter++;
+  const id  = 'int-dyn-' + interactionCounter;
+  const num = interactionCounter;
+  const d   = data || {};
+
+  const item = document.createElement('div');
+  item.className = 'dynamic-item is-open';
+  item.dataset.iid = id;
+
+  item.innerHTML = `
+    <div class="dynamic-item__head" onclick="toggleDynItem(this)">
+      <span class="dynamic-item__num">${String(num).padStart(2,'0')}</span>
+      <span class="dynamic-item__name" id="${id}-name-display">${d.name || 'New interaction'}</span>
+      <span class="dynamic-item__toggle">▾</span>
+      <button class="dynamic-item__remove" onclick="removeInteraction(event,'${id}')">Remove</button>
+    </div>
+    <div class="dynamic-item__body">
+      <div class="field-row">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" id="${id}-name" value="${escHtml(d.name||'')}" placeholder="e.g. Heading color edit exercise"
+            oninput="document.getElementById('${id}-name-display').textContent=this.value||'New interaction'; markDirty('interactions')">
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <select id="${id}-type" onchange="markDirty('interactions')">
+            <option value="let_ai_decide"${!d.type||d.type==='let_ai_decide'?' selected':''}>Let AI decide</option>
+            ${INTERACTION_TYPES.filter(t=>t!=='Let AI decide').map(t=>`<option${d.type===t?' selected':''}>${t}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Purpose</label>
+        <input type="text" id="${id}-purpose" value="${escHtml(d.purpose||'')}" placeholder="Why does this interaction exist? What should it change?" oninput="markDirty('interactions')">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Trigger</label>
+          <input type="text" id="${id}-trigger" value="${escHtml(d.trigger||'')}" placeholder="e.g. Click, hover, keydown, scroll" oninput="markDirty('interactions')">
+        </div>
+        <div class="field">
+          <label>User input</label>
+          <input type="text" id="${id}-input" value="${escHtml(d.input||'')}" placeholder="e.g. Code typed in textarea" oninput="markDirty('interactions')">
+        </div>
+      </div>
+      <div class="field">
+        <label>System response</label>
+        <input type="text" id="${id}-response" value="${escHtml(d.response||'')}" placeholder="What changes on screen when triggered?" oninput="markDirty('interactions')">
+      </div>
+      <div class="field">
+        <label>States</label>
+        <input type="text" id="${id}-states" value="${escHtml(d.states||'')}" placeholder="e.g. Default, active, correct, incorrect, disabled" oninput="markDirty('interactions')">
+      </div>
+      <div class="field">
+        <label>Feedback rules</label>
+        <textarea id="${id}-feedback" placeholder="What message appears and when? e.g. 'That matches.' on correct answer." oninput="markDirty('interactions')">${escHtml(d.feedback||'')}</textarea>
+      </div>
+      <div class="field">
+        <label>Data needed</label>
+        <input type="text" id="${id}-data" value="${escHtml(d.data||'')}" placeholder="e.g. Static JSON, form input, API response" oninput="markDirty('interactions')">
+      </div>
+      <div class="field">
+        <label>Reuse existing component?</label>
+        <select id="${id}-reuse" onchange="markDirty('interactions')">
+          <option value="yes"${d.reuse!=='no'?' selected':''}>Yes — check design files first</option>
+          <option value="no"${d.reuse==='no'?' selected':''}>No — build new</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Accessibility notes</label>
+        <input type="text" id="${id}-a11y" value="${escHtml(d.a11y||'')}" placeholder="e.g. Keyboard navigable, visible focus ring, ARIA labels" oninput="markDirty('interactions')">
+      </div>
+    </div>`;
+
+  document.getElementById('interactions-list').appendChild(item);
+  state.interactions.push({ _domId: id });
+}
+
+function removeInteraction(e, id) {
+  e.stopPropagation();
+  document.querySelector(`[data-iid="${id}"]`).remove();
+  state.interactions = state.interactions.filter(i => i._domId !== id);
+}
+
+function readInteractions() {
+  return [...document.querySelectorAll('#interactions-list .dynamic-item')].map(item => {
+    const id = item.dataset.iid;
+    const g  = s => { const el = document.getElementById(id+'-'+s); return el ? el.value.trim() : ''; };
+    return {
+      id:       id,
+      name:     g('name'),
+      type:     g('type'),
+      purpose:  g('purpose'),
+      trigger:  g('trigger'),
+      input:    g('input'),
+      response: g('response'),
+      states:   g('states'),
+      feedback: g('feedback'),
+      data:     g('data'),
+      reuse:    g('reuse'),
+      a11y:     g('a11y'),
+    };
+  });
+}
+
+function toggleDynItem(head) {
+  head.closest('.dynamic-item').classList.toggle('is-open');
+}
+
+
+// ── Read all form data into a brief object ─────────────────────────────────
+function readBrief() {
+  const v = id => document.getElementById(id)?.value?.trim() || '';
+  return {
+    briefMeta: {
+      createdDate: new Date().toISOString().split('T')[0],
+      version: '1.0',
+    },
+    artifactIdentity: {
+      name:             v('art-name'),
+      type:             v('art-type'),
+      status:           v('art-status'),
+      platform:         v('art-platform'),
+      primaryPurpose:   v('art-purpose'),
+      audience:         v('art-audience'),
+      successDefinition:v('art-success'),
+    },
+    problemAndOutcome: {
+      currentProblem:  v('prob-problem'),
+      userNeed:        v('prob-need'),
+      desiredOutcome:  v('prob-outcome'),
+      keyMessage:      v('prob-message'),
+      notInScope:      [...state.problem.notInScope],
+      sourceMaterial:  v('prob-sources').split('\n').filter(Boolean),
+    },
+    sections:          readSections(),
+    interactions:      readInteractions(),
+    designDirection: {
+      designSystemPaths: v('des-filepaths').split('\n').filter(Boolean),
+      visualMood:        v('des-mood'),
+      colorTokens:       v('des-colors'),
+      typography:        v('des-type'),
+      avoid:             [...state.design.avoid],
+    },
+    technicalConstraints: {
+      targetStack:           v('tech-stack'),
+      fileStructurePreference: v('tech-filestructure'),
+      filesToInspectFirst:   v('tech-inspect').split('\n').filter(Boolean),
+      filesAllowedToEdit:    v('tech-allowed').split('\n').filter(Boolean),
+      filesNotAllowedToEdit: v('tech-notallowed').split('\n').filter(Boolean),
+      dependenciesAllowed:   v('tech-deps'),
+      notes:                 v('tech-notes'),
+    },
+    buildInstructions: {
+      workMode:      v('build-mode'),
+      changeStyle:   v('build-change'),
+      mustDo:        [...state.buildinstr.mustDo],
+      mustNotDo:     [...state.buildinstr.mustNot],
+      deliverables:  [...state.buildinstr.deliverables],
+      openQuestions: v('build-notes'),
+    },
+  };
+}
+
+
+// ── Generate ───────────────────────────────────────────────────────────────
+function generateAll() {
+  updateCompletionDots();
+  const brief = readBrief();
+  state._generated = true;
+
+  document.getElementById('out-prompt').innerHTML = buildPrompt(brief);
+  document.getElementById('out-json').textContent = JSON.stringify(brief, null, 2);
+  renderReview(brief);
+  switchTab('prompt');
+  showToast('Generated ✓');
+}
+
+function buildPrompt(b) {
+  const ai = b.artifactIdentity;
+  const po = b.problemAndOutcome;
+  const tc = b.technicalConstraints;
+  const bi = b.buildInstructions;
+  const dd = b.designDirection;
+
+  const lines = [];
+
+  lines.push(`You are helping me build or revise an interactive artifact.\n`);
+
+  lines.push(`Before making any changes, inspect the existing project structure and all files listed under "Files to inspect first."\n`);
+
+  // Artifact
+  lines.push(`━━ ARTIFACT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  if (ai.name)           lines.push(`Name:     ${ai.name}`);
+  if (ai.type)           lines.push(`Type:     ${ai.type}`);
+  if (ai.status)         lines.push(`Status:   ${ai.status}`);
+  if (ai.platform)       lines.push(`Platform: ${ai.platform}`);
+  if (ai.primaryPurpose) lines.push(`Purpose:  ${ai.primaryPurpose}`);
+  if (ai.audience)       lines.push(`Audience: ${ai.audience}`);
+  if (ai.successDefinition) lines.push(`\nDone when: ${ai.successDefinition}`);
+  lines.push('');
+
+  // Problem
+  if (po.currentProblem || po.userNeed || po.desiredOutcome) {
+    lines.push(`━━ PROBLEM & OUTCOME ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    if (po.currentProblem)  lines.push(`Problem: ${po.currentProblem}`);
+    if (po.userNeed)         lines.push(`User need: ${po.userNeed}`);
+    if (po.desiredOutcome)   lines.push(`Desired outcome: ${po.desiredOutcome}`);
+    if (po.keyMessage)       lines.push(`Key message: ${po.keyMessage}`);
+    if (po.notInScope?.length) lines.push(`Not in scope:\n${po.notInScope.map(s=>`  - ${s}`).join('\n')}`);
+    if (po.sourceMaterial?.length) lines.push(`Source material:\n${po.sourceMaterial.map(s=>`  - ${s}`).join('\n')}`);
+    lines.push('');
+  }
+
+  // Structure
+  if (b.sections?.length) {
+    lines.push(`━━ COURSE STRUCTURE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    b.sections.forEach((s, i) => {
+      lines.push(`\nSection ${String(i+1).padStart(2,'0')}: ${s.title || '(untitled)'}`);
+      if (s.purpose)    lines.push(`  Purpose: ${s.purpose}`);
+      if (s.content)    lines.push(`  Content: ${s.content}`);
+      if (s.userAction) lines.push(`  User action: ${s.userAction}`);
+      if (s.interaction && s.interaction !== 'None / reading') lines.push(`  Interaction: ${s.interaction}`);
+      if (s.elements)   lines.push(`  Required elements: ${s.elements}`);
+      if (s.completion) lines.push(`  Completion condition: ${s.completion}`);
+      if (s.notes)      lines.push(`  Builder notes: ${s.notes}`);
+    });
+    lines.push('');
+  }
+
+  // Interactions
+  if (b.interactions?.length) {
+    lines.push(`━━ INTERACTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    b.interactions.forEach((int, i) => {
+      lines.push(`\nInteraction ${String(i+1).padStart(2,'0')}: ${int.name || '(unnamed)'}`);
+      if (int.type)     lines.push(`  Type: ${int.type === 'let_ai_decide' ? 'Let AI decide — suggest based on purpose' : int.type}`);
+      if (int.purpose)  lines.push(`  Purpose: ${int.purpose}`);
+      if (int.trigger)  lines.push(`  Trigger: ${int.trigger}`);
+      if (int.input)    lines.push(`  User input: ${int.input}`);
+      if (int.response) lines.push(`  System response: ${int.response}`);
+      if (int.states)   lines.push(`  States: ${int.states}`);
+      if (int.feedback) lines.push(`  Feedback rules: ${int.feedback}`);
+      if (int.data)     lines.push(`  Data needed: ${int.data}`);
+      if (int.reuse === 'yes') lines.push(`  Reuse existing component: yes — check design files before creating new`);
+      if (int.a11y)     lines.push(`  Accessibility: ${int.a11y}`);
+    });
+    lines.push('');
+  }
+
+  // Design
+  const hasDesign = dd.designSystemPaths?.length || dd.visualMood || dd.colorTokens || dd.typography || dd.avoid?.length;
+  if (hasDesign) {
+    lines.push(`━━ DESIGN DIRECTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    if (dd.designSystemPaths?.length) {
+      lines.push(`Design system files (inspect before writing any CSS or components):`);
+      dd.designSystemPaths.forEach(p => lines.push(`  ${p}`));
+      lines.push(`Rule: only create a new class or component if it does not already exist in the files above.`);
+    }
+    if (dd.visualMood)    lines.push(`Visual mood: ${dd.visualMood}`);
+    if (dd.colorTokens)   lines.push(`Color tokens:\n${dd.colorTokens.split('\n').map(l=>`  ${l}`).join('\n')}`);
+    if (dd.typography)    lines.push(`Typography: ${dd.typography}`);
+    if (dd.avoid?.length) lines.push(`Avoid:\n${dd.avoid.map(a=>`  - ${a}`).join('\n')}`);
+    lines.push('');
+  }
+
+  // Technical
+  const hasTech = tc.targetStack || tc.fileStructurePreference || tc.filesToInspectFirst?.length || tc.filesAllowedToEdit?.length || tc.filesNotAllowedToEdit?.length;
+  if (hasTech) {
+    lines.push(`━━ TECHNICAL CONSTRAINTS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    if (tc.targetStack)             lines.push(`Stack: ${tc.targetStack}`);
+    if (tc.fileStructurePreference) lines.push(`File structure: ${tc.fileStructurePreference}`);
+    if (tc.dependenciesAllowed)     lines.push(`Dependencies: ${tc.dependenciesAllowed}`);
+    if (tc.filesToInspectFirst?.length) {
+      lines.push(`Files to inspect first:\n${tc.filesToInspectFirst.map(f=>`  ${f}`).join('\n')}`);
+    }
+    if (tc.filesAllowedToEdit?.length) {
+      lines.push(`Files allowed to edit:\n${tc.filesAllowedToEdit.map(f=>`  ${f}`).join('\n')}`);
+    }
+    if (tc.filesNotAllowedToEdit?.length) {
+      lines.push(`Files NOT allowed to edit:\n${tc.filesNotAllowedToEdit.map(f=>`  ${f}`).join('\n')}`);
+    }
+    if (tc.notes) lines.push(`Notes: ${tc.notes}`);
+    lines.push('');
+  }
+
+  // Build instructions
+  lines.push(`━━ BUILD INSTRUCTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`Work mode: ${bi.workMode}`);
+  lines.push(`Change style: ${bi.changeStyle}`);
+  if (bi.mustDo?.length)      lines.push(`Must do:\n${bi.mustDo.map(d=>`  - ${d}`).join('\n')}`);
+  if (bi.mustNotDo?.length)   lines.push(`Must not do:\n${bi.mustNotDo.map(d=>`  - ${d}`).join('\n')}`);
+  if (bi.deliverables?.length)lines.push(`Deliverables expected:\n${bi.deliverables.map(d=>`  - ${d}`).join('\n')}`);
+  lines.push('');
+
+  // Pre-build protocol
+  lines.push(`━━ BEFORE CODING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`1. Summarise your understanding of what you are building.
+2. List the files you need to inspect before writing any code.
+3. Propose the smallest implementation plan that meets the spec.
+4. List any assumptions you are making and flag any open questions.
+5. Wait for approval before editing any files.`);
+  lines.push('');
+
+  lines.push(`━━ AFTER CODING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`1. Explain what changed and why.
+2. Identify what lives in HTML, CSS, and JavaScript respectively.
+3. List how to test it.
+4. List known limitations or anything that needs a follow-up decision.`);
+
+  if (bi.openQuestions) {
+    lines.push('');
+    lines.push(`━━ OPEN QUESTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    lines.push(bi.openQuestions);
+  }
+
+  lines.push('');
+  lines.push(`━━ JSON BRIEF (full structured source) ━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(JSON.stringify(b, null, 2));
+
+  return lines.join('\n');
+}
+
+
+// ── Review checklist ───────────────────────────────────────────────────────
+function renderReview(brief) {
+  const ai = brief.artifactIdentity;
+  const po = brief.problemAndOutcome;
+  const b  = brief;
+
+  const checks = [
+    {
+      label: 'Artifact named and typed',
+      ok: !!(ai.name && ai.type),
+      sub: ai.name ? `"${ai.name}" — ${ai.type}` : 'Missing name or type.',
+    },
+    {
+      label: 'Audience defined',
+      ok: !!ai.audience,
+      sub: ai.audience || 'Who is this for? Without this, AI will default to a generic learner.',
+    },
+    {
+      label: 'Success definition set',
+      ok: !!ai.successDefinition,
+      sub: ai.successDefinition || 'What does "done" look like? Without this, AI will decide.',
+    },
+    {
+      label: 'Problem named',
+      ok: !!po.currentProblem,
+      sub: po.currentProblem ? 'Gap is defined.' : 'Without a problem statement, AI fills blanks with plausible filler.',
+    },
+    {
+      label: 'Desired outcome specified',
+      ok: !!po.desiredOutcome,
+      sub: po.desiredOutcome ? 'Outcome defined.' : 'What should change after someone completes this?',
+    },
+    {
+      label: 'At least one section mapped',
+      ok: b.sections.length > 0,
+      sub: b.sections.length > 0 ? `${b.sections.length} section${b.sections.length>1?'s':''} defined.` : 'Course structure is empty.',
+    },
+    {
+      label: 'Sections have titles and content',
+      ok: b.sections.length > 0 && b.sections.every(s => s.title && s.content),
+      sub: b.sections.length === 0 ? 'No sections yet.' : b.sections.filter(s=>!s.title||!s.content).length === 0 ? 'All sections have titles and content.' : `${b.sections.filter(s=>!s.title||!s.content).length} section(s) missing title or content.`,
+    },
+    {
+      label: 'Design system path provided',
+      ok: brief.designDirection.designSystemPaths?.length > 0,
+      sub: brief.designDirection.designSystemPaths?.length > 0 ? `${brief.designDirection.designSystemPaths.join(', ')}` : 'No design file path set — AI may invent new styles instead of reusing existing ones.',
+    },
+    {
+      label: 'Technical stack defined',
+      ok: !!brief.technicalConstraints.targetStack,
+      sub: brief.technicalConstraints.targetStack || 'No stack set — AI will assume a default.',
+    },
+    {
+      label: '"Not in scope" defined',
+      ok: po.notInScope?.length > 0,
+      sub: po.notInScope?.length > 0 ? po.notInScope.join(', ') : 'Consider listing what this artifact should not do.',
+    },
+    {
+      label: 'Interactions defined or AI-delegated',
+      ok: b.interactions.length > 0,
+      sub: b.interactions.length > 0
+        ? b.interactions.map(i => `${i.name} (${i.type === 'let_ai_decide' ? 'AI decides' : i.type})`).join(', ')
+        : 'No interactions defined — AI will build static content only.',
+    },
+  ];
+
+  const list = document.getElementById('out-review');
+  list.innerHTML = checks.map(c => `
+    <div class="checklist-item ${c.ok ? 'is-ok' : 'is-warn'}">
+      <span class="check-icon">${c.ok ? '✓' : '⚠'}</span>
+      <div>
+        <div class="check-label">${c.label}</div>
+        <div class="check-sub">${c.sub}</div>
+      </div>
+    </div>`).join('');
+}
+
+
+// ── Export / copy ──────────────────────────────────────────────────────────
+function copyPrompt() {
+  if (!state._generated) { generateAll(); }
+  const text = document.getElementById('out-prompt').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('Prompt copied ✓'));
+}
+
+function downloadJSON() {
+  if (!state._generated) generateAll();
+  const brief = readBrief();
+  downloadFile(JSON.stringify(brief, null, 2), 'storyboard.json', 'application/json');
+}
+
+function downloadMarkdown() {
+  if (!state._generated) generateAll();
+  const brief = readBrief();
+  const ai = brief.artifactIdentity;
+  const po = brief.problemAndOutcome;
+  const lines = [];
+
+  lines.push(`# Storyboard Brief — ${ai.name || 'Untitled'}`);
+  lines.push(`*Generated ${brief.briefMeta.createdDate}*\n`);
+
+  lines.push(`## Artifact`);
+  lines.push(`- **Type:** ${ai.type || '—'}`);
+  lines.push(`- **Status:** ${ai.status || '—'}`);
+  lines.push(`- **Platform:** ${ai.platform || '—'}`);
+  lines.push(`- **Purpose:** ${ai.primaryPurpose || '—'}`);
+  lines.push(`- **Audience:** ${ai.audience || '—'}`);
+  lines.push(`- **Done when:** ${ai.successDefinition || '—'}\n`);
+
+  lines.push(`## Problem & Outcome`);
+  lines.push(`**Problem:** ${po.currentProblem || '—'}\n`);
+  lines.push(`**User need:** ${po.userNeed || '—'}\n`);
+  lines.push(`**Desired outcome:** ${po.desiredOutcome || '—'}\n`);
+  lines.push(`**Key message:** ${po.keyMessage || '—'}\n`);
+  if (po.notInScope?.length) lines.push(`**Not in scope:** ${po.notInScope.join(', ')}\n`);
+
+  if (brief.sections?.length) {
+    lines.push(`## Course Structure`);
+    brief.sections.forEach((s, i) => {
+      lines.push(`### ${String(i+1).padStart(2,'0')}. ${s.title || 'Untitled'}`);
+      if (s.purpose)    lines.push(`**Purpose:** ${s.purpose}`);
+      if (s.content)    lines.push(`**Content:** ${s.content}`);
+      if (s.userAction) lines.push(`**User action:** ${s.userAction}`);
+      if (s.interaction && s.interaction !== 'None / reading') lines.push(`**Interaction:** ${s.interaction}`);
+      if (s.elements)   lines.push(`**Elements:** ${s.elements}`);
+      if (s.completion) lines.push(`**Completion:** ${s.completion}`);
+      if (s.notes)      lines.push(`**Notes:** ${s.notes}`);
+      lines.push('');
+    });
+  }
+
+  if (brief.interactions?.length) {
+    lines.push(`## Interactions`);
+    brief.interactions.forEach((int, i) => {
+      lines.push(`### ${String(i+1).padStart(2,'0')}. ${int.name || 'Unnamed'}`);
+      if (int.type)     lines.push(`**Type:** ${int.type === 'let_ai_decide' ? 'Let AI decide' : int.type}`);
+      if (int.purpose)  lines.push(`**Purpose:** ${int.purpose}`);
+      if (int.trigger)  lines.push(`**Trigger:** ${int.trigger}`);
+      if (int.response) lines.push(`**Response:** ${int.response}`);
+      if (int.feedback) lines.push(`**Feedback:** ${int.feedback}`);
+      lines.push('');
+    });
+  }
+
+  downloadFile(lines.join('\n'), 'storyboard.md', 'text/markdown');
+}
+
+function downloadFile(content, filename, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast(`${filename} downloaded ✓`);
+}
+
+
+// ── Import ─────────────────────────────────────────────────────────────────
+function importJSON() {
+  document.getElementById('import-file-input').click();
+}
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = evt => {
+    try {
+      const brief = JSON.parse(evt.target.result);
+      populateFromBrief(brief);
+      showToast('Imported ✓');
+    } catch {
+      showToast('Invalid JSON file');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function populateFromBrief(b) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
+  const ai = b.artifactIdentity || {};
+  const po = b.problemAndOutcome || {};
+  const dd = b.designDirection   || {};
+  const tc = b.technicalConstraints || {};
+  const bi = b.buildInstructions || {};
+
+  set('art-name',     ai.name);
+  set('art-type',     ai.type);
+  set('art-status',   ai.status);
+  set('art-platform', ai.platform);
+  set('art-purpose',  ai.primaryPurpose);
+  set('art-audience', ai.audience);
+  set('art-success',  ai.successDefinition);
+
+  set('prob-problem', po.currentProblem);
+  set('prob-need',    po.userNeed);
+  set('prob-outcome', po.desiredOutcome);
+  set('prob-message', po.keyMessage);
+  set('prob-sources', (po.sourceMaterial || []).join('\n'));
+  state.problem.notInScope = po.notInScope || [];
+  renderTags('notinscope');
+
+  set('des-filepaths', (dd.designSystemPaths || []).join('\n'));
+  set('des-mood',      dd.visualMood);
+  set('des-colors',    dd.colorTokens);
+  set('des-type',      dd.typography);
+  state.design.avoid = dd.avoid || [];
+  renderTags('avoid');
+
+  set('tech-stack',          tc.targetStack);
+  set('tech-filestructure',  tc.fileStructurePreference);
+  set('tech-inspect',        (tc.filesToInspectFirst || []).join('\n'));
+  set('tech-allowed',        (tc.filesAllowedToEdit || []).join('\n'));
+  set('tech-notallowed',     (tc.filesNotAllowedToEdit || []).join('\n'));
+  set('tech-deps',           tc.dependenciesAllowed);
+  set('tech-notes',          tc.notes);
+
+  set('build-mode',   bi.workMode);
+  set('build-change', bi.changeStyle);
+  set('build-notes',  bi.openQuestions);
+  state.buildinstr.mustDo       = bi.mustDo       || [];
+  state.buildinstr.mustNot      = bi.mustNotDo    || [];
+  state.buildinstr.deliverables = bi.deliverables || [];
+  renderTags('mustdo');
+  renderTags('mustnot');
+  renderTags('deliverables');
+
+  // Clear and rebuild dynamic lists
+  document.getElementById('sections-list').innerHTML = '';
+  sectionCounter = 0;
+  state.sections = [];
+  (b.sections || []).forEach(s => addSection(s));
+
+  document.getElementById('interactions-list').innerHTML = '';
+  interactionCounter = 0;
+  state.interactions = [];
+  (b.interactions || []).forEach(i => addInteraction(i));
+
+  updateCompletionDots();
+}
+
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+function resetAll() {
+  if (!confirm('Clear everything and start over?')) return;
+  ['art-name','art-type','art-status','art-platform','art-purpose','art-audience','art-success',
+   'prob-problem','prob-need','prob-outcome','prob-message','prob-sources',
+   'des-filepaths','des-mood','des-colors','des-type',
+   'tech-stack','tech-filestructure','tech-inspect','tech-allowed','tech-notallowed','tech-deps','tech-notes',
+   'build-mode','build-change','build-notes'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  state.problem.notInScope = [];  renderTags('notinscope');
+  state.design.avoid       = [];  renderTags('avoid');
+  state.buildinstr.mustDo       = [];  renderTags('mustdo');
+  state.buildinstr.mustNot      = [];  renderTags('mustnot');
+  state.buildinstr.deliverables = [];  renderTags('deliverables');
+
+  document.getElementById('sections-list').innerHTML = '';
+  sectionCounter = 0; state.sections = [];
+  document.getElementById('interactions-list').innerHTML = '';
+  interactionCounter = 0; state.interactions = [];
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('has-data'));
+  document.getElementById('out-prompt').innerHTML = '<span class="dim">Fill in the form and click Generate ▶ to build your prompt.</span>';
+  document.getElementById('out-json').innerHTML   = '<span class="dim">Fill in the form and click Generate ▶ to see the JSON.</span>';
+  document.getElementById('out-review').innerHTML = `<div class="checklist-item"><span class="check-icon">⏳</span><div><div class="check-label">Generate your brief first</div><div class="check-sub">Click Generate ▶ to run the review checklist.</div></div></div>`;
+  state._generated = false;
+  showToast('Reset ✓');
+}
+
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), 2200);
+}
+
+
+// ── Utility ────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

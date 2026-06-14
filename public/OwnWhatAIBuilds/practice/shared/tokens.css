@@ -1,0 +1,7 @@
+@import url('../../courses/shared/tokens.css');
+
+/* Practice-only theme overrides. */
+:root {
+  --gold: #F8F0C6;
+  --gold-rgb: 248, 240, 198;
+}
