@@ -6,13 +6,16 @@ Use Git branches, not `.gitignore`, to separate unfinished source from productio
 
 ```powershell
 git switch codex/own-what-ai-builds-wip
-npm run dev
+npm run dev:course
 ```
 
 Local URLs:
 
 - React project page: `http://localhost:5173/OwnWhatAIBuilds`
 - Standalone course: `http://localhost:5173/OwnWhatAIBuilds/courses/edit-existing-file/index.html`
+
+`npm run dev:course` starts the local server and opens the standalone course
+directly. Use `npm run dev` when you want the full portfolio instead.
 
 Commit and optionally push this branch for backup:
 
