@@ -71,7 +71,7 @@ export default function App() {
               I've chosen depth in the craft over the ladder climb, growing as an{' '}
                 <strong style={{ color: 'var(--red)', fontWeight: 600 }}>Individual Contributor</strong>{' '}
               fluent in technical execution while building the business lens to create strategic value. Currently working at Mews,
-              dedicating 50% of my time on Instructional Design and 50% on Data & Measurement.
+              dedicating 50% of my time on (in-app) Instructional Design as well as experimentation, and 50% on Data & Measurement.
             </p>
             <p className="p1">
               Some people call me a self-starter, others call me a systems thinker. But you can just{' '}

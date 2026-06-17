@@ -52,7 +52,7 @@ const cards = [
     desc: (
       <>
         My learning experiences have <strong>reduced onboarding time</strong>, <strong>lowered support ticket volume</strong>, and <strong>increased upsell and cross-sell</strong>. From self-paced e-learning,
-        in-app enablement, immersive simulations, and live workshops, I design learning interventions with concrete business problems as my starting point.
+        in-app enablement, immersive simulations, and live workshops, I design learning interventions with concrete business goals and customer outcomes as my starting point.
       </>
     ),
     tags: ['backward Instructional design', 'job aids and video production', 'face-to-face workshop facilitation'],

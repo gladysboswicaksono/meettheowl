@@ -15,6 +15,12 @@ const testimonials = [
     keyQuote: `Her strategic thinking has been invaluable, particularly in <span style="color: #f6c785"><strong>identifying what needs to be measured and why</strong></span> ... These efforts have provided new, actionable insights that were previously unavailable to the team.`,
   },
   {
+  name: 'Justyna, Senior Instructional Designer at Mews',
+  tenure: 'My tenure: 2024 - present',
+  text: `Gladys is an invaluable peer reviewer, contributor, and sounding board when it comes to reviewing learning assets, data tracking, troubleshooting technical blockers, and iterating over content improvements. She is highly customer-centric who brings deep expertise to every project, translating industry challenges into relevant and tailored training. <br><br>She really is our data queen, creating and updating reporting frameworks to assess the impact of our initiatives and ensure data accuracy, transparency, and ease of use. Not only did she create templates and thorough documentation, but she is also open to troubleshooting issues over a call. <br><br>To sum up, Gladys is the <span style="color: #f6c785"><strong>collaborative, skilled, and thoughtful teammate every team needs</span></strong>. Her balance of technical know-how, open communication, and mutual support has consistently improved both daily project work and our team culture.`,
+  keyQuote: `... Gladys is the <span style="color: #f6c785"><strong>collaborative, skilled, and thoughtful teammate every team needs</span></strong>. Her balance of technical know-how, open communication, and mutual support has consistently improved both daily project work and our team culture.`,
+},
+  {
     name: 'Tianyi Tian, Former Academy Program Manager at Mendix',
     tenure: 'My tenure: 2022 - 2024',
     text: `Throughout my work with Gladys, she has consistently demonstrated an exceptional dedication to customer satisfaction. She has a <span style="color: #f6c785"><strong>talent for always asking the right questions</strong></span>, which not only ensures that the team does not miss out on important ideas to address the needs of our wide range of customers, but also uncovers latent customer desires, which helped us drive innovation and tailored solutions.<br><br>Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,

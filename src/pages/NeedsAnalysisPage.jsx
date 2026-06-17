@@ -25,7 +25,7 @@ export default function NeedsAnalysisPage() {
               That's why I treat AI as a probabilistic assistant operating under audit and not some magic
               eight ball that spits out answers. And this work piece showcases a structured approach to
               AI-assisted analysis of large-scale qualitative data, forcing it to work with facts and leaving
-              little to no room for it to "make sh#t up".
+              little to no room for it to "make stuff up".
             </p>
           </div>
         </section>
@@ -42,15 +42,12 @@ export default function NeedsAnalysisPage() {
             needed.
           </p>
           <div className="disclaimer">
-            <p>
+            <p style={{ marginBottom:"0px" }}>
               I conduct my analysis using company-provided tools with direct access to our internal database,
               and no company data is exported to external AI services.
             </p>
-            <p>
-              This work sample represents my individual design approach and methodology. It does not reflect
-              the procedures, processes, or team practices of my current or former employers.
-            </p>
           </div>
+          <br></br>
         </section>
 
         {/* THE METHODOLOGY */}
