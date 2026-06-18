@@ -158,6 +158,21 @@
   padding: 40px 52px;
 }
 
+/* Featured tag — shown only on the featured project */
+.showcase__featured-tag {
+  align-self: flex-start;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dark);
+  background: rgba(246, 199, 133, 0.5);
+  border: 2px solid var(--gold);
+  padding: 3px 10px;
+  margin-bottom: 14px;
+}
+
 .showcase__eyebrow {
   font-family: var(--font-display);
   font-size: 10px;
@@ -229,27 +244,6 @@
   color: rgba(232, 230, 230, 0.7);
   line-height: 1.4;
   white-space: pre-line;
-}
-
-.btn-showcase {
-  display: inline-block;
-  align-self: flex-start;
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--red);
-  padding: 9px 18px;
-  background: var(--white);
-  box-shadow: 2px 2px 0px rgba(91, 6, 6, 0.5);
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-showcase:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px rgba(91, 6, 6, 0.65);
 }
 
 /* ── Right: sidebar ── */
@@ -366,7 +360,6 @@
 
 .showcase__sidebar-footer {
   padding: 16px 24px;
-  /* border-top: 1px solid rgba(246, 199, 133, 0.08); */
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -389,8 +382,11 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gold);
-  text-decoration: none;
   display: inline-block;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   transition: color 0.2s ease;
   animation: showcase-more-bob 1.8s ease-in-out 50;
 }
@@ -407,7 +403,7 @@
   background: linear-gradient(90deg, #5B0606 0%, #2a1326 50%, #1C253C 100%);
 }
 
-/* ── Bio panel (shown when "Meet me" is clicked) ───────────────── */
+/* ── Bio panel ─────────────────────────────────────────────── */
 .bio-panel {
   background: #0C0C1A;
   animation: bio-reveal 0.35s ease-out both;
@@ -424,10 +420,10 @@
   min-height: 440px;
 }
 
-/* ── Left: portrait bg, only left border ── */
 .bio-panel__left {
   position: relative;
   overflow: hidden;
+  border-left: 3px solid var(--gold);
 }
 
 .bio-panel__portrait {
@@ -484,7 +480,6 @@
   opacity: 0.8;
 }
 
-/* ── Right: paragraphs with dividers ── */
 .bio-panel__right {
   display: flex;
   flex-direction: column;
@@ -501,7 +496,8 @@
 }
 
 .bio-panel__para strong {
-  color: var(--gold);
+  color: var(--red);
+  text-decoration: underline;
   font-weight: 600;
 }
 
@@ -509,12 +505,4 @@
   border: none;
   border-top: 1px solid rgba(246, 199, 133, 0.15);
   margin: 24px 0;
-}
-
-/* ── Button reset for showcase__sidebar-more ── */
-.showcase__sidebar-more {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
 }

@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 
+// ── Change this number to swap which project is featured ──────────
+// 0 = Owllocate  1 = Training Impact  2 = Needs Analysis  3 = Onboarding
+const FEATURED_INDEX = 1;
+
 const projects = [
   {
     image: '/images/card-owllocate.png',
@@ -64,7 +68,7 @@ const projects = [
 ];
 
 export default function ArtifactsShowcase() {
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(FEATURED_INDEX);
   const [showBio, setShowBio] = useState(false);
   const bioPanelRef = useRef(null);
   const p = projects[selected];
@@ -87,7 +91,10 @@ export default function ArtifactsShowcase() {
             </div>
             <div className="showcase__vignette" />
             <div className="showcase__copy">
-              <div className="showcase__eyebrow">Featured · {p.category}</div>
+              {selected === FEATURED_INDEX && (
+                <div className="showcase__featured-tag">Featured</div>
+              )}
+              <div className="showcase__eyebrow">{p.category}</div>
               <h2 className="showcase__title">{p.featuredTitle}</h2>
               <p className="showcase__desc">{p.description}</p>
               <div className="showcase__stats">
@@ -129,7 +136,7 @@ export default function ArtifactsShowcase() {
 
             <div className="showcase__sidebar-footer">
               <p className="showcase__sidebar-about">
-                Product-minded Learning Designer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+7 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mews<br />
+                Product-minded Learning Designer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+7 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mews
               </p>
               <button
                 type="button"
@@ -160,6 +167,7 @@ export default function ArtifactsShowcase() {
                 <h2 className="bio-panel__heading">
                   I thrive on challenges that start in the dark, where solutions hide in patterns waiting to be seen.
                 </h2>
+                <p className="bio-panel__byline">— Senior LXD · 7 years · Mews</p>
               </div>
             </div>
 
