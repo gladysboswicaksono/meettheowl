@@ -30,9 +30,9 @@ const projects = [
     href: '/training-impact',
     tagline: 'Trained rate entered OKRs',
     stats: [
-      { value: 'OKR', label: 'Trained rate entered\ndept. goals' },
-      { value: 'SQL + PBI', label: '+ Claude API\ntoolchain' },
-      { value: 'Live', label: 'Auto-updating\nreport' },
+      { value: 'OKR', label: 'Trained-user rate became\na company-wide KR.' },
+      { value: 'SQL, Power BI & Claude API', label: 'Impact reporting with an\nAI interpreter for stakeholder questions.' },
+      { value: 'Defensible Framework', label: 'Three-method framework for\nmeasuring training impact.' },
     ],
   },
   {
@@ -167,7 +167,6 @@ export default function ArtifactsShowcase() {
                 <h2 className="bio-panel__heading">
                   I thrive on challenges that start in the dark, where solutions hide in patterns waiting to be seen.
                 </h2>
-                <p className="bio-panel__byline">— Senior LXD · 7 years · Mews</p>
               </div>
             </div>
 

@@ -162,15 +162,15 @@
 .showcase__featured-tag {
   align-self: flex-start;
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--dark);
-  background: rgba(246, 199, 133, 0.5);
-  border: 2px solid var(--gold);
+  color: var(--gold);
+  background-color: rgb(from var(--gray) r g b / 20%);
+  border: 1px solid var(--gold);
   padding: 3px 10px;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
 }
 
 .showcase__eyebrow {
@@ -186,14 +186,14 @@
   gap: 12px;
 }
 
-.showcase__eyebrow::before {
+/* .showcase__eyebrow::before {
   content: '';
   display: block;
   width: 28px;
   height: 1px;
   background: var(--gold);
   flex-shrink: 0;
-}
+} */
 
 .showcase__title {
   font-family: var(--font-display);
@@ -423,7 +423,6 @@
 .bio-panel__left {
   position: relative;
   overflow: hidden;
-  border-left: 3px solid var(--gold);
 }
 
 .bio-panel__portrait {
