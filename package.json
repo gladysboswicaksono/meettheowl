@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:course": "vite --open /OwnWhatAIBuilds/courses/edit-existing-file/index.html",
     "build": "vite build",
     "lint": "eslint .",
     "test": "node --test",

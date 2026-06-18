@@ -57,10 +57,7 @@
       "Bash(git pull *)",
       "Bash(git stash *)",
       "Bash(git restore *)",
-      "PowerShell(New-Item -ItemType Directory -Force \"E:\\\\Portfolio\\\\site\\\\public\\\\downloads\")",
-      "Bash(Remove-Item \"E:\\\\Portfolio\\\\site\\\\src\\\\components\\\\ProjectCard.jsx\")",
-      "mcp__visualize__read_me",
-      "mcp__visualize__show_widget"
+      "PowerShell(New-Item -ItemType Directory -Force \"E:\\\\Portfolio\\\\site\\\\public\\\\downloads\")"
     ]
   }
 }

@@ -5,8 +5,7 @@
       "name": "meettheowl",
       "runtimeExecutable": "cmd",
       "runtimeArgs": ["/c", "npm run dev"],
-      "port": 5173,
-      "autoPort": true
+      "port": 5173
     }
   ]
 }
