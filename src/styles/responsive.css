@@ -31,12 +31,8 @@
     grid-template-columns: 1fr;
   }
 
-  .showcase__left {
-    min-height: auto;
-  }
-
   .showcase__copy {
-    position: relative;
+    min-height: auto;
     padding: 32px 52px;
   }
 
@@ -231,12 +227,8 @@
     grid-template-columns: 1fr;
   }
 
-  .project-hero__left {
-    min-height: auto;
-  }
-
   .project-hero__copy {
-    position: relative;
+    min-height: auto;
     padding: 32px 40px;
   }
 
