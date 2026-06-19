@@ -60,40 +60,15 @@
   line-height: 1.5;
 }
 
-.tooltip-panel__status {
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border: 1px solid;
-  white-space: nowrap;
+.tooltip-panel__top .project-status-tag {
+  margin-bottom: 0;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.tooltip-panel__status--implemented {
-  color: var(--status-implemented);
-  border-color: rgba(110, 201, 154, 0.4);
-}
-
-.tooltip-panel__status--adapted {
-  color: var(--status-both);
-  border-color: rgba(224, 169, 109, 0.4);
-}
-
-.tooltip-panel__status--future {
-  color: var(--status-future);
-  border-color: rgba(123, 174, 214, 0.4);
 }
 
 .carousel-hint {
   font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.2em;
+  font-size: 13px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: rgba(246, 199, 133, 0.45);
   margin-top: 8px;
@@ -185,29 +160,29 @@
 .project-status-tag {
   display: inline-block;
   font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   padding: 4px 10px;
   margin-bottom: 18px;
   align-self: flex-start;
-  border: 1px solid;
+  border: 2px solid;
 }
 
 .project-status-tag--implemented {
   color: var(--status-implemented);
-  border-color: rgba(110, 201, 154, 0.4);
+  border-color: rgba(110, 201, 154, 0.6);
 }
 
 .project-status-tag--future {
   color: var(--status-future);
-  border-color: rgba(123, 174, 214, 0.4);
+  border-color: rgba(123, 174, 214, 0.6);
 }
 
 .project-status-tag--both {
   color: var(--status-both);
-  border-color: rgba(224, 169, 109, 0.4);
+  border-color: rgba(224, 169, 109, 0.6);
 }
 
 .project-hero__tools {
@@ -234,9 +209,9 @@
 
 .project-hero__summary-label {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 30px;
   font-weight: 600;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 20px;
@@ -301,10 +276,30 @@
   border-left: 3px solid var(--red);
   background: rgb(from var(--red) r g b/20%);
   padding: 16px 20px;
-  font-style: italic;
   margin-top: 24px;
   color: rgb(from var(--gray) r g b/90%);
   font-size: 18px;
+}
+
+.disclaimer__legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(91, 6, 6, 0.35);
+}
+
+.disclaimer__legend-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-style: normal;
+}
+
+.disclaimer__legend-row .project-status-tag {
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .hyperlink {
