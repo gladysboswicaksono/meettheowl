@@ -14,6 +14,9 @@ img { max-width: 100%; }
   --white: #FAFAF8;
   --font-display: "Cinzel", Georgia, serif;
   --font-body:    "Crimson Pro", Georgia, serif;
+  --status-implemented: #6EC99A;
+  --status-future:      #7BAED6;
+  --status-both:        #E0A96D;
 }
 
 body {

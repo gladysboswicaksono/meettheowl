@@ -30,7 +30,7 @@ export default function Carousel({ slides, placeholderLabel = 'Image coming soon
     <div className="carousel">
       <div className="carousel-head">
         {s.title && <h3>{s.title}</h3>}
-        {s.caption && <p>{s.caption}</p>}
+        {s.caption && (typeof s.caption === 'string' ? <p>{s.caption}</p> : s.caption)}
       </div>
 
       <div className="carousel-box" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>

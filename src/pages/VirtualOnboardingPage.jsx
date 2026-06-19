@@ -40,57 +40,49 @@ export default function VirtualOnboardingPage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO */}
+        {/* PROJECT HERO + SUMMARY */}
         <section className="project-hero">
-          <h2>Making Remote Onboarding Work</h2>
-          <div className="project-hero__image">
-            <img src="/images/card-onboarding.png" alt="Welcome Onboard presentation on laptop" />
+          <div className="project-hero__left">
+            <div className="project-hero__bg">
+              <img src="/images/card-onboarding.png" alt="" aria-hidden="true" />
+            </div>
+            <div className="project-hero__vignette" />
+            <div className="project-hero__copy">
+              <h2>Making Remote Onboarding Work</h2>
+              <span className="project-status-tag project-status-tag--implemented">Implemented</span>
+              <p>
+                A Purchasing department's two-day in-person orientation was crucial for knowledge transfer.
+                COVID-19 made continuing in that format impossible — so the entire experience had to be redesigned from scratch.
+              </p>
+              <p className="project-hero__tools">Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P</p>
+            </div>
           </div>
-          <div className="project-hero__text">
-            <p>
-              A Purchasing department historically conducted a two-day in-person orientation for rotating
-              trainees, designed to thoroughly introduce them to their upcoming roles and responsibilities
-              within the department. The orientation was crucial to maintain the essential knowledge transfer.
-            </p>
-            <p>
-              However, COVID-19 social distancing measures made continuing in the traditional format
-              impossible.
-            </p>
-            <p className="project-hero__tools">
-              Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P
-            </p>
-          </div>
-        </section>
-
-        {/* SUMMARY */}
-        <section style={{ backgroundColor: 'var(--blue-bg)' }}>
-          <div className="summary-section">
-            <h2>Summary</h2>
-            <div className="summary-grid">
-              <div className="summary-column">
-                <h3>Goal</h3>
-                <p>
-                  Redesign training orientation and onboarding for COVID restrictions while keeping trainees
-                  job-ready and confident.
-                </p>
-              </div>
-              <div className="summary-column">
-                <h3>Solution</h3>
-                <p>
-                  Virtual kickoffs via Teams, complemented by self-paced learning path featuring interactive
-                  videos, 360° facility tour, micro-learning, and system simulations.
-                </p>
-              </div>
-              <div className="summary-column">
-                <h3>Outcome</h3>
-                <p>
-                  Increased engagement with daily responsiblities while achieving the same, if not higher,
-                  competency levels compared to those from traditional onboarding setup.
-                </p>
-              </div>
+          <div className="project-hero__right">
+            <span className="project-hero__summary-label">Summary</span>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">Goal</div>
+              <p className="project-summary-item__body">
+                Redesign training orientation and onboarding for COVID restrictions while keeping trainees
+                job-ready and confident from day one.
+              </p>
+            </div>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">Solution</div>
+              <p className="project-summary-item__body">
+                Virtual kickoffs via Teams, paired with a self-paced learning path: interactive videos,
+                a 360° facility tour with embedded scenarios, micro-learning modules, and system simulations.
+              </p>
+            </div>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">Outcome</div>
+              <p className="project-summary-item__body">
+                Over 75% completed the full learning path. Competency levels matched or exceeded traditional
+                onboarding — and the department kept the program running post-COVID.
+              </p>
             </div>
           </div>
         </section>
+        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">

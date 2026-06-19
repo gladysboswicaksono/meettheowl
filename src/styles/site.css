@@ -155,7 +155,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 40px 52px;
+  padding: 40px 64px;
 }
 
 /* Featured tag — shown only on the featured project */
@@ -495,8 +495,7 @@
 }
 
 .bio-panel__para strong {
-  color: var(--red);
-  text-decoration: underline;
+  color: var(--gold);
   font-weight: 600;
 }
 

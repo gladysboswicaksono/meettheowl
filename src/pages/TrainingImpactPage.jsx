@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import ZoomableImage from '../components/ZoomableImage';
@@ -942,9 +943,128 @@ function ImgCaption({ children }) {
   return <p className="img-caption">{children}</p>;
 }
 
+/* ── Tooltip term — dashed underline + hover/tap tooltip + dim overlay ── */
+function TooltipTerm({ term, desc, status, statusType }) {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0 });
+  const ref = useRef(null);
+  const closeTimer = useRef(null);
+
+  const getPos = () => {
+    if (ref.current) {
+      const r = ref.current.getBoundingClientRect();
+      setPos({ top: r.bottom + 8 });
+    }
+  };
+
+  // Desktop hover
+  const show = () => { clearTimeout(closeTimer.current); getPos(); setOpen(true); };
+  const hide = () => { closeTimer.current = setTimeout(() => setOpen(false), 100); };
+  const cancelHide = () => clearTimeout(closeTimer.current);
+
+  // Mobile press-and-hold
+  const onTouchStart = (e) => { e.preventDefault(); clearTimeout(closeTimer.current); getPos(); setOpen(true); };
+  const onTouchEnd = (e) => { e.preventDefault(); setOpen(false); };
+
+  return (
+    <>
+      <span
+        ref={ref}
+        className={`tooltip-term${open ? ' tooltip-term--active' : ''}`}
+        onMouseEnter={show}
+        onMouseLeave={hide}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        {term}
+      </span>
+      {open && createPortal(
+        <>
+          <div className="tooltip-overlay" onMouseDown={() => setOpen(false)} />
+          <div
+            className="tooltip-panel"
+            style={{ top: pos.top }}
+            onMouseEnter={cancelHide}
+            onMouseLeave={hide}
+          >
+            <div className="tooltip-panel__top">
+              <span className="tooltip-panel__label">{term}</span>
+              {status && (
+                <span className={`tooltip-panel__status tooltip-panel__status--${statusType}`}>
+                  ◉ {status}
+                </span>
+              )}
+            </div>
+            <span className="tooltip-panel__desc">{desc}</span>
+          </div>
+        </>,
+        document.body
+      )}
+    </>
+  );
+}
+
+function AnalyticalMethodsCaption() {
+  const [isDesktop, setIsDesktop] = useState(() =>
+    window.matchMedia('(min-width: 901px)').matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 901px)');
+    const update = () => setIsDesktop(mq.matches);
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  return (
+    <>
+      <p>
+        A simple trained-vs-untrained comparison is not enough as so many other variables can explain the
+        difference. This framework looks for the training signal through multiple lenses:{' '}
+        <TooltipTerm
+          term="simple comparison"
+          desc="Compares behavior or performance of trained vs. untrained users overall. A baseline signal that is fast to run, iterate, and interpret, but susceptible to confounding since the two groups may differ for reasons unrelated to training."
+          status="Implemented"
+          statusType="implemented"
+        />{' '}
+        and{' '}
+        <TooltipTerm
+          term="period-over-period tracking"
+          desc="Tracks how key metrics evolve over time for trained users (WoW, MoM, QoQ), so the signal can be monitored at the cadence that matches decision cycles."
+          status="Implemented"
+          statusType="implemented"
+        />{' '}
+        are implemented,{' '}
+        <TooltipTerm
+          term="same-tenure comparison"
+          desc="Compares trained users against untrained users at the same stage of their customer journey. Controls for the fact that newer users behave differently regardless of training."
+          status="Adapted from current approach"
+          statusType="adapted"
+        />{' '}
+        is adapted from my current approach, and{' '}
+        <TooltipTerm
+          term="difference-in-difference"
+          desc="Measures behavioral change in trained users relative to a matched control group, before and after training. Isolates the training effect from broader time-based trends."
+          status="Next method to build"
+          statusType="future"
+        />{' '}
+        is the next method I want to build.
+      </p>
+      <p className="carousel-hint">
+        — {isDesktop ? 'HOVER' : 'PRESS'} THE UNDERLINED TERMS TO LEARN MORE
+      </p>
+    </>
+  );
+}
+
 /* Reusable image carousel: gold subtitle + caption + image (or placeholder),
    with arrows and dots. Pass slides as [{ title, caption, img, alt }]. */
 const whatIBuiltSlides = [
+  {
+    title: 'Different Analytical Methods',
+    caption: <AnalyticalMethodsCaption />,
+    img: '/images/training-impact/dedicated-metric-pages.png',
+    alt: 'Framework analytical methods overview',
+  },
   {
     title: 'Overview Page',
     caption: 'An overview page with dynamic summary on all three measurement methods and metrics, so readers know the current state of training performance without digging further. A bot interpreter with example is linked directly from the page for on-demand guidance.',
@@ -990,107 +1110,95 @@ export default function TrainingImpactPage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO */}
+        {/* PROJECT HERO + SUMMARY */}
         <section className="project-hero">
-          <h2>Measuring Training Impact</h2>
-          <div className="project-hero__image">
-            <img src="/images/card-training-impact.png" alt="Dashboard UI elements" />
+          <div className="project-hero__left">
+            <div className="project-hero__bg">
+              <img src="/images/card-training-impact.png" alt="" aria-hidden="true" />
+            </div>
+            <div className="project-hero__vignette" />
+            <div className="project-hero__copy">
+              <h2>Measuring Training Impact</h2>
+              <span className="project-status-tag project-status-tag--both">Implemented + Future Direction</span>
+              <br></br>
+              <p>Put yourself in the shows of someone outside the education team.</p>
+              <p>
+                You don't know the people behind the work, the product knowledge the team translates, and the customer friction the team helps reduce.
+              </p>
+              <p style={{ color: 'var(--gold)', fontWeight: '800' }}>Would you keep investing in education?</p>
+              <br></br>
+              <a
+                href="https://app.powerbi.com/view?r=eyJrIjoiMjAzZDhhZGUtZTNkOS00Mjg5LTkwYTYtNDJlOTBhNGE4MzEyIiwidCI6ImVkNjUyMGQ1LTVhNjgtNDU5NS1hMTUxLTMxNGJhMjlkMDkzZSIsImMiOjl9&pageName=9b76e23a95ea177e60bd"
+                target="_blank"
+                rel="noreferrer"
+                className="btn-secondary project-hero-btn"
+              >
+                View Report
+              </a>
+              <br></br>
+              <br></br>
+              <p className="project-hero__tools">SQL &nbsp;&nbsp; ● &nbsp;&nbsp; Power BI &nbsp;&nbsp; ● &nbsp;&nbsp; HTML &nbsp;&nbsp; ● &nbsp;&nbsp; CSS &nbsp;&nbsp; ● &nbsp;&nbsp; Antrophic API</p>
+            </div>
           </div>
-          <div className="project-hero__text">
-            <p>"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer confidently.</p>
-            <p>
-              This work piece walks through the measurement framework and Power BI report I built so that
-              question always has an{' '}
-              <strong style={{ color: 'var(--red)' }}>honest, data-backed answer</strong>,
-              and a clear direction forward.
-            </p>
-            <a
-              href="https://app.powerbi.com/view?r=eyJrIjoiMjAzZDhhZGUtZTNkOS00Mjg5LTkwYTYtNDJlOTBhNGE4MzEyIiwidCI6ImVkNjUyMGQ1LTVhNjgtNDU5NS1hMTUxLTMxNGJhMjlkMDkzZSIsImMiOjl9&pageName=9b76e23a95ea177e60bd"
-              target="_blank"
-              rel="noreferrer"
-              className="btn-primary"
-            >
-              View report
-            </a>
-          </div>
-        </section>
-
-        {/* SUMMARY */}
-        <section style={{ backgroundColor: 'var(--blue-bg)' }}>
-          <div className='summary-section'>
-            <h2>Summary</h2>
-            <div className='summary-grid'>
-              <div className='summary-column'>
-                <h3>The Gap</h3>
-                <p>
-                  Training happened, but the results were unclear. The definition of a trained user didn't
-                  say much about what they were actually supposed to be trained for. The metrics tracked,
-                  like completion rates and CSAT, had no reliable connection to what the business cared
-                  about. As an IC, that left me wondering how my work actually contributes to customer
-                  success and business outcomes.
-                </p>
-              </div>
-
-              <div className='summary-column'>
-                <h3>The Work</h3>
-                <p>
-                  A measurement framework with flexible definitions of trained users based on intended
-                  business outcomes, with in-depth reporting in Power BI. To get there, I retrieved relevant
-                  business data in the data warehouse and analyzed how users at different stages of training
-                  actually performed on the platform. I wanted the definition of trained to be grounded in
-                  where training visibly starts moving the needle.
-                </p>
-              </div>
-
-              <div className='summary-column'>
-                <h3>The Shift</h3>
-                <p>
-                  Trained user rate entered departmental OKRs, making training a business-accountable metric
-                  for the first time. Every design decision now has a baseline to build on and a way to test
-                  whether it actually worked. The function no longer reports on its own language, but rather
-                  setting goals in the same terms that our crossfunctional stakeholders use to measure
-                  success.
-                </p>
-              </div>
-
+          <div className="project-hero__right">
+            <span className="project-hero__summary-label">Summary</span>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">The Gap</div>
+              <p className="project-summary-item__body">
+                Training happened, but the results were unclear. The definition of a trained user had no
+                reliable connection to what the business cared about — leaving the learning function unable
+                to demonstrate its impact in terms stakeholders understood.
+              </p>
+            </div>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">The Work</div>
+              <p className="project-summary-item__body">
+                A measurement framework with flexible trained-user definitions grounded in business outcomes,
+                backed by data warehouse queries and surfaced through a Power BI report with an AI-powered
+                interpreter for stakeholder questions.
+              </p>
+            </div>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">The Shift</div>
+              <p className="project-summary-item__body">
+                Trained user rate entered departmental OKRs — making training a business-accountable metric
+                for the first time. The function now reports in the same terms crossfunctional stakeholders
+                use to measure success.
+              </p>
             </div>
           </div>
         </section>
+        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
-        <section style={{ background: 'var(--gray)', padding: '60px 0' }}>
-          <div className="about-section">
-            <h2>About This Work</h2>
-            <p>
-              The common advice in our space sounds simple, "Start with business outcomes, build the training to address them, then
-              decide what trained means."
-            </p>
-            <p>In practice, there are two main challenges with this:</p>
-            <ol className="about-list">
-              <li>
-                Most of us inherit training portfolios built by people who've moved on, and we're left
-                with their courses, structure, and whatever vision they had.
-              </li>
-              <li>What is trained? There is no a single definition that addresses everything.</li>
-            </ol>
-            <p>
-              Even then, proving training works is harder than it looks. Many business functions measure
-              impact through a relatively clean, linear chain of events: Action ➔ Response ➔ Outcome, while
-              a learning function doesn't have that luxury. Our work shapes behavior gradually, across a
-              distributed population with different tenure and experience. The causal chain is long, noisy,
-              and filled with variables that make it genuinely difficult to draw a line between "someone
-              completed training" and "business metrics moved".
-            </p>
-            <p>
-              In my view, if we could show that trained users consistently outperform untrained ones on
-              different metrics, measured through multiple methods, with different user populations and
-              different time windows, at some point the pattern itself becomes the proof.
-            </p>
-            <div className="disclaimer">
-              This work sample runs on sample data generated to showcase my methodology and thought
-              process. The framework, analytical approach, and measurement logic reflect how I work and do
-              not represent real company data.
-            </div>
+        <section className="about-section">
+          <h2>WHERE IT STARTED</h2>
+          <p><em>
+            "Would you keep investing in education?"
+          </em></p>
+          <p>
+            That question is the starting point for this case study. Learning teams have no problem showing numbers of courses launched, users trained, completion rates reached.
+            But what do they mean to the business? Do they show that education helped change user behavior, reduce friction, and support company goals in a measurable way?
+            And if they do, how would stakeholders know?
+          </p>
+          <p>
+            My working hypothesis: if we could show that trained users consistently outperform untrained ones on
+            different metrics, measured through multiple methods, with different user populations and
+            different time windows, at some point the pattern itself becomes the proof.
+          </p>
+          <p>
+            That's why I started developing a framework on how education can be measured in a way that the business can understand:
+          </p>
+          <ol>
+            <li>Define a <em>trained</em> user through outcome-based logic.</li>
+            <li>Connect learning data with product and performance data.</li>
+            <li>Use different analytical methods to monitor and showcase how education consistently contributes to meaningfull business results.</li>
+          </ol>
+          <div className="disclaimer">
+            This is a public, sanitized case study based on real work. Some elements reflect what I have already implemented;
+            others reflect where I want to take the framework next, whether in my current role or in a future Customer Education team.
+            <br></br>
+            I mark the difference throughout so you can focus on the implemented work if that's what you're evaluating.
           </div>
         </section>
 

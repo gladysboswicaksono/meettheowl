@@ -26,13 +26,14 @@ const projects = [
     category: 'AI, Data & Measurement',
     title: 'Measuring Training Impact',
     featuredTitle: 'Measuring\nTraining Impact',
-    description: '"Is training driving results?" is the question every stakeholder asks and most learning teams struggle to answer. This is the framework built so that question always has a data-backed answer.',
+    description: <>Put yourself in the shoes of someone outside the education team. You don't know the people behind the work, the product knowledge the team translates, 
+    and the customer friction the team helps reduce. <br></br>Would you keep investing in education?</>,
     href: '/training-impact',
     tagline: 'Trained rate entered OKRs',
     stats: [
-      { value: 'OKR', label: 'Trained-user rate became\na company-wide KR.' },
-      { value: 'SQL, Power BI & Claude API', label: 'Impact reporting with an\nAI interpreter for stakeholder questions.' },
-      { value: 'Defensible Framework', label: 'Three-method framework for\nmeasuring training impact.' },
+      { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
+      { value: 'THE WORK', label: <>Flexible and outcome-based <em>trained</em> logic in SQL and Power BI.</> },
+      { value: 'THE SHIFT', label: 'Learning projects now start with business impact targets.' },
     ],
   },
   {

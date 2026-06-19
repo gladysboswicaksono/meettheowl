@@ -238,35 +238,57 @@ export default function OwllocatePage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO */}
+        {/* PROJECT HERO + SUMMARY */}
         <section className="project-hero">
-          <h2>Getting Started with Owllocate</h2>
-          <div className="project-hero__image">
-            <img src="/images/card-owllocate.png" alt="Owllocate app on desktop and mobile" />
+          <div className="project-hero__left">
+            <div className="project-hero__bg">
+              <img src="/images/card-owllocate.png" alt="" aria-hidden="true" />
+            </div>
+            <div className="project-hero__vignette" />
+            <div className="project-hero__copy">
+              <h2>Getting Started with Owllocate</h2>
+              <span className="project-status-tag project-status-tag--future">Future Direction</span>
+              <p>When work takes over, self-care and wellbeing slip through the cracks. This course bridges personal wellbeing and financial responsibility through habit formation that pays — literally.</p>
+              <p className="project-hero__tools">Tools: Articulate Storyline, Parta, Google Apps Script, Adobe Illustrator, Adobe Photoshop</p>
+              <a
+                href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
+                target="_blank"
+                rel="noreferrer"
+                className="btn-secondary project-hero-btn"
+              >
+                Try Me
+              </a>
+            </div>
           </div>
-          <div className="project-hero__text">
-            <p>When work takes over, self-care and wellbeing slip through the cracks.</p>
-            <p>
-              This course explores how Owllocate bridges personal wellbeing and financial
-              responsibility, transforming habit formation into rewards that pays (literally!)
-            </p>
-            <p className="project-hero__tools">
-              Tools: Articulate Storyline, Parta, Google Apps Script, Adobe Illustrator, Adobe Photoshop.
-            </p>
-            <a
-              href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
-              target="_blank"
-              rel="noreferrer"
-              className="btn-primary project-hero-btn"
-            >
-              Try Me
-            </a>
+          <div className="project-hero__right">
+            <span className="project-hero__summary-label">Summary</span>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">The Gap</div>
+              <p className="project-summary-item__body">
+                Users had no structured onboarding for the Owllocate platform, leading to confusion and
+                heavy reliance on support for tasks they should be able to complete independently.
+              </p>
+            </div>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">The Work</div>
+              <p className="project-summary-item__body">
+                An interactive eLearning course built with immersive simulations, progressive complexity,
+                and data-driven adaptive feedback — targeted precisely at where users got stuck.
+              </p>
+            </div>
+            <div className="project-summary-item">
+              <div className="project-summary-item__heading">The Shift</div>
+              <p className="project-summary-item__body">
+                Trained users submitted ~27% fewer support cases than untrained users. Ongoing refinements
+                drove a ~14% quarterly reduction in support tickets among the trained population.
+              </p>
+            </div>
           </div>
         </section>
+        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
-        <section style={{ background: 'var(--gray)' }}>
-          <div className="about-section">
+        <section className="about-section">
             <h2>About This Work</h2>
             <p>
               In my role, I designed a product training for one of our most complex topics, also one
@@ -308,7 +330,6 @@ export default function OwllocatePage() {
               This work piece represents my individual design approach and methodology. It does not
               reflect the procedures, processes, or team practices of my current or former employers.
             </div>
-          </div>
         </section>
 
         {/* LEARNING DESIGN & TECHNICAL IMPLEMENTATION */}
