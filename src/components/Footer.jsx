@@ -1,6 +1,6 @@
 const workLinks = [
   { label: 'Getting Started with Owllocate',     href: '/owllocate-get-started' },
-  { label: 'Measuring Training Impact',     href: '/training-impact' },
+  { label: 'Measuring Training Effectiveness', href: '/training-effectiveness' },
   { label: 'Data & AI for Needs Analysis',  href: '/needs-analysis' },
   { label: 'Making Remote Onboarding Work', href: '/virtual-onboarding' },
 ];

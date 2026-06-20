@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 
@@ -26,10 +26,33 @@ function ZoomableImage({ src, alt }) {
   );
 }
 
+async function getGifDuration(src) {
+  try {
+    const bytes = new Uint8Array(await (await fetch(src)).arrayBuffer());
+    let cs = 0;
+    for (let i = 0; i < bytes.length - 5; i++) {
+      if (bytes[i] === 0x21 && bytes[i + 1] === 0xF9 && bytes[i + 2] === 0x04) {
+        cs += bytes[i + 4] | (bytes[i + 5] << 8);
+      }
+    }
+    return cs * 10;
+  } catch { return 0; }
+}
+
 function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const src = playing ? gif : poster;
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!playing) { clearTimeout(timerRef.current); return; }
+    getGifDuration(gif).then(duration => {
+      if (duration > 0) timerRef.current = setTimeout(() => setPlaying(false), duration * 5);
+    });
+    return () => clearTimeout(timerRef.current);
+  }, [playing, gif]);
+
   return (
     <div className="gif-figure">
       <button type="button" className="gif-toggle" onClick={() => setPlaying(p => !p)}>
@@ -385,8 +408,8 @@ export default function OwllocatePage() {
             a trained-user framework and a Power BI report that surfaces what's actually happening
             inside a training program.
           </p>
-          <a href="/training-impact" className="btn-secondary">
-            Measuring Training Impact
+          <a href="/training-effectiveness" className="btn-secondary">
+            Measuring Training Effectiveness
           </a>
         </section>
 

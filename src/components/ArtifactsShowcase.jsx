@@ -8,7 +8,7 @@ const projects = [
   {
     image: '/images/card-owllocate.png',
     imageAlt: 'Owllocate app on desktop and mobile',
-    category: 'Customer Education',
+    category: ['Customer Education'],
     title: 'Getting Started with Owllocate',
     featuredTitle: 'Getting Started\nwith Owllocate',
     description: 'When work takes over, self-care and wellbeing slip through the cracks. This course bridges personal wellbeing and financial responsibility through habit formation that pays — literally.',
@@ -21,25 +21,23 @@ const projects = [
     ],
   },
   {
-    image: '/images/card-training-impact.png',
+    image: '/images/card-training-effectiveness.png',
     imageAlt: 'Report mock-up',
-    category: 'AI, Data & Measurement',
+    category: ['AI, Data & Measurement', 'Customer Education'],
     title: 'Measuring Training Effectiveness',
     featuredTitle: 'Measuring Training Effectiveness',
-    description: <>Put yourself in the shoes of someone outside the education team. Forget what you know the people behind the work, the product knowledge the team translates, 
-    and the customer friction the team helps reduce. <br></br>Would you keep investing in education?</>,
-    href: '/training-impact',
+    href: '/training-effectiveness',
     tagline: 'Trained rate entered OKRs',
     stats: [
       { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
-      { value: 'THE WORK', label: <>Flexible and outcome-based <em>trained</em> logic in SQL and Power BI.</> },
-      { value: 'THE SHIFT', label: 'Learning projects now start with business-relevant measurement targets.' },
+      { value: 'THE WORK', label: <>Training status mapped to product usage and behavior in SQL and Power BI.</> },
+      { value: 'THE SHIFT', label: 'Learning projects now start with measurement targets tied to company goals.' },
     ],
   },
   {
     image: '/images/card-needs-analysis.png',
     imageAlt: 'Owl eye close-up with data overlay',
-    category: 'AI, Data & Measurement',
+    category: ['AI, Data & Measurement'],
     title: 'Data & AI for Needs Analysis',
     featuredTitle: 'Data & AI for\nNeeds Analysis',
     description: "AI pattern-matches toward plausibility, not truth. That's why I treat it as a probabilistic assistant under audit — not a magic eight ball.",
@@ -54,7 +52,7 @@ const projects = [
   {
     image: '/images/card-onboarding.png',
     imageAlt: 'Welcome Onboard presentation on laptop',
-    category: 'Internal Enablement',
+    category: ['Internal Enablement'],
     title: 'Making Remote Onboarding Work',
     featuredTitle: 'Making Remote\nOnboarding Work',
     description: 'A two-day in-person orientation crucial for transferring essential knowledge — redesigned for virtual delivery when COVID made the traditional format impossible.',
@@ -95,7 +93,7 @@ export default function ArtifactsShowcase() {
               {selected === FEATURED_INDEX && (
                 <div className="showcase__featured-tag">Featured</div>
               )}
-              <div className="showcase__eyebrow">{p.category}</div>
+              <div className="showcase__eyebrow">{p.category.join(' · ')}</div>
               <h2 className="showcase__title">{p.featuredTitle}</h2>
               <p className="showcase__desc">{p.description}</p>
               <div className="showcase__stats">
@@ -127,7 +125,11 @@ export default function ArtifactsShowcase() {
                     <img src={proj.image} alt={proj.imageAlt} />
                   </div>
                   <div className="showcase__proj-info">
-                    <span className="showcase__proj-tag">{proj.category}</span>
+                    <div className="showcase__proj-tags">
+                      {proj.category.map(tag => (
+                        <span key={tag} className="showcase__proj-tag">{tag}</span>
+                      ))}
+                    </div>
                     <span className="showcase__proj-title">{proj.title}</span>
                     <span className="showcase__proj-proof">{proj.tagline}</span>
                   </div>

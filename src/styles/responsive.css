@@ -333,6 +333,12 @@
 
 /* Phones */
 @media (max-width: 600px) {
+  .disclaimer__legend-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
   .own-ai-hero-panes {
     grid-template-columns: 1fr;
   }
