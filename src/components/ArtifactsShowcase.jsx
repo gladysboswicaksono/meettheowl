@@ -68,6 +68,7 @@ const projects = [
 export default function ArtifactsShowcase() {
   const [selected, setSelected] = useState(FEATURED_INDEX);
   const [showBio, setShowBio] = useState(false);
+  const [hasBeenUsed, setHasBeenUsed] = useState(false);
   const bioPanelRef = useRef(null);
   const p = projects[selected];
 
@@ -83,7 +84,7 @@ export default function ArtifactsShowcase() {
         <div className="showcase__inner">
 
           {/* ── Left: full-bleed image + vignette + copy overlay ── */}
-          <div className="showcase__left">
+          <div className="showcase__left" key={selected}>
             <div className="showcase__bg">
               <img src={p.image} alt={p.imageAlt} />
             </div>
@@ -142,10 +143,14 @@ export default function ArtifactsShowcase() {
               </p>
               <button
                 type="button"
-                className="showcase__sidebar-more"
-                onClick={() => setShowBio(b => !b)}
+                className={`showcase__sidebar-more${!hasBeenUsed ? ' showcase__sidebar-more--pulsing' : ''}`}
+                onClick={() => {
+                  const next = !showBio;
+                  setShowBio(next);
+                  if (!next) setHasBeenUsed(true);
+                }}
               >
-                {showBio ? 'Close ↑' : 'Meet me ↓'}
+                {showBio ? 'Close ↑' : 'WHO\'S THE OWL ↓'}
               </button>
             </div>
           </div>

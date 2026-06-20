@@ -16,31 +16,34 @@ export default function NeedsAnalysisPage() {
             <div className="project-hero__vignette" />
             <div className="project-hero__copy">
               <h2>Data and AI for Analysis &amp; Evaluation</h2>
-              <span className="project-status-tag project-status-tag--implemented">Implemented</span>
               <p>
-                AI pattern-matches toward plausibility, not truth. That's why I treat it as a probabilistic
-                assistant under audit — not a magic eight ball that spits out answers.
+                An item has been sitting in your wishlist for days. As if the universe was on your side,
+                a notification arrived confirming a successful €1,500 refund. 
+              </p>
+              <p style={{ color: 'var(--gold)', fontWeight: '800' }}>
+                Would you buy your wishlist item without checking your bank app?
               </p>
             </div>
           </div>
           <div className="project-hero__right">
             <span className="project-hero__summary-label">Summary</span>
             <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Approach</div>
+              <div className="project-summary-item__heading">The Gap</div>
               <p className="project-summary-item__body">
-                AI is fast and credible-sounding, but it pattern-matches toward plausibility rather than
-                truth — so a 6-step methodology was designed to treat it as a probabilistic assistant under audit.
+                When deciding what learning intervention to create (or whether to create one at all), 
+                we are making resource allocation decisions. AI has become the go-to tool for <strong>researching</strong>, <strong>analyzing data</strong>, and <strong>informing those decisions</strong>. 
+                But it often presents findings that sound so credible that we forget AI is designed to pattern-match and create plausible outputs, which are <strong>not necessarily the truth</strong>.
               </p>
             </div>
             <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Method</div>
+              <div className="project-summary-item__heading">The Work</div>
               <p className="project-summary-item__body">
                 Thousands of support tickets were analyzed using AI with strict guardrails, then manually
                 validated against the source system before any finding was acted on.
               </p>
             </div>
             <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Result</div>
+              <div className="project-summary-item__heading">The Shift</div>
               <p className="project-summary-item__body">
                 A repeatable framework for AI-assisted qualitative analysis that produces defensible,
                 triangulated findings — not just confident-sounding guesses.

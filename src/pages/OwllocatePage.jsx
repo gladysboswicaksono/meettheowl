@@ -356,7 +356,7 @@ export default function OwllocatePage() {
             My working hypothesis: if users could practice the workflow as if they were in the real system, through goal-focused tasks that gradually increase in complexity,
             with guidance available at any point, and feedback tied to the consequences of their choices, they would become more capable, more confident, and less dependent on Support teams.
           </p>
-          <p>
+          {/* <p>
             That's why my solution was built around:
           </p>
           <ol>
@@ -364,7 +364,7 @@ export default function OwllocatePage() {
             <li>Character-driven storytelling and immersive simulations that build up in complexity.</li>
             <li>Contextual feedback that reframe "How to use Feature X" into "How to achieve [Goal] with Feature X"</li>
           </ol>
-          <br></br>
+          <br></br> */}
           <p>
             Below, I elaborate on my design choices. The data work deserves its own deep dive and you can explore it in its dedicated case study linked
             at the end of this page.

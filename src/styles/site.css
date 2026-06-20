@@ -116,9 +116,15 @@
 }
 
 /* ── Left: full-bleed image + vignette + overlay copy ── */
+@keyframes showcase-left-enter {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
 .showcase__left {
   position: relative;
   overflow: hidden;
+  animation: showcase-left-enter 0.4s ease-out both;
 }
 
 .showcase__bg {
@@ -394,10 +400,13 @@
   padding: 0;
   cursor: pointer;
   transition: color 0.2s ease;
-  animation: showcase-more-bob 1.8s ease-in-out 50;
 }
 
 .showcase__sidebar-more:hover { color: var(--gold); }
+
+.showcase__sidebar-more--pulsing {
+  animation: showcase-more-bob 1.8s ease-in-out infinite;
+}
 
 @keyframes showcase-more-bob {
   0%, 100% { transform: translateY(0);   opacity: 0.55; }
