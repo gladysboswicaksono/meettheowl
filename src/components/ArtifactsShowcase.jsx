@@ -10,14 +10,13 @@ const projects = [
     imageAlt: 'Owllocate app on desktop and mobile',
     category: ['Customer Education'],
     title: 'Getting Started with Owllocate',
-    featuredTitle: 'Getting Started\nwith Owllocate',
-    description: 'When work takes over, self-care and wellbeing slip through the cracks. This course bridges personal wellbeing and financial responsibility through habit formation that pays — literally.',
+    featuredTitle: 'Getting Started with Owllocate',
     href: '/owllocate-get-started',
     tagline: '~27% fewer support cases',
     stats: [
-      { value: '~27%', label: 'Fewer support\ncases post-training' },
-      { value: 'Storyline', label: 'Interactive\nsimulations' },
-      { value: 'Live', label: 'Active\ncourse' },
+      { value: 'THE GAP', label: 'Knowing where to click was not enough when the workflow had stakes, exceptions, and room for mistakes.' },
+      { value: 'THE WORK', label: 'A hands-on simulation series built with character-led scenarios, progressive practice, and contextual feedback.' },
+      { value: 'THE SHIFT', label: 'Trained users submitted 27% fewer support tickets on the topics they practiced.' },
     ],
   },
   {
