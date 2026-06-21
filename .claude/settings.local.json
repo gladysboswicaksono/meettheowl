@@ -57,7 +57,10 @@
       "Bash(git pull *)",
       "Bash(git stash *)",
       "Bash(git restore *)",
-      "PowerShell(New-Item -ItemType Directory -Force \"E:\\\\Portfolio\\\\site\\\\public\\\\downloads\")"
+      "PowerShell(New-Item -ItemType Directory -Force \"E:\\\\Portfolio\\\\site\\\\public\\\\downloads\")",
+      "PowerShell(Rename-Item -Path \"E:\\\\Portfolio\\\\site\\\\public\\\\images\\\\training-impact\" -NewName \"training-effectiveness\")",
+      "Bash(sed -i 's|card-training-impact\\\\.png|card-training-effectiveness.png|g' src/pages/TrainingImpactPage.jsx)",
+      "Bash(sed -i 's|card-training-impact\\\\.png|card-training-effectiveness.png|g' src/components/ArtifactsShowcase.jsx)"
     ]
   }
 }

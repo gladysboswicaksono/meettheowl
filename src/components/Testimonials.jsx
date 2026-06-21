@@ -45,6 +45,7 @@ export default function Testimonials() {
   const [expanded, setExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [notDesktop, setNotDesktop] = useState(false);
+  const sectionRef = useRef(null);
   const total = testimonials.length;
   const t = testimonials[current];
 
@@ -66,6 +67,7 @@ export default function Testimonials() {
     trackEvent('testimonial_slide', '/', testimonials[next].name);
     setCurrent(next);
     setExpanded(false);
+    if (isMobile) sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Swipe navigation
@@ -82,7 +84,7 @@ export default function Testimonials() {
   const readMoreStyle = { fontFamily: 'var(--font-body)', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.5rem 1.25rem', fontSize: '0.9375rem', cursor: 'pointer', marginTop: '0.5rem' };
 
   return (
-    <section id="testimonials" style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
+    <section id="testimonials" ref={sectionRef} style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
 
         <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--gold)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: '3rem' }}>

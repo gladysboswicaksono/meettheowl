@@ -8,58 +8,54 @@ const projects = [
   {
     image: '/images/card-owllocate.png',
     imageAlt: 'Owllocate app on desktop and mobile',
-    category: 'Customer Education',
+    category: ['Customer Education'],
     title: 'Getting Started with Owllocate',
-    featuredTitle: 'Getting Started\nwith Owllocate',
-    description: 'When work takes over, self-care and wellbeing slip through the cracks. This course bridges personal wellbeing and financial responsibility through habit formation that pays — literally.',
+    featuredTitle: 'Getting Started with Owllocate',
     href: '/owllocate-get-started',
-    tagline: '~27% fewer support cases',
+    tagline: 'Decrease support ticket volume by addressing knowledge gap',
     stats: [
-      { value: '~27%', label: 'Fewer support\ncases post-training' },
-      { value: 'Storyline', label: 'Interactive\nsimulations' },
-      { value: 'Live', label: 'Active\ncourse' },
+      { value: 'THE GAP', label: 'Knowing where to click was not enough when the workflow had stakes, exceptions, and room for mistakes.' },
+      { value: 'THE WORK', label: 'A hands-on simulation series built with character-led scenarios, progressive practice, and contextual feedback.' },
+      { value: 'THE SHIFT', label: 'Trained users submitted 27% fewer support tickets on the topics they practiced.' },
     ],
   },
   {
-    image: '/images/card-training-impact.png',
+    image: '/images/card-training-effectiveness.png',
     imageAlt: 'Report mock-up',
-    category: 'AI, Data & Measurement',
+    category: ['AI, Data & Measurement', 'Customer Education'],
     title: 'Measuring Training Effectiveness',
     featuredTitle: 'Measuring Training Effectiveness',
-    description: <>Put yourself in the shoes of someone outside the education team. Forget what you know the people behind the work, the product knowledge the team translates, 
-    and the customer friction the team helps reduce. <br></br>Would you keep investing in education?</>,
-    href: '/training-impact',
-    tagline: 'Trained rate entered OKRs',
+    href: '/training-effectiveness',
+    tagline: 'Increase team impact visibility by getting more data literate',
     stats: [
       { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
-      { value: 'THE WORK', label: <>Flexible and outcome-based <em>trained</em> logic in SQL and Power BI.</> },
-      { value: 'THE SHIFT', label: 'Learning projects now start with business-relevant measurement targets.' },
+      { value: 'THE WORK', label: <>Training status mapped to product usage and behavior in SQL and Power BI.</> },
+      { value: 'THE SHIFT', label: 'Learning projects now start with measurement targets tied to company goals.' },
     ],
   },
   {
     image: '/images/card-needs-analysis.png',
     imageAlt: 'Owl eye close-up with data overlay',
-    category: 'AI, Data & Measurement',
+    category: ['AI, Data & Measurement'],
     title: 'Data & AI for Needs Analysis',
-    featuredTitle: 'Data & AI for\nNeeds Analysis',
-    description: "AI pattern-matches toward plausibility, not truth. That's why I treat it as a probabilistic assistant under audit — not a magic eight ball.",
+    featuredTitle: 'Data & AI for Needs Analysis',
     href: '/needs-analysis',
-    tagline: '6-step audited methodology',
+    tagline: 'Solve the right problem by accurately analyze qualitative data using AI',
     stats: [
-      { value: '6-step', label: 'Audited AI\nmethodology' },
-      { value: 'Claude API', label: 'AI-assisted\nanalysis' },
-      { value: 'Verified', label: 'Source-checked\noutput' },
+      { value: 'The gap', label: 'AI findings look so credible that checking them felt unnecessary.' },
+      { value: 'The work', label: 'A structured, source-verified approach to AI analysis of large-scale qualitative data.' },
+      { value: 'The Shift', label: 'Learning design became more grounded in real user behavior and training effort focus on where training was needed. ' },
     ],
   },
   {
     image: '/images/card-onboarding.png',
     imageAlt: 'Welcome Onboard presentation on laptop',
-    category: 'Internal Enablement',
+    category: ['Internal Training'],
     title: 'Making Remote Onboarding Work',
     featuredTitle: 'Making Remote\nOnboarding Work',
     description: 'A two-day in-person orientation crucial for transferring essential knowledge — redesigned for virtual delivery when COVID made the traditional format impossible.',
     href: '/virtual-onboarding',
-    tagline: '>75% completion, kept post-COVID',
+    tagline: 'Keep trainees job-ready and confident without in-person onboarding',
     stats: [
       { value: '>75%', label: 'Course\ncompletion rate' },
       { value: 'H5P', label: 'Interactive\nvideo format' },
@@ -71,6 +67,7 @@ const projects = [
 export default function ArtifactsShowcase() {
   const [selected, setSelected] = useState(FEATURED_INDEX);
   const [showBio, setShowBio] = useState(false);
+  const [hasBeenUsed, setHasBeenUsed] = useState(false);
   const bioPanelRef = useRef(null);
   const p = projects[selected];
 
@@ -86,7 +83,7 @@ export default function ArtifactsShowcase() {
         <div className="showcase__inner">
 
           {/* ── Left: full-bleed image + vignette + copy overlay ── */}
-          <div className="showcase__left">
+          <div className="showcase__left" key={selected}>
             <div className="showcase__bg">
               <img src={p.image} alt={p.imageAlt} />
             </div>
@@ -95,7 +92,7 @@ export default function ArtifactsShowcase() {
               {selected === FEATURED_INDEX && (
                 <div className="showcase__featured-tag">Featured</div>
               )}
-              <div className="showcase__eyebrow">{p.category}</div>
+              <div className="showcase__eyebrow">{p.category.join(' · ')}</div>
               <h2 className="showcase__title">{p.featuredTitle}</h2>
               <p className="showcase__desc">{p.description}</p>
               <div className="showcase__stats">
@@ -127,30 +124,45 @@ export default function ArtifactsShowcase() {
                     <img src={proj.image} alt={proj.imageAlt} />
                   </div>
                   <div className="showcase__proj-info">
-                    <span className="showcase__proj-tag">{proj.category}</span>
+                    <div className="showcase__proj-tags">
+                      {proj.category.map(tag => (
+                        <span key={tag} className="showcase__proj-tag">{tag}</span>
+                      ))}
+                    </div>
                     <span className="showcase__proj-title">{proj.title}</span>
-                    <span className="showcase__proj-proof">{proj.tagline}</span>
+                    <span className="showcase__proj-proof">
+                      <img src="/icons/target.svg" aria-hidden="true" style={{ width: '11px', height: '11px', verticalAlign: 'middle', marginRight: '5px', marginBottom: '2px', opacity: 0.7 }} />
+                      {proj.tagline}
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="showcase__sidebar-footer">
-              <p className="showcase__sidebar-about">
-                Product-minded Learning Designer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+7 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mews
-              </p>
-              <button
-                type="button"
-                className="showcase__sidebar-more"
-                onClick={() => setShowBio(b => !b)}
-              >
-                {showBio ? 'Close ↑' : 'Meet me ↓'}
-              </button>
-            </div>
           </div>
 
         </div>
-        <div className="showcase__bottom-bar" />
+
+        {/* ── Seam ribbon: floats over the showcase / testimonials boundary ── */}
+        <div className="showcase__seam-ribbon">
+          <span className="showcase__seam-meta"><span style={{ color: 'var(--gold)' }}>Product-minded</span> Learning Designer</span>
+          <div className="showcase__seam-divider" />
+          <span className="showcase__seam-meta">+7 years</span>
+          <div className="showcase__seam-divider" />
+          <span className="showcase__seam-meta">Mews</span>
+          <div className="showcase__seam-divider" />
+          <button
+            type="button"
+            className={`showcase__sidebar-more${!hasBeenUsed && !showBio ? ' showcase__sidebar-more--pulsing' : ''}`}
+            onClick={() => {
+              const next = !showBio;
+              setShowBio(next);
+              if (!next) setHasBeenUsed(true);
+            }}
+          >
+            {showBio ? 'Close ↑' : "MEET ME ↓"}
+          </button>
+        </div>
       </section>
 
       {/* ── Bio panel: revealed on "Meet me" click ── */}

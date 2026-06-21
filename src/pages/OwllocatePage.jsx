@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import TooltipTerm from '../components/TooltipTerm';
 
 function ZoomableImage({ src, alt }) {
   const [zoomed, setZoomed] = useState(false);
@@ -26,10 +27,33 @@ function ZoomableImage({ src, alt }) {
   );
 }
 
+async function getGifDuration(src) {
+  try {
+    const bytes = new Uint8Array(await (await fetch(src)).arrayBuffer());
+    let cs = 0;
+    for (let i = 0; i < bytes.length - 5; i++) {
+      if (bytes[i] === 0x21 && bytes[i + 1] === 0xF9 && bytes[i + 2] === 0x04) {
+        cs += bytes[i + 4] | (bytes[i + 5] << 8);
+      }
+    }
+    return cs * 10;
+  } catch { return 0; }
+}
+
 function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const src = playing ? gif : poster;
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!playing) { clearTimeout(timerRef.current); return; }
+    getGifDuration(gif).then(duration => {
+      if (duration > 0) timerRef.current = setTimeout(() => setPlaying(false), duration * 5);
+    });
+    return () => clearTimeout(timerRef.current);
+  }, [playing, gif]);
+
   return (
     <div className="gif-figure">
       <button type="button" className="gif-toggle" onClick={() => setPlaying(p => !p)}>
@@ -151,8 +175,8 @@ const tabs = [
     ),
   },
   {
-    id: 'adaptive',
-    label: 'Adaptive Feedback',
+    id: 'contextual',
+    label: 'Contextual Feedback',
     content: (
       <>
         <p>
@@ -160,16 +184,21 @@ const tabs = [
           do you make feedback that specific at scale?
         </p>
         <p>
-          Building custom feedback for every possible click is impractical with today's technology,
-          so I use data to guide where precision matters most. When I notice patterns where users
+          I use data to guide where precision matters most because building custom feedback for every possible click is{' '}
+          <TooltipTerm
+            term="impractical with today's technology"
+            desc="At the time, I didn't have much access to AI tools. While I wouldn't design custom feedback for every click, AI makes it more feasible to create deeper custom feedback than what I could build manually. And I look forward to showcasing it in my future case study."
+          />
+          <img src="/icons/info.svg" aria-hidden="true" style={{ width: '13px', height: '13px', opacity: 0.45, verticalAlign: 'middle', marginRight: '2px', marginBottom: '2px' }} />
+          . When I notice patterns where users
           consistently get stuck, I implement targeted tracking to understand what might cause the
           confusion. From there, I create feedback that speaks directly to the actual problem.
         </p>
         <Accordion label="Illustration">
           <div className="accordion-images accordion-images--grid3">
-            <ZoomableImage src="/images/owllocate/Implementation 1.png" alt="Adaptive feedback" />
-            <ZoomableImage src="/images/owllocate/Implementation 2.png" alt="Adaptive feedback" />
-            <ZoomableImage src="/images/owllocate/Implementation 3.png" alt="Adaptive feedback" />
+            <ZoomableImage src="/images/owllocate/Implementation 1.png" alt="Contextual feedback" />
+            <ZoomableImage src="/images/owllocate/Implementation 2.png" alt="Contextual feedback" />
+            <ZoomableImage src="/images/owllocate/Implementation 3.png" alt="Contextual feedback" />
           </div>
         </Accordion>
         <p>
@@ -246,10 +275,19 @@ export default function OwllocatePage() {
             </div>
             <div className="project-hero__vignette" />
             <div className="project-hero__copy">
+              <span className='showcase__eyebrow'>customer education</span>
               <h2>Getting Started with Owllocate</h2>
-              <span className="project-status-tag project-status-tag--future">Future Direction</span>
-              <p>When work takes over, self-care and wellbeing slip through the cracks. This course bridges personal wellbeing and financial responsibility through habit formation that pays — literally.</p>
-              <p className="project-hero__tools">Tools: Articulate Storyline, Parta, Google Apps Script, Adobe Illustrator, Adobe Photoshop</p>
+              <p>Think about the last time you wanted to pick up a new skill or tool but did not know where to start.
+                You knew having it under your belt would make you better at your work, maybe even more marketable. The value was obvious, but the path was not.
+              </p>
+              <p>
+                Now imagine two versions of that tool. One gives you the usual kit: academy content, documentation, and a community platform.
+                The other gives you the same kit, plus a practice lab where you can build confidence from first attempt to advanced workflows.
+              </p>
+              <p style={{ color: 'var(--gold)', fontWeight: '800' }}>
+                Which tool would you invest your time in?
+              </p>
+              <br></br>
               <a
                 href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
                 target="_blank"
@@ -258,6 +296,10 @@ export default function OwllocatePage() {
               >
                 Try Me
               </a>
+              <br></br>
+              <br></br>
+              <p className="project-hero__tools">Articulate Storyline &nbsp;&nbsp; ● &nbsp;&nbsp; Parta &nbsp;&nbsp; ● &nbsp;&nbsp; Adobe Illustrator &nbsp;&nbsp;</p>
+              <p className='project-hero__tools'>JavaScript &nbsp;&nbsp; ● &nbsp;&nbsp; Google Apps Script</p>
             </div>
           </div>
           <div className="project-hero__right">
@@ -265,22 +307,34 @@ export default function OwllocatePage() {
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Gap</div>
               <p className="project-summary-item__body">
-                Users had no structured onboarding for the Owllocate platform, leading to confusion and
-                heavy reliance on support for tasks they should be able to complete independently.
+                At work, I'm responsible for a topic where a <strong>small knowledge gap could turn into a lengthy support investigation</strong>.
+              </p>
+              <p className="project-summary-item__body">
+                The workflow is complex, and when something goes wrong, Support team frequently had to trace what the user had tried, where the issue started, and what needed to be corrected.
+                So the problem was not only in <strong>ticket volume</strong> but also the <strong>time</strong> and <strong>cost</strong> each ticket could consume once it landed.
+              </p>
+              <p className="project-summary-item__body">
+                Something was needed to prevent avoidable tickets before they existed.
               </p>
             </div>
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Work</div>
               <p className="project-summary-item__body">
-                An interactive eLearning course built with immersive simulations, progressive complexity,
-                and data-driven adaptive feedback — targeted precisely at where users got stuck.
+                Hands-on simulation series that let users <strong>practice the workflow</strong> before doing it in the real system.
+              </p>
+              <p className='project-summary-item__body'>
+                The experience used character-led scenarios to <strong>give each task a reason</strong> rather than a sequence of clicks. Users could choose the <strong>level of guidance</strong> at the start or switch throughout the simulations;
+                guided practice if the workflow was unfamiliar, or independent practice if they already had enough context or want to challenge themselves.
+                I also added <strong>targeted tracking</strong> inside the experience so I could see where users got stuck most often.
               </p>
             </div>
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Shift</div>
               <p className="project-summary-item__body">
-                Trained users submitted ~27% fewer support cases than untrained users. Ongoing refinements
-                drove a ~14% quarterly reduction in support tickets among the trained population.
+                Trained users submitted <strong>27% fewer support tickets</strong> on the topics they practiced, continuous refinements contributed to an average of <strong>14% quarter-over-quarter reduction</strong> in support tickets among trained users.
+              </p>
+              <p className="project-summary-item__body">
+                I templateized the simulation structure for future projects with similar challenges, which <strong>cut development time by half</strong> in later builds.
               </p>
             </div>
           </div>
@@ -289,47 +343,41 @@ export default function OwllocatePage() {
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">
-            <h2>About This Work</h2>
-            <p>
-              In my role, I designed a product training for one of our most complex topics, also one
-              that contributed the most to our support ticket volume. I didn't set a hard metric at
-              the start, my guiding assumption was that <em>*trained users</em> should submit fewer
-              support tickets on this topic. The data supported that assumption: on average, a trained
-              user submitted{' '}
-              <strong style={{ color: 'var(--red)' }}>~27% fewer support cases</strong>{' '}
-              than an untrained user. Ongoing data-informed refinements continued to improve this
-              result, driving an average{' '}
-              <strong style={{ color: 'var(--red)' }}>QoQ reduction of ~14%</strong>{' '}
-              within the trained population.
-            </p>
-            <p>
-              I'm unable to share the work directly as it's owned by my employer, so I created
-              the approach using Owllocate, a personal app I built which provides a suitable environment
-              to demonstrate the same principles.
-            </p>
-            <p>
-              This piece applies the same design choices I used for that training: combining character-driven
-              storytelling, hands-on simulations, and contextual feedback that reframe "How to use
-              Feature X" into "How to achieve [Goal] with Feature X". It's a design approach that follows from an in-depth analysis, 
-              knowing precisely where users were failing and build scenarios that addressed the actual gap rather than an assumed one.
-              While Owllocate is simpler than the systems I work with professionally, it allows my design principles to stand on their
-              own without the constraints of proprietary complexity.
-            </p>
-            <p>
-              Below, I walk through the design approach behind these results. The needs analysis and
-              data work deserves its own deep dive, you can explore it in its dedicated piece linked
-              at the end of this page.
-            </p>
-            <p>
-              <em>
-                *Trained users are those who completed the relevant resources designed to influence
-                specific business metrics.
-              </em>
-            </p>
-            <div className="disclaimer">
-              This work piece represents my individual design approach and methodology. It does not
-              reflect the procedures, processes, or team practices of my current or former employers.
-            </div>
+          <h2>WHERE IT STARTED</h2>
+          <p style={{ letterSpacing: '0.02em' }}>
+            <em>"Would you keep learning if the safest option was to stop?"</em>
+          </p>
+          <p>
+            That question is the starting point for this case study. Complex product workflows tend to fail because the user reaches a step where the next move feels risky
+            and Customer Support is a few clicks away. It's the rational move to stop, open a ticket, and let someone who knows the system untangle it. It solves the immediate problem,
+            but does not scale and build capability.
+            The good thing is, stop learning didn't have to be the safest option.
+          </p>
+          <p>
+            My working hypothesis: if users could practice the workflow as if they were in the real system, through goal-focused tasks that gradually increase in complexity,
+            with guidance available at any point, and feedback tied to the consequences of their choices, they would become more capable, more confident, and less dependent on Support teams.
+          </p>
+          {/* <p>
+            That's why my solution was built around:
+          </p>
+          <ol>
+            <li>Design approach that follows from an in-depth analysis that pinpoint precisely where users were failing.</li>
+            <li>Character-driven storytelling and immersive simulations that build up in complexity.</li>
+            <li>Contextual feedback that reframe "How to use Feature X" into "How to achieve [Goal] with Feature X"</li>
+          </ol>
+          <br></br> */}
+          <p>
+            Below, I elaborate on my design choices. The data work deserves its own deep dive and you can explore it in its dedicated case study linked
+            at the end of this page.
+          </p>
+
+          <div className="disclaimer">
+            This is a public, sanitized case study based on real work. The actual project belongs to my employer, so I replicated the same approach in Owllocate,
+            a personal app I built for habit and financial management, to show the same design thinking without exposing proprietary product details.
+            <br></br>
+            Owllocate runs at a much smaller scale than the enterprise software I work with day-to-day, but the 27% result and 14% QoQ average improvement came from the
+            original work.
+          </div>
         </section>
 
         {/* LEARNING DESIGN & TECHNICAL IMPLEMENTATION */}
@@ -381,12 +429,12 @@ export default function OwllocatePage() {
             Measuring how training influences business outcomes is genuinely complex, but it's also
             one of the most rewarding work I've done in my seven years as a learning professional.
             If you're interested in the data side of Customer Education, Learning &amp; Development,
-            or Revenue Enablement, you can check out my other piece where I walk through how I built
+            or Go-To-Market Enablement, you can check out my other piece where I walk through how I built
             a trained-user framework and a Power BI report that surfaces what's actually happening
-            inside a training program.
+            inside a training program and how it translates to business results.
           </p>
-          <a href="/training-impact" className="btn-secondary">
-            Measuring Training Impact
+          <a href="/training-effectiveness" className="btn-secondary">
+            Measuring Training Effectiveness
           </a>
         </section>
 

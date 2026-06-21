@@ -107,6 +107,8 @@
 /* ── Artifacts Showcase ─────────────────────────────────────── */
 .showcase {
   background: #0C0C1A;
+  position: relative;
+  z-index: 1;
 }
 
 .showcase__inner {
@@ -116,9 +118,15 @@
 }
 
 /* ── Left: full-bleed image + vignette + overlay copy ── */
+@keyframes showcase-left-enter {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
 .showcase__left {
   position: relative;
   overflow: hidden;
+  animation: showcase-left-enter 0.4s ease-out both;
 }
 
 .showcase__bg {
@@ -330,6 +338,12 @@
   min-width: 0;
 }
 
+.showcase__proj-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .showcase__proj-tag {
   font-family: var(--font-display);
   font-size: 10px;
@@ -388,10 +402,13 @@
   padding: 0;
   cursor: pointer;
   transition: color 0.2s ease;
-  animation: showcase-more-bob 1.8s ease-in-out 50;
 }
 
 .showcase__sidebar-more:hover { color: var(--gold); }
+
+.showcase__sidebar-more--pulsing {
+  animation: showcase-more-bob 1.8s ease-in-out infinite;
+}
 
 @keyframes showcase-more-bob {
   0%, 100% { transform: translateY(0);   opacity: 0.55; }
@@ -401,6 +418,38 @@
 .showcase__bottom-bar {
   height: 4px;
   background: linear-gradient(90deg, #5B0606 0%, #2a1326 50%, #1C253C 100%);
+}
+
+.showcase__seam-ribbon {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 11px 28px;
+  background: linear-gradient(90deg, #0C0C1A 0%, #3a0808 30%, #5B0606 50%, #3a0808 70%, #0C0C1A 100%);
+  border: 1px solid rgb(from var(--gold) r g b/20%);
+  /* border-radius: 8px; */
+  white-space: nowrap;
+}
+
+.showcase__seam-meta {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(232, 230, 230, 0.6);
+}
+
+.showcase__seam-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(246, 199, 133, 0.25);
+  flex-shrink: 0;
 }
 
 /* ── Bio panel ─────────────────────────────────────────────── */

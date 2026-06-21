@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import ZoomableImage from '../components/ZoomableImage';
 import Carousel from '../components/Carousel';
+import TooltipTerm from '../components/TooltipTerm';
 
 function Accordion({ label, children }) {
   const [open, setOpen] = useState(false);
@@ -909,10 +909,33 @@ const metricBasedFinalDax = (
   </>
 )
 
+async function getGifDuration(src) {
+  try {
+    const bytes = new Uint8Array(await (await fetch(src)).arrayBuffer());
+    let cs = 0;
+    for (let i = 0; i < bytes.length - 5; i++) {
+      if (bytes[i] === 0x21 && bytes[i + 1] === 0xF9 && bytes[i + 2] === 0x04) {
+        cs += bytes[i + 4] | (bytes[i + 5] << 8);
+      }
+    }
+    return cs * 10;
+  } catch { return 0; }
+}
+
 function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const src = playing ? gif : poster;
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!playing) { clearTimeout(timerRef.current); return; }
+    getGifDuration(gif).then(duration => {
+      if (duration > 0) timerRef.current = setTimeout(() => setPlaying(false), duration * 5);
+    });
+    return () => clearTimeout(timerRef.current);
+  }, [playing, gif]);
+
   return (
     <div className="gif-figure">
       <button type="button" className="gif-toggle" onClick={() => setPlaying(p => !p)}>
@@ -943,66 +966,7 @@ function ImgCaption({ children }) {
   return <p className="img-caption">{children}</p>;
 }
 
-/* ── Tooltip term — dashed underline + hover/tap tooltip + dim overlay ── */
-function TooltipTerm({ term, desc, status, statusType }) {
-  const [open, setOpen] = useState(false);
-  const [pos, setPos] = useState({ top: 0 });
-  const ref = useRef(null);
-  const closeTimer = useRef(null);
 
-  const getPos = () => {
-    if (ref.current) {
-      const r = ref.current.getBoundingClientRect();
-      setPos({ top: r.bottom + 8 });
-    }
-  };
-
-  // Desktop hover
-  const show = () => { clearTimeout(closeTimer.current); getPos(); setOpen(true); };
-  const hide = () => { closeTimer.current = setTimeout(() => setOpen(false), 100); };
-  const cancelHide = () => clearTimeout(closeTimer.current);
-
-  // Mobile press-and-hold
-  const onTouchStart = (e) => { e.preventDefault(); clearTimeout(closeTimer.current); getPos(); setOpen(true); };
-  const onTouchEnd = (e) => { e.preventDefault(); setOpen(false); };
-
-  return (
-    <>
-      <span
-        ref={ref}
-        className={`tooltip-term${open ? ' tooltip-term--active' : ''}`}
-        onMouseEnter={show}
-        onMouseLeave={hide}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        {term}
-      </span>
-      {open && createPortal(
-        <>
-          <div className="tooltip-overlay" onMouseDown={() => setOpen(false)} />
-          <div
-            className="tooltip-panel"
-            style={{ top: pos.top }}
-            onMouseEnter={cancelHide}
-            onMouseLeave={hide}
-          >
-            <div className="tooltip-panel__top">
-              <span className="tooltip-panel__label">{term}</span>
-              {status && (
-                <span className={`project-status-tag project-status-tag--${statusType}`}>
-                  {status}
-                </span>
-              )}
-            </div>
-            <span className="tooltip-panel__desc">{desc}</span>
-          </div>
-        </>,
-        document.body
-      )}
-    </>
-  );
-}
 
 function AnalyticalMethodsCaption() {
   const [isDesktop, setIsDesktop] = useState(() =>
@@ -1049,7 +1013,8 @@ function AnalyticalMethodsCaption() {
         />.{' '}
       </p>
       <p className="carousel-hint">
-        <span style={{ color: 'var(--gold)', fontSize: '17px', textTransform: 'lowercase' }}>( i )</span> {isDesktop ? 'HOVER' : 'PRESS'} THE <span className='tooltip-term' style={{ cursor: 'auto' }}>UNDERLINED TERMS</span> TO LEARN MORE
+        <img src="/icons/info.svg" aria-hidden="true" style={{ width: '13px', height: '13px', opacity: 0.45, verticalAlign: 'middle', marginRight: '2px', marginBottom: '2px' }}></img>
+        {isDesktop ? 'HOVER' : 'PRESS'} THE <span className='tooltip-term' style={{ cursor: 'auto' }}>UNDERLINED TERMS</span> TO LEARN MORE
       </p>
       <span className='project-status-tag project-status-tag--both'>ADAPTED</span>
     </>
@@ -1068,14 +1033,14 @@ const whatIBuiltSlides = [
        <span className='project-status-tag project-status-tag--implemented'>IMPLEMENTED</span>
       </>
     ),
-    gifPoster: '/images/training-impact/one-measure-two-methods.png',
-    gifSrc: '/images/training-impact/one-measure-two-methods.gif',
+    gifPoster: '/images/training-effectiveness/one-measure-two-methods.png',
+    gifSrc: '/images/training-effectiveness/one-measure-two-methods.gif',
     alt: 'Outcome-based trained definition',
   },
   {
     title: 'Different Analytical Methods',
     caption: <AnalyticalMethodsCaption />,
-    img: '/images/training-impact/dedicated-metric-pages.png',
+    img: '/images/training-effectiveness/dedicated-metric-pages.png',
     alt: 'Framework analytical methods overview',
   },
   {
@@ -1089,7 +1054,7 @@ const whatIBuiltSlides = [
        <span className='project-status-tag project-status-tag--both'>ADAPTED</span>
        </>
     ),
-    img: '/images/training-impact/program-reach.png',
+    img: '/images/training-effectiveness/program-reach.png',
     alt: 'Program reach',
   },
   {
@@ -1102,15 +1067,9 @@ const whatIBuiltSlides = [
         <span className="project-status-tag project-status-tag--both">ADAPTED</span>
       </>
     ),
-    img: '/images/training-impact/overview.png',
+    img: '/images/training-effectiveness/overview.png',
     alt: 'Overview and dedicated metric pages',
   },
-  // {
-  //   title: 'Effectiveness and Account Health',
-  //   caption: 'Associated impact and causal training effect per metric over time, switchable between WoW, MoM, and QoQ, so teams can monitor trends at the cadence that matches their decision cycle. Next to it, an account-level health status calculated from key performance indicators, so Customer Success teams can identify which accounts may need interventions.',
-  //   img: '/images/training-impact/effectiveness-and-account-health.png',
-  //   alt: 'Effectiveness and account health',
-  // },
   {
     title: 'Ask the Owl – Bot Interpreter',
     caption: <>
@@ -1121,17 +1080,18 @@ const whatIBuiltSlides = [
       But the more defensible the analysis becomes, the harder it is to interpret. The AI interpreter is designed to bridge that gap. It can read report screenshots, explain metrics, clarify methodology, and guide
       readers toward the right investigation areas. The goal is to make the report easier to use without lowering the analytical standard that training measurement needs.
     </p>
+    <span className='project-status-tag project-status-tag--both'>ADAPTED</span>
     </>,
-    img: '/images/training-impact/ask-the-owl-bot-interpreter.png',
+    img: '/images/training-effectiveness/ask-the-owl-bot-interpreter.png',
     alt: 'Ask the Owl bot interpreter',
   },
 ];
 
 /* Ask the Owl — carousel, 3 images, placeholders for now. */
 const askTheOwlSlides = [
-  { title: null, caption: null, img: '/images/training-impact/owl-summary.png', alt: 'Ask the Owl demo 1' },
-  { title: null, caption: null, img: '/images/training-impact/owl-dig.png', alt: 'Ask the Owl demo 2' },
-  { title: null, caption: null, img: '/images/training-impact/owl-signal.png', alt: 'Ask the Owl demo 3' },
+  { title: null, caption: null, img: '/images/training-effectiveness/owl-summary.png', alt: 'Ask the Owl demo 1' },
+  { title: null, caption: null, img: '/images/training-effectiveness/owl-dig.png', alt: 'Ask the Owl demo 2' },
+  { title: null, caption: null, img: '/images/training-effectiveness/owl-signal.png', alt: 'Ask the Owl demo 3' },
 ];
 
 export default function TrainingImpactPage() {
@@ -1144,14 +1104,16 @@ export default function TrainingImpactPage() {
         <section className="project-hero">
           <div className="project-hero__left">
             <div className="project-hero__bg">
-              <img src="/images/card-training-impact.png" alt="" aria-hidden="true" />
+              <img src="/images/card-training-effectiveness.png" alt="" aria-hidden="true" />
             </div>
             <div className="project-hero__vignette" />
             <div className="project-hero__copy">
+              <span className='showcase__eyebrow'>AI, data & measurement · customer education</span>
               <h2>Measuring Training Effectiveness</h2>
-              <p>Put yourself in the shoes of someone outside the education team.</p>
+              <p>Put yourself in the shoes of someone outside the education team and forget everything you know about what the team does.</p>
               <p>
-                You don't know the people behind the work, the product knowledge the team translates, and the customer friction the team helps reduce.
+                Now look for evidence of what the Education team has accomplished in the past 6 months. Company updates, newsletters, announcements; anything that would help
+                someone outside the team understand what changed because the work exists.
               </p>
               <p style={{ color: 'var(--gold)', fontWeight: '800' }}>Would you keep investing in education?</p>
               <br />
@@ -1174,24 +1136,24 @@ export default function TrainingImpactPage() {
               <div className="project-summary-item__heading">The Gap</div>
               <p className="project-summary-item__body">
                 Education was being treated as valuable, but not yet provable in the language of the business. We could show that training happened and users are happy with the delivery, 
-                but those signals alone cannot prove whether education changed customer behavior, reduced friction, and supported the outcomes the business actually care about.
+                but those signals alone cannot prove <strong>whether education changed customer behavior</strong>, <strong>reduced friction</strong>, and <strong>supported the numbers the business</strong> actually care about.
               </p>
             </div>
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Work</div>
               <p className="project-summary-item__body">
-                A measurement framework that defines <em>trained</em> users based on the user behavior being measured, not just whether someone completed a training.
+                A measurement framework that defines <span style={{ letterSpacing: '0.03em', color: 'var(--gold)' }}><em>trained</em></span> <strong>users based on the behavior</strong> being measured, not just whether someone completed a training.
               </p>
               <p className="project-summary-item__body">
-                To do that, I pulled the relevant training and business data from the data warehouse and compared how users at different stages of training performed on usage behaviors. 
-                The goal was to define <em>trained</em> at the point where education starts visibly moving the needle, then surface that logic through in-depth Power BI reporting.
+                To do that, I pulled the relevant training and business data from the data warehouse and compared how users at different stages of training performed on the platform. 
+                The goal was to define <span style={{ letterSpacing: '0.03em' }}><em>trained</em></span> at the point where education starts visibly moving the needle, then make that logic usable through Power BI reporting.
               </p>
             </div>
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Shift</div>
               <p className="project-summary-item__body">
-                Moved training measurement away from activity reporting and closer to business accountability. Trained-user rate plays a crucial role in departmental OKRs, 
-                and learning projects now start with clearer behavior change targets.
+                Training measurement moved away from activity reporting and closer to <strong>business accountability</strong>. Trained user rate became a crucial role in <strong>departmental OKRs</strong>, an indicator for projects supporting <strong>company goals</strong>, 
+                and learning projects now start with clearer <strong>behavior change targets</strong>.
               </p>
             </div>
           </div>
@@ -1201,7 +1163,7 @@ export default function TrainingImpactPage() {
         {/* ABOUT THIS WORK */}
         <section className="about-section">
           <h2>WHERE IT STARTED</h2>
-          <p><em>
+          <p style={{ letterSpacing: '0.02em' }}><em>
             "Would you keep investing in education?"
           </em></p>
           <p>
@@ -1220,12 +1182,11 @@ export default function TrainingImpactPage() {
           <ol>
             <li>Define a <em>trained</em> user through outcome-based logic.</li>
             <li>Connect learning data with product and performance data.</li>
-            <li>Use different analytical methods to monitor and showcase how education consistently contributes to meaningfull business results.</li>
+            <li>Use different analytical methods to monitor and showcase how education consistently contributes to meaningful business results.</li>
           </ol>
           <div className="disclaimer">
             This is a public, sanitized case study based on real work. Some elements reflect what I have already implemented while
-            others reflect where I want to take the framework next, whether in my current role or in future Customer Education teams.
-            <br /><br />
+            others reflect where I want to take the framework next.
             I mark the difference throughout so you can focus on the implemented work if that's what you're evaluating.
             <div className="disclaimer__legend">
               <div className="disclaimer__legend-row">
@@ -1258,7 +1219,7 @@ export default function TrainingImpactPage() {
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <h2>📐 HOW I BUILT THE FRAMEWORK</h2>
             <div className='tab-content'>
-
+              <span className='project-status-tag project-status-tag--implemented'>implemented</span>
               <h3>Making Sense of What Exists</h3>
 
               <div className='tab-content-grid'>
@@ -1277,7 +1238,7 @@ export default function TrainingImpactPage() {
 
                 <div className='tab-content-column'>
                   <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                    <ZoomableImage src="/images/training-impact/framework-catalog.png" alt="Sample catalog scope" crop />
+                    <ZoomableImage src="/images/training-effectiveness/framework-catalog.png" alt="Sample catalog scope" crop />
                   </div>
                   <ImgCaption>Sample catalog scope</ImgCaption>
                 </div>
@@ -1300,6 +1261,7 @@ export default function TrainingImpactPage() {
             <br></br><br></br>
 
             <div className='tab-content'>
+              <span className='project-status-tag project-status-tag--implemented'>implemented</span>
               <h3>Performance of Existing User Segments</h3>
 
               <div className='tab-content-grid'>
@@ -1317,7 +1279,7 @@ export default function TrainingImpactPage() {
 
                 <div className='tab-content-column'>
                   <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                    <ZoomableImage src="/images/training-impact/framework-completion.png" alt="Distribution - output from user segmentation query" />
+                    <ZoomableImage src="/images/training-effectiveness/framework-completion.png" alt="Distribution - output from user segmentation query" />
                   </div>
                   <ImgCaption>Distribution - output from user segmentation query</ImgCaption>
                 </div>
@@ -1344,6 +1306,7 @@ export default function TrainingImpactPage() {
             <br></br><br></br>
 
             <div className='tab-content'>
+              <span className='project-status-tag project-status-tag--implemented'>implemented</span>
               <h3>Setting a General Baseline</h3>
 
               <div className='tab-content-grid'>
@@ -1365,7 +1328,7 @@ export default function TrainingImpactPage() {
 
                 <div className='content-tab-column'>
                   <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                    <ZoomableImage src="/images/training-impact/framework-performance.png" alt="Output from performance comparison query" />
+                    <ZoomableImage src="/images/training-effectiveness/framework-performance.png" alt="Output from performance comparison query" />
                   </div>
                   <ImgCaption>Output from performance comparison query</ImgCaption>
                 </div>
@@ -1375,6 +1338,7 @@ export default function TrainingImpactPage() {
             <br></br><br></br>
 
             <div className='tab-content'>
+              <span className='project-status-tag project-status-tag--implemented'>implemented</span>
               <h3>Bringing It to Power BI</h3>
               <p>
                 The first step was creating a view in the data warehouse, that is sourced from tables that
@@ -1418,13 +1382,13 @@ export default function TrainingImpactPage() {
                   I wrapped the final SELECT from the AI-generated query to return five sample users. The output shows training status, courses completed, catalog size, and the threshold at each completion point, flagging users as trained once they cross it.
                 </p>
                 <div className='accordion-images'>
-                  <ZoomableImage src="/images/training-impact/framework-validation-1.png"></ZoomableImage>
+                  <ZoomableImage src="/images/training-effectiveness/framework-validation-1.png"></ZoomableImage>
                 </div>
                 <p className='accordion__body accordion-content-text'>
                   From that sample, I ran the validation query for each user individually. It returns the same output as before, but broken down row by row per course completion. User 8249's flag turns TRUE on 2025-02-28, which is consistent with the AI-generated query output.
                 </p>
                 <div className='accordion-images'>
-                  <ZoomableImage src="/images/training-impact/framework-validation-2.png" />
+                  <ZoomableImage src="/images/training-effectiveness/framework-validation-2.png" />
                 </div>
                 <p className='accordion__body accordion-content-text'>
                   From there, I brought the view into Power BI alongside the other metric tables and built calculated columns that classify each event as trained or untrained based on whether they had crossed the threshold by the time that specific event happened.
@@ -1449,6 +1413,7 @@ export default function TrainingImpactPage() {
             <br></br><br></br>
 
             <div className='tab-content'>
+              <span className='project-status-tag project-status-tag--implemented'>implemented</span>
               <h3>One Measure, Two Modes</h3>
               <p>
                 There's a difference between knowing the program is moving in the right direction and knowing
@@ -1463,8 +1428,8 @@ export default function TrainingImpactPage() {
               </p>
               <div className="gif-standalone" style={{ maxWidth: '1000px' }}>
                 <GifPlayImage
-                  poster="/images/training-impact/one-measure-two-methods.png"
-                  gif="/images/training-impact/one-measure-two-methods.gif"
+                  poster="/images/training-effectiveness/one-measure-two-methods.png"
+                  gif="/images/training-effectiveness/one-measure-two-methods.gif"
                   alt="One measure operating in two modes"
                 />
               </div>
@@ -1494,6 +1459,7 @@ export default function TrainingImpactPage() {
             <br></br><br></br>
 
             <div className='tab-content'>
+              <span className='project-status-tag project-status-tag--both'>adapted</span>
               <h3>Is Training Really Driving Improvement?</h3>
               <p>
                 A simple average comparison that shows trained users perform better than untrained ones is a
@@ -1510,7 +1476,7 @@ export default function TrainingImpactPage() {
               </p>
 
               <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                <ZoomableImage src="/images/training-impact/same-tenure.png" alt="Same-tenure comparison" />
+                <ZoomableImage src="/images/training-effectiveness/same-tenure.png" alt="Same-tenure comparison" />
               </div>
 
               <Accordion label="( ) Same-tenure comparison DAX">
@@ -1545,7 +1511,7 @@ export default function TrainingImpactPage() {
               </p>
 
               <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                <ZoomableImage src="/images/training-impact/DiD.png" alt="Difference-in-differences analysis" />
+                <ZoomableImage src="/images/training-effectiveness/DiD.png" alt="Difference-in-differences analysis" />
               </div>
 
               <Accordion label="( ) DiD help DAX measures">
@@ -1581,7 +1547,7 @@ export default function TrainingImpactPage() {
                 more data point that training is actually doing something.
               </p>
               <div className="accordion-images" style={{ maxWidth: '760px', margin: '0 auto' }}>
-                <ZoomableImage src="/images/training-impact/Period-over-period.png" alt="Period-over-period performance" />
+                <ZoomableImage src="/images/training-effectiveness/Period-over-period.png" alt="Period-over-period performance" />
               </div>
               <br></br>
             </div>
@@ -1589,6 +1555,7 @@ export default function TrainingImpactPage() {
             <br></br><br></br>
 
             <div className='tab-content'>
+              <span className='project-status-tag project-status-tag--both'>adapted</span>
               <h3>Ask the Owl</h3>
               <p>
                 As analytical complexity increases, reports become harder to navigate without proper context.
@@ -1625,6 +1592,7 @@ export default function TrainingImpactPage() {
 
 
             <div className="tab-content">
+              <span className='project-status-tag project-status-tag--implemented'>implemented</span>
               <h3>Building for Maintainability</h3>
               <p>
                 Earlier, I mentioned that my goal was to establish a consistent pattern that trained users
@@ -1643,8 +1611,8 @@ export default function TrainingImpactPage() {
 
               <div className="gif-standalone" style={{ maxWidth: '1000px' }}>
                 <GifPlayImage
-                  poster="/images/training-impact/building-for-maintainability.png"
-                  gif="/images/training-impact/building-for-maintainability.gif"
+                  poster="/images/training-effectiveness/building-for-maintainability.png"
+                  gif="/images/training-effectiveness/building-for-maintainability.gif"
                   alt="One measure operating in two modes"
                 />
               </div>
