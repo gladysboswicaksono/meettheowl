@@ -7,13 +7,15 @@ export default function NeedsAnalysisPage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO + SUMMARY */}
+        {/* PROJECT HERO */}
         <section className="project-hero">
           <div className="project-hero__left">
             <div className="project-hero__bg">
               <img src="/images/card-needs-analysis.png" alt="" aria-hidden="true" />
             </div>
             <div className="project-hero__vignette" />
+          </div>
+          <div className="project-hero__right">
             <div className="project-hero__copy">
               <span className='showcase__eyebrow'>AI, data & measurement</span>
               <h2>Data and AI for Analysis &amp; Evaluation</h2>
@@ -23,51 +25,38 @@ export default function NeedsAnalysisPage() {
               </p>
               <p>
                 Here's the same instinct in a different setting. An item has been sitting in your wishlist for days.
-                One night, a notification arrives confirming a successful €1,500 refund. 
+                One night, a notification arrives confirming a successful €1,500 refund.
               </p>
               <p style={{ color: 'var(--gold)', fontWeight: '800' }}>
                 Would you buy the wishlist item without checking your bank app first?
               </p>
             </div>
           </div>
-          <div className="project-hero__right">
-            <span className="project-hero__summary-label">Summary</span>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Gap</div>
-              <p className="project-summary-item__body">
-                When deciding what learning intervention to create (or whether to create one at all), 
-                we are making resource allocation decisions. AI has become the go-to tool for <strong>researching</strong>, <strong>analyzing data</strong>, and <strong>informing those decisions</strong>. 
-                But it often presents findings that sound so credible that we forget AI is designed to pattern-match and create plausible outputs, which are <strong>not necessarily the truth</strong>.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Work</div>
-              <p className="project-summary-item__body">
-                A structured approach to AI-assisted analysis of large-scale qualitative data. As of 2026, I turned the prompting steps into a <strong>Claude Enterprise skill</strong>.
-              </p>
-              <p className='project-summary-item__body'>
-                The structure includes specific <strong>SQL queries</strong> to use to perform the analysis, <strong>grounding the analysis in facts</strong> before anything else,  
-                 <strong> testing on a smaller sample</strong> before scaling full dataset, and presenting <strong>output with sources</strong> that can be checked against the original records.
-              </p>
-              <p className='project-summary-item__body'>
-                This forces AI to work with facts and leaves little to no room for it to make stuff up.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Shift</div>
-              <p className="project-summary-item__body">
-                Learning design became more <strong>grounded in real user behavior</strong> before development started. The analysis helped
-                seperate knowledge gaps from product issues and UX frictions, so training effort can focus on where training was
-                actually the right response.
-              </p>
-              <p className='project-summary-item__body'>
-                That upstream work shaped the product training and measurement work shown in the other case studies: <strong>fewer support tickets</strong>, clearer <strong>behavior-change targets</strong>,
-                and a stronger way to show how <strong>education contributes to the business</strong>.
-              </p>
+        </section>
+
+        {/* SUMMARY */}
+        <section className="summary-section">
+          <div className="summary-inner">
+            <h2>Summary</h2>
+            <div className="summary-grid">
+              <div className="summary-column">
+                <h3>The Gap</h3>
+                <p>When deciding what learning intervention to create (or whether to create one at all), we are making resource allocation decisions. AI has become the go-to tool for <strong>researching</strong>, <strong>analyzing data</strong>, and <strong>informing those decisions</strong>. But it often presents findings that sound so credible that we forget AI is designed to pattern-match and create plausible outputs, which are <strong>not necessarily the truth</strong>.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Work</h3>
+                <p>A structured approach to AI-assisted analysis of large-scale qualitative data. As of 2026, I turned the prompting steps into a <strong>Claude Enterprise skill</strong>.</p>
+                <p>The structure includes specific <strong>SQL queries</strong> to use to perform the analysis, <strong>grounding the analysis in facts</strong> before anything else, <strong>testing on a smaller sample</strong> before scaling to the full dataset, and presenting <strong>output with sources</strong> that can be checked against the original records.</p>
+                <p>This forces AI to work with facts and leaves little to no room for it to make stuff up.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Shift</h3>
+                <p>Learning design became more <strong>grounded in real user behavior</strong> before development started. The analysis helped separate knowledge gaps from product issues and UX frictions, so training effort could focus on where training was actually the right response.</p>
+                <p>That upstream work shaped the product training and measurement work shown in the other case studies: <strong>fewer support tickets</strong>, clearer <strong>behavior-change targets</strong>, and a stronger way to show how <strong>education contributes to the business</strong>.</p>
+              </div>
             </div>
           </div>
         </section>
-        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">
@@ -78,17 +67,10 @@ export default function NeedsAnalysisPage() {
             I wanted AI in that workflow, but its output kept undermining itself: the sources it cited either didn't exist or covered something unrelated to what it claimed.
           </p>
           <p>
-            It reminded me of the first time my high school class practiced digging in volleyball. The teacher had walked us through exactly what to do and what to focus on,
-            and everyone still dropped the ball. 
-            He said, "Dig once, then catch it." Everyone could do that.
-            Next instruction was to do the same for three times, then catch. That didn't go as smoothly. He told us to pay attention to the feeling of our movement
-            and the amount of force we were using. After a few times, we landed three digs without dropping the ball.
-            When he told us to do exactly that as many times as possible, we were far better than our first try.
+            
           </p>
           <p>
-            My working hypothesis: the same mistake applies to how I'd been using AI. We focus so hard on the task itself, "dig the ball using XYZ technique and don't drop it"
-            or, "find the top three challenges from this dataset with XYZ queries and steps." that we skipped the part that makes it possible; getting oriented on the foundation
-            first, proving the approach works on a small scale, then carrying what worked into the larger one.
+            I got enough one day and asked AI to explain in detail how it reached that conclusion. That changed the s
           </p>
           <p>
             And that's what the structure below is built for:

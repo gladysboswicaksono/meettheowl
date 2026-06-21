@@ -82,32 +82,7 @@ export default function ArtifactsShowcase() {
       <section className="showcase" id="artifacts">
         <div className="showcase__inner">
 
-          {/* ── Left: full-bleed image + vignette + copy overlay ── */}
-          <div className="showcase__left" key={selected}>
-            <div className="showcase__bg">
-              <img src={p.image} alt={p.imageAlt} />
-            </div>
-            <div className="showcase__vignette" />
-            <div className="showcase__copy">
-              {selected === FEATURED_INDEX && (
-                <div className="showcase__featured-tag">Featured</div>
-              )}
-              <div className="showcase__eyebrow">{p.category.join(' · ')}</div>
-              <h2 className="showcase__title">{p.featuredTitle}</h2>
-              <p className="showcase__desc">{p.description}</p>
-              <div className="showcase__stats">
-                {p.stats.map(s => (
-                  <div key={s.value} className="showcase__stat">
-                    <span className="showcase__stat-value">{s.value}</span>
-                    <span className="showcase__stat-label">{s.label}</span>
-                  </div>
-                ))}
-              </div>
-              <a href={p.href} className="btn-secondary">View Case Study →</a>
-            </div>
-          </div>
-
-          {/* ── Right: sidebar, full width to right edge ── */}
+          {/* ── Left: sidebar ── */}
           <div className="showcase__sidebar">
             <div className="showcase__sidebar-header">
               <span className="showcase__sidebar-label">all artifacts</span>
@@ -139,6 +114,31 @@ export default function ArtifactsShowcase() {
               ))}
             </div>
 
+          </div>
+
+          {/* ── Right: full-bleed image + vignette + copy overlay ── */}
+          <div className="showcase__left" key={selected}>
+            <div className="showcase__bg">
+              <img src={p.image} alt={p.imageAlt} />
+            </div>
+            <div className="showcase__vignette" />
+            <div className="showcase__copy">
+              {selected === FEATURED_INDEX && (
+                <div className="showcase__featured-tag">Featured</div>
+              )}
+              <div className="showcase__eyebrow">{p.category.join(' · ')}</div>
+              <h2 className="showcase__title">{p.featuredTitle}</h2>
+              <p className="showcase__desc">{p.description}</p>
+              <div className="showcase__stats">
+                {p.stats.map(s => (
+                  <div key={s.value} className="showcase__stat">
+                    <span className="showcase__stat-value">{s.value}</span>
+                    <span className="showcase__stat-label">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+              <a href={p.href} className="btn-secondary">View Case Study →</a>
+            </div>
           </div>
 
         </div>

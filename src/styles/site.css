@@ -106,14 +106,14 @@
 
 /* ── Artifacts Showcase ─────────────────────────────────────── */
 .showcase {
-  background: #0C0C1A;
+  background: var(--blue-deep);
   position: relative;
   z-index: 1;
 }
 
 .showcase__inner {
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 1fr 1.35fr;
   min-height: 560px;
 }
 
@@ -161,7 +161,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 40px 64px;
   min-height: 560px;
 }
@@ -257,7 +257,7 @@
 /* ── Right: sidebar ── */
 .showcase__sidebar {
   background: #1A1A2E;
-  border-left: 1px solid rgba(246, 199, 133, 0.08);
+  border-right: 1px solid rgba(246, 199, 133, 0.08);
   display: flex;
   flex-direction: column;
 }
@@ -430,7 +430,7 @@
   align-items: center;
   gap: 18px;
   padding: 11px 28px;
-  background: linear-gradient(90deg, #0C0C1A 0%, #3a0808 30%, #5B0606 50%, #3a0808 70%, #0C0C1A 100%);
+  background: linear-gradient(90deg, var(--blue-deep) 0%, #3a0808 30%, #5B0606 50%, #3a0808 70%, var(--blue-deep) 100%);
   border: 1px solid rgb(from var(--gold) r g b/20%);
   /* border-radius: 8px; */
   white-space: nowrap;
@@ -454,7 +454,7 @@
 
 /* ── Bio panel ─────────────────────────────────────────────── */
 .bio-panel {
-  background: #0C0C1A;
+  background: var(--blue-deep);
   animation: bio-reveal 0.35s ease-out both;
 }
 

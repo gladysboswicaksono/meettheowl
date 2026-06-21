@@ -63,13 +63,15 @@ export default function VirtualOnboardingPage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO + SUMMARY */}
+        {/* PROJECT HERO */}
         <section className="project-hero">
           <div className="project-hero__left">
             <div className="project-hero__bg">
               <img src="/images/card-onboarding.png" alt="" aria-hidden="true" />
             </div>
             <div className="project-hero__vignette" />
+          </div>
+          <div className="project-hero__right">
             <div className="project-hero__copy">
               <h2>Making Remote Onboarding Work</h2>
               <span className="project-status-tag project-status-tag--implemented">Implemented</span>
@@ -80,32 +82,28 @@ export default function VirtualOnboardingPage() {
               <p className="project-hero__tools">Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P</p>
             </div>
           </div>
-          <div className="project-hero__right">
-            <span className="project-hero__summary-label">Summary</span>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">Goal</div>
-              <p className="project-summary-item__body">
-                Redesign training orientation and onboarding for COVID restrictions while keeping trainees
-                job-ready and confident from day one.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">Solution</div>
-              <p className="project-summary-item__body">
-                Virtual kickoffs via Teams, paired with a self-paced learning path: interactive videos,
-                a 360° facility tour with embedded scenarios, micro-learning modules, and system simulations.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">Outcome</div>
-              <p className="project-summary-item__body">
-                Over 75% completed the full learning path. Competency levels matched or exceeded traditional
-                onboarding — and the department kept the program running post-COVID.
-              </p>
+        </section>
+
+        {/* SUMMARY */}
+        <section className="summary-section">
+          <div className="summary-inner">
+            <h2>Summary</h2>
+            <div className="summary-grid">
+              <div className="summary-column">
+                <h3>Goal</h3>
+                <p>Redesign training orientation and onboarding for COVID restrictions while keeping trainees job-ready and confident from day one.</p>
+              </div>
+              <div className="summary-column">
+                <h3>Solution</h3>
+                <p>Virtual kickoffs via Teams, paired with a self-paced learning path: interactive videos, a 360° facility tour with embedded scenarios, micro-learning modules, and system simulations.</p>
+              </div>
+              <div className="summary-column">
+                <h3>Outcome</h3>
+                <p>Over 75% completed the full learning path. Competency levels matched or exceeded traditional onboarding — and the department kept the program running post-COVID.</p>
+              </div>
             </div>
           </div>
         </section>
-        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">

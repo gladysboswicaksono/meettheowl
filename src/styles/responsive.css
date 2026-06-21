@@ -242,6 +242,10 @@
     grid-template-columns: 1fr;
   }
 
+  .project-hero__left {
+    min-height: 220px;
+  }
+
   .project-hero__copy {
     min-height: auto;
     padding: 32px 40px;
@@ -249,10 +253,6 @@
 
   .project-hero__copy h2 {
     font-size: 32px;
-  }
-
-  .project-hero__right {
-    padding: 36px 32px;
   }
 
   .about-section {
@@ -576,10 +576,6 @@
 
   .project-hero__copy p {
     font-size: 15px;
-  }
-
-  .project-hero__right {
-    padding: 32px 24px;
   }
 
   .about-section {

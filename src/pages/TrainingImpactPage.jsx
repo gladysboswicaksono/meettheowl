@@ -1100,13 +1100,15 @@ export default function TrainingImpactPage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO + SUMMARY */}
+        {/* PROJECT HERO */}
         <section className="project-hero">
           <div className="project-hero__left">
             <div className="project-hero__bg">
               <img src="/images/card-training-effectiveness.png" alt="" aria-hidden="true" />
             </div>
             <div className="project-hero__vignette" />
+          </div>
+          <div className="project-hero__right">
             <div className="project-hero__copy">
               <span className='showcase__eyebrow'>AI, data & measurement · customer education</span>
               <h2>Measuring Training Effectiveness</h2>
@@ -1130,35 +1132,29 @@ export default function TrainingImpactPage() {
               <p className="project-hero__tools">SQL &nbsp;&nbsp; ● &nbsp;&nbsp; Power BI &nbsp;&nbsp; ● &nbsp;&nbsp; HTML &nbsp;&nbsp; ● &nbsp;&nbsp; CSS &nbsp;&nbsp; ● &nbsp;&nbsp; Antrophic API</p>
             </div>
           </div>
-          <div className="project-hero__right">
-            <span className="project-hero__summary-label">Summary</span>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Gap</div>
-              <p className="project-summary-item__body">
-                Education was being treated as valuable, but not yet provable in the language of the business. We could show that training happened and users are happy with the delivery, 
-                but those signals alone cannot prove <strong>whether education changed customer behavior</strong>, <strong>reduced friction</strong>, and <strong>supported the numbers the business</strong> actually care about.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Work</div>
-              <p className="project-summary-item__body">
-                A measurement framework that defines <span style={{ letterSpacing: '0.03em', color: 'var(--gold)' }}><em>trained</em></span> <strong>users based on the behavior</strong> being measured, not just whether someone completed a training.
-              </p>
-              <p className="project-summary-item__body">
-                To do that, I pulled the relevant training and business data from the data warehouse and compared how users at different stages of training performed on the platform. 
-                The goal was to define <span style={{ letterSpacing: '0.03em' }}><em>trained</em></span> at the point where education starts visibly moving the needle, then make that logic usable through Power BI reporting.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Shift</div>
-              <p className="project-summary-item__body">
-                Training measurement moved away from activity reporting and closer to <strong>business accountability</strong>. Trained user rate became a crucial role in <strong>departmental OKRs</strong>, an indicator for projects supporting <strong>company goals</strong>, 
-                and learning projects now start with clearer <strong>behavior change targets</strong>.
-              </p>
+        </section>
+
+        {/* SUMMARY */}
+        <section className="summary-section">
+          <div className="summary-inner">
+            <h2>Summary</h2>
+            <div className="summary-grid">
+              <div className="summary-column">
+                <h3>The Gap</h3>
+                <p>Education was being treated as valuable, but not yet provable in the language of the business. We could show that training happened and users are happy with the delivery, but those signals alone cannot prove <strong>whether education changed customer behavior</strong>, <strong>reduced friction</strong>, and <strong>supported the numbers the business</strong> actually cares about.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Work</h3>
+                <p>A measurement framework that defines <em style={{ letterSpacing: '0.03em', color: 'var(--gold)' }}>trained</em> <strong>users based on the behavior</strong> being measured, not just whether someone completed a training.</p>
+                <p>I pulled the relevant training and business data from the data warehouse and compared how users at different stages of training performed on the platform. The goal was to define <em style={{ letterSpacing: '0.03em' }}>trained</em> at the point where education starts visibly moving the needle, then make that logic usable through Power BI reporting.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Shift</h3>
+                <p>Training measurement moved away from activity reporting and closer to <strong>business accountability</strong>. Trained user rate became a crucial role in <strong>departmental OKRs</strong>, an indicator for projects supporting <strong>company goals</strong>, and learning projects now start with clearer <strong>behavior change targets</strong>.</p>
+              </div>
             </div>
           </div>
         </section>
-        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">

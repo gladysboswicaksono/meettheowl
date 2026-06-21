@@ -267,13 +267,15 @@ export default function OwllocatePage() {
       <Nav />
       <main style={{ flex: 1 }}>
 
-        {/* PROJECT HERO + SUMMARY */}
+        {/* PROJECT HERO */}
         <section className="project-hero">
           <div className="project-hero__left">
             <div className="project-hero__bg">
               <img src="/images/card-owllocate.png" alt="" aria-hidden="true" />
             </div>
             <div className="project-hero__vignette" />
+          </div>
+          <div className="project-hero__right">
             <div className="project-hero__copy">
               <span className='showcase__eyebrow'>customer education</span>
               <h2>Getting Started with Owllocate</h2>
@@ -287,7 +289,7 @@ export default function OwllocatePage() {
               <p style={{ color: 'var(--gold)', fontWeight: '800' }}>
                 Which tool would you invest your time in?
               </p>
-              <br></br>
+              <br />
               <a
                 href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
                 target="_blank"
@@ -296,50 +298,38 @@ export default function OwllocatePage() {
               >
                 Try Me
               </a>
-              <br></br>
-              <br></br>
-              <p className="project-hero__tools">Articulate Storyline &nbsp;&nbsp; ● &nbsp;&nbsp; Parta &nbsp;&nbsp; ● &nbsp;&nbsp; Adobe Illustrator &nbsp;&nbsp;</p>
+              <br />
+              <br />
+              <p className="project-hero__tools" style={{ lineHeight: '0' }}>Articulate Storyline &nbsp;&nbsp; ● &nbsp;&nbsp; Parta &nbsp;&nbsp; ● &nbsp;&nbsp; Adobe Illustrator &nbsp;&nbsp;</p>
               <p className='project-hero__tools'>JavaScript &nbsp;&nbsp; ● &nbsp;&nbsp; Google Apps Script</p>
             </div>
           </div>
-          <div className="project-hero__right">
-            <span className="project-hero__summary-label">Summary</span>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Gap</div>
-              <p className="project-summary-item__body">
-                At work, I'm responsible for a topic where a <strong>small knowledge gap could turn into a lengthy support investigation</strong>.
-              </p>
-              <p className="project-summary-item__body">
-                The workflow is complex, and when something goes wrong, Support team frequently had to trace what the user had tried, where the issue started, and what needed to be corrected.
-                So the problem was not only in <strong>ticket volume</strong> but also the <strong>time</strong> and <strong>cost</strong> each ticket could consume once it landed.
-              </p>
-              <p className="project-summary-item__body">
-                Something was needed to prevent avoidable tickets before they existed.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Work</div>
-              <p className="project-summary-item__body">
-                Hands-on simulation series that let users <strong>practice the workflow</strong> before doing it in the real system.
-              </p>
-              <p className='project-summary-item__body'>
-                The experience used character-led scenarios to <strong>give each task a reason</strong> rather than a sequence of clicks. Users could choose the <strong>level of guidance</strong> at the start or switch throughout the simulations;
-                guided practice if the workflow was unfamiliar, or independent practice if they already had enough context or want to challenge themselves.
-                I also added <strong>targeted tracking</strong> inside the experience so I could see where users got stuck most often.
-              </p>
-            </div>
-            <div className="project-summary-item">
-              <div className="project-summary-item__heading">The Shift</div>
-              <p className="project-summary-item__body">
-                Trained users submitted <strong>27% fewer support tickets</strong> on the topics they practiced, continuous refinements contributed to an average of <strong>14% quarter-over-quarter reduction</strong> in support tickets among trained users.
-              </p>
-              <p className="project-summary-item__body">
-                I templateized the simulation structure for future projects with similar challenges, which <strong>cut development time by half</strong> in later builds.
-              </p>
+        </section>
+
+        {/* SUMMARY */}
+        <section className="summary-section">
+          <div className="summary-inner">
+            <h2>Summary</h2>
+            <div className="summary-grid">
+              <div className="summary-column">
+                <h3>The Gap</h3>
+                <p>At work, I'm responsible for a topic where a <strong>small knowledge gap could turn into a lengthy support investigation</strong>.</p>
+                <p>The workflow is complex, and when something goes wrong, Support team frequently had to trace what the user had tried, where the issue started, and what needed to be corrected. So the problem was not only in <strong>ticket volume</strong> but also the <strong>time</strong> and <strong>cost</strong> each ticket could consume once it landed.</p>
+                <p>Something was needed to prevent avoidable tickets before they existed.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Work</h3>
+                <p>Hands-on simulation series that let users <strong>practice the workflow</strong> before doing it in the real system.</p>
+                <p>The experience used character-led scenarios to <strong>give each task a reason</strong> rather than a sequence of clicks. Users could choose the <strong>level of guidance</strong> at the start or switch throughout the simulations; guided practice if the workflow was unfamiliar, or independent practice if they already had enough context. I also added <strong>targeted tracking</strong> inside the experience so I could see where users got stuck most often.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Shift</h3>
+                <p>Trained users submitted <strong>27% fewer support tickets</strong> on the topics they practiced, continuous refinements contributed to an average of <strong>14% quarter-over-quarter reduction</strong> in support tickets among trained users.</p>
+                <p>I templateized the simulation structure for future projects with similar challenges, which <strong>cut development time by half</strong> in later builds.</p>
+              </div>
             </div>
           </div>
         </section>
-        <div className="showcase__bottom-bar" />
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">
