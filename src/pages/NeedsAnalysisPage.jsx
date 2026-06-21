@@ -15,13 +15,18 @@ export default function NeedsAnalysisPage() {
             </div>
             <div className="project-hero__vignette" />
             <div className="project-hero__copy">
+              <span className='showcase__eyebrow'>AI, data & measurement</span>
               <h2>Data and AI for Analysis &amp; Evaluation</h2>
               <p>
-                An item has been sitting in your wishlist for days. As if the universe was on your side,
-                a notification arrived confirming a successful €1,500 refund. 
+                I have seen so many instances where people took AI-generated analysis at face value and
+                made actual decisions based on that alone.
+              </p>
+              <p>
+                Here's the same instinct in a different setting. An item has been sitting in your wishlist for days.
+                One night, a notification arrives confirming a successful €1,500 refund. 
               </p>
               <p style={{ color: 'var(--gold)', fontWeight: '800' }}>
-                Would you buy your wishlist item without checking your bank app?
+                Would you buy the wishlist item without checking your bank app first?
               </p>
             </div>
           </div>
@@ -38,15 +43,26 @@ export default function NeedsAnalysisPage() {
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Work</div>
               <p className="project-summary-item__body">
-                Thousands of support tickets were analyzed using AI with strict guardrails, then manually
-                validated against the source system before any finding was acted on.
+                A structured approach to AI-assisted analysis of large-scale qualitative data. As of 2026, I turned the prompting steps into a <strong>Claude Enterprise skill</strong>.
+              </p>
+              <p className='project-summary-item__body'>
+                The structure includes specific <strong>SQL queries</strong> to use to perform the analysis, <strong>grounding the analysis in facts</strong> before anything else,  
+                 <strong> testing on a smaller sample</strong> before scaling full dataset, and presenting <strong>output with sources</strong> that can be checked against the original records.
+              </p>
+              <p className='project-summary-item__body'>
+                This forces AI to work with facts and leaves little to no room for it to make stuff up.
               </p>
             </div>
             <div className="project-summary-item">
               <div className="project-summary-item__heading">The Shift</div>
               <p className="project-summary-item__body">
-                A repeatable framework for AI-assisted qualitative analysis that produces defensible,
-                triangulated findings — not just confident-sounding guesses.
+                Learning design became more <strong>grounded in real user behavior</strong> before development started. The analysis helped
+                seperate knowledge gaps from product issues and UX frictions, so training effort can focus on where training was
+                actually the right response.
+              </p>
+              <p className='project-summary-item__body'>
+                That upstream work shaped the product training and measurement work shown in the other case studies: <strong>fewer support tickets</strong>, clearer <strong>behavior-change targets</strong>,
+                and a stronger way to show how <strong>education contributes to the business</strong>.
               </p>
             </div>
           </div>
@@ -55,15 +71,34 @@ export default function NeedsAnalysisPage() {
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">
-          <h2>About This Work</h2>
+          <h2>Where it started</h2>
           <p>
-            The context of this work is about identifying knowledge gaps, specifically, gaps that cause users
-            to depend on support or onboarding resources. In this example, I work with thousands of support
-            ticket records to identify common themes, root causes, and resolutions while distinguishing
-            between genuine knowledge gaps and other factors like product usability issues. The goal is to
-            uncover recurring challenges that point to if and where learning interventions are actually
-            needed.
+            This started with hallucinations I kept catching even with long and specific prompts. As part of my needs analysis,
+            I analyze relevant support ticket records to find common themes, root causes, and resolutions.
+            I wanted AI in that workflow, but its output kept undermining itself: the sources it cited either didn't exist or covered something unrelated to what it claimed.
           </p>
+          <p>
+            It reminded me of the first time my high school class practiced digging in volleyball. The teacher had walked us through exactly what to do and what to focus on,
+            and everyone still dropped the ball. 
+            He said, "Dig once, then catch it." Everyone could do that.
+            Next instruction was to do the same for three times, then catch. That didn't go as smoothly. He told us to pay attention to the feeling of our movement
+            and the amount of force we were using. After a few times, we landed three digs without dropping the ball.
+            When he told us to do exactly that as many times as possible, we were far better than our first try.
+          </p>
+          <p>
+            My working hypothesis: the same mistake applies to how I'd been using AI. We focus so hard on the task itself, "dig the ball using XYZ technique and don't drop it"
+            or, "find the top three challenges from this dataset with XYZ queries and steps." that we skipped the part that makes it possible; getting oriented on the foundation
+            first, proving the approach works on a small scale, then carrying what worked into the larger one.
+          </p>
+          <p>
+            And that's what the structure below is built for:
+          </p>
+          <ol>
+            <li>Grounds itself in my data.</li>
+            <li>Summarizes back what I asked and lays out how it plans to execute.</li>
+            <li>Tests on a smaller dataset and validates its output.</li>
+            <li>Applies the same approach to the full dataset.</li>
+          </ol>
           <div className="disclaimer">
             <p style={{ marginBottom:"0px" }}>
               I conduct my analysis using company-provided tools with direct access to our internal database,

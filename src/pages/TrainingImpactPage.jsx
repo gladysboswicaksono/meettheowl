@@ -1013,7 +1013,8 @@ function AnalyticalMethodsCaption() {
         />.{' '}
       </p>
       <p className="carousel-hint">
-        <span style={{ color: 'var(--gold)', fontSize: '17px', textTransform: 'lowercase' }}>( i )</span> {isDesktop ? 'HOVER' : 'PRESS'} THE <span className='tooltip-term' style={{ cursor: 'auto' }}>UNDERLINED TERMS</span> TO LEARN MORE
+        <img src="/icons/info.svg" aria-hidden="true" style={{ width: '13px', height: '13px', opacity: 0.45, verticalAlign: 'middle', marginRight: '2px', marginBottom: '2px' }}></img>
+        {isDesktop ? 'HOVER' : 'PRESS'} THE <span className='tooltip-term' style={{ cursor: 'auto' }}>UNDERLINED TERMS</span> TO LEARN MORE
       </p>
       <span className='project-status-tag project-status-tag--both'>ADAPTED</span>
     </>
@@ -1181,7 +1182,7 @@ export default function TrainingImpactPage() {
           <ol>
             <li>Define a <em>trained</em> user through outcome-based logic.</li>
             <li>Connect learning data with product and performance data.</li>
-            <li>Use different analytical methods to monitor and showcase how education consistently contributes to meaningfull business results.</li>
+            <li>Use different analytical methods to monitor and showcase how education consistently contributes to meaningful business results.</li>
           </ol>
           <div className="disclaimer">
             This is a public, sanitized case study based on real work. Some elements reflect what I have already implemented while

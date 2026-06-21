@@ -12,7 +12,7 @@ const projects = [
     title: 'Getting Started with Owllocate',
     featuredTitle: 'Getting Started with Owllocate',
     href: '/owllocate-get-started',
-    tagline: '~27% fewer support cases',
+    tagline: 'Decrease support ticket volume by addressing knowledge gap',
     stats: [
       { value: 'THE GAP', label: 'Knowing where to click was not enough when the workflow had stakes, exceptions, and room for mistakes.' },
       { value: 'THE WORK', label: 'A hands-on simulation series built with character-led scenarios, progressive practice, and contextual feedback.' },
@@ -26,7 +26,7 @@ const projects = [
     title: 'Measuring Training Effectiveness',
     featuredTitle: 'Measuring Training Effectiveness',
     href: '/training-effectiveness',
-    tagline: 'Trained rate entered OKRs',
+    tagline: 'Increase team impact visibility by getting more data literate',
     stats: [
       { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
       { value: 'THE WORK', label: <>Training status mapped to product usage and behavior in SQL and Power BI.</> },
@@ -38,25 +38,24 @@ const projects = [
     imageAlt: 'Owl eye close-up with data overlay',
     category: ['AI, Data & Measurement'],
     title: 'Data & AI for Needs Analysis',
-    featuredTitle: 'Data & AI for\nNeeds Analysis',
-    description: "AI pattern-matches toward plausibility, not truth. That's why I treat it as a probabilistic assistant under audit — not a magic eight ball.",
+    featuredTitle: 'Data & AI for Needs Analysis',
     href: '/needs-analysis',
-    tagline: '6-step audited methodology',
+    tagline: 'Solve the right problem by accurately analyze qualitative data using AI',
     stats: [
-      { value: '6-step', label: 'Audited AI\nmethodology' },
-      { value: 'Claude API', label: 'AI-assisted\nanalysis' },
-      { value: 'Verified', label: 'Source-checked\noutput' },
+      { value: 'The gap', label: 'AI findings look so credible that checking them felt unnecessary.' },
+      { value: 'The work', label: 'A structured, source-verified approach to AI analysis of large-scale qualitative data.' },
+      { value: 'The Shift', label: 'Learning design became more grounded in real user behavior and training effort focus on where training was needed. ' },
     ],
   },
   {
     image: '/images/card-onboarding.png',
     imageAlt: 'Welcome Onboard presentation on laptop',
-    category: ['Internal Enablement'],
+    category: ['Internal Training'],
     title: 'Making Remote Onboarding Work',
     featuredTitle: 'Making Remote\nOnboarding Work',
     description: 'A two-day in-person orientation crucial for transferring essential knowledge — redesigned for virtual delivery when COVID made the traditional format impossible.',
     href: '/virtual-onboarding',
-    tagline: '>75% completion, kept post-COVID',
+    tagline: 'Keep trainees job-ready and confident without in-person onboarding',
     stats: [
       { value: '>75%', label: 'Course\ncompletion rate' },
       { value: 'H5P', label: 'Interactive\nvideo format' },
@@ -131,32 +130,39 @@ export default function ArtifactsShowcase() {
                       ))}
                     </div>
                     <span className="showcase__proj-title">{proj.title}</span>
-                    <span className="showcase__proj-proof">{proj.tagline}</span>
+                    <span className="showcase__proj-proof">
+                      <img src="/icons/target.svg" aria-hidden="true" style={{ width: '11px', height: '11px', verticalAlign: 'middle', marginRight: '5px', marginBottom: '2px', opacity: 0.7 }} />
+                      {proj.tagline}
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="showcase__sidebar-footer">
-              <p className="showcase__sidebar-about">
-                Product-minded Learning Designer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+7 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mews
-              </p>
-              <button
-                type="button"
-                className={`showcase__sidebar-more${!hasBeenUsed ? ' showcase__sidebar-more--pulsing' : ''}`}
-                onClick={() => {
-                  const next = !showBio;
-                  setShowBio(next);
-                  if (!next) setHasBeenUsed(true);
-                }}
-              >
-                {showBio ? 'Close ↑' : 'WHO\'S THE OWL ↓'}
-              </button>
-            </div>
           </div>
 
         </div>
-        <div className="showcase__bottom-bar" />
+
+        {/* ── Seam ribbon: floats over the showcase / testimonials boundary ── */}
+        <div className="showcase__seam-ribbon">
+          <span className="showcase__seam-meta">Product-minded Learning Designer</span>
+          <div className="showcase__seam-divider" />
+          <span className="showcase__seam-meta">+7 years</span>
+          <div className="showcase__seam-divider" />
+          <span className="showcase__seam-meta">Mews</span>
+          <div className="showcase__seam-divider" />
+          <button
+            type="button"
+            className={`showcase__sidebar-more${!hasBeenUsed && !showBio ? ' showcase__sidebar-more--pulsing' : ''}`}
+            onClick={() => {
+              const next = !showBio;
+              setShowBio(next);
+              if (!next) setHasBeenUsed(true);
+            }}
+          >
+            {showBio ? 'Close ↑' : "MEET ME ↓"}
+          </button>
+        </div>
       </section>
 
       {/* ── Bio panel: revealed on "Meet me" click ── */}

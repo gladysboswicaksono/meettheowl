@@ -275,6 +275,7 @@ export default function OwllocatePage() {
             </div>
             <div className="project-hero__vignette" />
             <div className="project-hero__copy">
+              <span className='showcase__eyebrow'>customer education</span>
               <h2>Getting Started with Owllocate</h2>
               <p>Think about the last time you wanted to pick up a new skill or tool but did not know where to start.
                 You knew having it under your belt would make you better at your work, maybe even more marketable. The value was obvious, but the path was not.
