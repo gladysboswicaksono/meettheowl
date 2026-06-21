@@ -145,7 +145,7 @@ export default function ArtifactsShowcase() {
 
         {/* ── Seam ribbon: floats over the showcase / testimonials boundary ── */}
         <div className="showcase__seam-ribbon">
-          <span className="showcase__seam-meta">Product-minded Learning Designer</span>
+          <span className="showcase__seam-meta"><span style={{ color: 'var(--gold)' }}>Product-minded</span> Learning Designer</span>
           <div className="showcase__seam-divider" />
           <span className="showcase__seam-meta">+7 years</span>
           <div className="showcase__seam-divider" />

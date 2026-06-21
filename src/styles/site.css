@@ -431,8 +431,8 @@
   gap: 18px;
   padding: 11px 28px;
   background: linear-gradient(90deg, #0C0C1A 0%, #3a0808 30%, #5B0606 50%, #3a0808 70%, #0C0C1A 100%);
-  border: 1px solid rgba(246, 199, 133, 0.2);
-  border-radius: 40px;
+  border: 1px solid rgb(from var(--gold) r g b/20%);
+  /* border-radius: 8px; */
   white-space: nowrap;
 }
 
