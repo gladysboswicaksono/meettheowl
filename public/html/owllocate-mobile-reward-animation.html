@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Owllocate — Mobile Reward Animation</title>
+  <style>
+    :root{
+      --burgundy:#5b0606;
+      --burgundy-2:#8b0808;
+      --bg-1:#111827;
+      --bg-2:#1f2937;
+      --bg-3:#374151;
+      --card:#1f2937;
+      --line:#374151;
+      --text:#f9fafb;
+      --muted:#9ca3af;
+      --green:#16a34a;
+      --green-light:#4ade80;
+      --blue:#60a5fa;
+      --red:#f87171;
+      --ease:cubic-bezier(.22,1,.36,1);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%}
+    body{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 18% 15%,rgba(139,8,8,.2),transparent 28%),
+        radial-gradient(circle at 82% 85%,rgba(22,163,74,.13),transparent 30%),
+        #090d16;
+    }
+    button{font:inherit}
+    .stage{position:relative;width:390px;height:760px;display:grid;place-items:center}
+    .phone{
+      position:relative;
+      width:348px;height:706px;
+      overflow:hidden;
+      border:9px solid #05070b;
+      border-radius:47px;
+      background:linear-gradient(145deg,var(--bg-1),var(--bg-2) 58%,var(--bg-3));
+      box-shadow:0 38px 90px rgba(0,0,0,.62),0 8px 24px rgba(0,0,0,.4);
+    }
+    .notch{
+      position:absolute;z-index:20;top:0;left:50%;transform:translateX(-50%);
+      width:112px;height:25px;border-radius:0 0 15px 15px;background:#05070b;
+    }
+    .status{
+      height:34px;padding:10px 22px 0;
+      display:flex;justify-content:space-between;
+      font-size:11px;font-weight:700;
+    }
+    .topbar{
+      height:68px;padding:10px 17px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:linear-gradient(90deg,var(--burgundy),var(--burgundy-2));
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{
+      width:39px;height:39px;border-radius:50%;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.13);
+      font-size:25px;
+    }
+    .brand b{font-size:17px;letter-spacing:-.02em}
+    .profile{font-size:11px;font-weight:600}
+    .content{
+      height:535px;padding:16px 15px 68px;
+      overflow:hidden;
+    }
+    h1{margin:0;font-size:20px;line-height:1.18;letter-spacing:-.025em}
+    .subtitle{margin:5px 0 14px;color:var(--muted);font-size:11px}
+    .panel{
+      position:relative;
+      margin-bottom:12px;padding:13px;
+      border:1px solid var(--line);
+      border-radius:11px;
+      background:rgba(31,41,55,.96);
+      box-shadow:0 4px 12px rgba(0,0,0,.17);
+    }
+    .panel-title{margin-bottom:10px;font-size:13px;font-weight:700}
+    .money-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .money{
+      position:relative;padding:10px;border-radius:9px;
+      transition:box-shadow .45s ease,transform .45s var(--ease);
+    }
+    .money.available{background:rgba(20,83,45,.28)}
+    .money.locked{background:rgba(30,58,138,.28)}
+    .money .label{font-size:9px;font-weight:700}
+    .money.available .label,.money.available .amount,.money.available .detail{color:var(--green-light)}
+    .money.locked .label,.money.locked .amount,.money.locked .detail{color:var(--blue)}
+    .amount{margin-top:2px;font-size:20px;font-weight:800;letter-spacing:-.03em}
+    .detail{margin-top:1px;font-size:8px}
+    .reward-flight{
+      position:absolute;z-index:30;top:54px;right:48px;
+      min-width:48px;padding:7px 9px;border-radius:999px;
+      text-align:center;font-size:12px;font-weight:800;
+      color:#dcfce7;background:#166534;border:1px solid #4ade80;
+      box-shadow:0 8px 24px rgba(22,163,74,.45);
+      opacity:0;transform:scale(.65);
+      pointer-events:none;
+    }
+    .focus-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .focus-head h2{margin:0;font-size:13px}
+    .focus-head small{display:block;margin-top:3px;color:var(--muted);font-size:8px}
+    .choose{
+      border:0;border-radius:8px;padding:7px 9px;color:#fff;
+      background:linear-gradient(90deg,#ea580c,#c2410c);
+      font-size:8px;font-weight:700;
+    }
+    .habits{display:flex;flex-direction:column;gap:8px}
+    .habit{
+      position:relative;padding:10px;
+      border:1px solid var(--line);border-radius:10px;
+      background:#1f2937;
+      transition:border-color .45s ease,background .45s ease,box-shadow .45s ease;
+    }
+    .habit-head{display:flex;align-items:center;justify-content:space-between}
+    .habit-name{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:650}
+    .emoji{font-size:17px}
+    .done-badge{
+      display:block;padding:4px 7px;border-radius:999px;
+      background:#16a34a;color:#fff;font-size:7px;font-weight:800;
+      opacity:0;transform:scale(.7);
+    }
+    .progress-row{
+      display:flex;justify-content:space-between;
+      margin-top:8px;color:#d1d5db;font-size:8px;
+    }
+    .track{height:6px;margin-top:5px;overflow:hidden;border-radius:8px;background:#374151}
+    .fill{
+      display:block;height:100%;width:66.666%;
+      border-radius:8px;background:#f9fafb;
+      transition:width .72s var(--ease),background .45s ease;
+    }
+    .unlock{margin-top:5px;color:var(--muted);font-size:8px}
+    .reward{margin-top:7px;color:var(--muted);font-size:9px;font-weight:700}
+    .period{margin-top:6px;color:var(--muted);font-size:8px}
+    .log{
+      position:relative;width:100%;height:34px;margin-top:8px;
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      border:0;border-radius:8px;color:#fff;
+      background:linear-gradient(90deg,#16a34a,#15803d);
+      box-shadow:0 7px 16px rgba(21,128,61,.3);
+      font-size:10px;font-weight:700;
+      transition:transform .16s ease,filter .25s ease,background .4s ease;
+    }
+    .log svg{width:13px;height:13px}
+    .compact{
+      display:grid;grid-template-columns:1fr auto;align-items:center;
+      min-height:49px;
+    }
+    .compact .habit-name{font-size:10px}
+    .mini-progress{color:var(--muted);font-size:9px;font-weight:700}
+    .nav{
+      position:absolute;z-index:15;left:0;right:0;bottom:0;height:61px;
+      display:flex;align-items:center;justify-content:space-around;
+      border-top:1px solid rgba(75,85,99,.7);
+      background:rgba(17,24,39,.97);
+      backdrop-filter:blur(8px);
+    }
+    .nav-item{
+      position:relative;width:25%;height:100%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      color:var(--muted);font-size:8px;font-weight:600;
+    }
+    .nav-item svg{width:18px;height:18px}
+    .nav-item.active{color:var(--red)}
+    .nav-item.active::before{
+      content:"";position:absolute;top:5px;width:28px;height:2px;
+      border-radius:2px;background:var(--red);
+    }
+    .cursor{
+      position:absolute;z-index:50;
+      left:294px;top:606px;
+      width:24px;height:29px;
+      color:#fff;opacity:0;
+      filter:drop-shadow(0 2px 2px rgba(0,0,0,.9));
+      pointer-events:none;
+    }
+    .cursor svg{width:100%;height:100%}
+    .toast{
+      position:absolute;z-index:45;left:50%;top:119px;
+      width:270px;padding:10px 12px;
+      border:1px solid #166534;border-radius:10px;
+      color:#dcfce7;background:rgba(20,83,45,.97);
+      box-shadow:0 16px 34px rgba(0,0,0,.45);
+      opacity:0;transform:translate(-50%,-12px) scale(.96);
+    }
+    .toast b{display:block;font-size:11px}
+    .toast span{display:block;margin-top:2px;font-size:8px;color:#bbf7d0}
+
+    /* Timed reward sequence */
+    .playing .cursor{animation:cursor-click 2.25s var(--ease) .9s forwards}
+    .playing .primary-log{animation:button-press .38s ease 2.72s}
+    .playing .primary-fill{animation:complete-progress .72s var(--ease) 3.05s forwards}
+    .playing .progress-value::after{content:"2/3";animation:progress-copy 5.7s steps(1,end) forwards}
+    .playing .primary-habit{animation:habit-complete .45s ease 3.48s forwards}
+    .playing .done-badge{animation:show-badge .4s var(--ease) 3.5s forwards}
+    .playing .unlock-copy{animation:hide-copy .2s ease 3.35s forwards}
+    .playing .earned-copy{animation:earned-copy .4s ease 3.45s forwards}
+    .playing .primary-log .button-copy::after{content:"Log Activity";animation:button-copy 5.7s steps(1,end) forwards}
+    .playing .reward-flight{animation:money-flight 1.25s var(--ease) 3.85s forwards}
+    .playing .money.locked{animation:locked-pulse .7s ease 3.65s}
+    .playing .money.available{animation:available-pulse .75s ease 4.75s}
+    .playing .available-value::after{content:"€42.75";animation:available-number 5.7s steps(1,end) forwards}
+    .playing .locked-value::after{content:"€57.25";animation:locked-number 5.7s steps(1,end) forwards}
+    .playing .toast{animation:toast-in 1.7s var(--ease) 4.9s forwards}
+
+    @keyframes cursor-click{
+      0%{opacity:0;transform:translate(30px,42px)}
+      12%{opacity:1}
+      70%{opacity:1;transform:translate(-132px,-144px)}
+      82%{opacity:1;transform:translate(-132px,-140px) scale(.9)}
+      100%{opacity:0;transform:translate(-132px,-144px)}
+    }
+    @keyframes button-press{50%{transform:scale(.95);filter:brightness(1.18)}}
+    @keyframes complete-progress{to{width:100%;background:#22c55e}}
+    @keyframes progress-copy{0%,56%{content:"2/3"}57%,100%{content:"3/3"}}
+    @keyframes habit-complete{
+      to{border-color:#15803d;background:linear-gradient(135deg,rgba(20,83,45,.34),rgba(6,78,59,.16));box-shadow:0 0 0 1px rgba(74,222,128,.12)}
+    }
+    @keyframes show-badge{to{opacity:1;transform:scale(1)}}
+    @keyframes hide-copy{to{opacity:0}}
+    @keyframes earned-copy{to{color:#4ade80}}
+    @keyframes button-copy{0%,56%{content:"Log Activity"}57%,100%{content:"Done Today"}}
+    @keyframes money-flight{
+      0%{opacity:0;transform:translate(0,0) scale(.65)}
+      12%{opacity:1;transform:translate(0,0) scale(1)}
+      72%{opacity:1;transform:translate(-145px,0) scale(1)}
+      100%{opacity:0;transform:translate(-145px,0) scale(.72)}
+    }
+    @keyframes locked-pulse{50%{transform:scale(1.04);box-shadow:0 0 0 4px rgba(96,165,250,.18)}}
+    @keyframes available-pulse{50%{transform:scale(1.045);box-shadow:0 0 0 4px rgba(74,222,128,.2)}}
+    @keyframes available-number{0%,82%{content:"€42.75"}83%,100%{content:"€45.75"}}
+    @keyframes locked-number{0%,82%{content:"€57.25"}83%,100%{content:"€54.25"}}
+    @keyframes toast-in{
+      0%{opacity:0;transform:translate(-50%,-12px) scale(.96)}
+      18%,78%{opacity:1;transform:translate(-50%,0) scale(1)}
+      100%{opacity:0;transform:translate(-50%,-8px) scale(.98)}
+    }
+    @media(max-width:430px){
+      .stage{transform:scale(.9);transform-origin:center}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *{animation:none!important;transition:none!important}
+      .primary-fill{width:100%;background:#22c55e}
+      .available-value::after{content:"€45.75"}
+      .locked-value::after{content:"€54.25"}
+      .progress-value::after{content:"3/3"}
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <section class="phone playing" id="animation" aria-label="Owllocate mobile homepage reward animation">
+      <div class="notch"></div>
+      <div class="status"><span>9:41</span><span>● ◒ ▰</span></div>
+      <header class="topbar">
+        <div class="brand"><span class="logo">🦉</span><b>Owllocate</b></div>
+        <span class="profile">Alex</span>
+      </header>
+
+      <div class="content">
+        <h1>Time to build those habits, Alex!</h1>
+        <p class="subtitle">Track your activities and unlock your rewards</p>
+
+        <section class="panel">
+          <div class="panel-title">Funancial Overview</div>
+          <div class="money-grid">
+            <div class="money available">
+              <div class="label">Available</div>
+              <div class="amount available-value"></div>
+              <div class="detail">Ready to spend</div>
+            </div>
+            <div class="money locked">
+              <div class="label">To Unlock</div>
+              <div class="amount locked-value"></div>
+              <div class="detail">Complete activities</div>
+            </div>
+          </div>
+          <div class="reward-flight">€3.00</div>
+        </section>
+
+        <section class="panel">
+          <div class="focus-head">
+            <div><h2>This Week's Focus</h2><small>June 22 – June 28</small></div>
+            <button class="choose">Choose Focus</button>
+          </div>
+          <div class="habits">
+            <article class="habit primary-habit">
+              <div class="habit-head">
+                <div class="habit-name"><span class="emoji">📚</span><span>Read 20 Minutes</span></div>
+                <span class="done-badge">Done!</span>
+              </div>
+              <div class="progress-row"><span>Progress</span><b class="progress-value"></b></div>
+              <div class="track"><i class="fill primary-fill"></i></div>
+              <div class="unlock unlock-copy">1 more to unlock €3.00</div>
+              <div class="reward earned-copy">€3.00</div>
+              <div class="period">Target: 3x per week</div>
+              <button class="log primary-log">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="button-copy"></span>
+              </button>
+            </article>
+            <article class="habit compact">
+              <div class="habit-name"><span class="emoji">🧘</span><span>Morning Stretch</span></div>
+              <span class="mini-progress">1/4</span>
+            </article>
+            <article class="habit compact">
+              <div class="habit-name"><span class="emoji">💧</span><span>Drink 2L Water</span></div>
+              <span class="mini-progress">4/7</span>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <nav class="nav" aria-label="Mobile navigation">
+        <span class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Home
+        </span>
+        <span class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8M12 6v12"/></svg>Funancial
+        </span>
+        <span class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h8l-1 8 10-12h-8z"/></svg>Habits
+        </span>
+        <span class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Progress
+        </span>
+      </nav>
+
+      <span class="cursor">
+        <svg viewBox="0 0 24 28" fill="currentColor" stroke="#111827" stroke-width="1.4"><path d="M3 2l16 12-7 1 4 8-4 2-4-8-5 5z"/></svg>
+      </span>
+      <aside class="toast"><b>🎉 Reward unlocked!</b><span>€3.00 is now ready to spend.</span></aside>
+    </section>
+  </main>
+  <script>
+    (function(){
+      var phone=document.getElementById('animation');
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+      window.setInterval(function(){
+        phone.classList.remove('playing');
+        void phone.offsetWidth;
+        phone.classList.add('playing');
+      },7600);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Owllocate — Product + Learning Environment</title>
+
+<!--
+  ==========================================================================
+  OWLLOCATE: PRODUCT + LEARNING ENVIRONMENT  (portfolio concept animation)
+  Self-contained: all CSS + JS inline. No external deps beyond Google Fonts.
+  Concept (no explanatory copy inside the visual — UI shapes only):
+    STEP 1  Desktop app + in-product SIMULATION task ("do this here")
+    STEP 2  Same app + OPTIONAL guidance (dismissible, non-blocking)
+    STEP 3  Mobile app + LIVE-SKILL learning library (connected to real use)
+  Classed as a WALKTHROUGH: learner-paced (dots + ‹ ›), gentle autoplay that
+  pauses on interaction. One focal signal moves at a time; rest holds still.
+  Motion: transform/opacity/background only. prefers-reduced-motion -> settled.
+  ==========================================================================
+-->
+
+<!-- Product UI typography (this is the Owllocate app, not portfolio chrome) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+/* ========================================================================
+   CONFIG — adjust the animation here
+   ======================================================================== */
+:root{
+  --autoplay-ms: 5200;        /* JS reads this; per-step dwell time          */
+  --t-step: 620ms;            /* base transition for state changes           */
+  --ease: cubic-bezier(.4,0,.2,1);
+
+  /* --- Owllocate real tokens (pulled from the app codebase) --- */
+  --app-bg-1:#0d1320;         /* app dark gradient top                       */
+  --app-bg-2:#111827;         /* gray-900                                    */
+  --panel:#1f2937;            /* gray-800  card surface                      */
+  --panel-2:#283342;          /* slightly lighter panel                      */
+  --line:#374151;             /* gray-700  borders                           */
+  --line-soft:#2b3441;
+  --text:#f3f4f6;             /* gray-100                                    */
+  --muted:#9ca3af;            /* gray-400                                    */
+  --muted-2:#6b7280;          /* gray-500                                    */
+
+  --green:#34d399;            /* reward / money                              */
+  --green-deep:#065f46;
+  --green-glow:rgba(52,211,153,.18);
+  --orange:#fb923c;           /* streak / flame                              */
+  --blue:#3b82f6;             /* guidance / hotspots / info                  */
+  --blue-soft:#60a5fa;
+  --indigo:#6366f1;           /* primary CTA (matches reference image)       */
+  --indigo-soft:#818cf8;
+  --indigo-glow:rgba(99,102,241,.30);
+
+  --r-card:8px;               /* app radius (0.5rem)                         */
+  --r-win:11px;
+  --shadow-win:0 24px 60px rgba(0,0,0,.55), 0 4px 14px rgba(0,0,0,.4);
+  --shadow-pop:0 18px 40px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:transparent;          /* shell carries the surface, per build skill */
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  display:flex;justify-content:center;
+  padding:28px 18px;
+}
+
+/* ---- scalable stage so it never breaks on small screens ---- */
+.owl-wrap{width:100%;max-width:1120px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.stage-scale{width:100%;display:flex;justify-content:center;transform-origin:top center}
+
+.stage{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  gap:46px;
+  padding:30px 26px 36px;
+  width:1040px;max-width:100%;
+}
+
+/* connector layer that spans desktop <-> phone (drawn in step 3) */
+.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:7}
+.wire{
+  fill:none;stroke:var(--indigo-soft);stroke-width:2.2;
+  stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  filter:drop-shadow(0 0 6px var(--indigo-glow));
+  transition:stroke-dashoffset 900ms var(--ease);
+}
+.owl-anim.step-3 .wire{stroke-dashoffset:0}
+.wire-dot{fill:var(--indigo-soft);opacity:0;transition:opacity .4s ease .8s}
+.owl-anim.step-3 .wire-dot{opacity:1}
+
+/* =====================================================================
+   DESKTOP BROWSER WINDOW
+   ===================================================================== */
+.win{
+  position:relative;z-index:3;
+  width:660px;flex:0 0 auto;
+  background:linear-gradient(160deg,var(--app-bg-1),var(--app-bg-2));
+  border:1px solid var(--line);
+  border-radius:var(--r-win);
+  box-shadow:var(--shadow-win);
+  overflow:hidden;
+  opacity:0;transform:translateY(14px) scale(.985);
+  animation:frame-in .8s var(--ease) .05s forwards;
+}
+@keyframes frame-in{to{opacity:1;transform:none}}
+
+.win__bar{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;background:#0a0f1a;border-bottom:1px solid var(--line);
+}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.url{
+  margin-left:8px;flex:1;max-width:300px;
+  display:flex;align-items:center;gap:7px;
+  background:#161d2b;border:1px solid var(--line-soft);
+  border-radius:7px;padding:5px 10px;color:var(--muted);
+  font-size:11px;letter-spacing:.01em;
+}
+.url svg{flex:0 0 auto}
+
+.win__body{position:relative;display:grid;grid-template-columns:172px 1fr;min-height:392px}
+
+/* ---- sidebar ---- */
+.side{background:#0c1320;border-right:1px solid var(--line-soft);padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:8px;padding:2px 4px 12px}
+.brand b{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{
+  display:flex;align-items:center;gap:9px;
+  padding:7px 9px;border-radius:7px;color:var(--muted);
+  font-size:12px;font-weight:500;text-decoration:none;
+}
+.nav a.on{background:#162132;color:var(--text)}
+.nav a.on svg{stroke:var(--blue-soft)}
+.nav svg{width:14px;height:14px;flex:0 0 auto}
+.side .spacer{flex:1;min-height:8px}
+.side-card{border-radius:var(--r-card);padding:9px 10px;border:1px solid var(--line-soft)}
+.side-card.reward{background:linear-gradient(135deg,rgba(6,95,70,.45),rgba(16,185,129,.10));border-color:rgba(52,211,153,.35)}
+.side-card .lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.side-card .big{font-size:18px;font-weight:800;color:var(--green);margin-top:1px}
+.side-card .sub{font-size:10px;color:var(--green);opacity:.85;margin-top:1px}
+.side-card.level{margin-top:8px;background:#111a28}
+.side-card.level .big{font-size:11px;color:var(--text);font-weight:700}
+.xpbar{height:5px;border-radius:4px;background:#1f2937;margin-top:6px;overflow:hidden}
+.xpbar i{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--indigo),var(--indigo-soft))}
+
+/* ---- main ---- */
+.main{padding:15px 16px;display:flex;flex-direction:column;gap:13px}
+.hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.hd h1{font-size:15px;font-weight:700;margin:0;letter-spacing:-.01em}
+.hd p{font-size:11px;color:var(--muted);margin:3px 0 0}
+.hd .stats{display:flex;align-items:center;gap:12px}
+.streak{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700}
+.streak svg{width:15px;height:15px}
+.ring{width:30px;height:30px;display:grid;place-items:center;font-size:9px;color:var(--muted);font-weight:700}
+
+.habits{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.hab{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:10px}
+.hab .ico{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;margin-bottom:7px}
+.hab .ico.a{background:rgba(52,211,153,.16)}.hab .ico.b{background:rgba(96,165,250,.16)}.hab .ico.c{background:rgba(251,146,60,.16)}
+.hab h3{font-size:11px;margin:0 0 7px;font-weight:600}
+.hab .meta{font-size:9px;color:var(--muted)}
+.hab .pr{height:4px;border-radius:3px;background:#0e1521;margin:6px 0;overflow:hidden}
+.hab .pr i{display:block;height:100%;background:var(--green)}
+.hab .rw{font-size:10px;font-weight:700;color:var(--green)}
+.logbtn{
+  margin-top:7px;display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,var(--indigo),var(--indigo-soft));
+  color:#fff;border:none;border-radius:7px;padding:5px 9px;
+  font-size:10px;font-weight:700;font-family:inherit;
+}
+.logbtn svg{width:11px;height:11px}
+
+.lower{display:grid;grid-template-columns:1.6fr 1fr;gap:10px}
+.wish{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:10px;display:flex;gap:9px;align-items:center}
+.wish .img{width:40px;height:40px;border-radius:6px;background:linear-gradient(135deg,#2b3441,#1b2330);flex:0 0 auto;display:grid;place-items:center}
+.wish .img svg{width:20px;height:20px;color:var(--muted-2)}
+.wish .t{font-size:10px;font-weight:600}
+.wish .p{font-size:11px;font-weight:800;color:var(--text);margin-top:2px}
+.timeline{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);padding:10px}
+.timeline .row{display:flex;align-items:center;gap:5px;justify-content:space-between}
+.tick{width:13px;height:13px;border-radius:50%;display:grid;place-items:center;background:var(--green-deep)}
+.tick svg{width:8px;height:8px;color:#d1fae5}
+.tick.now{background:var(--indigo);box-shadow:0 0 0 3px var(--indigo-glow)}
+.tick.future{background:#1b2330;border:1px solid var(--line)}
+.timeline .lbl{font-size:8px;color:var(--muted-2);margin-top:4px;text-align:center}
+
+/* =====================================================================
+   OVERLAY 1 — dim + simulation task  (STEP 1)
+   ===================================================================== */
+.dim{
+  position:absolute;inset:0;z-index:5;background:rgba(8,12,20,.62);
+  backdrop-filter:blur(1px);opacity:0;pointer-events:none;
+  transition:opacity var(--t-step) var(--ease);
+}
+.owl-anim.step-1 .dim{opacity:1}
+
+/* compact task prompt, docked bottom-right so the live UI target stays visible */
+.sim{
+  position:absolute;z-index:6;right:18px;bottom:16px;transform:translateY(12px) scale(.96);
+  width:236px;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;box-shadow:var(--shadow-pop);padding:14px;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--t-step) var(--ease),transform var(--t-step) var(--ease);
+}
+.owl-anim.step-1 .sim{opacity:1;transform:translateY(0) scale(1)}
+/* spotlight: lift the targeted habit card above the dim so "do this here" reads */
+.owl-anim.step-1 #hab-mid{
+  position:relative;z-index:6;
+  box-shadow:0 0 0 2px var(--indigo-soft),0 0 26px var(--indigo-glow);
+  transition:box-shadow .5s var(--ease);
+}
+.sim .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.sim .badge{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--indigo-glow)}
+.sim .badge svg{width:16px;height:16px;color:var(--indigo-soft)}
+.sim .x{width:18px;height:18px;color:var(--muted-2)}
+.sim .steps{display:flex;flex-direction:column;gap:8px;margin-bottom:13px}
+.sim .step{display:flex;align-items:center;gap:9px}
+.sim .num{width:19px;height:19px;border-radius:50%;background:#0e1521;border:1px solid var(--line);display:grid;place-items:center;font-size:9px;font-weight:800;color:var(--muted);flex:0 0 auto}
+.sim .glyph{width:20px;height:20px;display:grid;place-items:center;color:var(--muted)}
+.sim .glyph svg{width:14px;height:14px}
+.sim .bar{height:7px;border-radius:4px;background:#0e1521;flex:1}
+.sim .bar.w70{max-width:70%}.sim .bar.w52{max-width:52%}.sim .bar.w60{max-width:60%}
+.sim .cta{display:flex;gap:8px}
+.sim .start{flex:1;background:linear-gradient(135deg,var(--indigo),var(--indigo-soft));color:#fff;border:none;border-radius:8px;padding:8px;font-size:11px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px}
+.sim .start svg{width:12px;height:12px}
+.sim .skip{background:#0e1521;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:11px;font-weight:600;font-family:inherit}
+
+/* pulsing target ring on the live "Log activity" affordance (focal signal) */
+.target{
+  position:absolute;z-index:7;width:112px;height:31px;border-radius:9px;
+  border:2px solid var(--indigo-soft);opacity:0;pointer-events:none;
+  /* measured to hug #hab-mid's "Log activity" button */
+  left:347px;top:152px;
+}
+.owl-anim.step-1 .target{opacity:1;animation:pulse 1.9s var(--ease) infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 var(--indigo-glow);transform:scale(1)}
+  60%{box-shadow:0 0 0 10px rgba(99,102,241,0);transform:scale(1.04)}
+  100%{box-shadow:0 0 0 0 rgba(99,102,241,0);transform:scale(1)}
+}
+/* cursor moves toward the target once, then settles */
+.cursor{position:absolute;z-index:7;left:62%;top:80%;opacity:0;pointer-events:none}
+.cursor svg{width:18px;height:18px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+.owl-anim.step-1 .cursor{opacity:1;animation:cursor-move 1.4s var(--ease) .3s forwards}
+@keyframes cursor-move{from{left:62%;top:80%}to{left:398px;top:168px}}
+
+/* =====================================================================
+   OVERLAY 2 — optional guidance  (STEP 2)
+   ===================================================================== */
+.guide{
+  position:absolute;z-index:6;right:14px;top:60px;width:188px;
+  background:rgba(20,28,42,.96);border:1px solid rgba(96,165,250,.4);
+  border-radius:11px;box-shadow:var(--shadow-pop);padding:12px;
+  opacity:0;transform:translateX(14px);pointer-events:none;
+  transition:opacity var(--t-step) var(--ease) .12s,transform var(--t-step) var(--ease) .12s;
+}
+.owl-anim.step-2 .guide{opacity:1;transform:none}
+.guide .ghd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.guide .ghd .d{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--blue-soft)}
+.guide .ghd .d svg{width:13px;height:13px}
+.guide .toggle{width:26px;height:15px;border-radius:8px;background:var(--blue);position:relative}
+.guide .toggle::after{content:"";position:absolute;width:11px;height:11px;border-radius:50%;background:#fff;top:2px;right:2px}
+.guide .gstep{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.guide .gnum{width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:8px;font-weight:800;display:grid;place-items:center;flex:0 0 auto}
+.guide .gbar{height:6px;border-radius:4px;background:#1b2536;flex:1}
+.guide .gbar.s1{max-width:78%}.guide .gbar.s2{max-width:60%}.guide .gbar.s3{max-width:68%}
+.guide .disable{margin-top:6px;display:flex;align-items:center;gap:6px;border-top:1px solid var(--line-soft);padding-top:9px;color:var(--muted);font-size:10px;font-weight:600}
+.guide .disable svg{width:12px;height:12px}
+
+/* hotspots + connector lines from guidance to live UI (focal signal: hotspot 2) */
+.hot{position:absolute;z-index:6;width:18px;height:18px;border-radius:50%;background:var(--blue);color:#fff;font-size:9px;font-weight:800;display:grid;place-items:center;opacity:0;transform:scale(.6);transition:opacity .4s var(--ease),transform .4s var(--ease);box-shadow:0 0 0 3px rgba(59,130,246,.25)}
+.owl-anim.step-2 .hot{opacity:1;transform:scale(1)}
+.hot.h1{left:286px;top:110px;transition-delay:.2s}
+.hot.h2{left:332px;top:142px;transition-delay:.34s}
+.owl-anim.step-2 .hot.h2{animation:hot-pulse 1.8s var(--ease) 1s infinite}
+@keyframes hot-pulse{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.4)}55%{box-shadow:0 0 0 7px rgba(59,130,246,0)}}
+.glines{position:absolute;inset:0;z-index:6;pointer-events:none}
+.gline{fill:none;stroke:var(--blue);stroke-width:1.6;stroke-dasharray:300;stroke-dashoffset:300;opacity:0}
+.owl-anim.step-2 .gline{opacity:.7;animation:draw-g .7s var(--ease) .3s forwards}
+@keyframes draw-g{to{stroke-dashoffset:0}}
+
+/* =====================================================================
+   MOBILE PHONE
+   ===================================================================== */
+.phone{
+  position:relative;z-index:4;flex:0 0 auto;
+  width:248px;height:496px;
+  background:linear-gradient(165deg,var(--app-bg-1),var(--app-bg-2));
+  border:8px solid #05080f;border-radius:38px;
+  box-shadow:var(--shadow-win);
+  overflow:hidden;
+  opacity:0;transform:translateY(18px) scale(.97);
+  animation:frame-in .8s var(--ease) .22s forwards;
+}
+.owl-anim.step-3 .phone{transform:translateY(-6px) scale(1.01);transition:transform .6s var(--ease)}
+.notch{position:absolute;left:50%;top:0;transform:translateX(-50%);width:92px;height:20px;background:#05080f;border-radius:0 0 12px 12px;z-index:3}
+.pstatus{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 4px;font-size:10px;font-weight:600}
+.pstatus .ic{display:flex;gap:4px;align-items:center;color:var(--text)}
+.pstatus .ic svg{width:13px;height:13px}
+.pbody{padding:6px 14px;display:flex;flex-direction:column;gap:10px;height:calc(100% - 32px);position:relative}
+.phd{display:flex;align-items:center;justify-content:space-between}
+.phd b{font-size:13px;font-weight:700}
+.preward{background:linear-gradient(135deg,rgba(6,95,70,.6),rgba(16,185,129,.14));border:1px solid rgba(52,211,153,.4);border-radius:12px;padding:11px 12px;display:flex;align-items:center;justify-content:space-between}
+.preward .lbl{font-size:9px;color:#a7f3d0;text-transform:uppercase;letter-spacing:.07em}
+.preward .big{font-size:21px;font-weight:800;color:var(--green)}
+.preward .sub{font-size:10px;color:var(--green);opacity:.9;display:flex;align-items:center;gap:3px}
+.preward .coins{width:38px;height:30px;display:grid;place-items:center}
+.prow{display:flex;gap:9px}
+.pmini{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px}
+.pmini .l{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.pmini .v{font-size:14px;font-weight:800;display:flex;align-items:center;gap:4px;margin-top:2px}
+.psec{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.ptask{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px 9px}
+.ptask .ti{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;flex:0 0 auto}
+.ptask .tn{font-size:10px;font-weight:600;flex:1}
+.ptask .ts{font-size:9px;font-weight:700}
+.ptask .chk{width:15px;height:15px;border-radius:50%;background:var(--green-deep);display:grid;place-items:center}
+.ptask .chk svg{width:9px;height:9px;color:#d1fae5}
+
+/* ---- learning library drawer (slides up in step 3) ---- */
+.drawer{
+  position:absolute;left:0;right:0;bottom:0;z-index:5;
+  background:linear-gradient(180deg,#141c2b,#0e1420);
+  border-top:1px solid var(--line);border-radius:18px 18px 0 0;
+  box-shadow:0 -14px 30px rgba(0,0,0,.5);
+  padding:12px 13px 56px;
+  transform:translateY(102%);
+  transition:transform .7s var(--ease);
+}
+.owl-anim.step-3 .drawer{transform:translateY(0)}
+.dhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.dhd .dt{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700}
+.dhd .dt svg{width:14px;height:14px;color:var(--indigo-soft)}
+.dhd .x{width:16px;height:16px;color:var(--muted-2)}
+.lcard{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px;margin-bottom:7px;opacity:0;transform:translateY(10px)}
+.owl-anim.step-3 .lcard{animation:reveal .5s var(--ease) forwards}
+.owl-anim.step-3 .lcard:nth-child(2){animation-delay:.35s}
+.owl-anim.step-3 .lcard:nth-child(3){animation-delay:.48s}
+.owl-anim.step-3 .lcard:nth-child(4){animation-delay:.61s}
+.owl-anim.step-3 .lcard:nth-child(5){animation-delay:.74s}
+@keyframes reveal{to{opacity:1;transform:none}}
+.lthumb{width:38px;height:38px;border-radius:7px;flex:0 0 auto;display:grid;place-items:center}
+.lthumb.a{background:linear-gradient(135deg,rgba(52,211,153,.25),rgba(6,95,70,.4))}
+.lthumb.b{background:linear-gradient(135deg,rgba(99,102,241,.3),rgba(49,46,129,.5))}
+.lthumb.c{background:linear-gradient(135deg,rgba(96,165,250,.28),rgba(30,58,138,.5))}
+.lthumb.d{background:linear-gradient(135deg,rgba(251,146,60,.28),rgba(124,45,18,.5))}
+.lthumb svg{width:18px;height:18px;color:var(--text);opacity:.9}
+.lmeta{flex:1;min-width:0}
+.lmeta .lt{font-size:10px;font-weight:600;line-height:1.25}
+.lmeta .ls{font-size:8px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:4px}
+.lplay{width:22px;height:22px;border-radius:50%;background:var(--indigo);display:grid;place-items:center;flex:0 0 auto}
+.lplay svg{width:10px;height:10px;color:#fff}
+
+/* bottom tab bar */
+.tabs{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;align-items:center;justify-content:space-around;padding:8px 10px 12px;background:rgba(10,15,24,.9);border-top:1px solid var(--line-soft);backdrop-filter:blur(4px)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted-2);font-size:7.5px;font-weight:600}
+.tab svg{width:16px;height:16px}
+.tab.learn{color:var(--indigo-soft)}
+.owl-anim.step-3 .tab.learn{animation:tab-glow 1.9s var(--ease) 1.2s infinite}
+@keyframes tab-glow{0%,100%{text-shadow:none}55%{text-shadow:0 0 8px var(--indigo-glow)}}
+.tab .plus{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--indigo-soft));display:grid;place-items:center;margin-top:-6px}
+.tab .plus svg{width:15px;height:15px;color:#fff}
+
+/* tiny XP/reward chip that pops in step 3 (one-time) */
+.xp{position:absolute;z-index:8;left:50%;top:22%;transform:translate(-50%,-8px) scale(.7);opacity:0;display:flex;align-items:center;gap:5px;background:var(--panel);border:1px solid rgba(52,211,153,.5);border-radius:20px;padding:5px 11px;font-size:10px;font-weight:800;color:var(--green);box-shadow:var(--shadow-pop)}
+.xp svg{width:13px;height:13px}
+.owl-anim.step-3 .xp{animation:xp-pop 2.4s var(--ease) 1s forwards}
+@keyframes xp-pop{0%{opacity:0;transform:translate(-50%,-8px) scale(.7)}18%{opacity:1;transform:translate(-50%,-14px) scale(1)}78%{opacity:1;transform:translate(-50%,-14px) scale(1)}100%{opacity:0;transform:translate(-50%,-22px) scale(.96)}}
+
+/* =====================================================================
+   CONTROLS (walkthrough — learner sets the pace)
+   ===================================================================== */
+.controls{display:flex;align-items:center;gap:14px;background:rgba(15,21,33,.7);border:1px solid var(--line-soft);border-radius:30px;padding:8px 14px}
+.controls button{background:none;border:none;color:var(--muted);cursor:pointer;display:grid;place-items:center;padding:4px;border-radius:8px;transition:color .2s}
+.controls button:hover{color:var(--text)}
+.controls .dots{display:flex;gap:7px}
+.controls .d{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .25s var(--ease);border:none;padding:0}
+.controls .d.on{width:20px;border-radius:5px;background:var(--indigo-soft)}
+.controls svg{width:17px;height:17px}
+
+/* =====================================================================
+   RESPONSIVE  (desktop-first; never breaks small)
+   ===================================================================== */
+@media (max-width:1060px){
+  .stage{gap:30px;transform:scale(.92);transform-origin:top center}
+}
+@media (max-width:920px){
+  .stage{flex-direction:column;width:100%;transform:none;gap:26px;padding-top:18px}
+  .win{width:min(660px,100%)}
+  /* on stacked layout, target/cursor absolute coords differ — guidance + hotspots still read */
+  .wires{display:none}             /* desktop<->phone wire only makes sense side-by-side */
+  .target,.cursor{display:none}    /* hide pixel-pinned bits when frame reflows */
+}
+@media (max-width:560px){
+  body{padding:16px 10px}
+  .stage-scale{transform:scale(.8);transform-origin:top center}
+  .win__body{grid-template-columns:140px 1fr}
+}
+
+/* =====================================================================
+   REDUCED MOTION — land on the settled state, no continuous motion
+   ===================================================================== */
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+  .win,.phone{opacity:1;transform:none}
+  .wire{stroke-dashoffset:0}
+  .gline{stroke-dashoffset:0}
+}
+
+/* =====================================================================
+   AUTOMATIC FEATURE SHOWCASE
+   Uses Owllocate's real light UI, burgundy navigation, green actions,
+   orange focus accents, and red mobile navigation.
+   ===================================================================== */
+:root{
+  --app-bg-1:#f9fafb;
+  --app-bg-2:#f3f4f6;
+  --panel:#ffffff;
+  --panel-2:#f9fafb;
+  --line:#e5e7eb;
+  --line-soft:#eef0f3;
+  --text:#111827;
+  --muted:#6b7280;
+  --muted-2:#9ca3af;
+  --green:#16a34a;
+  --green-deep:#15803d;
+  --green-glow:rgba(22,163,74,.18);
+  --orange:#ea580c;
+  --indigo:#15803d;
+  --indigo-soft:#16a34a;
+  --indigo-glow:rgba(22,163,74,.22);
+  --shadow-win:0 25px 65px rgba(91,6,6,.15),0 8px 24px rgba(17,24,39,.12);
+  --shadow-pop:0 18px 44px rgba(17,24,39,.2);
+}
+body{
+  min-height:100vh;
+  padding:34px 18px;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 15%,rgba(91,6,6,.08),transparent 28%),
+    radial-gradient(circle at 88% 82%,rgba(22,163,74,.08),transparent 30%),
+    #f8fafc;
+}
+.owl-wrap{max-width:1240px;gap:0}
+.stage-scale{height:590px;overflow:visible}
+.owl-anim{width:100%;height:100%}
+.stage.showcase{
+  position:relative;
+  width:100%;
+  height:570px;
+  padding:0;
+  display:block;
+  overflow:visible;
+}
+.showcase::before{
+  content:"";
+  position:absolute;
+  inset:34px 5% 20px;
+  border:1px solid rgba(91,6,6,.08);
+  border-radius:32px;
+  background:rgba(255,255,255,.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  backdrop-filter:blur(16px);
+}
+.scene{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:700px;
+  height:520px;
+  display:grid;
+  place-items:center;
+  transform-origin:center;
+  transition:
+    transform 900ms cubic-bezier(.22,1,.36,1),
+    opacity 650ms ease,
+    filter 650ms ease;
+  will-change:transform,opacity;
+}
+.scene .win,.scene .phone{animation:none;opacity:1}
+.scene .win{
+  width:660px;
+  background:linear-gradient(160deg,var(--app-bg-1),var(--app-bg-2));
+  border-color:#e5e7eb;
+}
+.scene .win__bar{
+  background:linear-gradient(90deg,#5B0606,#8B0808);
+  border-color:rgba(255,255,255,.12);
+}
+.scene .url{
+  color:rgba(255,255,255,.76);
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.16);
+}
+.scene .side{background:#fff;border-color:#e5e7eb}
+.scene .nav a.on{background:#fef2f2;color:#991b1b}
+.scene .nav a.on svg{stroke:#991b1b}
+.scene .side-card.level{background:#f9fafb}
+.scene .hab,.scene .wish,.scene .timeline,.scene .pmini,.scene .ptask{
+  background:#fff;border-color:#e5e7eb;
+}
+.scene .pr,.scene .sim .bar{background:#e5e7eb}
+.scene .logbtn,.scene .sim .start{
+  background:linear-gradient(90deg,#15803d,#166534);
+  box-shadow:0 5px 14px rgba(22,101,52,.2);
+}
+.scene .sim{
+  background:#fff;border-color:#e5e7eb;
+}
+.scene .sim .skip{background:#fff;border-color:#d1d5db}
+.scene .guide{
+  color:#f3f4f6;
+  background:rgba(31,41,55,.97);
+}
+.scene .guide .gbar{background:#374151}
+.scene .phone{
+  width:248px;height:496px;
+  background:linear-gradient(165deg,#fff,#f3f4f6);
+  border-color:#18181b;
+}
+.scene .phone .tabs{background:rgba(255,255,255,.96);border-color:#e5e7eb}
+.scene .phone .tab.learn{color:#dc2626}
+.scene .phone .tab .plus{background:linear-gradient(135deg,#15803d,#166534)}
+.scene .phone .drawer{
+  color:#f3f4f6;
+  background:linear-gradient(180deg,#1f2937,#111827);
+}
+.scene .phone .lcard{background:#283342}
+
+/* active feature, future previews on the right, completed previews on the left */
+.scene.is-active{
+  z-index:4;
+  opacity:1;
+  filter:none;
+  transform:translate(-50%,-50%) translateX(-70px) scale(1);
+}
+.scene.is-next{
+  z-index:3;
+  opacity:.78;
+  filter:saturate(.78);
+  transform:translate(-50%,-50%) translateX(445px) scale(.42);
+}
+.scene.is-next-2{
+  z-index:2;
+  opacity:.5;
+  filter:saturate(.65);
+  transform:translate(-50%,-50%) translate(500px,165px) scale(.29);
+}
+.scene.is-past{
+  z-index:2;
+  opacity:.62;
+  filter:saturate(.68);
+  transform:translate(-50%,-50%) translateX(-500px) scale(.34);
+}
+.scene.is-past-2{
+  z-index:1;
+  opacity:.34;
+  transform:translate(-50%,-50%) translate(-535px,165px) scale(.24);
+}
+.scene[data-scene="3"].is-active{transform:translate(-50%,-50%) translateX(-40px) scale(1.05)}
+
+/* Scene 1: task prompt without dimming the live product. */
+.scene[data-scene="1"] .dim{opacity:0!important;backdrop-filter:none}
+.scene[data-scene="1"] .sim{opacity:1;transform:none}
+.scene[data-scene="1"] #hab-mid{
+  box-shadow:0 0 0 2px rgba(22,163,74,.42),0 0 26px rgba(22,163,74,.16);
+}
+.scene[data-scene="1"] .target{
+  border-color:#16a34a;
+  opacity:1;
+  animation:pulse 1.9s var(--ease) infinite;
+}
+.scene[data-scene="1"] .cursor{
+  opacity:1;
+  animation:cursor-move 1.4s var(--ease) .3s forwards;
+}
+
+/* Scene 2: dim everything except the real Log Activity control and guidance. */
+.scene[data-scene="2"] .dim{opacity:.66;background:rgba(17,24,39,.68);backdrop-filter:blur(1px)}
+.scene[data-scene="2"] #hab-mid{z-index:auto;box-shadow:none}
+.scene[data-scene="2"] .logbtn{
+  position:relative;z-index:8;
+  box-shadow:0 0 0 3px #fff,0 0 0 6px #16a34a,0 0 30px rgba(22,163,74,.5);
+}
+.scene[data-scene="2"] .guide{opacity:1;transform:none;z-index:8}
+.scene[data-scene="2"] .hot{opacity:1;transform:scale(1);z-index:8}
+.scene[data-scene="2"] .gline{opacity:.8;stroke-dashoffset:0}
+
+/* Scene 3: feature only the phone and its learning drawer. */
+.scene[data-scene="3"] .phone{transform:none}
+.scene[data-scene="3"] .drawer{transform:translateY(0)}
+.scene[data-scene="3"] .tab.learn{animation:tab-glow 1.9s var(--ease) infinite}
+.scene[data-scene="3"] .xp{animation:xp-pop 2.4s var(--ease) 1s forwards}
+
+.showcase-status{
+  position:absolute;
+  left:50%;bottom:3px;z-index:8;
+  transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;
+}
+.showcase-status span{
+  width:7px;height:7px;border-radius:999px;
+  background:#d1d5db;
+  transition:width .35s ease,background .35s ease;
+}
+.showcase-status span.on{width:28px;background:#7f1d1d}
+
+@media(max-width:900px){
+  .stage-scale{height:500px}
+  .stage.showcase{height:480px;transform:scale(.82);transform-origin:top center}
+}
+@media(max-width:640px){
+  body{padding:18px 8px}
+  .stage-scale{height:430px}
+  .stage.showcase{width:760px;height:500px;transform:scale(.56);transform-origin:top center}
+}
+@media(prefers-reduced-motion:reduce){
+  .scene{transition:none}
+}
+
+/* =====================================================================
+   REAL OWLLOCATE SCREEN COMPOSITION — DARK MODE
+   Mirrors Layout.tsx, DesktopTopNav.tsx, Index.tsx, ActivityCard.tsx,
+   and MobileBottomNav.tsx instead of the earlier concept dashboard.
+   ===================================================================== */
+.real-desktop{
+  position:relative;
+  width:690px;height:470px;
+  overflow:hidden;
+  color:#f9fafb;
+  background:linear-gradient(135deg,#111827 0%,#1f2937 52%,#374151 100%);
+  border:1px solid #374151;border-radius:12px;
+  box-shadow:0 28px 70px rgba(0,0,0,.48),0 8px 22px rgba(0,0,0,.32);
+}
+.real-nav{
+  height:61px;padding:0 22px;
+  display:flex;align-items:center;justify-content:space-between;
+  color:#fff;background:linear-gradient(90deg,#5B0606,#8B0808);
+}
+.real-nav-left,.real-brand,.real-links,.real-nav-right{display:flex;align-items:center}
+.real-nav-left{gap:21px}.real-brand{gap:9px}
+.real-logo{
+  width:32px;height:32px;border-radius:50%;
+  display:grid;place-items:center;
+  font-size:21px;background:rgba(255,255,255,.12);
+}
+.real-brand strong{font-size:16px;letter-spacing:-.02em}
+.real-links{gap:2px}
+.real-links span{
+  padding:8px 10px;border-radius:7px;
+  font-size:10px;font-weight:500;color:rgba(255,255,255,.9)
+}
+.real-links span.active{background:rgba(255,255,255,.2);font-weight:700}
+.real-nav-right{gap:6px;font-size:10px;font-weight:600}
+.real-nav-right svg{width:13px;height:13px}
+.real-scroll{height:409px;padding:20px 27px;overflow:hidden}
+.real-heading{margin-bottom:15px}
+.real-heading h1{font-size:20px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.025em}
+.real-heading p{font-size:10px;color:#9ca3af;margin:5px 0 0}
+.real-section{
+  position:relative;
+  margin-bottom:13px;padding:14px;
+  background:#1f2937;border:1px solid #374151;border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,.16);
+}
+.real-section-title{font-size:13px;font-weight:700;margin-bottom:11px}
+.money-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.money-box{padding:9px;border-radius:7px}
+.money-box.green{background:rgba(20,83,45,.28)}
+.money-box.blue{background:rgba(30,58,138,.28)}
+.money-box .k{font-size:8px;font-weight:600}
+.money-box.green .k,.money-box.green .v,.money-box.green .s{color:#4ade80}
+.money-box.blue .k,.money-box.blue .v,.money-box.blue .s{color:#60a5fa}
+.money-box .v{font-size:15px;font-weight:800;margin-top:2px}
+.money-box .s{font-size:7.5px;margin-top:1px}
+.focus-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.focus-head .center{text-align:center;flex:1}
+.focus-head h2{font-size:13px;margin:0;font-weight:700}
+.focus-head p{font-size:8px;color:#9ca3af;margin:3px 0 0}
+.focus-btn{
+  border:0;border-radius:7px;padding:7px 10px;
+  color:#fff;background:linear-gradient(90deg,#ea580c,#c2410c);
+  font:700 8px Inter,sans-serif;box-shadow:0 4px 10px rgba(194,65,12,.25)
+}
+.activity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.activity-card{
+  position:relative;padding:10px;
+  background:#1f2937;border:1px solid #374151;border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,.18)
+}
+.activity-name{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:600}
+.activity-name .emoji{font-size:14px}
+.progress-row{display:flex;justify-content:space-between;margin-top:9px;font-size:7.5px;color:#d1d5db}
+.progress-track{height:5px;margin-top:5px;overflow:hidden;border-radius:6px;background:#374151}
+.progress-track i{display:block;height:100%;border-radius:6px;background:#f9fafb}
+.unlock-copy{font-size:7px;color:#9ca3af;margin-top:5px;white-space:nowrap}
+.reward-copy{font-size:8px;color:#9ca3af;font-weight:700;margin-top:7px}
+.period-copy{font-size:7px;color:#9ca3af;margin-top:8px}
+.real-log{
+  position:relative;width:100%;height:29px;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  border:0;border-radius:7px;color:#fff;
+  background:linear-gradient(90deg,#16a34a,#15803d);
+  font:700 8px Inter,sans-serif;box-shadow:0 5px 13px rgba(21,128,61,.3)
+}
+.real-log svg{width:10px;height:10px}
+.task-tooltip,.guide-tooltip{
+  position:absolute;z-index:14;
+  width:220px;padding:12px;
+  color:#f9fafb;background:#111827;border:1px solid #4b5563;border-radius:10px;
+  box-shadow:0 18px 42px rgba(0,0,0,.55)
+}
+.task-tooltip{right:16px;bottom:15px}
+.guide-tooltip{right:17px;top:115px;width:190px}
+.tip-head{display:flex;align-items:center;justify-content:space-between}
+.tip-title{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700}
+.tip-title .tip-icon{
+  width:23px;height:23px;border-radius:7px;display:grid;place-items:center;
+  background:rgba(22,163,74,.18);color:#4ade80
+}
+.tip-title .tip-icon svg{width:12px;height:12px}
+.tip-x{color:#6b7280;font-size:13px}
+.tip-text{font-size:8px;line-height:1.45;color:#d1d5db;margin-top:8px}
+.tip-action{
+  margin-top:9px;padding:7px 9px;border-radius:7px;text-align:center;
+  color:#fff;background:linear-gradient(90deg,#16a34a,#15803d);
+  font-size:8px;font-weight:700
+}
+.setup-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.setup-item{
+  position:relative;display:flex;align-items:center;gap:8px;
+  min-height:32px;padding:7px 8px;
+  color:#e5e7eb;background:#1f2937;border:1px solid #374151;border-radius:8px;
+}
+.setup-item .setup-icon{
+  flex:0 0 auto;width:22px;height:22px;border-radius:6px;
+  display:grid;place-items:center;color:#4ade80;background:rgba(22,163,74,.16)
+}
+.setup-item .setup-icon svg{width:12px;height:12px}
+.setup-item b{font-size:7.5px;font-weight:600}
+.setup-item .setup-number{
+  flex:0 0 auto;width:16px;height:16px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;background:#7f1d1d;font-size:7px
+}
+.setup-item:first-child .training-cursor{
+  left:50%;top:50%;
+}
+.training-cursor{
+  position:absolute;z-index:18;width:19px;height:23px;
+  color:#fff;filter:drop-shadow(0 2px 2px rgba(0,0,0,.8));
+  opacity:0;pointer-events:none
+}
+.training-cursor svg{width:100%;height:100%}
+.scene[data-scene="1"] .task-tooltip{opacity:0;transform:translateY(10px) scale(.97)}
+.scene[data-scene="1"].is-active .task-tooltip{
+  animation:reveal-training .5s var(--ease) 1.15s forwards
+}
+.scene[data-scene="1"].is-active .training-cursor{
+  animation:cursor-to-first 1.25s var(--ease) 1.75s forwards
+}
+@keyframes reveal-training{
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes cursor-to-first{
+  0%{opacity:0;transform:translate(115px,82px)}
+  15%{opacity:1}
+  100%{opacity:1;transform:translate(-2px,-4px)}
+}
+.tip-step{display:flex;align-items:flex-start;gap:7px;margin-top:8px}
+.tip-step b{
+  flex:0 0 auto;width:17px;height:17px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;background:#dc2626;font-size:7px
+}
+.tip-step span{font-size:7.5px;line-height:1.35;color:#e5e7eb}
+.disable-guidance{
+  margin-top:10px;padding-top:9px;border-top:1px solid #374151;
+  display:flex;align-items:center;gap:6px;color:#9ca3af;
+  font-size:7.5px;font-weight:600
+}
+.disable-guidance svg{width:11px;height:11px}
+.scene-dim{position:absolute;inset:61px 0 0;z-index:8;background:rgba(3,7,18,.77);opacity:0}
+.scene[data-scene="2"].is-active .scene-dim{
+  animation:dim-training .45s ease 1s forwards
+}
+.scene[data-scene="2"] .add-habit.spotlight{
+  z-index:12;
+}
+.scene[data-scene="2"].is-active .add-habit.spotlight{
+  animation:spotlight-add .45s ease 1s forwards
+}
+.scene[data-scene="2"] .guide-tooltip{z-index:13;opacity:0;transform:translateY(8px) scale(.97)}
+.scene[data-scene="2"].is-active .guide-tooltip{
+  animation:reveal-training .45s var(--ease) 1.05s forwards
+}
+@keyframes dim-training{to{opacity:1}}
+@keyframes spotlight-add{
+  to{box-shadow:0 0 0 3px #111827,0 0 0 6px #4ade80,0 0 28px rgba(74,222,128,.62)}
+}
+.scene[data-scene="1"] .task-target{
+  box-shadow:none
+}
+
+.real-phone{
+  position:relative;width:246px;height:500px;overflow:hidden;
+  color:#f9fafb;background:linear-gradient(155deg,#111827,#1f2937 55%,#374151);
+  border:8px solid #09090b;border-radius:37px;
+  box-shadow:0 28px 70px rgba(0,0,0,.55)
+}
+.phone-notch{position:absolute;z-index:20;left:50%;top:0;transform:translateX(-50%);width:88px;height:18px;background:#09090b;border-radius:0 0 12px 12px}
+.phone-status{height:27px;padding:8px 15px 0;display:flex;justify-content:space-between;font-size:8px;font-weight:700}
+.phone-top{
+  height:48px;padding:7px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(90deg,#5B0606,#8B0808)
+}
+.phone-top .real-brand strong{font-size:12px}
+.phone-top .real-logo{width:25px;height:25px;font-size:16px}
+.phone-page{height:373px;padding:12px;overflow:hidden}
+.phone-page h1{font-size:15px;margin:0;font-weight:800;line-height:1.15}
+.phone-page>p{font-size:8px;color:#9ca3af;margin:4px 0 10px}
+.phone-page .real-section{padding:10px;margin-bottom:9px}
+.phone-page .real-section-title{font-size:10px;margin-bottom:8px}
+.phone-page .money-box{padding:7px}
+.phone-page .money-box .v{font-size:13px}
+.phone-page .focus-head{margin-bottom:8px}
+.phone-page .focus-head h2{font-size:10px}
+.phone-page .focus-btn{padding:5px 7px;font-size:6.5px}
+.phone-page .activity-grid{grid-template-columns:1fr;gap:7px}
+.phone-page .activity-card{padding:8px}
+.phone-page .activity-name{font-size:8px}
+.phone-page .progress-row{margin-top:6px}
+.phone-page .real-log{height:25px;margin-top:6px}
+.mobile-nav{
+  position:absolute;z-index:15;left:0;right:0;bottom:0;height:52px;
+  display:flex;align-items:center;justify-content:space-around;
+  background:rgba(17,24,39,.96);border-top:1px solid rgba(75,85,99,.7)
+}
+.mobile-nav span{
+  position:relative;width:25%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:#9ca3af;font-size:6.5px;font-weight:600
+}
+.mobile-nav span.active{color:#f87171}
+.mobile-nav span.active::before{content:"";position:absolute;top:4px;width:24px;height:2px;border-radius:2px;background:#f87171}
+.mobile-nav svg{width:15px;height:15px}
+.learning-sheet{
+  position:absolute;z-index:18;left:8px;right:8px;bottom:51px;
+  padding:12px;background:#1f2937;border:1px solid #4b5563;border-radius:15px 15px 0 0;
+  box-shadow:0 -15px 35px rgba(0,0,0,.45);
+  transform:translateY(112%);transition:transform .75s var(--ease)
+}
+.scene[data-scene="3"].is-active .learning-sheet{
+  animation:show-learning-sheet .75s var(--ease) 1s forwards
+}
+@keyframes show-learning-sheet{to{transform:translateY(0)}}
+.learning-head{display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:700}
+.learning-head em{font-style:normal;color:#9ca3af}
+.learning-card{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px;border:1px solid #374151;border-radius:8px;background:#111827}
+.learning-thumb{width:29px;height:29px;border-radius:7px;display:grid;place-items:center;background:rgba(22,163,74,.2);color:#4ade80}
+.learning-thumb svg{width:14px;height:14px}
+.learning-copy{flex:1}.learning-copy b{display:block;font-size:8px}.learning-copy small{display:block;margin-top:3px;color:#9ca3af;font-size:6.5px}
+.learning-play{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#16a34a}
+.learning-play svg{width:9px;height:9px}
+
+/* Override preview sizing for the true app viewport proportions. */
+.scene{width:720px;height:530px}
+.scene.is-active{transform:translate(-50%,-50%) translateX(-65px) scale(1)}
+.scene.is-next{transform:translate(-50%,-50%) translateX(460px) scale(.39)}
+.scene.is-next-2{transform:translate(-50%,-50%) translate(510px,168px) scale(.27)}
+.scene.is-past{transform:translate(-50%,-50%) translateX(-505px) scale(.32)}
+.scene.is-past-2{transform:translate(-50%,-50%) translate(-535px,168px) scale(.23)}
+.scene[data-scene="3"].is-active{transform:translate(-50%,-50%) translateX(-45px) scale(1.02)}
+</style>
+</head>
+
+<body>
+<div class="owl-wrap">
+  <div class="stage-scale">
+  <!-- step class is swapped by JS: step-1 / step-2 / step-3 -->
+  <div class="owl-anim step-1" id="anim">
+    <div class="stage">
+
+      <!-- desktop <-> phone connector (drawn in step 3) -->
+      <svg class="wires" viewBox="0 0 1040 470" preserveAspectRatio="none" aria-hidden="true">
+        <path class="wire" style="--len:360" d="M654,250 C720,250 740,250 792,260" />
+        <circle class="wire-dot" cx="792" cy="260" r="3.5"/>
+      </svg>
+
+      <!-- ============== DESKTOP WINDOW ============== -->
+      <section class="win" aria-label="Owllocate desktop app">
+        <div class="win__bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="url">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            app.owllocate.com/dashboard
+          </span>
+        </div>
+
+        <div class="win__body">
+          <!-- sidebar -->
+          <aside class="side">
+            <div class="brand">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M12 13v4M6 17c0 2 2 3 6 3s6-1 6-3"/></svg>
+              <b>Owllocate</b>
+            </div>
+            <nav class="nav">
+              <a class="on" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Habits</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M4 4h16v12H8l-4 4z"/></svg>Reflections</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>Rewards</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>Wishlist</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Progress</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Insights</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.3 1a7 7 0 0 0-1.7-1L16.5 2h-4l-.4 2.4a7 7 0 0 0-1.7 1l-2.3-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.4h4l.4-2.4a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.6c.1-.3.1-.7.1-1z"/></svg>Settings</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="side-card reward">
+              <div class="lbl">Reward balance</div>
+              <div class="big">$42.75</div>
+              <div class="sub">+$3.50 today</div>
+            </div>
+            <div class="side-card level">
+              <div class="lbl">Level 7 · Owl Scholar</div>
+              <div class="big">1,250 / 2,000 XP</div>
+              <div class="xpbar"><i></i></div>
+            </div>
+          </aside>
+
+          <!-- main -->
+          <div class="main">
+            <div class="hd">
+              <div>
+                <h1>Good evening, Alex</h1>
+                <p>Small habits. Real change. Financial rewards.</p>
+              </div>
+              <div class="stats">
+                <span class="streak"><svg viewBox="0 0 24 24" fill="#fb923c" stroke="none"><path d="M12 2c1 4-2 5-2 8a2 2 0 0 0 4 0c2 2 3 4 3 6a5 5 0 0 1-10 0c0-4 4-6 5-14z"/></svg>12</span>
+                <span class="ring">
+                  <svg width="30" height="30" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="#1f2937" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="#34d399" stroke-width="3" stroke-dasharray="94" stroke-dashoffset="21" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="habits">
+              <div class="hab">
+                <div class="ico a"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M9 21l3-6 3 6M6 11l6-2 6 2"/></svg></div>
+                <h3>Morning Stretch</h3>
+                <div class="meta">10 / 14 this week</div>
+                <div class="pr"><i style="width:71%"></i></div>
+                <div class="rw">+$1.20</div>
+              </div>
+              <div class="hab" id="hab-mid">
+                <div class="ico b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M12 5v14"/></svg></div>
+                <h3>Read 20 Minutes</h3>
+                <div class="meta">6 / 7 this week</div>
+                <div class="pr"><i style="width:85%"></i></div>
+                <button class="logbtn"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Log activity</button>
+              </div>
+              <div class="hab">
+                <div class="ico c"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2"><path d="M12 2s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11z"/></svg></div>
+                <h3>Drink 2L Water</h3>
+                <div class="meta">5 / 7 this week</div>
+                <div class="pr"><i style="width:71%"></i></div>
+                <div class="rw">+$0.60</div>
+              </div>
+            </div>
+
+            <div class="lower">
+              <div class="timeline">
+                <div class="row">
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick now"></span>
+                  <span class="tick future"></span>
+                </div>
+                <div class="row" style="margin-top:5px">
+                  <span class="lbl">May 5</span><span class="lbl">6</span><span class="lbl">7</span><span class="lbl">8</span><span class="lbl">Today</span><span class="lbl">11</span>
+                </div>
+              </div>
+              <div class="wish">
+                <div class="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="2" y="14" width="5" height="7" rx="1.5"/><rect x="17" y="14" width="5" height="7" rx="1.5"/></svg></div>
+                <div>
+                  <div class="t">Noise Cancelling Headphones</div>
+                  <div class="p">$149.99</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== STEP 1 overlays ===== -->
+          <div class="dim" aria-hidden="true"></div>
+          <div class="target" aria-hidden="true"></div>
+          <div class="cursor" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff" stroke="#000" stroke-width="1"><path d="M5 3l14 7-6 2-2 6z"/></svg>
+          </div>
+          <div class="sim" role="img" aria-label="Simulation task: practice logging an activity inside the app">
+            <div class="top">
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg></span>
+              <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </div>
+            <div class="steps">
+              <div class="step"><span class="num">1</span><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="bar w70"></span></div>
+              <div class="step"><span class="num">2</span><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span><span class="bar w60"></span></div>
+              <div class="step"><span class="num">3</span><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg></span><span class="bar w52"></span></div>
+            </div>
+            <div class="cta">
+              <button class="start"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Start task</button>
+              <button class="skip">Skip</button>
+            </div>
+          </div>
+
+          <!-- ===== STEP 2 overlays (optional guidance) ===== -->
+          <svg class="glines" viewBox="0 0 660 392" preserveAspectRatio="none" aria-hidden="true">
+            <path class="gline" d="M452,158 C 400,140 350,118 300,114"/>
+            <path class="gline" d="M452,200 C 410,188 380,160 350,150"/>
+          </svg>
+          <span class="hot h1" aria-hidden="true">1</span>
+          <span class="hot h2" aria-hidden="true">2</span>
+          <div class="guide" role="img" aria-label="Optional guidance panel, dismissible, pointing to live UI">
+            <div class="ghd">
+              <span class="d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c1 1 1 2 1 3h6c0-1 0-2 1-3a7 7 0 0 0-4-12z"/></svg>Guidance</span>
+              <span class="toggle" aria-label="Guidance on"></span>
+            </div>
+            <div class="gstep"><span class="gnum">1</span><span class="gbar s1"></span></div>
+            <div class="gstep"><span class="gnum">2</span><span class="gbar s2"></span></div>
+            <div class="gstep"><span class="gnum">3</span><span class="gbar s3"></span></div>
+            <div class="disable">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              Disable guidance
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== MOBILE PHONE ============== -->
+      <section class="phone" aria-label="Owllocate mobile app with learning library">
+        <span class="notch" aria-hidden="true"></span>
+        <div class="pstatus">
+          <span>9:41</span>
+          <span class="ic">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h3v-6H2zM7 20h3V9H7zM12 20h3V4h-3zM17 20h3v-9h-3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0M12 19h.01"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2"/><rect x="4" y="9" width="12" height="6" fill="currentColor"/></svg>
+          </span>
+        </div>
+
+        <div class="pbody">
+          <div class="phd">
+            <b>Owllocate</b>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          </div>
+
+          <div class="preward">
+            <div>
+              <div class="lbl">Reward balance</div>
+              <div class="big">$42.75</div>
+              <div class="sub"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg>+$3.50 today</div>
+            </div>
+            <div class="coins">
+              <svg width="32" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+            </div>
+          </div>
+
+          <div class="prow">
+            <div class="pmini"><div class="l">Day streak</div><div class="v"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fb923c" stroke="none"><path d="M12 2c1 4-2 5-2 8a2 2 0 0 0 4 0c2 2 3 4 3 6a5 5 0 0 1-10 0c0-4 4-6 5-14z"/></svg>12</div></div>
+            <div class="pmini"><div class="l">Weekly</div><div class="v" style="color:var(--green)">78%</div></div>
+          </div>
+
+          <div class="psec">Today's habits</div>
+          <div class="ptask">
+            <span class="ti" style="background:rgba(52,211,153,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M9 21l3-6 3 6"/></svg></span>
+            <span class="tn">Morning Stretch</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+          </div>
+          <div class="ptask">
+            <span class="ti" style="background:rgba(96,165,250,.16)"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M4 5h16v14H4z"/></svg></span>
+            <span class="tn">Read 20 Minutes</span><span class="ts" style="color:var(--green)">Logged</span>
+          </div>
+
+          <!-- learning library drawer (slides up in STEP 3) -->
+          <div class="drawer" role="img" aria-label="Live-skill learning library tied to real app use">
+            <div class="dhd">
+              <span class="dt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 4v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 8h5M9 12h7M9 16h7"/></svg>Learning Library</span>
+              <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </div>
+
+            <div class="lcard">
+              <span class="lthumb a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></span>
+              <div class="lmeta"><div class="lt">How to stay consistent</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+            <div class="lcard">
+              <span class="lthumb b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H8l-4 4z"/></svg></span>
+              <div class="lmeta"><div class="lt">Writing reflections that matter</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>6 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+            <div class="lcard">
+              <span class="lthumb c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-4 12c1 1 1 2 1 3h6c0-1 0-2 1-3a7 7 0 0 0-4-12zM9 21h6"/></svg></span>
+              <div class="lmeta"><div class="lt">Building better habit cues</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+            <div class="lcard">
+              <span class="lthumb d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7M3 5v4h4"/></svg></span>
+              <div class="lmeta"><div class="lt">Recovering after a missed streak</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>4 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+          </div>
+
+          <!-- XP reward chip (pops once in step 3) -->
+          <div class="xp" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>+50 XP</div>
+
+          <!-- bottom tab bar -->
+          <nav class="tabs" aria-hidden="true">
+            <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Home</span>
+            <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Habits</span>
+            <span class="tab"><span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span></span>
+            <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>Rewards</span>
+            <span class="tab learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 4v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>Learn</span>
+          </nav>
+        </div>
+      </section>
+
+    </div>
+  </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var anim = document.getElementById('anim');
+  var sourceStage = anim.querySelector('.stage');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dwell = 4800;
+  var current = 0;
+
+  var plusIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>';
+  var homeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>';
+  var moneyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8M12 6v12"/></svg>';
+  var boltIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h8l-1 8 10-12h-8z"/></svg>';
+  var chartIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>';
+  var settingsIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6v.2h-4V21a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 00.3-1.9A1.7 1.7 0 003 14H2.8v-4H3a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 001.9.3A1.7 1.7 0 0010 3v-.2h4V3a1.7 1.7 0 001 1.6 1.7 1.7 0 001.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 00-.3 1.9A1.7 1.7 0 0021 10h.2v4H21a1.7 1.7 0 00-1.6 1z"/></svg>';
+  var cursorIcon = '<svg viewBox="0 0 24 28" fill="currentColor" stroke="#111827" stroke-width="1.4"><path d="M3 2l16 12-7 1 4 8-4 2-4-8-5 5z"/></svg>';
+
+  function activityCard(name,emoji,progress,target,reward,spotlight){
+    return '<div class="activity-card">' +
+      '<div class="activity-name"><span class="emoji">'+emoji+'</span><span>'+name+'</span></div>' +
+      '<div class="progress-row"><span>Progress</span><b>'+progress+'/'+target+'</b></div>' +
+      '<div class="progress-track"><i style="width:'+(progress/target*100)+'%"></i></div>' +
+      '<div class="unlock-copy">'+(target-progress)+' more to unlock €'+reward+'</div>' +
+      '<div class="reward-copy">€'+reward+'</div>' +
+      '<div class="period-copy">Target: '+target+'x per week</div>' +
+      '<button class="real-log '+(spotlight?'spotlight task-target':'')+'">'+plusIcon+' Log Activity</button>' +
+    '</div>';
+  }
+
+  function desktopScreen(guided){
+    return '<div class="real-desktop">' +
+      '<nav class="real-nav"><div class="real-nav-left"><div class="real-brand"><span class="real-logo">🦉</span><strong>Owllocate</strong></div>' +
+      '<div class="real-links"><span class="active">Home</span><span>My Habits</span><span>My Funancial</span><span>My Progress</span><span>Profile</span></div></div>' +
+      '<div class="real-nav-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Logout</div></nav>' +
+      '<main class="real-scroll"><header class="real-heading"><h1>Time to build those habits, Alex!</h1><p>Track your activities and unlock your rewards</p></header>' +
+      '<section class="real-section"><div class="real-section-title">Funancial Overview</div><div class="money-grid">' +
+      '<div class="money-box green"><div class="k">Available</div><div class="v">€42.75</div><div class="s">Ready to spend</div></div>' +
+      '<div class="money-box blue"><div class="k">To Unlock</div><div class="v">€57.25</div><div class="s">Complete activities</div></div></div></section>' +
+      '<section class="real-section"><div class="focus-head"><div class="center"><h2>This Week\'s Focus</h2><p>6/22/2026 - 6/28/2026</p></div>' +
+      (guided ? '<button class="real-log add-habit spotlight" style="width:auto;height:28px;margin:0;padding:0 12px">'+plusIcon+' Add Habit</button>' : '<button class="focus-btn">◎ Choose Focus</button>') +
+      '</div><div class="activity-grid">'+activityCard('Morning Stretch','🧘',3,5,'2.50',false)+activityCard('Read 20 Minutes','📚',6,7,'3.00',false)+activityCard('Drink 2L Water','💧',4,7,'1.50',false)+'</div></section></main>' +
+      '<div class="scene-dim"></div>' +
+      (guided ?
+        '<aside class="guide-tooltip"><div class="tip-head"><div class="tip-title"><span class="tip-icon">'+plusIcon+'</span>Add your first habit</div><span class="tip-x">×</span></div><div class="tip-text">Select <strong>Add Habit</strong> to create a healthy activity, choose its target, and assign a reward.</div><div class="disable-guidance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>Disable guidance</div></aside>' :
+        '<aside class="task-tooltip"><div class="tip-head"><div class="tip-title"><span class="tip-icon">'+settingsIcon+'</span>Set up Owllocate</div><span class="tip-x">×</span></div>' +
+        '<div class="setup-list">' +
+          '<div class="setup-item"><span class="setup-number">1</span><span class="setup-icon">'+settingsIcon+'</span><b>Configure your cycle</b><span class="training-cursor">'+cursorIcon+'</span></div>' +
+          '<div class="setup-item"><span class="setup-number">2</span><span class="setup-icon">'+moneyIcon+'</span><b>Set up your reward amount</b></div>' +
+          '<div class="setup-item"><span class="setup-number">3</span><span class="setup-icon">'+plusIcon+'</span><b>Add a new habit</b></div>' +
+        '</div></aside>') +
+    '</div>';
+  }
+
+  function phoneScreen(){
+    return '<div class="real-phone"><div class="phone-notch"></div><div class="phone-status"><span>9:41</span><span>● ◒ ▰</span></div>' +
+      '<div class="phone-top"><div class="real-brand"><span class="real-logo">🦉</span><strong>Owllocate</strong></div><span style="font-size:9px">Alex</span></div>' +
+      '<main class="phone-page"><h1>Time to build those habits, Alex!</h1><p>Track your activities and unlock your rewards</p>' +
+      '<section class="real-section"><div class="real-section-title">Funancial Overview</div><div class="money-grid"><div class="money-box green"><div class="k">Available</div><div class="v">€42.75</div><div class="s">Ready to spend</div></div><div class="money-box blue"><div class="k">To Unlock</div><div class="v">€57.25</div><div class="s">Complete activities</div></div></div></section>' +
+      '<section class="real-section"><div class="focus-head"><div class="center"><h2>This Week\'s Focus</h2></div><button class="focus-btn">Choose Focus</button></div><div class="activity-grid">'+activityCard('Read 20 Minutes','📚',6,7,'3.00',false)+'</div></section></main>' +
+      '<nav class="mobile-nav"><span class="active">'+homeIcon+'Home</span><span>'+moneyIcon+'Funancial</span><span>'+boltIcon+'Habits</span><span>'+chartIcon+'Progress</span></nav>' +
+      '<aside class="learning-sheet"><div class="learning-head"><span>Learning Library</span><em>×</em></div>' +
+      '<div class="learning-card"><span class="learning-thumb">'+boltIcon+'</span><span class="learning-copy"><b>How to stay consistent</b><small>5 min · Based on your activity</small></span><span class="learning-play">▶</span></div>' +
+      '<div class="learning-card"><span class="learning-thumb">'+chartIcon+'</span><span class="learning-copy"><b>Build a habit that sticks</b><small>6 min · Recommended</small></span><span class="learning-play">▶</span></div></aside></div>';
+  }
+
+  function makeScene(number, markup, label){
+    var scene = document.createElement('section');
+    scene.className = 'scene';
+    scene.dataset.scene = number;
+    scene.setAttribute('aria-label', label);
+    scene.innerHTML = markup;
+    return scene;
+  }
+
+  var gallery = document.createElement('div');
+  gallery.className = 'stage showcase';
+  var scenes = [
+    makeScene('1', desktopScreen(false), 'Owllocate dark dashboard practice task without background dimming'),
+    makeScene('2', desktopScreen(true), 'Owllocate dark dashboard guided Log Activity interaction'),
+    makeScene('3', phoneScreen(), 'Owllocate dark mobile dashboard and learning library')
+  ];
+  scenes.forEach(function(scene){ gallery.appendChild(scene); });
+
+  var status = document.createElement('div');
+  status.className = 'showcase-status';
+  status.setAttribute('aria-hidden','true');
+  scenes.forEach(function(){ status.appendChild(document.createElement('span')); });
+  gallery.appendChild(status);
+
+  sourceStage.replaceWith(gallery);
+
+  function render(){
+    scenes.forEach(function(scene,index){
+      var delta = index - current;
+      scene.classList.remove('is-active','is-next','is-next-2','is-past','is-past-2');
+      if(delta === 0) scene.classList.add('is-active');
+      else if(delta === 1) scene.classList.add('is-next');
+      else if(delta > 1) scene.classList.add('is-next-2');
+      else if(delta === -1) scene.classList.add('is-past');
+      else scene.classList.add('is-past-2');
+      scene.setAttribute('aria-hidden',delta === 0 ? 'false' : 'true');
+    });
+    Array.prototype.forEach.call(status.children,function(dot,index){
+      dot.classList.toggle('on',index === current);
+    });
+  }
+
+  render();
+  if(!reduce){
+    window.setInterval(function(){
+      current = (current + 1) % scenes.length;
+      render();
+    },dwell);
+  }
+})();
+</script>
+
+<!-- Optional: iframe self-sizing inside the portfolio (resolves only in-repo;
+     harmless 404 when the file is opened standalone). -->
+<script src="../shared/resize-reporter.js"></script>
+</body>
+</html>
