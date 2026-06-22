@@ -1,6 +1,6 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './index.css'
 import './styles/navigation.css'
 import './styles/site.css'
@@ -13,22 +13,7 @@ import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
 import Analytics from './components/Analytics.jsx'
-
-const TITLES = {
-  '/': 'Meet The Owl',
-  '/owllocate-get-started': 'Meet The Owl | Getting Started with Owllocate',
-  '/training-effectiveness': 'Meet The Owl | Measuring Training Effectiveness',
-  '/needs-analysis': 'Meet The Owl | Data & AI for Needs Analysis',
-  '/virtual-onboarding': 'Meet The Owl | Making Remote Onboarding Work',
-}
-
-function TitleManager() {
-  const { pathname } = useLocation()
-  useEffect(() => {
-    document.title = TITLES[pathname] ?? 'Meet The Owl'
-  }, [pathname])
-  return null
-}
+import TitleManager from './components/TitleManager.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
