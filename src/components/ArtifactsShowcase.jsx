@@ -12,7 +12,6 @@ const projects = [
     title: 'Getting Started with Owllocate',
     featuredTitle: 'Getting Started with Owllocate',
     href: '/owllocate-get-started',
-    tagline: 'Decrease support ticket volume by addressing knowledge gap',
     stats: [
       { value: 'THE GAP', label: 'Knowing where to click was not enough when the workflow had stakes, exceptions, and room for mistakes.' },
       { value: 'THE WORK', label: 'A hands-on simulation series built with character-led scenarios, progressive practice, and contextual feedback.' },
@@ -26,7 +25,6 @@ const projects = [
     title: 'Measuring Training Effectiveness',
     featuredTitle: 'Measuring Training Effectiveness',
     href: '/training-effectiveness',
-    tagline: 'Increase team impact visibility by getting more data literate',
     stats: [
       { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
       { value: 'THE WORK', label: <>Training status mapped to product usage and behavior in SQL and Power BI.</> },
@@ -40,7 +38,6 @@ const projects = [
     title: 'Data & AI for Needs Analysis',
     featuredTitle: 'Data & AI for Needs Analysis',
     href: '/needs-analysis',
-    tagline: 'Solve the right problem by accurately analyze qualitative data using AI',
     stats: [
       { value: 'The gap', label: 'AI findings look so credible that checking them felt unnecessary.' },
       { value: 'The work', label: 'A structured, source-verified approach to AI analysis of large-scale qualitative data.' },
@@ -55,7 +52,6 @@ const projects = [
     featuredTitle: 'Making Remote\nOnboarding Work',
     description: 'A two-day in-person orientation crucial for transferring essential knowledge — redesigned for virtual delivery when COVID made the traditional format impossible.',
     href: '/virtual-onboarding',
-    tagline: 'Keep trainees job-ready and confident without in-person onboarding',
     stats: [
       { value: '>75%', label: 'Course\ncompletion rate' },
       { value: 'H5P', label: 'Interactive\nvideo format' },
@@ -106,7 +102,7 @@ export default function ArtifactsShowcase() {
                     </div>
                     <span className="showcase__proj-title">{proj.title}</span>
                     <span className="showcase__proj-proof">
-                      <img src="/icons/target.svg" aria-hidden="true" style={{ width: '11px', height: '11px', verticalAlign: 'middle', marginRight: '5px', marginBottom: '2px', opacity: 0.7 }} />
+                      {/* <img src="/icons/target.svg" aria-hidden="true" style={{ width: '11px', height: '11px', verticalAlign: 'middle', marginRight: '5px', marginBottom: '2px', opacity: 0.7 }} /> */}
                       {proj.tagline}
                     </span>
                   </div>
