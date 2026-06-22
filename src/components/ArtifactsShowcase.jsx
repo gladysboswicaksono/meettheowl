@@ -1,10 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 
-// ── Change this number to swap which project is featured ──────────
-// 0 = Owllocate  1 = Training Impact  2 = Needs Analysis  3 = Onboarding
-const FEATURED_INDEX = 1;
+
+const FEATURED_INDEX = 0;
 
 const projects = [
+    {
+    image: '/images/card-training-effectiveness.png',
+    imageAlt: 'Report mock-up',
+    category: ['AI, Data & Measurement', 'Customer Education'],
+    title: 'Measuring Training Effectiveness',
+    featuredTitle: 'Measuring Training Effectiveness',
+    href: '/training-effectiveness',
+    stats: [
+      { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
+      { value: 'THE WORK', label: <>Training status mapped to product usage and behavior in SQL and Power BI.</> },
+      { value: 'THE SHIFT', label: 'Learning projects now start with measurement targets tied to company goals.' },
+    ],
+  },
   {
     image: '/images/card-owllocate.png',
     imageAlt: 'Owllocate app on desktop and mobile',
@@ -16,19 +28,6 @@ const projects = [
       { value: 'THE GAP', label: 'Knowing where to click was not enough when the workflow had stakes, exceptions, and room for mistakes.' },
       { value: 'THE WORK', label: 'A hands-on simulation series built with character-led scenarios, progressive practice, and contextual feedback.' },
       { value: 'THE SHIFT', label: 'Trained users submitted 27% fewer support tickets on the topics they practiced.' },
-    ],
-  },
-  {
-    image: '/images/card-training-effectiveness.png',
-    imageAlt: 'Report mock-up',
-    category: ['AI, Data & Measurement', 'Customer Education'],
-    title: 'Measuring Training Effectiveness',
-    featuredTitle: 'Measuring Training Effectiveness',
-    href: '/training-effectiveness',
-    stats: [
-      { value: 'THE GAP', label: 'Would someone outside the team keep investing in education?' },
-      { value: 'THE WORK', label: <>Training status mapped to product usage and behavior in SQL and Power BI.</> },
-      { value: 'THE SHIFT', label: 'Learning projects now start with measurement targets tied to company goals.' },
     ],
   },
   {
@@ -53,9 +52,9 @@ const projects = [
     description: 'A two-day in-person orientation crucial for transferring essential knowledge — redesigned for virtual delivery when COVID made the traditional format impossible.',
     href: '/virtual-onboarding',
     stats: [
-      { value: '>75%', label: 'Course\ncompletion rate' },
-      { value: 'H5P', label: 'Interactive\nvideo format' },
-      { value: 'Retained', label: 'Program kept\npost-COVID' },
+      { value: 'The gap', label: 'The onboarding experience depended on in-person interactions, and that option disappeared.' },
+      { value: 'The work', label: 'Virtual onboarding experience with a 360° tour, structured microlearnings, and Microsoft Teams sessions.' },
+      { value: 'The shift', label: 'Virtual format stayed in use after the immediate constraint was lifted.' },
     ],
   },
 ];
