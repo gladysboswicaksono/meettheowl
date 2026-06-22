@@ -12,10 +12,12 @@ import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
+import MeetOwllocatePage from './pages/MeetOwllocatePage.jsx'
 import Analytics from './components/Analytics.jsx'
 
 const TITLES = {
   '/': 'Meet The Owl',
+  '/meet-owllocate': 'Meet The Owl | Meet Owllocate',
   '/owllocate-get-started': 'Meet The Owl | Getting Started with Owllocate',
   '/training-effectiveness': 'Meet The Owl | Measuring Training Effectiveness',
   '/needs-analysis': 'Meet The Owl | Data & AI for Needs Analysis',
@@ -37,6 +39,7 @@ createRoot(document.getElementById('root')).render(
       <TitleManager />
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/meet-owllocate" element={<MeetOwllocatePage />} />
         <Route path="/owllocate-get-started" element={<OwllocatePage />} />
         <Route path="/training-effectiveness" element={<TrainingImpactPage />} />
         <Route path="/training-impact" element={<Navigate to="/training-effectiveness" replace />} />

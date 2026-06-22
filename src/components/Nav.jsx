@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ARTIFACT_PAGES = [
+  { label: 'Meet Owllocate', navLabel: 'Meet Owllocate', href: '/meet-owllocate' },
   { label: 'Getting Started with Owllocate', navLabel: 'Product Training', href: '/owllocate-get-started' },
   { label: 'Measuring Training Effectiveness', navLabel: 'Training Effectiveness', href: '/training-effectiveness' },
   { label: 'Data & AI for Needs Analysis', navLabel: 'Needs Analysis', href: '/needs-analysis' },

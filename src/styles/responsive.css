@@ -259,6 +259,10 @@
     padding: 32px 40px;
   }
 
+  .project-embed iframe {
+    height: 500px;
+  }
+
   .deep-section {
     padding: 40px;
   }
@@ -580,6 +584,14 @@
 
   .about-section {
     padding: 24px;
+  }
+
+  .project-embed {
+    margin-top: 24px;
+  }
+
+  .project-embed iframe {
+    height: 430px;
   }
 
   .deep-section {
