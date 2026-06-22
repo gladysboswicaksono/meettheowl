@@ -1,6 +1,6 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './index.css'
 import './styles/navigation.css'
 import './styles/site.css'
@@ -17,7 +17,6 @@ import Analytics from './components/Analytics.jsx'
 
 const TITLES = {
   '/': 'Meet The Owl',
-  '/meet-owllocate': 'Meet The Owl | Meet Owllocate',
   '/owllocate-get-started': 'Meet The Owl | Getting Started with Owllocate',
   '/training-effectiveness': 'Meet The Owl | Measuring Training Effectiveness',
   '/needs-analysis': 'Meet The Owl | Data & AI for Needs Analysis',
