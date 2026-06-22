@@ -6,6 +6,7 @@ img { max-width: 100%; }
 
 :root {
   --red:   #5B0606;
+  --blue-deep:  #0C0C1A;
   --blue-card:  #1A1A2E;
   --blue-bg: #1C253C;
   --gold:  #F6C785;
@@ -14,6 +15,9 @@ img { max-width: 100%; }
   --white: #FAFAF8;
   --font-display: "Cinzel", Georgia, serif;
   --font-body:    "Crimson Pro", Georgia, serif;
+  --status-implemented: #6EC99A;
+  --status-future:      #7BAED6;
+  --status-both:        #E0A96D;
 }
 
 body {

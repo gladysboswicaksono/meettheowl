@@ -9,38 +9,78 @@ export default function NeedsAnalysisPage() {
 
         {/* PROJECT HERO */}
         <section className="project-hero">
-          <h2>Data and AI for Analysis &amp; Evaluation</h2>
-          <div className="project-hero__image">
-            <img src="/images/card-needs-analysis.png" alt="Owl eye close-up with data overlay" />
+          <div className="project-hero__left">
+            <div className="project-hero__bg">
+              <img src="/images/card-needs-analysis.png" alt="" aria-hidden="true" />
+            </div>
+            <div className="project-hero__vignette" />
           </div>
-          <div className="project-hero__text">
-            <p>
-              When deciding what learning intervention to create (or whether to create one at all), we are
-              making resource allocation decisions. AI has become the go-to tool for researching, analyzing
-              data, and informing those decisions. But it often presents findings that sound so credible that
-              we forget AI is designed to pattern-match and create plausible outputs, which are not
-              necessarily the truth.
-            </p>
-            <p>
-              That's why I treat AI as a probabilistic assistant operating under audit and not some magic
-              eight ball that spits out answers. And this work piece showcases a structured approach to
-              AI-assisted analysis of large-scale qualitative data, forcing it to work with facts and leaving
-              little to no room for it to "make stuff up".
-            </p>
+          <div className="project-hero__right">
+            <div className="project-hero__copy">
+              <span className='showcase__eyebrow'>AI, data & measurement</span>
+              <h2>Data and AI for Analysis &amp; Evaluation</h2>
+              <p>
+                I have seen so many instances where people took AI-generated analysis at face value and
+                made actual decisions based on that alone.
+              </p>
+              <p>
+                Here's the same instinct in a different setting. An item has been sitting in your wishlist for days.
+                One night, a notification arrives confirming a successful €1,500 refund.
+              </p>
+              <p style={{ color: 'var(--gold)', fontWeight: '800' }}>
+                Would you buy the wishlist item without checking your bank app first?
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SUMMARY */}
+        <section className="summary-section">
+          <div className="summary-inner">
+            <h2>Summary</h2>
+            <div className="summary-grid">
+              <div className="summary-column">
+                <h3>The Gap</h3>
+                <p>When deciding what learning intervention to create (or whether to create one at all), we are making resource allocation decisions. AI has become the go-to tool for <strong>researching</strong>, <strong>analyzing data</strong>, and <strong>informing those decisions</strong>. But it often presents findings that sound so credible that we forget AI is designed to pattern-match and create plausible outputs, which are <strong>not necessarily the truth</strong>.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Work</h3>
+                <p>A structured approach to AI-assisted analysis of large-scale qualitative data. As of 2026, I turned the prompting steps into a <strong>Claude Enterprise skill</strong>.</p>
+                <p>The structure includes specific <strong>SQL queries</strong> to use to perform the analysis, <strong>grounding the analysis in facts</strong> before anything else, <strong>testing on a smaller sample</strong> before scaling to the full dataset, and presenting <strong>output with sources</strong> that can be checked against the original records.</p>
+                <p>This forces AI to work with facts and leaves little to no room for it to make stuff up.</p>
+              </div>
+              <div className="summary-column">
+                <h3>The Shift</h3>
+                <p>Learning design became more <strong>grounded in real user behavior</strong> before development started. The analysis helped separate knowledge gaps from product issues and UX frictions, so training effort could focus on where training was actually the right response.</p>
+                <p>That upstream work shaped the product training and measurement work shown in the other case studies: <strong>fewer support tickets</strong>, clearer <strong>behavior-change targets</strong>, and a stronger way to show how <strong>education contributes to the business</strong>.</p>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ABOUT THIS WORK */}
         <section className="about-section">
-          <h2>About This Work</h2>
+          <h2>Where it started</h2>
           <p>
-            The context of this work is about identifying knowledge gaps, specifically, gaps that cause users
-            to depend on support or onboarding resources. In this example, I work with thousands of support
-            ticket records to identify common themes, root causes, and resolutions while distinguishing
-            between genuine knowledge gaps and other factors like product usability issues. The goal is to
-            uncover recurring challenges that point to if and where learning interventions are actually
-            needed.
+            This started with hallucinations I kept catching even with long and specific prompts. As part of my needs analysis,
+            I analyze relevant support ticket records to find common themes, root causes, and resolutions.
+            I wanted AI in that workflow, but its output kept undermining itself: the sources it cited either didn't exist or covered something unrelated to what it claimed.
           </p>
+          <p>
+            
+          </p>
+          <p>
+            I got enough one day and asked AI to explain in detail how it reached that conclusion. That changed the s
+          </p>
+          <p>
+            And that's what the structure below is built for:
+          </p>
+          <ol>
+            <li>Grounds itself in my data.</li>
+            <li>Summarizes back what I asked and lays out how it plans to execute.</li>
+            <li>Tests on a smaller dataset and validates its output.</li>
+            <li>Applies the same approach to the full dataset.</li>
+          </ol>
           <div className="disclaimer">
             <p style={{ marginBottom:"0px" }}>
               I conduct my analysis using company-provided tools with direct access to our internal database,

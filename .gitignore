@@ -41,11 +41,7 @@ meettheowl-f359e3ea4692.json
 #CLAUDE.MD
 CLAUDE.MD
 
-# PROJECT 5
-public/courses/
-src/pages/OwnWhatAIBuildsPage.jsx
-src/styles/ai-course.css
-public/downloads/
-public/practice/
-
+# Work-in-progress source belongs on feature branches and is tracked normally.
+# Keep only local tool settings out of Git.
+**/.claude/settings.local.json
 

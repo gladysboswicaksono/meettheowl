@@ -1,6 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+
+async function getGifDuration(src) {
+  try {
+    const bytes = new Uint8Array(await (await fetch(src)).arrayBuffer());
+    let cs = 0;
+    for (let i = 0; i < bytes.length - 5; i++) {
+      if (bytes[i] === 0x21 && bytes[i + 1] === 0xF9 && bytes[i + 2] === 0x04) {
+        cs += bytes[i + 4] | (bytes[i + 5] << 8);
+      }
+    }
+    return cs * 10;
+  } catch { return 0; }
+}
 
 /* Gif play/pause toggle — same button style as the other work pieces
    (not the original's click-to-play overlay). */
@@ -8,6 +21,16 @@ function GifPlayImage({ poster, gif, alt }) {
   const [playing, setPlaying] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const src = playing ? gif : poster;
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!playing) { clearTimeout(timerRef.current); return; }
+    getGifDuration(gif).then(duration => {
+      if (duration > 0) timerRef.current = setTimeout(() => setPlaying(false), duration * 5);
+    });
+    return () => clearTimeout(timerRef.current);
+  }, [playing, gif]);
+
   return (
     <div className="gif-figure">
       <button type="button" className="gif-toggle" onClick={() => setPlaying(p => !p)}>
@@ -42,51 +65,41 @@ export default function VirtualOnboardingPage() {
 
         {/* PROJECT HERO */}
         <section className="project-hero">
-          <h2>Making Remote Onboarding Work</h2>
-          <div className="project-hero__image">
-            <img src="/images/card-onboarding.png" alt="Welcome Onboard presentation on laptop" />
+          <div className="project-hero__left">
+            <div className="project-hero__bg">
+              <img src="/images/card-onboarding.png" alt="" aria-hidden="true" />
+            </div>
+            <div className="project-hero__vignette" />
           </div>
-          <div className="project-hero__text">
-            <p>
-              A Purchasing department historically conducted a two-day in-person orientation for rotating
-              trainees, designed to thoroughly introduce them to their upcoming roles and responsibilities
-              within the department. The orientation was crucial to maintain the essential knowledge transfer.
-            </p>
-            <p>
-              However, COVID-19 social distancing measures made continuing in the traditional format
-              impossible.
-            </p>
-            <p className="project-hero__tools">
-              Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P
-            </p>
+          <div className="project-hero__right">
+            <div className="project-hero__copy">
+              <h2>Making Remote Onboarding Work</h2>
+              <span className="project-status-tag project-status-tag--implemented">Implemented</span>
+              <p>
+                A Purchasing department's two-day in-person orientation was crucial for knowledge transfer.
+                COVID-19 made continuing in that format impossible — so the entire experience had to be redesigned from scratch.
+              </p>
+              <p className="project-hero__tools">Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P</p>
+            </div>
           </div>
         </section>
 
         {/* SUMMARY */}
-        <section style={{ backgroundColor: 'var(--blue-bg)' }}>
-          <div className="summary-section">
+        <section className="summary-section">
+          <div className="summary-inner">
             <h2>Summary</h2>
             <div className="summary-grid">
               <div className="summary-column">
                 <h3>Goal</h3>
-                <p>
-                  Redesign training orientation and onboarding for COVID restrictions while keeping trainees
-                  job-ready and confident.
-                </p>
+                <p>Redesign training orientation and onboarding for COVID restrictions while keeping trainees job-ready and confident from day one.</p>
               </div>
               <div className="summary-column">
                 <h3>Solution</h3>
-                <p>
-                  Virtual kickoffs via Teams, complemented by self-paced learning path featuring interactive
-                  videos, 360° facility tour, micro-learning, and system simulations.
-                </p>
+                <p>Virtual kickoffs via Teams, paired with a self-paced learning path: interactive videos, a 360° facility tour with embedded scenarios, micro-learning modules, and system simulations.</p>
               </div>
               <div className="summary-column">
                 <h3>Outcome</h3>
-                <p>
-                  Increased engagement with daily responsiblities while achieving the same, if not higher,
-                  competency levels compared to those from traditional onboarding setup.
-                </p>
+                <p>Over 75% completed the full learning path. Competency levels matched or exceeded traditional onboarding — and the department kept the program running post-COVID.</p>
               </div>
             </div>
           </div>

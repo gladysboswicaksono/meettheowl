@@ -15,7 +15,7 @@ const testimonials = [
     keyQuote: `Her strategic thinking has been invaluable, particularly in <span style="color: #f6c785"><strong>identifying what needs to be measured and why</strong></span> ... These efforts have provided new, actionable insights that were previously unavailable to the team.`,
   },
   {
-  name: 'Justyna, Senior Instructional Designer at Mews',
+  name: 'Justyna Konieczny, Senior Instructional Designer at Mews',
   tenure: 'My tenure: 2024 - present',
   text: `Gladys is an invaluable peer reviewer, contributor, and sounding board when it comes to reviewing learning assets, data tracking, troubleshooting technical blockers, and iterating over content improvements. She is highly customer-centric who brings deep expertise to every project, translating industry challenges into relevant and tailored training. <br><br>She really is our data queen, creating and updating reporting frameworks to assess the impact of our initiatives and ensure data accuracy, transparency, and ease of use. Not only did she create templates and thorough documentation, but she is also open to troubleshooting issues over a call. <br><br>To sum up, Gladys is the <span style="color: #f6c785"><strong>collaborative, skilled, and thoughtful teammate every team needs</span></strong>. Her balance of technical know-how, open communication, and mutual support has consistently improved both daily project work and our team culture.`,
   keyQuote: `... Gladys is the <span style="color: #f6c785"><strong>collaborative, skilled, and thoughtful teammate every team needs</span></strong>. Her balance of technical know-how, open communication, and mutual support has consistently improved both daily project work and our team culture.`,
@@ -45,6 +45,7 @@ export default function Testimonials() {
   const [expanded, setExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [notDesktop, setNotDesktop] = useState(false);
+  const sectionRef = useRef(null);
   const total = testimonials.length;
   const t = testimonials[current];
 
@@ -66,6 +67,7 @@ export default function Testimonials() {
     trackEvent('testimonial_slide', '/', testimonials[next].name);
     setCurrent(next);
     setExpanded(false);
+    if (isMobile) sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Swipe navigation
@@ -82,7 +84,7 @@ export default function Testimonials() {
   const readMoreStyle = { fontFamily: 'var(--font-body)', background: 'transparent', border: '1px solid var(--gold)', color: 'var(--gold)', padding: '0.5rem 1.25rem', fontSize: '0.9375rem', cursor: 'pointer', marginTop: '0.5rem' };
 
   return (
-    <section id="testimonials" style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
+    <section id="testimonials" ref={sectionRef} style={{ backgroundColor: 'var(--blue-bg)', padding: '5rem 1rem' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
 
         <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--gold)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: '3rem' }}>
