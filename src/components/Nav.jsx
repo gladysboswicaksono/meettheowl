@@ -2,11 +2,16 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ARTIFACT_PAGES = [
-  { label: 'Getting Started with Owllocate', navLabel: 'Product Training', href: '/owllocate-get-started' },
   { label: 'Measuring Training Effectiveness', navLabel: 'Training Effectiveness', href: '/training-effectiveness' },
+  { label: 'Getting Started with Owllocate', navLabel: 'Product Training', href: '/owllocate-get-started' },
   { label: 'Data & AI for Needs Analysis', navLabel: 'Needs Analysis', href: '/needs-analysis' },
   { label: 'Making Remote Onboarding Work', navLabel: 'Remote Onboarding', href: '/virtual-onboarding' },
 ];
+
+const MEET_OWLLOCATE = {
+  label: 'Meet Owllocate',
+  href: '/meet-owllocate',
+};
 
 const SECTIONS = [
   { label: "Others' Eyes", id: 'testimonials' },
@@ -18,6 +23,7 @@ export default function Nav() {
   const [active, setActive] = useState('');
   const { pathname } = useLocation();
   const onHome = pathname === '/';
+  const onMeetOwllocate = pathname === MEET_OWLLOCATE.href;
 
   // Scroll-spy: highlight the section currently crossing the viewport's center.
   useEffect(() => {
@@ -71,7 +77,9 @@ export default function Nav() {
                   onClick={close}
                 >
                   The Artifacts
-                  <span className="nav__caret" aria-hidden="true">▾</span>
+                  <svg className="nav__caret" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </a>
                 <div className="nav__dropdown">
                   {ARTIFACT_PAGES.map((p) => (
@@ -92,6 +100,37 @@ export default function Nav() {
                   {s.label}
                 </a>
               ))}
+              <a href={MEET_OWLLOCATE.href} className="nav__link" onClick={close}>
+                {MEET_OWLLOCATE.label}
+                <svg className="nav__caret nav__caret--right" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </>
+          ) : onMeetOwllocate ? (
+            <>
+              <a href="/" className="nav__link" onClick={close}>
+                Home
+              </a>
+              <div className="nav__item nav__item--dropdown">
+                <a href="/#artifacts" className="nav__link" onClick={close}>
+                  The Artifacts
+                  <svg className="nav__caret" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+                <div className="nav__dropdown">
+                  {ARTIFACT_PAGES.map((p) => (
+                    <a key={p.href} href={p.href} className="nav__dropdown-link" onClick={close}>
+                      {p.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <a href={MEET_OWLLOCATE.href} className="nav__link active" onClick={close}>
+                {MEET_OWLLOCATE.label}
+                <span className="nav__current-dot" aria-hidden="true" />
+              </a>
             </>
           ) : (
             <>
@@ -109,6 +148,20 @@ export default function Nav() {
                   {p.navLabel}
                 </a>
               ))}
+              <a
+                href={MEET_OWLLOCATE.href}
+                className={`nav__link${pathname === MEET_OWLLOCATE.href ? ' active' : ''}`}
+                onClick={close}
+              >
+                {MEET_OWLLOCATE.label}
+                {pathname === MEET_OWLLOCATE.href ? (
+                  <span className="nav__current-dot" aria-hidden="true" />
+                ) : (
+                  <svg className="nav__caret nav__caret--right" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </a>
             </>
           )}
         </nav>

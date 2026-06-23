@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { DISMISS_TRACKING_NOTICE } from './TrackingNotice';
 
 
 const FEATURED_INDEX = 0;
@@ -150,6 +151,7 @@ export default function ArtifactsShowcase() {
             type="button"
             className={`showcase__sidebar-more${!hasBeenUsed && !showBio ? ' showcase__sidebar-more--pulsing' : ''}`}
             onClick={() => {
+              window.dispatchEvent(new Event(DISMISS_TRACKING_NOTICE));
               const next = !showBio;
               setShowBio(next);
               if (!next) setHasBeenUsed(true);

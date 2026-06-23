@@ -362,7 +362,8 @@ export default function OwllocatePage() {
           </p>
 
           <div className="disclaimer">
-            This is a public, sanitized case study based on real work. The actual project belongs to my employer, so I replicated the same approach in Owllocate,
+            This is a public, sanitized case study based on real work. The actual project belongs to my employer, so I replicated the same approach in{' '}
+            <a href="/meet-owllocate" target="_blank" rel="noopener noreferrer">Owllocate</a>,
             a personal app I built for habit and financial management, to show the same design thinking without exposing proprietary product details.
             <br></br>
             Owllocate runs at a much smaller scale than the enterprise software I work with day-to-day, but the 27% result and 14% QoQ average improvement came from the

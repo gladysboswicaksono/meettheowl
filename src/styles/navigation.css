@@ -75,12 +75,27 @@
 }
 
 .nav__caret {
-  font-size: 0.7em;
-  margin-left: 0.35rem;
+  width: 18px;
+  height: 18px;
+  margin-left: 0.45rem;
+  flex: 0 0 auto;
   transition: transform 0.2s ease;
 }
 
 .nav__item--dropdown:hover .nav__caret { transform: rotate(180deg); }
+
+.nav__caret--right { transform: rotate(-90deg); }
+
+.nav__link:hover .nav__caret--right { transform: translateX(3px) rotate(-90deg); }
+
+.nav__current-dot {
+  width: 7px;
+  height: 7px;
+  margin-left: 0.55rem;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+}
 
 .nav__dropdown {
   position: absolute;

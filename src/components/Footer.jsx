@@ -1,4 +1,5 @@
 const workLinks = [
+  { label: 'Meet Owllocate', href: '/meet-owllocate' },
   { label: 'Getting Started with Owllocate',     href: '/owllocate-get-started' },
   { label: 'Measuring Training Effectiveness', href: '/training-effectiveness' },
   { label: 'Data & AI for Needs Analysis',  href: '/needs-analysis' },

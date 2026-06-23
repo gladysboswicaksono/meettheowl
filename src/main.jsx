@@ -12,16 +12,20 @@ import OwllocatePage from './pages/OwllocatePage.jsx'
 import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
+import MeetOwllocatePage from './pages/MeetOwllocatePage.jsx'
 import Analytics from './components/Analytics.jsx'
 import TitleManager from './components/TitleManager.jsx'
+import TrackingNotice from './components/TrackingNotice.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Analytics />
       <TitleManager />
+      <TrackingNotice />
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/meet-owllocate" element={<MeetOwllocatePage />} />
         <Route path="/owllocate-get-started" element={<OwllocatePage />} />
         <Route path="/training-effectiveness" element={<TrainingImpactPage />} />
         <Route path="/training-impact" element={<Navigate to="/training-effectiveness" replace />} />

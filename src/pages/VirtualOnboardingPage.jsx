@@ -74,12 +74,15 @@ export default function VirtualOnboardingPage() {
           <div className="project-hero__right">
             <div className="project-hero__copy">
               <h2>Making Remote Onboarding Work</h2>
-              <span className="project-status-tag project-status-tag--implemented">Implemented</span>
               <p>
-                A Purchasing department's two-day in-person orientation was crucial for knowledge transfer.
-                COVID-19 made continuing in that format impossible — so the entire experience had to be redesigned from scratch.
+                A Purchasing historically conducted a two-day in-person orientation for rotating trainees, designed to thoroughly introduce them
+                to upcoming roles and responsibilities within the department
               </p>
-              <p className="project-hero__tools">Tools: Final Cut Pro X, Adobe Photoshop, Articulate 360, H5P</p>
+              <p>
+                The orientation was crucial to maintain essential knowledge transfer. However, COVID-19 social distancing measures made continuing in
+                the traditional format impossible.
+              </p>
+              <p className='project-hero__tools'>Articulate 360 &nbsp;&nbsp; ● &nbsp;&nbsp; Final Cut Pro X &nbsp;&nbsp; ● &nbsp;&nbsp; H5P &nbsp;&nbsp; ● &nbsp;&nbsp; Adobe Photoshop</p>
             </div>
           </div>
         </section>

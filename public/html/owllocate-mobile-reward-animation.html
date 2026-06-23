@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Owllocate — Mobile Reward Animation</title>
+  <link rel="stylesheet" href="../../src/index.css">
+  <link rel="stylesheet" href="../../src/styles/owllocate.css">
+</head>
+<body>
+  <main class="stage">
+    <section class="phone playing" id="animation" aria-label="Owllocate mobile homepage reward animation">
+      <div class="notch"></div>
+      <div class="status"><span>9:41</span><span>● ◒ ▰</span></div>
+      <header class="topbar">
+        <div class="brand"><img class="logo" src="/images/logo-navigation.png" alt=""><b>Owllocate</b></div>
+        <span class="profile">
+          <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>Alex</span>
+          <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <path d="m16 17 5-5-5-5"></path>
+            <path d="M21 12H9"></path>
+          </svg>
+        </span>
+      </header>
+
+      <div class="content">
+        <h1>Time to build those habits, Alex!</h1>
+        <p class="subtitle">Track your activities and unlock your rewards</p>
+
+        <section class="panel">
+          <div class="panel-title">Funancial Overview</div>
+          <div class="money-grid">
+            <div class="money available">
+              <div class="label">Available</div>
+              <div class="amount available-value"></div>
+              <div class="detail">Ready to spend</div>
+            </div>
+            <div class="money locked">
+              <div class="label">To Unlock</div>
+              <div class="amount locked-value"></div>
+              <div class="detail">Complete activities</div>
+            </div>
+          </div>
+          <div class="reward-flight">€3.00</div>
+        </section>
+
+        <section class="panel">
+          <div class="focus-head">
+            <div><h2>This Week's Focus</h2><small>June 22 – June 28</small></div>
+            <button class="choose">Choose Focus</button>
+          </div>
+          <div class="habits">
+            <article class="habit primary-habit">
+              <div class="habit-head">
+                <div class="habit-name"><span class="emoji">📚</span><span>Read 20 Minutes</span></div>
+                <span class="done-badge">Done!</span>
+              </div>
+              <div class="progress-row"><span>Progress</span><b class="progress-value"></b></div>
+              <div class="track"><i class="fill primary-fill"></i></div>
+              <div class="unlock unlock-copy">1 more to unlock €3.00</div>
+              <div class="reward earned-copy">€3.00</div>
+              <div class="period">Target: 3x per week</div>
+              <button class="log primary-log">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="button-copy"></span>
+              </button>
+            </article>
+            <article class="habit compact">
+              <div class="habit-name"><span class="emoji">🧘</span><span>Morning Stretch</span></div>
+              <span class="mini-progress">1/4</span>
+            </article>
+            <article class="habit compact">
+              <div class="habit-name"><span class="emoji">💧</span><span>Drink 2L Water</span></div>
+              <span class="mini-progress">4/7</span>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <nav class="mobile-reward-nav" aria-label="Mobile navigation">
+        <span class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Home
+        </span>
+        <span class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8M12 6v12"/></svg>Funancial
+        </span>
+        <span class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h8l-1 8 10-12h-8z"/></svg>Habits
+        </span>
+        <span class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Progress
+        </span>
+      </nav>
+
+      <aside class="toast"><b>🎉 Reward unlocked!</b><span>€3.00 is now ready to spend.</span></aside>
+    </section>
+  </main>
+  <script>
+    (function(){
+      var phone=document.getElementById('animation');
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+      window.setInterval(function(){
+        phone.classList.remove('playing');
+        void phone.offsetWidth;
+        phone.classList.add('playing');
+      },7600);
+    })();
+  </script>
+</body>
+</html>

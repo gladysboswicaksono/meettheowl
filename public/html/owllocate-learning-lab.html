@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Owllocate — Product + Learning Environment</title>
+
+<!--
+  ==========================================================================
+  OWLLOCATE: PRODUCT + LEARNING ENVIRONMENT  (portfolio concept animation)
+  Self-contained public asset: local CSS + inline JS. No external deps beyond Google Fonts.
+  Concept (no explanatory copy inside the visual — UI shapes only):
+    STEP 1  Desktop app + in-product SIMULATION task ("do this here")
+    STEP 2  Same app + OPTIONAL guidance (dismissible, non-blocking)
+    STEP 3  Mobile app + LIVE-SKILL learning library (connected to real use)
+  Classed as a WALKTHROUGH: learner-paced (dots + ‹ ›), gentle autoplay that
+  pauses on interaction. One focal signal moves at a time; rest holds still.
+  Motion: transform/opacity/background only. prefers-reduced-motion -> settled.
+  ==========================================================================
+-->
+
+<!-- Product UI typography (this is the Owllocate app, not portfolio chrome) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="../../src/index.css" />
+<link rel="stylesheet" href="../../src/styles/owllocate.css" />
+</head>
+
+<body>
+<div class="owl-wrap">
+  <div class="stage-scale">
+  <!-- step class is swapped by JS: step-1 / step-2 / step-3 -->
+  <div class="owl-anim step-1" id="anim">
+    <div class="stage">
+
+      <!-- desktop <-> phone connector (drawn in step 3) -->
+      <svg class="wires" viewBox="0 0 1040 470" preserveAspectRatio="none" aria-hidden="true">
+        <path class="wire" style="--len:360" d="M654,250 C720,250 740,250 792,260" />
+        <circle class="wire-dot" cx="792" cy="260" r="3.5"/>
+      </svg>
+
+      <!-- ============== DESKTOP WINDOW ============== -->
+      <section class="win" aria-label="Owllocate desktop app">
+        <div class="win__bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="url">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            app.owllocate.com/dashboard
+          </span>
+        </div>
+
+        <div class="win__body">
+          <!-- sidebar -->
+          <aside class="side">
+            <div class="brand">
+              <img class="brand-logo" src="/images/logo-navigation.png" alt="" />
+              <b>Owllocate</b>
+            </div>
+            <nav class="nav">
+              <a class="on" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Habits</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><path d="M4 4h16v12H8l-4 4z"/></svg>Reflections</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>Rewards</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>Wishlist</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Progress</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Insights</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.3 1a7 7 0 0 0-1.7-1L16.5 2h-4l-.4 2.4a7 7 0 0 0-1.7 1l-2.3-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.4h4l.4-2.4a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.6c.1-.3.1-.7.1-1z"/></svg>Settings</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="side-card reward">
+              <div class="lbl">Reward balance</div>
+              <div class="big">$42.75</div>
+              <div class="sub">+$3.50 today</div>
+            </div>
+            <div class="side-card level">
+              <div class="lbl">Level 7 · Owl Scholar</div>
+              <div class="big">1,250 / 2,000 XP</div>
+              <div class="xpbar"><i></i></div>
+            </div>
+          </aside>
+
+          <!-- main -->
+          <div class="main">
+            <div class="hd">
+              <div>
+                <h1>Good evening, Alex</h1>
+                <p>Small habits. Real change. Financial rewards.</p>
+              </div>
+              <div class="stats">
+                <span class="streak"><svg viewBox="0 0 24 24" fill="var(--owl-orange-400)" stroke="none"><path d="M12 2c1 4-2 5-2 8a2 2 0 0 0 4 0c2 2 3 4 3 6a5 5 0 0 1-10 0c0-4 4-6 5-14z"/></svg>12</span>
+                <span class="ring">
+                  <svg width="30" height="30" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--blue-bg)" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="var(--owl-emerald-400)" stroke-width="3" stroke-dasharray="94" stroke-dashoffset="21" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="habits">
+              <div class="hab">
+                <div class="ico a"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--owl-emerald-400)" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M9 21l3-6 3 6M6 11l6-2 6 2"/></svg></div>
+                <h3>Morning Stretch</h3>
+                <div class="meta">10 / 14 this week</div>
+                <div class="pr"><i style="width:71%"></i></div>
+                <div class="rw">+$1.20</div>
+              </div>
+              <div class="hab" id="hab-mid">
+                <div class="ico b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--owl-blue-400)" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M12 5v14"/></svg></div>
+                <h3>Read 20 Minutes</h3>
+                <div class="meta">6 / 7 this week</div>
+                <div class="pr"><i style="width:85%"></i></div>
+                <button class="logbtn"><svg viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Log activity</button>
+              </div>
+              <div class="hab">
+                <div class="ico c"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--owl-orange-400)" stroke-width="2"><path d="M12 2s6 6 6 11a6 6 0 0 1-12 0c0-5 6-11 6-11z"/></svg></div>
+                <h3>Drink 2L Water</h3>
+                <div class="meta">5 / 7 this week</div>
+                <div class="pr"><i style="width:71%"></i></div>
+                <div class="rw">+$0.60</div>
+              </div>
+            </div>
+
+            <div class="lower">
+              <div class="timeline">
+                <div class="row">
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+                  <span class="tick now"></span>
+                  <span class="tick future"></span>
+                </div>
+                <div class="row" style="margin-top:5px">
+                  <span class="lbl">May 5</span><span class="lbl">6</span><span class="lbl">7</span><span class="lbl">8</span><span class="lbl">Today</span><span class="lbl">11</span>
+                </div>
+              </div>
+              <div class="wish">
+                <div class="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="2" y="14" width="5" height="7" rx="1.5"/><rect x="17" y="14" width="5" height="7" rx="1.5"/></svg></div>
+                <div>
+                  <div class="t">Noise Cancelling Headphones</div>
+                  <div class="p">$149.99</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== STEP 1 overlays ===== -->
+          <div class="dim" aria-hidden="true"></div>
+          <div class="target" aria-hidden="true"></div>
+          <div class="cursor" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="var(--white)" stroke="var(--owl-black)" stroke-width="1"><path d="M5 3l14 7-6 2-2 6z"/></svg>
+          </div>
+          <div class="sim" role="img" aria-label="Simulation task: practice logging an activity inside the app">
+            <div class="top">
+              <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg></span>
+              <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </div>
+            <div class="steps">
+              <div class="step"><span class="num">1</span><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="bar w70"></span></div>
+              <div class="step"><span class="num">2</span><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span><span class="bar w60"></span></div>
+              <div class="step"><span class="num">3</span><span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg></span><span class="bar w52"></span></div>
+            </div>
+            <div class="cta">
+              <button class="start"><svg viewBox="0 0 24 24" fill="none" stroke="var(--white)" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Start task</button>
+              <button class="skip">Skip</button>
+            </div>
+          </div>
+
+          <!-- ===== STEP 2 overlays (optional guidance) ===== -->
+          <svg class="glines" viewBox="0 0 660 392" preserveAspectRatio="none" aria-hidden="true">
+            <path class="gline" d="M452,158 C 400,140 350,118 300,114"/>
+            <path class="gline" d="M452,200 C 410,188 380,160 350,150"/>
+          </svg>
+          <span class="hot h1" aria-hidden="true">1</span>
+          <span class="hot h2" aria-hidden="true">2</span>
+          <div class="guide" role="img" aria-label="Optional guidance panel, dismissible, pointing to live UI">
+            <div class="ghd">
+              <span class="d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12c1 1 1 2 1 3h6c0-1 0-2 1-3a7 7 0 0 0-4-12z"/></svg>Guidance</span>
+              <span class="toggle" aria-label="Guidance on"></span>
+            </div>
+            <div class="gstep"><span class="gnum">1</span><span class="gbar s1"></span></div>
+            <div class="gstep"><span class="gnum">2</span><span class="gbar s2"></span></div>
+            <div class="gstep"><span class="gnum">3</span><span class="gbar s3"></span></div>
+            <div class="disable">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              Disable guidance
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== MOBILE PHONE ============== -->
+      <section class="phone" aria-label="Owllocate mobile app with learning library">
+        <span class="notch" aria-hidden="true"></span>
+        <div class="pstatus">
+          <span>9:41</span>
+          <span class="ic">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 20h3v-6H2zM7 20h3V9H7zM12 20h3V4h-3zM17 20h3v-9h-3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0M12 19h.01"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2"/><rect x="4" y="9" width="12" height="6" fill="currentColor"/></svg>
+          </span>
+        </div>
+
+        <div class="pbody">
+          <div class="phd">
+            <b>Owllocate</b>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--owl-slate-400)" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          </div>
+
+          <div class="preward">
+            <div>
+              <div class="lbl">Reward balance</div>
+              <div class="big">$42.75</div>
+              <div class="sub"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg>+$3.50 today</div>
+            </div>
+            <div class="coins">
+              <svg width="32" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--owl-emerald-400)" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+            </div>
+          </div>
+
+          <div class="prow">
+            <div class="pmini"><div class="l">Day streak</div><div class="v"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--owl-orange-400)" stroke="none"><path d="M12 2c1 4-2 5-2 8a2 2 0 0 0 4 0c2 2 3 4 3 6a5 5 0 0 1-10 0c0-4 4-6 5-14z"/></svg>12</div></div>
+            <div class="pmini"><div class="l">Weekly</div><div class="v" style="color:var(--green)">78%</div></div>
+          </div>
+
+          <div class="psec">Today's habits</div>
+          <div class="ptask">
+            <span class="ti" style="background:rgb(from var(--owl-emerald-400) r g b / 16%)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-emerald-400)" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M9 21l3-6 3 6"/></svg></span>
+            <span class="tn">Morning Stretch</span><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>
+          </div>
+          <div class="ptask">
+            <span class="ti" style="background:rgb(from var(--owl-blue-400) r g b / 16%)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--owl-blue-400)" stroke-width="2"><path d="M4 5h16v14H4z"/></svg></span>
+            <span class="tn">Read 20 Minutes</span><span class="ts" style="color:var(--green)">Logged</span>
+          </div>
+
+          <!-- learning library drawer (slides up in STEP 3) -->
+          <div class="drawer" role="img" aria-label="Live-skill learning library tied to real app use">
+            <div class="dhd">
+              <span class="dt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 4v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 8h5M9 12h7M9 16h7"/></svg>Learning Library</span>
+              <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </div>
+
+            <div class="lcard">
+              <span class="lthumb a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></span>
+              <div class="lmeta"><div class="lt">How to stay consistent</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+            <div class="lcard">
+              <span class="lthumb b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H8l-4 4z"/></svg></span>
+              <div class="lmeta"><div class="lt">Writing reflections that matter</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>6 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+            <div class="lcard">
+              <span class="lthumb c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-4 12c1 1 1 2 1 3h6c0-1 0-2 1-3a7 7 0 0 0-4-12zM9 21h6"/></svg></span>
+              <div class="lmeta"><div class="lt">Building better habit cues</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+            <div class="lcard">
+              <span class="lthumb d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7M3 5v4h4"/></svg></span>
+              <div class="lmeta"><div class="lt">Recovering after a missed streak</div><div class="ls"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>4 min</div></div>
+              <span class="lplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+            </div>
+          </div>
+
+          <!-- XP reward chip (pops once in step 3) -->
+          <div class="xp" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>+50 XP</div>
+
+          <!-- bottom tab bar -->
+          <nav class="tabs" aria-hidden="true">
+            <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Home</span>
+            <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Habits</span>
+            <span class="tab"><span class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></span></span>
+            <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 22l5-3 5 3-1.5-9.5"/></svg>Rewards</span>
+            <span class="tab learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V6a2 2 0 0 1 2-2h9l5 4v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>Learn</span>
+          </nav>
+        </div>
+      </section>
+
+    </div>
+  </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var anim = document.getElementById('anim');
+  var sourceStage = anim.querySelector('.stage');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dwell = 4800;
+  var current = 0;
+
+  var plusIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>';
+  var homeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>';
+  var moneyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M16 8h-6a2 2 0 000 4h4a2 2 0 010 4H8M12 6v12"/></svg>';
+  var boltIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h8l-1 8 10-12h-8z"/></svg>';
+  var chartIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>';
+  var settingsIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6v.2h-4V21a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 00.3-1.9A1.7 1.7 0 003 14H2.8v-4H3a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 001.9.3A1.7 1.7 0 0010 3v-.2h4V3a1.7 1.7 0 001 1.6 1.7 1.7 0 001.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 00-.3 1.9A1.7 1.7 0 0021 10h.2v4H21a1.7 1.7 0 00-1.6 1z"/></svg>';
+  var cursorIcon = '<svg viewBox="0 0 24 28" fill="currentColor" stroke="var(--owl-slate-900)" stroke-width="1.4"><path d="M3 2l16 12-7 1 4 8-4 2-4-8-5 5z"/></svg>';
+
+  function activityCard(name,emoji,progress,target,reward,spotlight){
+    return '<div class="activity-card">' +
+      '<div class="activity-name"><span class="emoji">'+emoji+'</span><span>'+name+'</span></div>' +
+      '<div class="progress-row"><span>Progress</span><b>'+progress+'/'+target+'</b></div>' +
+      '<div class="progress-track"><i style="width:'+(progress/target*100)+'%"></i></div>' +
+      '<div class="unlock-copy">'+(target-progress)+' more to unlock €'+reward+'</div>' +
+      '<div class="reward-copy">€'+reward+'</div>' +
+      '<div class="period-copy">Target: '+target+'x per week</div>' +
+      '<button class="real-log '+(spotlight?'spotlight task-target':'')+'">'+plusIcon+' Log Activity</button>' +
+    '</div>';
+  }
+
+  function desktopScreen(guided){
+    return '<div class="real-desktop">' +
+      '<nav class="real-nav"><div class="real-nav-left"><div class="real-brand"><img class="real-logo" src="/images/logo-navigation.png" alt=""><strong>Owllocate</strong></div>' +
+      '<div class="real-links"><span class="active">Home</span><span>My Habits</span><span>My Funancial</span><span>My Progress</span><span>Profile</span></div></div>' +
+      '<div class="real-nav-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Logout</div></nav>' +
+      '<main class="real-scroll"><header class="real-heading"><h1>Time to build those habits, Alex!</h1><p>Track your activities and unlock your rewards</p></header>' +
+      '<section class="real-section"><div class="real-section-title">Funancial Overview</div><div class="money-grid">' +
+      '<div class="money-box green"><div class="k">Available</div><div class="v">€42.75</div><div class="s">Ready to spend</div></div>' +
+      '<div class="money-box blue"><div class="k">To Unlock</div><div class="v">€57.25</div><div class="s">Complete activities</div></div></div></section>' +
+      '<section class="real-section"><div class="focus-head"><div class="center"><h2>This Week\'s Focus</h2><p>6/22/2026 - 6/28/2026</p></div>' +
+      (guided ? '<button class="real-log add-habit spotlight" style="width:auto;height:28px;margin:0;padding:0 12px">'+plusIcon+' Add Habit</button>' : '<button class="focus-btn">◎ Choose Focus</button>') +
+      '</div><div class="activity-grid">'+activityCard('Morning Stretch','🧘',3,5,'2.50',false)+activityCard('Read 20 Minutes','📚',6,7,'3.00',false)+activityCard('Drink 2L Water','💧',4,7,'1.50',false)+'</div></section></main>' +
+      '<div class="scene-dim"></div>' +
+      (guided ?
+        '<aside class="guide-tooltip"><div class="tip-head"><div class="tip-title"><span class="tip-icon">'+plusIcon+'</span>Add your first habit</div><span class="tip-x">×</span></div><div class="tip-text">Select <strong>Add Habit</strong> to create a healthy activity, choose its target, and assign a reward.</div><div class="disable-guidance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>Disable guidance</div></aside>' :
+        '<aside class="task-tooltip"><div class="tip-head"><div class="tip-title"><span class="tip-icon">'+settingsIcon+'</span>Set up Owllocate</div><span class="tip-x">×</span></div>' +
+        '<div class="setup-list">' +
+          '<div class="setup-item"><span class="setup-number">1</span><span class="setup-icon">'+settingsIcon+'</span><b>Configure your cycle</b><span class="training-cursor">'+cursorIcon+'</span></div>' +
+          '<div class="setup-item"><span class="setup-number">2</span><span class="setup-icon">'+moneyIcon+'</span><b>Set up your reward amount</b></div>' +
+          '<div class="setup-item"><span class="setup-number">3</span><span class="setup-icon">'+plusIcon+'</span><b>Add a new habit</b></div>' +
+        '</div></aside>') +
+    '</div>';
+  }
+
+  function phoneScreen(){
+    return '<div class="real-phone"><div class="phone-notch"></div><div class="phone-status"><span>9:41</span><span>● ◒ ▰</span></div>' +
+      '<div class="phone-top"><div class="real-brand"><img class="real-logo" src="/images/logo-navigation.png" alt=""><strong>Owllocate</strong></div>' +
+      '<span class="phone-profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg><span>Alex</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path></svg></span></div>' +
+      '<main class="phone-page"><h1>Time to build those habits, Alex!</h1><p>Track your activities and unlock your rewards</p>' +
+      '<section class="real-section"><div class="real-section-title">Funancial Overview</div><div class="money-grid"><div class="money-box green"><div class="k">Available</div><div class="v">€42.75</div><div class="s">Ready to spend</div></div><div class="money-box blue"><div class="k">To Unlock</div><div class="v">€57.25</div><div class="s">Complete activities</div></div></div></section>' +
+      '<section class="real-section"><div class="focus-head"><div class="center"><h2>This Week\'s Focus</h2></div><button class="focus-btn">Choose Focus</button></div><div class="activity-grid">'+activityCard('Read 20 Minutes','📚',6,7,'3.00',false)+'</div></section></main>' +
+      '<nav class="mobile-nav"><span class="active">'+homeIcon+'Home</span><span>'+moneyIcon+'Funancial</span><span>'+boltIcon+'Habits</span><span>'+chartIcon+'Progress</span></nav>' +
+      '<aside class="learning-sheet"><div class="learning-head"><span>Learning Library</span><em>×</em></div>' +
+      '<div class="learning-card"><span class="learning-thumb">'+boltIcon+'</span><span class="learning-copy"><b>How to stay consistent</b><small>5 min · Based on your activity</small></span><span class="learning-play">▶</span></div>' +
+      '<div class="learning-card"><span class="learning-thumb">'+chartIcon+'</span><span class="learning-copy"><b>Build a habit that sticks</b><small>6 min · Recommended</small></span><span class="learning-play">▶</span></div></aside></div>';
+  }
+
+  function makeScene(number, markup, label){
+    var scene = document.createElement('section');
+    scene.className = 'scene';
+    scene.dataset.scene = number;
+    scene.setAttribute('aria-label', label);
+    scene.innerHTML = markup;
+    return scene;
+  }
+
+  var gallery = document.createElement('div');
+  gallery.className = 'stage showcase';
+  var scenes = [
+    makeScene('1', desktopScreen(false), 'Owllocate dark dashboard practice task without background dimming'),
+    makeScene('2', desktopScreen(true), 'Owllocate dark dashboard guided Log Activity interaction'),
+    makeScene('3', phoneScreen(), 'Owllocate dark mobile dashboard and learning library')
+  ];
+  scenes.forEach(function(scene){ gallery.appendChild(scene); });
+
+  var status = document.createElement('div');
+  status.setAttribute('aria-hidden','true');
+  scenes.forEach(function(){ status.appendChild(document.createElement('span')); });
+  gallery.appendChild(status);
+
+  sourceStage.replaceWith(gallery);
+
+  function render(){
+    scenes.forEach(function(scene,index){
+      var delta = index - current;
+      scene.classList.remove('is-active','is-next','is-next-2','is-past','is-past-2');
+      if(delta === 0) scene.classList.add('is-active');
+      else if(delta === 1) scene.classList.add('is-next');
+      else if(delta > 1) scene.classList.add('is-next-2');
+      else if(delta === -1) scene.classList.add('is-past');
+      else scene.classList.add('is-past-2');
+      scene.setAttribute('aria-hidden',delta === 0 ? 'false' : 'true');
+    });
+    Array.prototype.forEach.call(status.children,function(dot,index){
+      dot.classList.toggle('on',index === current);
+    });
+  }
+
+  render();
+  if(!reduce){
+    window.setInterval(function(){
+      current = (current + 1) % scenes.length;
+      render();
+    },dwell);
+  }
+})();
+</script>
+
+<!-- Optional: iframe self-sizing inside the portfolio (resolves only in-repo;
+     harmless 404 when the file is opened standalone). -->
+<script src="../shared/resize-reporter.js"></script>
+</body>
+</html>

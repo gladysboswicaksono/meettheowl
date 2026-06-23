@@ -18,7 +18,7 @@ export default function NeedsAnalysisPage() {
           <div className="project-hero__right">
             <div className="project-hero__copy">
               <span className='showcase__eyebrow'>AI, data & measurement</span>
-              <h2>Data and AI for Analysis &amp; Evaluation</h2>
+              <h2>Data & AI for Needs Analysis</h2>
               <p>
                 I have seen so many instances where people took AI-generated analysis at face value and
                 made actual decisions based on that alone.
@@ -67,12 +67,6 @@ export default function NeedsAnalysisPage() {
             I wanted AI in that workflow, but its output kept undermining itself: the sources it cited either didn't exist or covered something unrelated to what it claimed.
           </p>
           <p>
-            
-          </p>
-          <p>
-            I got enough one day and asked AI to explain in detail how it reached that conclusion. That changed the s
-          </p>
-          <p>
             And that's what the structure below is built for:
           </p>
           <ol>
@@ -81,10 +75,16 @@ export default function NeedsAnalysisPage() {
             <li>Tests on a smaller dataset and validates its output.</li>
             <li>Applies the same approach to the full dataset.</li>
           </ol>
+          <br></br>
+          <p>
+            I elaborate on each step and why it matters below.
+          </p>
           <div className="disclaimer">
             <p style={{ marginBottom:"0px" }}>
-              I conduct my analysis using company-provided tools with direct access to our internal database,
-              and no company data is exported to external AI services.
+              The example shown here uses a qualitative support-ticket dataset. I have applied
+              similar steps to product usage and behavior data as well. The structure still worked: AI 
+              was more useful when it had to ground the work, explain the method, and keep the output tied to data
+              I could verify.
             </p>
           </div>
           <br></br>
