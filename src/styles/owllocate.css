@@ -73,7 +73,7 @@
    CONFIG — adjust the animation here
    ======================================================================== */
 :root{
-  --autoplay-ms: 5200;        /* JS reads this; per-step dwell time          */
+  --autoplay-ms: 8000;        /* JS reads this; slower scene dwell time       */
   --t-step: 620ms;            /* base transition for state changes           */
   --ease: cubic-bezier(.4,0,.2,1);
 
@@ -501,9 +501,9 @@ body{
   place-items:center;
   transform-origin:center;
   transition:
-    transform 900ms cubic-bezier(.22,1,.36,1),
-    opacity 650ms ease,
-    filter 650ms ease;
+    transform 1050ms cubic-bezier(.22,.8,.3,1),
+    opacity 850ms ease,
+    filter 850ms ease;
   will-change:transform,opacity;
 }
 .scene .win,.scene .phone{animation:none;opacity:1}
@@ -556,37 +556,37 @@ body{
 }
 .scene .phone .lcard{background:var(--owl-slate-750)}
 
-/* active feature, future previews on the right, completed previews on the left */
+/* Sliding gallery with restrained travel and scale changes. */
 .scene.is-active{
   z-index:4;
   opacity:1;
   filter:none;
-  transform:translate(-50%,-50%) translateX(-70px) scale(1);
+  transform:translate(-50%,-50%) translateX(-35px) scale(1);
 }
 .scene.is-next{
   z-index:3;
-  opacity:.78;
-  filter:saturate(.78);
-  transform:translate(-50%,-50%) translateX(445px) scale(.42);
+  opacity:.58;
+  filter:saturate(.88);
+  transform:translate(-50%,-50%) translateX(300px) scale(.68);
 }
 .scene.is-next-2{
   z-index:2;
-  opacity:.5;
-  filter:saturate(.65);
-  transform:translate(-50%,-50%) translate(500px,165px) scale(.29);
+  opacity:.28;
+  filter:saturate(.78);
+  transform:translate(-50%,-50%) translate(390px,105px) scale(.52);
 }
 .scene.is-past{
   z-index:2;
-  opacity:.62;
-  filter:saturate(.68);
-  transform:translate(-50%,-50%) translateX(-500px) scale(.34);
+  opacity:.42;
+  filter:saturate(.82);
+  transform:translate(-50%,-50%) translateX(-330px) scale(.64);
 }
 .scene.is-past-2{
   z-index:1;
-  opacity:.34;
-  transform:translate(-50%,-50%) translate(-535px,165px) scale(.24);
+  opacity:.2;
+  filter:saturate(.72);
+  transform:translate(-50%,-50%) translate(-405px,105px) scale(.5);
 }
-.scene[data-scene="3"].is-active{transform:translate(-50%,-50%) translateX(-40px) scale(1.05)}
 
 /* Scene 1: task prompt without dimming the live product. */
 .scene[data-scene="1"] .dim{opacity:0!important;backdrop-filter:none}
@@ -597,11 +597,15 @@ body{
 .scene[data-scene="1"] .target{
   border-color:var(--owl-green-600);
   opacity:1;
-  animation:pulse 1.9s var(--ease) infinite;
+  animation:calm-pulse 2.8s ease-in-out infinite;
 }
 .scene[data-scene="1"] .cursor{
   opacity:1;
-  animation:cursor-move 1.4s var(--ease) .3s forwards;
+  animation:cursor-move 1.8s var(--ease) .45s forwards;
+}
+@keyframes calm-pulse{
+  0%,100%{box-shadow:0 0 0 2px rgb(from var(--owl-green-600) r g b / 25%)}
+  50%{box-shadow:0 0 0 5px rgb(from var(--owl-green-600) r g b / 12%)}
 }
 
 /* Scene 2: dim everything except the real Log Activity control and guidance. */
@@ -618,8 +622,8 @@ body{
 /* Scene 3: feature only the phone and its learning drawer. */
 .scene[data-scene="3"] .phone{transform:none}
 .scene[data-scene="3"] .drawer{transform:translateY(0)}
-.scene[data-scene="3"] .tab.learn{animation:tab-glow 1.9s var(--ease) infinite}
-.scene[data-scene="3"] .xp{animation:xp-pop 2.4s var(--ease) 1s forwards}
+.scene[data-scene="3"] .tab.learn{animation:none}
+.scene[data-scene="3"] .xp{display:none}
 
 @media(max-width:900px){
   .stage-scale{height:500px}
@@ -772,10 +776,10 @@ body{
 .training-cursor svg{width:100%;height:100%}
 .scene[data-scene="1"] .task-tooltip{opacity:0;transform:translateY(10px) scale(.97)}
 .scene[data-scene="1"].is-active .task-tooltip{
-  animation:reveal-training .5s var(--ease) 1.15s forwards
+  animation:reveal-training .65s ease .75s forwards
 }
 .scene[data-scene="1"].is-active .training-cursor{
-  animation:cursor-to-first 1.25s var(--ease) 1.75s forwards
+  animation:cursor-to-first 1.7s cubic-bezier(.22,.8,.3,1) 1.35s forwards
 }
 @keyframes reveal-training{
   to{opacity:1;transform:translateY(0) scale(1)}
@@ -799,17 +803,17 @@ body{
 .disable-guidance svg{width:11px;height:11px}
 .scene-dim{position:absolute;inset:61px 0 0;z-index:8;background:rgb(from var(--owl-ink-deepest) r g b / 77%);opacity:0}
 .scene[data-scene="2"].is-active .scene-dim{
-  animation:dim-training .45s ease 1s forwards
+  animation:dim-training .65s ease .65s forwards
 }
 .scene[data-scene="2"] .add-habit.spotlight{
   z-index:12;
 }
 .scene[data-scene="2"].is-active .add-habit.spotlight{
-  animation:spotlight-add .45s ease 1s forwards
+  animation:spotlight-add .65s ease .65s forwards
 }
 .scene[data-scene="2"] .guide-tooltip{z-index:13;opacity:0;transform:translateY(8px) scale(.97)}
 .scene[data-scene="2"].is-active .guide-tooltip{
-  animation:reveal-training .45s var(--ease) 1.05s forwards
+  animation:reveal-training .65s ease .75s forwards
 }
 @keyframes dim-training{to{opacity:1}}
 @keyframes spotlight-add{
@@ -871,7 +875,7 @@ body{
   transform:translateY(112%);transition:transform .75s var(--ease)
 }
 .scene[data-scene="3"].is-active .learning-sheet{
-  animation:show-learning-sheet .75s var(--ease) 1s forwards
+  animation:show-learning-sheet .9s cubic-bezier(.22,.8,.3,1) .7s forwards
 }
 @keyframes show-learning-sheet{to{transform:translateY(0)}}
 .learning-head{display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:700}
@@ -880,17 +884,9 @@ body{
 .learning-thumb{width:29px;height:29px;border-radius:7px;display:grid;place-items:center;background:rgb(from var(--owl-green-600) r g b / 20%);color:var(--owl-green-400)}
 .learning-thumb svg{width:14px;height:14px}
 .learning-copy{flex:1}.learning-copy b{display:block;font-size:8px}.learning-copy small{display:block;margin-top:3px;color:var(--owl-slate-400);font-size:6.5px}
-.learning-play{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--owl-green-600)}
-.learning-play svg{width:9px;height:9px}
 
-/* Override preview sizing for the true app viewport proportions. */
+/* True app viewport proportions. */
 .scene{width:720px;height:530px}
-.scene.is-active{transform:translate(-50%,-50%) translateX(-65px) scale(1)}
-.scene.is-next{transform:translate(-50%,-50%) translateX(460px) scale(.39)}
-.scene.is-next-2{transform:translate(-50%,-50%) translate(510px,168px) scale(.27)}
-.scene.is-past{transform:translate(-50%,-50%) translateX(-505px) scale(.32)}
-.scene.is-past-2{transform:translate(-50%,-50%) translate(-535px,168px) scale(.23)}
-.scene[data-scene="3"].is-active{transform:translate(-50%,-50%) translateX(-45px) scale(1.02)}
 
 /* ========================================================================
    OWLLOCATE MOBILE REWARD ANIMATION

@@ -16,6 +16,7 @@ import MeetOwllocatePage from './pages/MeetOwllocatePage.jsx'
 import Analytics from './components/Analytics.jsx'
 import TitleManager from './components/TitleManager.jsx'
 import TrackingNotice from './components/TrackingNotice.jsx'
+import HashScroll from './components/HashScroll.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')).render(
       <Analytics />
       <TitleManager />
       <TrackingNotice />
+      <HashScroll />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/meet-owllocate" element={<MeetOwllocatePage />} />

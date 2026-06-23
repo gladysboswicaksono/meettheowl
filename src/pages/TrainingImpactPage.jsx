@@ -20,7 +20,7 @@ function Accordion({ label, children }) {
 
 const userSegmentationQuery = (
   <>
-    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING CONTENT ONLY</span>
     {`
     with relevant_content AS(
         select
@@ -32,7 +32,7 @@ const userSegmentationQuery = (
     ),
      `}
 
-    <span className='accordion-content-comment'>-- 2. COUNT HOW MANY COURSES ARE IN RELEVANT_CONTENT - DENOMINATOR FOR #4</span>
+    <span className='accordion-content-comment'>-- 2. COUNT HOW MANY CONTENT ARE IN RELEVANT_CONTENT - DENOMINATOR FOR #4</span>
     {`
      content_count as(
         select
@@ -66,7 +66,7 @@ const userSegmentationQuery = (
     pct_user_completions as (
         select
             uc.user_id,
-            uc.completed_count,`}<span className='accordion-content-comment'>-- HOW MANY RELEVANT COURSES THEY COMPLETED</span>{`
+            uc.completed_count,`}<span className='accordion-content-comment'>-- HOW MANY RELEVANT CONTENT THEY COMPLETED</span>{`
             cc.total_content`}<span className='accordion-content-comment'>-- FROM #2</span>{`
             uc.completed_count / nullif(cc.total_content, 0)*100 as completion_pct
         from
@@ -118,7 +118,7 @@ const userSegmentationQuery = (
 
 const performanceComparisonQuery = (
   <>
-    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING CONTENT ONLY</span>
     {`
     with relevant_content AS(
         select
@@ -130,7 +130,7 @@ const performanceComparisonQuery = (
             ),
     `}
 
-    <span className='accordion-content-comment'>-- 2. COUNT HOW MANY COURSES ARE IN RELEVANT_CONTENT</span>
+    <span className='accordion-content-comment'>-- 2. COUNT HOW MANY CONTENT ARE IN RELEVANT_CONTENT</span>
     {`
     content_count as (
         select count (distinct content_id) as total_content
@@ -208,7 +208,7 @@ const generalTrainedFlagQuery = (
     {`create or replace view academy.vw_usertrainingstatus as(
 
     `}
-    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING COURSES ONLY</span>
+    <span className='accordion-content-comment'>-- 1. GET PRODUCT TRAINING CONTENT ONLY</span>
     {`
     WITH relevant_content AS (
       SELECT content_id, content_name, created_date
@@ -263,7 +263,7 @@ const generalTrainedFlagQuery = (
         (
           SELECT COUNT(DISTINCT content_id)
           FROM relevant_content rc2
-          WHERE rc2.created_date <= completed_date `}<span className='accordion-content-comment'>-- MAKES SURE THE COUNT INCLUDES AVAILABLE COURSES BY COMPLETION DATES</span>{`
+          WHERE rc2.created_date <= completed_date `}<span className='accordion-content-comment'>-- MAKES SURE THE COUNT INCLUDES AVAILABLE CONTENT BY COMPLETION DATES</span>{`
         ) AS courses_available_at_date
       FROM first_completions
     ),
@@ -1163,13 +1163,13 @@ export default function TrainingImpactPage() {
             "Would you keep investing in education?"
           </em></p>
           <p>
-            That question is the starting point for this case study. Learning teams have no problem showing numbers of courses launched, users trained, completion rates reached, or sentiment stats.
+            That question is the starting point for this case study. Learning teams have no problem showing numbers of content launched, users trained, completion rates reached, or sentiment stats.
             But what do they mean to the business? Do they show that education helped change user behavior, reduce friction, and support company goals in a measurable way?
             And if they do, how would stakeholders know?
           </p>
           <p>
             My working hypothesis: if we could show that users who are trained consistently outperform untrained ones on
-            different metrics, measured through multiple methods, with different user populations and
+            different business metrics, measured through multiple methods, with different user populations and
             different time windows, at some point the pattern itself becomes the proof.
           </p>
           <p>
@@ -1221,7 +1221,7 @@ export default function TrainingImpactPage() {
               <div className='tab-content-grid'>
                 <div className='tab-content-column'>
                   <p>
-                    Not all courses in the LMS are relevant for measuring the particular goals we were setting.
+                    Not all content in the LMS are relevant for measuring the particular goals we were setting.
                     I focused specifically on those categorized as Product Training, which are designed to drive
                     key behaviors like increasing engagement on core product features.
                   </p>
@@ -1349,7 +1349,7 @@ export default function TrainingImpactPage() {
               </ol>
               <p>
                 Thanks to Claude, I could implement logic that evaluates training status relative to the
-                total number of available courses at each point in time. This ensures that once a user is
+                total number of available content at each point in time. This ensures that once a user is
                 classified as trained, they remain so, even as the catalog expands.
               </p>
               <p>
@@ -1375,13 +1375,13 @@ export default function TrainingImpactPage() {
 
               <Accordion label="📷 How I validated">
                 <p className='accordion__body accordion-content-text'>
-                  I wrapped the final SELECT from the AI-generated query to return five sample users. The output shows training status, courses completed, catalog size, and the threshold at each completion point, flagging users as trained once they cross it.
+                  I wrapped the final SELECT from the AI-generated query to return five sample users. The output shows training status, content completed, catalog size, and the threshold at each completion point, flagging users as trained once they cross it.
                 </p>
                 <div className='accordion-images'>
                   <ZoomableImage src="/images/training-effectiveness/framework-validation-1.png"></ZoomableImage>
                 </div>
                 <p className='accordion__body accordion-content-text'>
-                  From that sample, I ran the validation query for each user individually. It returns the same output as before, but broken down row by row per course completion. User 8249's flag turns TRUE on 2025-02-28, which is consistent with the AI-generated query output.
+                  From that sample, I ran the validation query for each user individually. It returns the same output as before, but broken down row by row per content completion. User 8249's flag turns TRUE on 2025-02-28, which is consistent with the AI-generated query output.
                 </p>
                 <div className='accordion-images'>
                   <ZoomableImage src="/images/training-effectiveness/framework-validation-2.png" />
@@ -1485,7 +1485,7 @@ export default function TrainingImpactPage() {
 
               <p>
                 But that still leaves another problem: trained users might already be more engaged with the
-                product before they ever touch a course. Or improvement over time might just be natural as
+                product before they ever touch a content. Or improvement over time might just be natural as
                 people get better at tools they use regularly. That's when I came across
                 Difference-in-differences (DiD) analysis.
               </p>
