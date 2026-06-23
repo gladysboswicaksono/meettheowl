@@ -74,7 +74,6 @@ export default function VirtualOnboardingPage() {
           <div className="project-hero__right">
             <div className="project-hero__copy">
               <h2>Making Remote Onboarding Work</h2>
-              <span className="project-status-tag project-status-tag--implemented">Implemented</span>
               <p>
                 A Purchasing department's two-day in-person orientation was crucial for knowledge transfer.
                 COVID-19 made continuing in that format impossible — so the entire experience had to be redesigned from scratch.

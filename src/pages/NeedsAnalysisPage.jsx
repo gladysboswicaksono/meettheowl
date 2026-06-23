@@ -18,7 +18,7 @@ export default function NeedsAnalysisPage() {
           <div className="project-hero__right">
             <div className="project-hero__copy">
               <span className='showcase__eyebrow'>AI, data & measurement</span>
-              <h2>Data and AI for Analysis &amp; Evaluation</h2>
+              <h2>Data & AI for Needs Analysis</h2>
               <p>
                 I have seen so many instances where people took AI-generated analysis at face value and
                 made actual decisions based on that alone.
