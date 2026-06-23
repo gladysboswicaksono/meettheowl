@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getFirstTrackingResult } from '../utils/tracker';
 
 const STORAGE_KEY = 'tracking-notice-seen';
 export const DISMISS_TRACKING_NOTICE = 'dismiss-tracking-notice';
@@ -23,15 +24,22 @@ export default function TrackingNotice() {
   useEffect(() => {
     if (window.localStorage.getItem(STORAGE_KEY) === '1') return undefined;
 
-    showTimer.current = window.setTimeout(() => {
-      if (dismissed.current) return;
+    let cancelled = false;
+    const delay = new Promise((resolve) => {
+      showTimer.current = window.setTimeout(resolve, 2000);
+    });
+
+    Promise.all([getFirstTrackingResult(), delay]).then(([trackingResult]) => {
+      if (cancelled || dismissed.current || trackingResult === 'failed') return;
+
       window.localStorage.setItem(STORAGE_KEY, '1');
       setMounted(true);
       window.requestAnimationFrame(() => setVisible(true));
       closeTimer.current = window.setTimeout(dismiss, 20000);
-    }, 2000);
+    });
 
     return () => {
+      cancelled = true;
       window.clearTimeout(showTimer.current);
       window.clearTimeout(closeTimer.current);
       window.clearTimeout(unmountTimer.current);
@@ -58,7 +66,7 @@ export default function TrackingNotice() {
           how long they spend there, and what device type they use.
         </p>
         <p>
-          <strong>Nothing is stored on your device and no IP address, location, or anything that identifies you are tracked</strong>. I use the data to keep improving
+          <strong>No IP address, location, or any personal data are tracked</strong>. I use the data to keep improving
           the portfolio.
         </p>
       </div>

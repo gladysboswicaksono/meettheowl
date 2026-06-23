@@ -1,5 +1,17 @@
 const ENDPOINT = 'https://us-central1-meettheowl.cloudfunctions.net/trackEvent';
 
+let resolveFirstTrackingResult;
+const firstTrackingResult = new Promise((resolve) => {
+  resolveFirstTrackingResult = resolve;
+});
+let firstTrackingResultSettled = false;
+
+function settleFirstTrackingResult(result) {
+  if (firstTrackingResultSettled) return;
+  firstTrackingResultSettled = true;
+  resolveFirstTrackingResult(result);
+}
+
 function getSessionId() {
   let id = sessionStorage.getItem('_sid');
   if (!id) {
@@ -29,7 +41,11 @@ export function getDeviceContext() {
 }
 
 export function trackEvent(event_type, page, label, properties = {}) {
-  if (isNoTrack()) return;
+  if (isNoTrack()) {
+    settleFirstTrackingResult('intentionally-disabled');
+    return Promise.resolve('intentionally-disabled');
+  }
+
   const payload = {
     session_id: getSessionId(),
     event_type,
@@ -37,18 +53,31 @@ export function trackEvent(event_type, page, label, properties = {}) {
     label: label || null,
     properties: { ...getDeviceContext(), ...properties },
   };
-  fetch(ENDPOINT, {
+  return fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
     keepalive: true,
-  }).catch(() => {});
+  })
+    .then((response) => {
+      const result = response.ok ? 'working' : 'failed';
+      settleFirstTrackingResult(result);
+      return result;
+    })
+    .catch(() => {
+      settleFirstTrackingResult('failed');
+      return 'failed';
+    });
 }
 
 export function trackPageView(page) {
-  trackEvent('page_view', page, null);
+  return trackEvent('page_view', page, null);
 }
 
 export function trackClick(label, properties = {}) {
-  trackEvent('click', null, label, properties);
+  return trackEvent('click', null, label, properties);
+}
+
+export function getFirstTrackingResult() {
+  return firstTrackingResult;
 }
