@@ -50,7 +50,6 @@ const projects = [
     category: ['Internal Training'],
     title: 'Making Remote Onboarding Work',
     featuredTitle: 'Making Remote\nOnboarding Work',
-    description: 'A two-day in-person orientation crucial for transferring essential knowledge — redesigned for virtual delivery when COVID made the traditional format impossible.',
     href: '/virtual-onboarding',
     stats: [
       { value: 'The gap', label: 'The onboarding experience depended on in-person interactions, and that option disappeared.' },

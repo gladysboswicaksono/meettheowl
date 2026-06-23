@@ -73,6 +73,7 @@ export default function VirtualOnboardingPage() {
           </div>
           <div className="project-hero__right">
             <div className="project-hero__copy">
+              <span className='showcase__eyebrow'>Internal Training</span>
               <h2>Making Remote Onboarding Work</h2>
               <p>
                 A Purchasing historically conducted a two-day in-person orientation for rotating trainees, designed to thoroughly introduce them

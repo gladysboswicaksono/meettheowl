@@ -28,7 +28,7 @@ export default function TrackingNotice() {
       window.localStorage.setItem(STORAGE_KEY, '1');
       setMounted(true);
       window.requestAnimationFrame(() => setVisible(true));
-      closeTimer.current = window.setTimeout(dismiss, 10000);
+      closeTimer.current = window.setTimeout(dismiss, 20000);
     }, 2000);
 
     return () => {

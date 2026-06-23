@@ -22,16 +22,16 @@ export default function MeetOwllocatePage() {
               <h2>Meet Owllocate</h2>
               <p>
                 Owllocate is a non-commercial habit and financial management app where users allocate leisure money upfront, unlock
-                it through the habits they choose, and build financial discipline through everyday decisions.
+                it through the habits they set, and build financial discipline through everyday decisions.
               </p>
               <p>
-                I built it with Claudem, and access is request-based because I don't have the technical
+                I built it with Lovable and Claude Code, and access is request-based because I don't have the technical
                 know-how to maintain it at the levl a public product would require. It is built for personal use, a small number of people who
                 understand the limitation, and as my portfolio lab.
               </p>
               <br></br>
               <a
-                href="https://www.owllocate.com"
+                href="https://www.owllocate.com/#request-account"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary project-hero-btn"
@@ -49,8 +49,8 @@ export default function MeetOwllocatePage() {
             my personal wellbeing as optional.
           </p>
           <p>
-            I wanted to be more consistent with the habits that help me outside work too: reflection, rest, drink enough water,
-            and the small habits that are easy to postpone because no one is waiting for them other than the future me.
+            I wanted to be more consistent with the habits that help me outside work too: reflection, rest, read,
+            and the small routines that are easy to postpone because no one is waiting for them other than the future me.
             I know from experience that I close gaps better when I pair them with something I already do well. And as managing
             spending limits was already a discipline I had, I connected it to the routines I kept skipping.
             It has been working well enough that a few friends with similar challenges started using it too.
