@@ -21,34 +21,63 @@ export default function MeetOwllocatePage() {
             <div className="project-hero__copy">
               <h2>Meet Owllocate</h2>
               <p>
-                Owllocate is a product concept that brings habit-building, rewards, and
-                practical learning together in one connected experience.
+                Owllocate is a non-commercial habit and financial management app where users allocate leisure money upfront, unlock
+                it through the habits they choose, and build financial discipline through everyday decisions.
               </p>
+              <p>
+                I built it with Claude and use daily. Access is request-based because I don't have the technical
+                know-how to maintain it at the levl a public product would require. It is built for personal use, a small number of people who
+                understand the limitation, and as my portfolio lab.
+              </p>
+              <br></br>
               <a
                 href="https://www.owllocate.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary project-hero-btn"
               >
-                Visit Owllocate
+                REQUEST OWLLOCATE ACCOUNT
               </a>
             </div>
           </div>
         </section>
 
         <section className="about-section">
-          <h2>About Owllocate</h2>
+          <h2>Why it exists</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Owllocate started because I was putting serious time in professional growth while treating
+            my personal wellbeing as optional.
           </p>
-          <div className="project-embed">
-            <iframe
-              src="/html/owllocate-learning-lab.html"
-              title="Owllocate product and learning environment"
-              loading="lazy"
-            />
+          <p>
+            I wanted to be more consistent with the habits that help me outside work too: reflection, rest, drink enough water,
+            and the small habits that are easy to postpone because no one is waiting for them other than the future me.
+            I know from experience that I close gaps faster when I pair them with something I already do well. And as managing
+            spending limits was already a discipline I had, I connected it to the routines I kept skipping. Now, my allocated leisure fund
+            is something that I can only use by following through on the habits and targets I had chosen for myself.
+            It has been working well enough that a few friends with similar challenges started using it too.
+          </p>
+          <div className='tab-content-grid'>
+            <div className='tab-content-column'>
+              <div className="project-embed">
+                <iframe
+                  src="/html/owllocate-learning-lab.html"
+                  title="Owllocate product and learning environment"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div className='tab-content-column'>
+              <h3 style={{ color: 'var(--gold)' }}>THE PORTFOLIO LAB</h3>
+              <br></br>
+              <p>
+                As I kept developing Owllocate, I realized it also solved my portfolio challenge. At work, I build learning solutions
+                for SaaS products that I cannot show publicly. I can explain my design thinking, but cannot open the product and walk someone through how
+                the thinking actually works.
+                Owllocate now gives me the controlled environment where my thinking can be made visible. It lets me show how I design product learning,
+                test ideas for where I think SaaS Customer Education should go, get feedback from people in the field, and apply them back to work
+                context where relevant.
+              </p>
+            </div>
           </div>
         </section>
 

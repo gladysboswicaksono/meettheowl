@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 
 const TITLES = {
   '/': 'Meet The Owl',
+  '/meet-owllocate': 'Meet The Owl | Meet Owllocate',
   '/owllocate-get-started': 'Meet The Owl | Getting Started with Owllocate',
   '/training-effectiveness': 'Meet The Owl | Measuring Training Effectiveness',
   '/needs-analysis': 'Meet The Owl | Data & AI for Needs Analysis',

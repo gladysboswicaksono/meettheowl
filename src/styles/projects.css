@@ -316,9 +316,6 @@
   width: 100%;
   margin-top: 36px;
   overflow: hidden;
-  border: 1px solid rgba(246, 199, 133, 0.2);
-  background: var(--blue-deep);
-  box-shadow: 0 18px 42px rgba(10, 10, 20, 0.3);
 }
 
 .project-embed iframe {
