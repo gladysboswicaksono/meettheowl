@@ -25,7 +25,7 @@ const testimonials = [
   },
   {
     id: 'tianyi-tian',
-    name: 'Tianyi Tian, Former Academy Program Manager at Mendix',
+    name: 'Tianyi Tian, Former Academy Program Manager at Mendix (A Siemens Business)',
     tenure: 'My tenure: 2022 - 2024',
     text: `Throughout my work with Gladys, she has consistently demonstrated an exceptional dedication to customer satisfaction. She has a <span style="color: #f6c785"><strong>talent for always asking the right questions</strong></span>, which not only ensures that the team does not miss out on important ideas to address the needs of our wide range of customers, but also uncovers latent customer desires, which helped us drive innovation and tailored solutions.<br><br>Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,
     keyQuote: `[Gladys] has a <span style="color: #f6c785"><strong>talent for always asking the right questions</strong></span> ... Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,

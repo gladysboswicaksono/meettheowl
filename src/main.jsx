@@ -15,12 +15,14 @@ import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
 import MeetOwllocatePage from './pages/MeetOwllocatePage.jsx'
 import Analytics from './components/Analytics.jsx'
 import TitleManager from './components/TitleManager.jsx'
+import TrackingNotice from './components/TrackingNotice.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Analytics />
       <TitleManager />
+      <TrackingNotice />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/meet-owllocate" element={<MeetOwllocatePage />} />
