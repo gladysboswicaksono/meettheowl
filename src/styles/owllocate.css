@@ -178,6 +178,7 @@ h1,h2,h3,h4,h5,h6{font-family:inherit;font-weight:inherit}
 /* ---- sidebar ---- */
 .side{background:var(--owl-sidebar-dark);border-right:1px solid var(--line-soft);padding:14px 12px;display:flex;flex-direction:column;gap:4px}
 .brand{display:flex;align-items:center;gap:8px;padding:2px 4px 12px}
+.brand-logo{width:22px;height:22px;object-fit:contain}
 .brand b{font-size:14px;font-weight:700;letter-spacing:-.01em}
 .nav{display:flex;flex-direction:column;gap:2px}
 .nav a{
@@ -435,25 +436,6 @@ h1,h2,h3,h4,h5,h6{font-family:inherit;font-weight:inherit}
 .controls svg{width:17px;height:17px}
 
 /* =====================================================================
-   RESPONSIVE  (desktop-first; never breaks small)
-   ===================================================================== */
-@media (max-width:1060px){
-  .stage{gap:30px;transform:scale(.92);transform-origin:top center}
-}
-@media (max-width:920px){
-  .stage{flex-direction:column;width:100%;transform:none;gap:26px;padding-top:18px}
-  .win{width:min(660px,100%)}
-  /* on stacked layout, target/cursor absolute coords differ — guidance + hotspots still read */
-  .wires{display:none}             /* desktop<->phone wire only makes sense side-by-side */
-  .target,.cursor{display:none}    /* hide pixel-pinned bits when frame reflows */
-}
-@media (max-width:560px){
-  body{padding:16px 10px}
-  .stage-scale{transform:scale(.8);transform-origin:top center}
-  .win__body{grid-template-columns:140px 1fr}
-}
-
-/* =====================================================================
    REDUCED MOTION — land on the settled state, no continuous motion
    ===================================================================== */
 @media (prefers-reduced-motion:reduce){
@@ -508,16 +490,7 @@ body{
   display:block;
   overflow:visible;
 }
-.showcase::before{
-  content:"";
-  position:absolute;
-  inset:34px 5% 20px;
-  border:1px solid rgb(from var(--red) r g b / 8%);
-  border-radius:32px;
-  background:rgb(from var(--white) r g b / 60%);
-  box-shadow:inset 0 1px 0 rgb(from var(--white) r g b / 90%);
-  backdrop-filter:blur(16px);
-}
+
 .scene{
   position:absolute;
   top:50%;
@@ -648,27 +621,18 @@ body{
 .scene[data-scene="3"] .tab.learn{animation:tab-glow 1.9s var(--ease) infinite}
 .scene[data-scene="3"] .xp{animation:xp-pop 2.4s var(--ease) 1s forwards}
 
-.showcase-status{
-  position:absolute;
-  left:50%;bottom:3px;z-index:8;
-  transform:translateX(-50%);
-  display:flex;align-items:center;gap:8px;
-}
-.showcase-status span{
-  width:7px;height:7px;border-radius:999px;
-  background:var(--owl-slate-300);
-  transition:width .35s ease,background .35s ease;
-}
-.showcase-status span.on{width:28px;background:var(--owl-red-900)}
-
 @media(max-width:900px){
   .stage-scale{height:500px}
   .stage.showcase{height:480px;transform:scale(.82);transform-origin:top center}
 }
 @media(max-width:640px){
-  body{padding:18px 8px}
-  .stage-scale{height:430px}
+  body{padding:10px 8px}
+  .stage-scale{height:280px;overflow:hidden}
   .stage.showcase{width:760px;height:500px;transform:scale(.56);transform-origin:top center}
+}
+@media(max-width:430px){
+  .stage-scale{height:210px}
+  .stage.showcase{transform:scale(.42)}
 }
 @media(prefers-reduced-motion:reduce){
   .scene{transition:none}
@@ -696,9 +660,8 @@ body{
 .real-nav-left,.real-brand,.real-links,.real-nav-right{display:flex;align-items:center}
 .real-nav-left{gap:21px}.real-brand{gap:9px}
 .real-logo{
-  width:32px;height:32px;border-radius:50%;
-  display:grid;place-items:center;
-  font-size:21px;background:rgb(from var(--white) r g b / 12%);
+  width:32px;height:32px;
+  display:block;object-fit:contain;
 }
 .real-brand strong{font-size:16px;letter-spacing:-.02em}
 .real-links{gap:2px}
@@ -870,7 +833,9 @@ body{
   background:linear-gradient(90deg,var(--red),var(--owl-red-800))
 }
 .phone-top .real-brand strong{font-size:12px}
-.phone-top .real-logo{width:25px;height:25px;font-size:16px}
+.phone-top .real-logo{width:25px;height:25px}
+.phone-profile{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:600}
+.phone-profile svg{width:12px;height:12px;flex:0 0 auto}
 .phone-page{height:373px;padding:12px;overflow:hidden}
 .phone-page h1{font-size:15px;margin:0;font-weight:800;line-height:1.15}
 .phone-page>p{font-size:8px;color:var(--owl-slate-400);margin:4px 0 10px}
@@ -938,7 +903,6 @@ body{
       --mobile-bg-3:var(--owl-slate-700);
       --mobile-card:var(--blue-bg);
       --mobile-line:var(--owl-slate-700);
-      --mobile-text:var(--owl-slate-50);
       --mobile-muted:var(--owl-slate-400);
       --mobile-green:var(--owl-green-600);
       --mobile-green-light:var(--owl-green-400);
@@ -954,7 +918,7 @@ body{
       place-items:center;
       overflow:hidden;
       font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--mobile-text);
+      color:var(--owl-slate-50);
       background: transparent;
     }
     button{font:inherit}
@@ -984,13 +948,16 @@ body{
     }
     .brand{display:flex;align-items:center;gap:10px}
     .logo{
-      width:39px;height:39px;border-radius:50%;
-      display:grid;place-items:center;
-      background:rgb(from var(--white) r g b / 13%);
-      font-size:25px;
+      width:39px;height:39px;
+      display:block;object-fit:contain;
     }
     .brand b{font-size:17px;letter-spacing:-.02em}
-    .profile{font-size:11px;font-weight:600}
+    .profile{
+      display:flex;align-items:center;gap:6px;
+      font-size:11px;font-weight:600;
+    }
+    .profile svg{width:15px;height:15px;flex:0 0 auto}
+    .profile .logout-icon{margin-left:2px}
     .content{
       height:535px;padding:16px 15px 68px;
       overflow:hidden;

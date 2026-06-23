@@ -334,6 +334,15 @@
   font-size: 18px;
 }
 
+.about-section .disclaimer a {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.about-section .disclaimer a:hover {
+  color: var(--white);
+}
+
 .disclaimer__legend {
   display: flex;
   flex-direction: column;

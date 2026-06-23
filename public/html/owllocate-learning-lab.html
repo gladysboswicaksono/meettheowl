@@ -55,7 +55,7 @@
           <!-- sidebar -->
           <aside class="side">
             <div class="brand">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--owl-indigo-400)" stroke-width="2"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M12 13v4M6 17c0 2 2 3 6 3s6-1 6-3"/></svg>
+              <img class="brand-logo" src="/images/logo-navigation.png" alt="" />
               <b>Owllocate</b>
             </div>
             <nav class="nav">
@@ -312,7 +312,7 @@
 
   function desktopScreen(guided){
     return '<div class="real-desktop">' +
-      '<nav class="real-nav"><div class="real-nav-left"><div class="real-brand"><span class="real-logo">🦉</span><strong>Owllocate</strong></div>' +
+      '<nav class="real-nav"><div class="real-nav-left"><div class="real-brand"><img class="real-logo" src="/images/logo-navigation.png" alt=""><strong>Owllocate</strong></div>' +
       '<div class="real-links"><span class="active">Home</span><span>My Habits</span><span>My Funancial</span><span>My Progress</span><span>Profile</span></div></div>' +
       '<div class="real-nav-right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Logout</div></nav>' +
       '<main class="real-scroll"><header class="real-heading"><h1>Time to build those habits, Alex!</h1><p>Track your activities and unlock your rewards</p></header>' +
@@ -336,7 +336,8 @@
 
   function phoneScreen(){
     return '<div class="real-phone"><div class="phone-notch"></div><div class="phone-status"><span>9:41</span><span>● ◒ ▰</span></div>' +
-      '<div class="phone-top"><div class="real-brand"><span class="real-logo">🦉</span><strong>Owllocate</strong></div><span style="font-size:9px">Alex</span></div>' +
+      '<div class="phone-top"><div class="real-brand"><img class="real-logo" src="/images/logo-navigation.png" alt=""><strong>Owllocate</strong></div>' +
+      '<span class="phone-profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg><span>Alex</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path></svg></span></div>' +
       '<main class="phone-page"><h1>Time to build those habits, Alex!</h1><p>Track your activities and unlock your rewards</p>' +
       '<section class="real-section"><div class="real-section-title">Funancial Overview</div><div class="money-grid"><div class="money-box green"><div class="k">Available</div><div class="v">€42.75</div><div class="s">Ready to spend</div></div><div class="money-box blue"><div class="k">To Unlock</div><div class="v">€57.25</div><div class="s">Complete activities</div></div></div></section>' +
       '<section class="real-section"><div class="focus-head"><div class="center"><h2>This Week\'s Focus</h2></div><button class="focus-btn">Choose Focus</button></div><div class="activity-grid">'+activityCard('Read 20 Minutes','📚',6,7,'3.00',false)+'</div></section></main>' +
@@ -365,7 +366,6 @@
   scenes.forEach(function(scene){ gallery.appendChild(scene); });
 
   var status = document.createElement('div');
-  status.className = 'showcase-status';
   status.setAttribute('aria-hidden','true');
   scenes.forEach(function(){ status.appendChild(document.createElement('span')); });
   gallery.appendChild(status);

@@ -58,7 +58,7 @@ export default function MeetOwllocatePage() {
           </p>
           <div className='tab-content-grid'>
             <div className='tab-content-column'>
-              <div className="project-embed">
+              <div className="project-embed project-embed--owllocate">
                 <iframe
                   src="/html/owllocate-learning-lab.html"
                   title="Owllocate product and learning environment"
@@ -82,13 +82,14 @@ export default function MeetOwllocatePage() {
         </section>
 
         <section className="cta-section">
-          <h3>See Owllocate in Action</h3>
+          <h3>What's Live</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor
-            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            The first showcase using this product is already live on this portfolio. This case study
+            shows how I design product learning outside the product itself, using authoring tools like Parta and Articulate Storyline
+            to build a simulation-based education using storytelling and character-driven approach.
           </p>
           <a href="/owllocate-get-started" className="btn-secondary">
-            Getting Started with Owllocate
+            Getting started with owllocate
           </a>
         </section>
       </main>
