@@ -26,7 +26,7 @@ export default function MeetOwllocatePage() {
               </p>
               <p>
                 I built it with Lovable and Claude Code, and access is request-based because I don't have the technical
-                know-how to maintain it at the levl a public product would require. It is built for personal use, a small number of people who
+                know-how to maintain it at the level a public product would require. It is built for personal use, a small number of people who
                 understand the limitation, and as my portfolio lab.
               </p>
               <br></br>
