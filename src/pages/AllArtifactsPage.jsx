@@ -1,6 +1,6 @@
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import { projects } from '../components/ArtifactsShowcase';
+import { projects } from '../data/artifacts';
 
 export default function AllArtifactsPage() {
   return (
