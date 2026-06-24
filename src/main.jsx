@@ -13,6 +13,7 @@ import TrainingImpactPage from './pages/TrainingImpactPage.jsx'
 import NeedsAnalysisPage from './pages/NeedsAnalysisPage.jsx'
 import VirtualOnboardingPage from './pages/VirtualOnboardingPage.jsx'
 import MeetOwllocatePage from './pages/MeetOwllocatePage.jsx'
+import AllArtifactsPage from './pages/AllArtifactsPage.jsx'
 import Analytics from './components/Analytics.jsx'
 import TitleManager from './components/TitleManager.jsx'
 import TrackingNotice from './components/TrackingNotice.jsx'
@@ -33,6 +34,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/training-impact" element={<Navigate to="/training-effectiveness" replace />} />
         <Route path="/needs-analysis" element={<NeedsAnalysisPage />} />
         <Route path="/virtual-onboarding" element={<VirtualOnboardingPage />} />
+        <Route path="/all-artifacts" element={<AllArtifactsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

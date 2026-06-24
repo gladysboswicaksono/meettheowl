@@ -452,6 +452,64 @@
   flex-shrink: 0;
 }
 
+.showcase__see-all-btn {
+  display: none;
+}
+
+/* ── All Artifacts page ──────────────────────────────────────── */
+.artifacts-page {
+  background: var(--blue-deep);
+  padding-bottom: 60px;
+}
+
+.artifacts-page__header {
+  padding: 48px 64px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid rgba(246, 199, 133, 0.08);
+}
+
+.artifacts-page__back {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.artifacts-page__back:hover { opacity: 1; }
+
+.artifacts-page__heading {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0;
+}
+
+.artifacts-page__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.artifacts-page__card {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(246, 199, 133, 0.06);
+}
+
+.artifacts-page__card .showcase__copy {
+  min-height: 480px;
+  padding: 48px 64px;
+}
+
 /* ── Bio panel ─────────────────────────────────────────────── */
 .bio-panel {
   background: var(--blue-deep);

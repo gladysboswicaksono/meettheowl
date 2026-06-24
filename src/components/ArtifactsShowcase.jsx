@@ -4,7 +4,7 @@ import { DISMISS_TRACKING_NOTICE } from './TrackingNotice';
 
 const FEATURED_INDEX = 0;
 
-const projects = [
+export const projects = [
     {
     image: '/images/card-training-effectiveness.png',
     imageAlt: 'Report mock-up',
@@ -133,6 +133,7 @@ export default function ArtifactsShowcase() {
                 ))}
               </div>
               <a href={p.href} className="btn-secondary">View Case Study →</a>
+              <a href="/all-artifacts" className="btn-secondary showcase__see-all-btn">All Artifacts →</a>
             </div>
           </div>
 

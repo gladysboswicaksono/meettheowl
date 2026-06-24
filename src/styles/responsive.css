@@ -698,6 +698,15 @@
   }
 
   /* Showcase */
+  .showcase__sidebar {
+    display: none;
+  }
+
+  .showcase__see-all-btn {
+    display: inline-flex;
+    margin-top: 16px;
+  }
+
   .showcase__copy {
     padding: 24px 28px;
   }
@@ -723,6 +732,20 @@
 
   .showcase__seam-ribbon {
     padding: 9px 20px;
+  }
+
+  /* All Artifacts page */
+  .artifacts-page__header {
+    padding: 32px 28px 24px;
+  }
+
+  .artifacts-page__heading {
+    font-size: 22px;
+  }
+
+  .artifacts-page__card .showcase__copy {
+    min-height: 0;
+    padding: 24px 28px;
   }
 
   /* Bio panel */
