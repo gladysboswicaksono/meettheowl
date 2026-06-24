@@ -68,7 +68,8 @@ export default function ArtifactsShowcase() {
 
   useEffect(() => {
     if (showBio && bioPanelRef.current) {
-      bioPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const top = bioPanelRef.current.getBoundingClientRect().top + window.scrollY - 88;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   }, [showBio]);
 

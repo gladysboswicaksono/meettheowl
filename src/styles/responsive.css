@@ -54,7 +54,8 @@
   }
 
   .bio-panel__heading {
-    font-size: 22px;
+    font-size: 26px;
+    padding-top: 130px;
   }
 
   .bio-panel__right {
@@ -343,6 +344,7 @@
   /* Showcase */
   .showcase__copy {
     padding: 28px 40px;
+    margin-bottom: 20px;
   }
 
   .showcase__title {
@@ -704,7 +706,7 @@
 
   .showcase__see-all-btn {
     display: inline-flex;
-    margin-top: 16px;
+    margin: 16px 0px;
   }
 
   .showcase__copy {
@@ -750,7 +752,7 @@
 
   /* Bio panel */
   .bio-panel__left {
-    min-height: 280px;
+    min-height: 200px;
   }
 
   .bio-panel__copy {
@@ -759,6 +761,7 @@
 
   .bio-panel__heading {
     font-size: 18px;
+    padding-top: 100px;
   }
 
   .bio-panel__right {
