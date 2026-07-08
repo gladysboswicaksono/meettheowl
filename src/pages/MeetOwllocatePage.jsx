@@ -34,7 +34,7 @@ export default function MeetOwllocatePage() {
                 href="https://www.owllocate.com/#request-account"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary project-hero-btn"
+                className="btn-primary project-hero-btn"
               >
                 REQUEST OWLLOCATE ACCOUNT
               </a>
@@ -89,7 +89,7 @@ export default function MeetOwllocatePage() {
             shows how I design product learning outside the product itself, using authoring tools like Parta and Articulate Storyline
             to build a simulation-based education using storytelling and character-driven approach.
           </p>
-          <a href="/owllocate-get-started" className="btn-secondary">
+          <a href="/owllocate-get-started" className="btn-primary">
             Getting started with owllocate
           </a>
         </section>

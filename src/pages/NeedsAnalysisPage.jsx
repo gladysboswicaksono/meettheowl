@@ -399,7 +399,7 @@ You WILL NOT:
           <p>
             If you're interested in seeing how this needs analysis shaped the actual learning design and product training that followed, you can explore it in my Owllocate work piece.
           </p>
-          <a href="/owllocate-get-started" className='btn-secondary'>
+          <a href="/owllocate-get-started" className='btn-primary'>
           Getting Started with Owllocate
           </a>
         </section>

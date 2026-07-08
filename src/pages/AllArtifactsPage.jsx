@@ -30,7 +30,7 @@ export default function AllArtifactsPage() {
                     </div>
                   ))}
                 </div>
-                <a href={proj.href} className="btn-secondary">View Case Study →</a>
+                <a href={proj.href} className="btn-primary">View Case Study →</a>
               </div>
             </div>
           ))}

@@ -78,8 +78,8 @@ export default function ArtifactsShowcase() {
                   </div>
                 ))}
               </div>
-              <a href={p.href} className="btn-secondary">View Case Study →</a>
-              <a href="/all-artifacts" className="btn-secondary showcase__see-all-btn">All Artifacts →</a>
+              <a href={p.href} className="btn-primary">View Case Study →</a>
+              <a href="/all-artifacts" className="btn-primary showcase__see-all-btn">All Artifacts →</a>
             </div>
           </div>
 
@@ -103,7 +103,7 @@ export default function ArtifactsShowcase() {
               if (!next) setHasBeenUsed(true);
             }}
           >
-            {showBio ? 'Close ↑' : "MEET ME ↓"}
+            {showBio ? 'Close ↑' : "CLICK TO MEET ME ↓"}
           </button>
         </div>
       </section>

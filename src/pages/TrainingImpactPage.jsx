@@ -1123,7 +1123,7 @@ export default function TrainingImpactPage() {
                 href="https://app.powerbi.com/view?r=eyJrIjoiMjAzZDhhZGUtZTNkOS00Mjg5LTkwYTYtNDJlOTBhNGE4MzEyIiwidCI6ImVkNjUyMGQ1LTVhNjgtNDU5NS1hMTUxLTMxNGJhMjlkMDkzZSIsImMiOjl9&pageName=9b76e23a95ea177e60bd"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-secondary project-hero-btn"
+                className="btn-primary project-hero-btn"
               >
                 View Report
               </a>
@@ -1642,7 +1642,7 @@ export default function TrainingImpactPage() {
             If you're interested in that side of the work, you can explore my other piece where I
             showcase how I identify the right problems to solve before any development work starts.
           </p>
-          <a href="/needs-analysis" className="btn-secondary" style={{ marginTop: '12px' }}>
+          <a href="/needs-analysis" className="btn-primary" style={{ marginTop: '12px' }}>
             Data &amp; AI for Needs Analysis
           </a>
         </section>

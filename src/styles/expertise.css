@@ -143,12 +143,23 @@
 }
 .expertise__payoff em { font-style: normal; color: var(--gold); }
 
-.expertise__cta { text-align: center; margin-top: 30px; }
+.expertise__cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  text-align: center;
+}
+.expertise__cta .btn-primary,
 .expertise__cta .btn-secondary {
-  align-self: center;
   display: inline-flex;
+  justify-content: center;
   align-items: center;
   gap: 9px;
+  min-width: 170px;
   font-size: 13px;
 }
+.expertise__cta .btn-primary svg,
 .expertise__cta .btn-secondary svg { width: 18px; height: 18px; display: block; }

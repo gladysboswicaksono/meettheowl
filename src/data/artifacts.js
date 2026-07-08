@@ -22,7 +22,7 @@ export const projects = [
     stats: [
       { value: 'THE GAP', label: 'Knowing where to click was not enough when the workflow had stakes, exceptions, and room for mistakes.' },
       { value: 'THE WORK', label: 'A hands-on simulation series built with character-led scenarios, progressive practice, and contextual feedback.' },
-      { value: 'THE SHIFT', label: 'Trained users submitted 27% fewer support tickets on the topics they practiced.' },
+      { value: 'THE SHIFT', label: 'Trained users submitted 77% fewer support tickets on the topics they practiced.' },
     ],
   },
   {

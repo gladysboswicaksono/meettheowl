@@ -129,7 +129,7 @@ const tabs = [
         </Accordion>
         <p>
           The result of this approach is tangible. On average, users who complete such simulations submit{' '}
-          <strong style={{ color: 'var(--gold)' }}>~27% fewer support tickets</strong>{' '}
+          <strong style={{ color: 'var(--gold)' }}>~77% fewer support tickets</strong>{' '}
           for the topics they've practiced. That's my principle behind immersive simulation: the shift
           from knowing where to click to shaping understanding that maximizes product readiness.
         </p>
@@ -294,7 +294,7 @@ export default function OwllocatePage() {
                 href="https://owllocate.s3.eu-central-1.amazonaws.com/getting_started_with_owllocate_html/index.html#/static-scorm-v2/05547c43-0547-4762-914f-c4648ffcafc1/0"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-secondary project-hero-btn"
+                className="btn-primary project-hero-btn"
               >
                 Try Me
               </a>
@@ -324,7 +324,7 @@ export default function OwllocatePage() {
               </div>
               <div className="summary-column">
                 <h3>The Shift</h3>
-                <p>Trained users submitted <strong>27% fewer support tickets</strong> on the topics they practiced, continuous refinements contributed to an average of <strong>14% quarter-over-quarter reduction</strong> in support tickets among trained users.</p>
+                <p>Trained users submitted <strong>77% fewer support tickets</strong> on the topics they practiced, continuous refinements contributed to an average of <strong>14% quarter-over-quarter reduction</strong> in support tickets among trained users.</p>
                 <p>I templateized the simulation structure for future projects with similar challenges, which <strong>cut development time by half</strong> in later builds.</p>
               </div>
             </div>
@@ -366,7 +366,7 @@ export default function OwllocatePage() {
             <a href="/meet-owllocate" target="_blank" rel="noopener noreferrer">Owllocate</a>,
             a personal app I built for habit and financial management, to show the same design thinking without exposing proprietary product details.
             <br></br>
-            Owllocate runs at a much smaller scale than the enterprise software I work with day-to-day, but the 27% result and 14% QoQ average improvement came from the
+            Owllocate runs at a much smaller scale than the enterprise software I work with day-to-day, but the 77% result and 14% QoQ average improvement came from the
             original work.
           </div>
         </section>
@@ -424,7 +424,7 @@ export default function OwllocatePage() {
             a trained-user framework and a Power BI report that surfaces what's actually happening
             inside a training program and how it translates to business results.
           </p>
-          <a href="/training-effectiveness" className="btn-secondary">
+          <a href="/training-effectiveness" className="btn-primary">
             Measuring Training Effectiveness
           </a>
         </section>

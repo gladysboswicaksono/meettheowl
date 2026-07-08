@@ -63,28 +63,6 @@
 .btn-primary {
   display: inline-block;
   align-self: flex-start;
-  padding: 10px 24px;
-  font-family: var(--font-display);
-  color: var(--red);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  box-shadow: 0 0 0 0.5px #5B0606, 2px 2px 3px #5B0606;
-  background: transparent;
-  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.btn-primary:hover {
-  background: rgba(91, 6, 6, 0.15);
-  transform: translate(-2px, -2px);
-  box-shadow: 0 0 0 0.5px #5B0606, 3px 3px 4px #5B0606;
-}
-
-.btn-secondary {
-  display: inline-block;
-  align-self: flex-start;
   padding: 8px 20px;
   font-family: var(--font-display);
   color: var(--gold);
@@ -98,10 +76,31 @@
   transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.btn-secondary:hover {
+.btn-primary:hover {
   background: rgba(26, 26, 46, 1);
   transform: translate(-2px, -2px);
   box-shadow: 0 0 0 0.5px #F6C785, 3px 3px 4px #F6C785;
+}
+
+.btn-secondary {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 8px 20px;
+  font-family: var(--font-display);
+  color: var(--blue-bg);
+  background: rgb(from var(--gold) r g b / 80%);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  /* box-shadow: 0 0 0 0.5px var(--red), 2px 2px 3px var(--red); */
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: rgb(from var(--gold) r g b / 90%);
+  transform: translate(-2px, -2px);
 }
 
 /* ── Artifacts Showcase ─────────────────────────────────────── */

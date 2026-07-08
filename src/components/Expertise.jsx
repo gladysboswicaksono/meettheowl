@@ -44,6 +44,19 @@ const IconLoop = (
   </svg>
 );
 
+const IconCalendar = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="3.5" y="4.5" width="17" height="16" rx="2" />
+    <path d="M8 2.5v4" />
+    <path d="M16 2.5v4" />
+    <path d="M3.5 9h17" />
+    <path d="M8 13h2" />
+    <path d="M14 13h2" />
+    <path d="M8 17h2" />
+    <path d="M14 17h2" />
+  </svg>
+);
+
 const cards = [
   {
     num: '01',
@@ -153,7 +166,7 @@ export default function Expertise() {
         {/* CTA */}
         <div className="expertise__cta">
           <a
-            className="btn-secondary"
+            className="btn-primary"
             href="https://www.linkedin.com/in/gladys-bos-wicaksono/"
             target="_blank"
             rel="noopener noreferrer"
@@ -162,6 +175,15 @@ export default function Expertise() {
               <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zM8 19h-3v-9h3v9zM6.5 8.25c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zM20 19h-3v-4.5c0-1.08-.02-2.47-1.5-2.47-1.51 0-1.74 1.18-1.74 2.39v4.58h-3v-9h2.88v1.23h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.59v4.74z" />
             </svg>
             Get in touch
+          </a>
+          <a
+            className="btn-secondary"
+            href="https://cal.com/gladys-wicaksono-bic8tb/30min/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {IconCalendar}
+            BOOK A CALL
           </a>
         </div>
 
