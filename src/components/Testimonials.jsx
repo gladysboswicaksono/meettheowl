@@ -181,6 +181,21 @@ export default function Testimonials() {
           Others' Eyes
         </h2>
 
+        <div className="tabs testimonial-theme-tabs" role="tablist" aria-label="Testimonial themes">
+          {testimonialTabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`tab-btn${activeTabId === tab.id ? ' active' : ''}`}
+              onClick={() => switchTab(tab.id)}
+              role="tab"
+              aria-selected={activeTabId === tab.id}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
         <div className="testimonial-stage">
           <nav className="testimonial-theme-nav" aria-label="Testimonial themes">
             <button
@@ -223,6 +238,7 @@ export default function Testimonials() {
 
           {/* Slide */}
           <div className={`testimonial-slide testimonial-slide--${activeTabId}`}>
+            <div className="testimonial-theme-indicator">{activeTabLabel}</div>
             {t.isPlaceholder ? (
               <div style={paraStyle}>{t.keyQuote}</div>
             ) : isMobile && !expanded ? (
