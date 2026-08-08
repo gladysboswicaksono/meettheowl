@@ -92,6 +92,7 @@ export default function Testimonials() {
     return linkedIndex >= 0 ? linkedIndex : 0;
   });
   const [expanded, setExpanded] = useState(false);
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [notDesktop, setNotDesktop] = useState(false);
   const sectionRef = useRef(null);
@@ -134,6 +135,7 @@ export default function Testimonials() {
     trackEvent('testimonial_slide', '/', testimonials[next].name);
     setCurrent(next);
     setExpanded(false);
+    setThemeMenuOpen(false);
     window.history.replaceState(
       null,
       '',
@@ -146,6 +148,9 @@ export default function Testimonials() {
     const next = firstIndexForTab(tabId);
     if (next >= 0) go(next);
   };
+
+  const activeTabLabel = getTabLabel(activeTabId);
+  const inactiveTabs = testimonialTabs.filter((tab) => tab.id !== activeTabId);
 
   // Swipe navigation
   const touchStart = useRef(null);
@@ -177,20 +182,34 @@ export default function Testimonials() {
         </h2>
 
         <div className="testimonial-stage">
-          <div className="tabs testimonials-tabs" role="tablist" aria-label="Testimonial themes">
-            {testimonialTabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                className={`tab-btn testimonial-theme-option${activeTabId === tab.id ? ' active' : ''}`}
-                onClick={() => switchTab(tab.id)}
-                role="tab"
-                aria-selected={activeTabId === tab.id}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          <nav className="testimonial-theme-nav" aria-label="Testimonial themes">
+            <button
+              type="button"
+              className="testimonial-theme-pill"
+              onClick={() => setThemeMenuOpen((open) => !open)}
+              aria-expanded={themeMenuOpen}
+              aria-controls="testimonial-theme-menu"
+            >
+              <span>{activeTabLabel}</span>
+              <span className="testimonial-theme-pill__chevron" aria-hidden="true">v</span>
+            </button>
+            <div
+              id="testimonial-theme-menu"
+              className={`testimonial-theme-menu${themeMenuOpen ? ' is-open' : ''}`}
+              hidden={!themeMenuOpen}
+            >
+              {inactiveTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className="testimonial-theme-option"
+                  onClick={() => switchTab(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </nav>
 
         {/* Card */}
         <div className="testimonial-card" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
@@ -204,7 +223,6 @@ export default function Testimonials() {
 
           {/* Slide */}
           <div className={`testimonial-slide testimonial-slide--${activeTabId}`}>
-            <div className="testimonial-theme-indicator">{getTabLabel(activeTabId)}</div>
             {t.isPlaceholder ? (
               <div style={paraStyle}>{t.keyQuote}</div>
             ) : isMobile && !expanded ? (
