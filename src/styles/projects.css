@@ -1025,6 +1025,7 @@
 
 .testimonial-theme-pill {
   width: fit-content;
+  max-width: min(92vw, 100%);
   min-height: 42px;
   display: flex;
   align-items: center;
@@ -1042,6 +1043,7 @@
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(12px);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .testimonial-theme-pill__chevron {
@@ -1062,9 +1064,11 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 50%;
-  min-width: max(100%, 270px);
+  width: max-content;
+  max-width: 92vw;
   transform: translateX(-50%);
   display: grid;
+  justify-items: center;
   gap: 6px;
   padding: 8px;
   border: 1px solid rgba(246, 199, 133, 0.35);
@@ -1079,7 +1083,8 @@
 }
 
 .testimonial-theme-option {
-  width: 100%;
+  width: fit-content;
+  max-width: 100%;
   border: 0;
   border-radius: 999px;
   background: transparent;
@@ -1087,10 +1092,11 @@
   font-family: var(--font-display);
   font-size: 0.6875rem;
   letter-spacing: 0.12em;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
   padding: 0.7rem 0.85rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .testimonial-theme-option:hover,
@@ -1135,10 +1141,12 @@
   .testimonial-theme-pill {
     font-size: 0.625rem;
     padding: 0.65rem 0.85rem;
+    white-space: normal;
   }
 
   .testimonial-theme-option {
     font-size: 0.625rem;
+    white-space: normal;
   }
 }
 
