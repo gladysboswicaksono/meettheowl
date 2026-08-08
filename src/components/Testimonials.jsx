@@ -5,27 +5,27 @@ const MIN_SWIPE_DISTANCE = 80;
 const HORIZONTAL_SWIPE_RATIO = 1.5;
 
 const testimonialTabs = [
-  { id: 'speed-to-impact', label: 'Speed to Impact' },
-  { id: 'strategic-systems-thinking', label: 'Strategic & Systems Thinking' },
-  { id: 'collaboration-customer-centricity', label: 'Collaboration & Customer Centricity' },
+  { id: 'speed-to-impact', label: 'Speed to Impact (2)' },
+  { id: 'strategic-systems-thinking', label: 'Strategic Involvement (3)' },
+  { id: 'collaboration-customer-centricity', label: 'Peer Collaboration (3)' },
 ];
 
 const testimonials = [
   {
-    id: 'speed-to-impact-one',
+    id: 'brenna-oneil-one',
     tabId: 'speed-to-impact',
-    name: 'Placeholder testimonial',
-    tenure: 'Speed to Impact',
-    isPlaceholder: true,
-    keyQuote: 'Placeholder slide for a future testimonial about how quickly Gladys turns ambiguity into useful learning outcomes.',
+    name: "Brenna O'Neil, Instructional Design Manager at Mews",
+    tenure: 'My tenure: 2024 - present',
+    text: `Gladys quickly immersed herself after her New Hire Orientation and began making significant contributions immediately. She introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience. She has proven to <span style="color: #f6c785"><strong>work quickly, meeting all deadlines, while also maintaining a high standard.</strong></span><br><br>Beyond Instructional Design tasks, Gladys developed trained user levels and established metrics for measuring the number of active users. Her work has been instrumental in setting two of our departmental OKRs, reflecting her impact on our strategic goals.<br><br>Gladys' achievements over her first six months at Mews demonstrate what an asset she is to our team and the company, and we are very fortunate to have her on our team!`,
+    keyQuote: `Gladys introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience. She has proven to  <span style="color: #f6c785"><strong>work quickly, meeting all deadlines, while also maintaining a high standard</strong></span>.`,
   },
   {
-    id: 'speed-to-impact-two',
+    id: 'matt-jeffrey',
     tabId: 'speed-to-impact',
-    name: 'Placeholder testimonial',
-    tenure: 'Speed to Impact',
-    isPlaceholder: true,
-    keyQuote: 'Placeholder slide for a future testimonial about momentum, ownership, and delivering polished work without losing care.',
+    name: "Matt Jeffrey, Learning Strategy Specialist at Mews",
+    tenure: 'My tenure: 2024 - present',
+    text: 'As [another teammate] said, \"\It feels like she\'s been with us for 6 months, not 6 weeks!\"\. Gladys contributed so much in such a short space of time, with a confidence and charisma that shines through always. Not only does she bring motivation and enthusiasm to every conversation but <span style="color: #f6c785"><strong>she has a wealth of fresh perspective and an openness to share that is so beneficial for all of us, for Mews, and for our customers</strong></span>. Thank you, Gladys!',
+    keyQuote: '... It feels like Gladys has been with us for 6 months, not 6 weeks! ... Not only does she bring motivation and enthusiasm to every conversation but <span style="color: #f6c785"><strong>she has a wealth of fresh perspective and an openness to share that is so beneficial for all of us, for Mews, and for our customers</strong></span>.',
   },
   {
     id: 'monika-anderova',
@@ -40,8 +40,8 @@ const testimonials = [
     tabId: 'strategic-systems-thinking',
     name: "Brenna O'Neil, Instructional Design Manager at Mews",
     tenure: 'My tenure: 2024 - present',
-    text: `Gladys quickly immersed herself after her New Hire Orientation and began making significant contributions immediately. She introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience. She has proven to <span style="color: #f6c785"><strong>work quickly, meeting all deadlines, while also maintaining a high standard.</strong></span><br><br>Beyond Instructional Design tasks, Gladys developed trained user levels and established metrics for measuring the number of active users. Her work has been instrumental in setting two of our departmental OKRs, reflecting her impact on our strategic goals.<br><br>Gladys' achievements over her first six months at Mews demonstrate what an asset she is to our team and the company, and we are very fortunate to have her on our team!`,
-    keyQuote: `[Gladys] introduced innovative ideas for incorporating storytelling and developed engaging hands-on activities, enhancing the overall learner experience. She has proven to  <span style="color: #f6c785"><strong>work quickly, meeting all deadlines, while also maintaining a high standard</strong></span>.`,
+    text: `One of Gladys' strongest contributions has been ensuring that learning initiatives are grounded in real customer needs and measurable outcomes rather than assumptions. Across complex topics, <span style="color: #f6c785"><strong>she has designed learning experiences that demonstrate clear behavioral impact and operational value</strong></span>. Her transition into a Learning Architect role has helped move evaluation from an isolated activity into a more integrated workflow that instructional designers can use independently. <br><br> Through frameworks and coaching, Gladys has enabled the team to better understand training impact, make more informed priortization decisions, and increase confidence when discussing outcomes with stakeholders. Her ability to translate complexity into usable guidance extends her work beyond individual delivery and raises the capability level of the entire team.`,
+    keyQuote: `Across complex topics, Gladys has <span style="color: #f6c785"><strong>designed learning experiences that demonstrate clear behavioral impact and operational value</strong></span> ... Her ability to translate complexity into usable guidance extends her work beyond individual delivery and raises the capability level of the entire team.`,
   },
   {
     id: 'laverne-york',
@@ -65,7 +65,7 @@ const testimonials = [
     name: 'Tianyi Tian, Former Academy Program Manager at Mendix (A Siemens Business)',
     tenure: 'My tenure: 2022 - 2024',
     text: `Throughout my work with Gladys, she has consistently demonstrated an exceptional dedication to customer satisfaction. She has a <span style="color: #f6c785"><strong>talent for always asking the right questions</strong></span>, which not only ensures that the team does not miss out on important ideas to address the needs of our wide range of customers, but also uncovers latent customer desires, which helped us drive innovation and tailored solutions.<br><br>Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,
-    keyQuote: `[Gladys] has a <span style="color: #f6c785"><strong>talent for always asking the right questions</strong></span> ... Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,
+    keyQuote: `Gladys has a <span style="color: #f6c785"><strong>talent for always asking the right questions</strong></span> ... Her commitment to excellence sets a standard of service that positively impacts both our clients and our team.`,
   },
   {
     id: 'audrey-fleur',
@@ -238,7 +238,6 @@ export default function Testimonials() {
 
           {/* Slide */}
           <div className={`testimonial-slide testimonial-slide--${activeTabId}`}>
-            <div className="testimonial-theme-indicator">{activeTabLabel}</div>
             {t.isPlaceholder ? (
               <div style={paraStyle}>{t.keyQuote}</div>
             ) : isMobile && !expanded ? (
