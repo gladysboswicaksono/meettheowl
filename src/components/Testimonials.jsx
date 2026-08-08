@@ -176,20 +176,21 @@ export default function Testimonials() {
           Others' Eyes
         </h2>
 
-        <div className="tabs testimonials-tabs" role="tablist" aria-label="Testimonial themes">
-          {testimonialTabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              className={`tab-btn${activeTabId === tab.id ? ' active' : ''}`}
-              onClick={() => switchTab(tab.id)}
-              role="tab"
-              aria-selected={activeTabId === tab.id}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <div className="testimonial-stage">
+          <div className="tabs testimonials-tabs" role="tablist" aria-label="Testimonial themes">
+            {testimonialTabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                className={`tab-btn testimonial-theme-option${activeTabId === tab.id ? ' active' : ''}`}
+                onClick={() => switchTab(tab.id)}
+                role="tab"
+                aria-selected={activeTabId === tab.id}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
         {/* Card */}
         <div className="testimonial-card" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
@@ -236,6 +237,7 @@ export default function Testimonials() {
               position: 'absolute', right: '-3rem', top: '50%', transform: 'translateY(-50%)',
             }}>›</button>
           )}
+        </div>
         </div>
 
         {/* Dots — flanked by arrows on non-desktop */}
