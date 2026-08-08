@@ -24,7 +24,7 @@ const testimonials = [
     tabId: 'speed-to-impact',
     name: "Matt Jeffrey, Learning Strategy Specialist at Mews",
     tenure: 'My tenure: 2024 - present',
-    text: 'As [another teammate] said, \"\It feels like she\'s been with us for 6 months, not 6 weeks!\"\. Gladys contributed so much in such a short space of time, with a confidence and charisma that shines through always. Not only does she bring motivation and enthusiasm to every conversation but <span style="color: #f6c785"><strong>she has a wealth of fresh perspective and an openness to share that is so beneficial for all of us, for Mews, and for our customers</strong></span>. Thank you, Gladys!',
+    text: `As [another teammate] said, "It feels like she's been with us for 6 months, not 6 weeks!". Gladys contributed so much in such a short space of time, with a confidence and charisma that shines through always. Not only does she bring motivation and enthusiasm to every conversation but <span style="color: #f6c785"><strong>she has a wealth of fresh perspective and an openness to share that is so beneficial for all of us, for Mews, and for our customers</strong></span>. Thank you, Gladys!`,
     keyQuote: '... It feels like Gladys has been with us for 6 months, not 6 weeks! ... Not only does she bring motivation and enthusiasm to every conversation but <span style="color: #f6c785"><strong>she has a wealth of fresh perspective and an openness to share that is so beneficial for all of us, for Mews, and for our customers</strong></span>.',
   },
   {
