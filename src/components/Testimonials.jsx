@@ -191,7 +191,7 @@ export default function Testimonials() {
               aria-controls="testimonial-theme-menu"
             >
               <span>{activeTabLabel}</span>
-              <span className="testimonial-theme-pill__chevron" aria-hidden="true">v</span>
+              <span className="testimonial-theme-pill__chevron" aria-hidden="true" />
             </button>
             <div
               id="testimonial-theme-menu"
