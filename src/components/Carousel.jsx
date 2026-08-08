@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import ZoomableImage from './ZoomableImage';
 
+const MIN_SWIPE_DISTANCE = 80;
+const HORIZONTAL_SWIPE_RATIO = 1.5;
+
 async function getGifDuration(src) {
   try {
     const bytes = new Uint8Array(await (await fetch(src)).arrayBuffer());
@@ -49,13 +52,21 @@ export default function Carousel({ slides, placeholderLabel = 'Image coming soon
   }, [gifPlaying, s.gifSrc]);
 
   // Swipe navigation
-  const touchStartX = useRef(null);
-  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const touchStart = useRef(null);
+  const onTouchStart = (e) => {
+    const touch = e.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
   const onTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
-    touchStartX.current = null;
+    if (touchStart.current === null) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - touchStart.current.x;
+    const dy = touch.clientY - touchStart.current.y;
+    const isHorizontalSwipe = Math.abs(dx) >= MIN_SWIPE_DISTANCE
+      && Math.abs(dx) >= Math.abs(dy) * HORIZONTAL_SWIPE_RATIO;
+
+    if (isHorizontalSwipe) go(current + (dx < 0 ? 1 : -1));
+    touchStart.current = null;
   };
 
   return (

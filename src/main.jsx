@@ -19,12 +19,14 @@ import TitleManager from './components/TitleManager.jsx'
 import TrackingNotice from './components/TrackingNotice.jsx'
 import HashScroll from './components/HashScroll.jsx'
 
+const SHOW_TRACKING_NOTICE = false
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Analytics />
       <TitleManager />
-      <TrackingNotice />
+      {SHOW_TRACKING_NOTICE && <TrackingNotice />}
       <HashScroll />
       <Routes>
         <Route path="/" element={<App />} />

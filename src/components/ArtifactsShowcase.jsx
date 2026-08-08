@@ -87,9 +87,9 @@ export default function ArtifactsShowcase() {
 
         {/* ── Seam ribbon: floats over the showcase / testimonials boundary ── */}
         <div className="showcase__seam-ribbon">
-          <span className="showcase__seam-meta"><span style={{ color: 'var(--gold)' }}>Product-minded</span> Learning Designer</span>
+          <span className="showcase__seam-meta"><span style={{ color: 'var(--gold)' }}>Result-driven</span> Learning Designer</span>
           <div className="showcase__seam-divider" />
-          <span className="showcase__seam-meta">+7 years</span>
+          <span className="showcase__seam-meta">+8 years</span>
           <div className="showcase__seam-divider" />
           <span className="showcase__seam-meta">Mews</span>
           <div className="showcase__seam-divider" />
@@ -142,7 +142,7 @@ export default function ArtifactsShowcase() {
               </p>
               <hr className="bio-panel__divider" />
               <p className="bio-panel__para">
-                Some people call me a self-starter, others call me a systems thinker. But you can just{' '}
+                Some people call me a self-starter, others call me a systems thinker, but you can just{' '}
                 <strong>call me Gladys</strong>.
               </p>
             </div>
