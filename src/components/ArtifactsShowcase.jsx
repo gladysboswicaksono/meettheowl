@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { DISMISS_TRACKING_NOTICE } from './TrackingNotice';
 import { projects } from '../data/artifacts';
+import { trackEvent } from '../utils/tracker';
 
 const FEATURED_INDEX = 0;
 
@@ -100,6 +101,7 @@ export default function ArtifactsShowcase() {
               window.dispatchEvent(new Event(DISMISS_TRACKING_NOTICE));
               const next = !showBio;
               setShowBio(next);
+              if (next) trackEvent('bio_expand', '/', 'bio');
               if (!next) setHasBeenUsed(true);
             }}
           >
@@ -129,7 +131,7 @@ export default function ArtifactsShowcase() {
             {/* Right: paragraphs with dividers */}
             <div className="bio-panel__right">
               <p className="bio-panel__para">
-                Seven years and counting, I've turned complex learning challenges into measurable wins:{' '}
+                Eight years and counting, I've turned complex learning challenges into measurable wins:{' '}
                 <strong>faster onboarding</strong>,{' '}
                 <strong>higher adoption</strong>, and{' '}
                 <strong>significant cost savings</strong>.

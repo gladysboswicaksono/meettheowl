@@ -4,7 +4,8 @@ import { useLocation } from 'react-router-dom';
 const ARTIFACT_PAGES = [
   { label: 'Measuring Training Effectiveness', navLabel: 'Training Effectiveness', href: '/training-effectiveness' },
   { label: 'Getting Started with Owllocate', navLabel: 'Product Training', href: '/owllocate-get-started' },
-  { label: 'Data & AI for Needs Analysis', navLabel: 'Needs Analysis', href: '/needs-analysis' },
+  // Hidden for now:
+  // { label: 'Data & AI for Needs Analysis', navLabel: 'Needs Analysis', href: '/needs-analysis' },
   { label: 'Making Remote Onboarding Work', navLabel: 'Remote Onboarding', href: '/virtual-onboarding' },
 ];
 

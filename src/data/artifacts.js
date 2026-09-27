@@ -1,4 +1,5 @@
-export const projects = [
+// Set `hidden: true` on an entry to keep it out of the showcase and the All Artifacts page.
+const allProjects = [
   {
     image: '/images/card-training-effectiveness.png',
     imageAlt: 'Report mock-up',
@@ -32,6 +33,7 @@ export const projects = [
     title: 'Data & AI for Needs Analysis',
     featuredTitle: 'Data & AI for Needs Analysis',
     href: '/needs-analysis',
+    hidden: true,
     stats: [
       { value: 'The gap', label: 'AI findings look so credible that checking them felt unnecessary.' },
       { value: 'The work', label: 'A structured, source-verified approach to AI analysis of large-scale qualitative data.' },
@@ -52,3 +54,5 @@ export const projects = [
     ],
   },
 ];
+
+export const projects = allProjects.filter((p) => !p.hidden);
